@@ -1,0 +1,405 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 4 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711
+// command took 2.14s and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711
+// command took 4.58s and exited with 0
+// ***** Done, took 00:00:07 (7.06 sec)   *****
+// Found 4 benchmarks:
+//   DynamicVsReflectionBenchmark.GetIdReflection: DefaultJob [Length=10]
+//   DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=10]
+//   DynamicVsReflectionBenchmark.GetIdReflection: DefaultJob [Length=100]
+//   DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=100]
+
+// **************************
+// Benchmark: DynamicVsReflectionBenchmark.GetIdReflection: DefaultJob [Length=10]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 18da4218-0dbc-4242-981c-5f91724a9711.dll --anonymousPipes 109 110 --benchmarkName "DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.GetIdReflection(Length: 10)" --job Default --benchmarkId 0 in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/bin/Release/net7.0
+Failed to set up high priority. Make sure you have the right permissions. Message: Permission denied
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX2,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 419412.00 ns, 419.4120 us/op
+WorkloadJitting  1: 1 op, 2161605.00 ns, 2.1616 ms/op
+
+OverheadJitting  2: 16 op, 415770.00 ns, 25.9856 us/op
+WorkloadJitting  2: 16 op, 824491.00 ns, 51.5307 us/op
+
+WorkloadPilot    1: 16 op, 456391.00 ns, 28.5244 us/op
+WorkloadPilot    2: 32 op, 617477.00 ns, 19.2962 us/op
+WorkloadPilot    3: 64 op, 887441.00 ns, 13.8663 us/op
+WorkloadPilot    4: 128 op, 1554044.00 ns, 12.1410 us/op
+WorkloadPilot    5: 256 op, 2925579.00 ns, 11.4280 us/op
+WorkloadPilot    6: 512 op, 5526541.00 ns, 10.7940 us/op
+WorkloadPilot    7: 1024 op, 11682494.00 ns, 11.4087 us/op
+WorkloadPilot    8: 2048 op, 22782958.00 ns, 11.1245 us/op
+WorkloadPilot    9: 4096 op, 41433570.00 ns, 10.1156 us/op
+WorkloadPilot   10: 8192 op, 81407185.00 ns, 9.9374 us/op
+WorkloadPilot   11: 16384 op, 157745211.00 ns, 9.6280 us/op
+WorkloadPilot   12: 32768 op, 271732865.00 ns, 8.2926 us/op
+WorkloadPilot   13: 65536 op, 547956557.00 ns, 8.3612 us/op
+
+OverheadWarmup   1: 65536 op, 214658.00 ns, 3.2754 ns/op
+OverheadWarmup   2: 65536 op, 213375.00 ns, 3.2558 ns/op
+OverheadWarmup   3: 65536 op, 213186.00 ns, 3.2530 ns/op
+OverheadWarmup   4: 65536 op, 213214.00 ns, 3.2534 ns/op
+OverheadWarmup   5: 65536 op, 213136.00 ns, 3.2522 ns/op
+OverheadWarmup   6: 65536 op, 213152.00 ns, 3.2524 ns/op
+OverheadWarmup   7: 65536 op, 213347.00 ns, 3.2554 ns/op
+OverheadWarmup   8: 65536 op, 213126.00 ns, 3.2520 ns/op
+
+OverheadActual   1: 65536 op, 213124.00 ns, 3.2520 ns/op
+OverheadActual   2: 65536 op, 213238.00 ns, 3.2538 ns/op
+OverheadActual   3: 65536 op, 222375.00 ns, 3.3932 ns/op
+OverheadActual   4: 65536 op, 225050.00 ns, 3.4340 ns/op
+OverheadActual   5: 65536 op, 212591.00 ns, 3.2439 ns/op
+OverheadActual   6: 65536 op, 213244.00 ns, 3.2538 ns/op
+OverheadActual   7: 65536 op, 213090.00 ns, 3.2515 ns/op
+OverheadActual   8: 65536 op, 213227.00 ns, 3.2536 ns/op
+OverheadActual   9: 65536 op, 217963.00 ns, 3.3259 ns/op
+OverheadActual  10: 65536 op, 214161.00 ns, 3.2678 ns/op
+OverheadActual  11: 65536 op, 213469.00 ns, 3.2573 ns/op
+OverheadActual  12: 65536 op, 219829.00 ns, 3.3543 ns/op
+OverheadActual  13: 65536 op, 213528.00 ns, 3.2582 ns/op
+OverheadActual  14: 65536 op, 222104.00 ns, 3.3890 ns/op
+OverheadActual  15: 65536 op, 213575.00 ns, 3.2589 ns/op
+
+WorkloadWarmup   1: 65536 op, 545857684.00 ns, 8.3291 us/op
+WorkloadWarmup   2: 65536 op, 544023720.00 ns, 8.3011 us/op
+WorkloadWarmup   3: 65536 op, 543961800.00 ns, 8.3002 us/op
+WorkloadWarmup   4: 65536 op, 544654685.00 ns, 8.3108 us/op
+WorkloadWarmup   5: 65536 op, 543187825.00 ns, 8.2884 us/op
+WorkloadWarmup   6: 65536 op, 540573182.00 ns, 8.2485 us/op
+WorkloadWarmup   7: 65536 op, 541301704.00 ns, 8.2596 us/op
+WorkloadWarmup   8: 65536 op, 540009536.00 ns, 8.2399 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 65536 op, 545287560.00 ns, 8.3204 us/op
+WorkloadActual   2: 65536 op, 543291854.00 ns, 8.2900 us/op
+WorkloadActual   3: 65536 op, 543231796.00 ns, 8.2891 us/op
+WorkloadActual   4: 65536 op, 643423984.00 ns, 9.8179 us/op
+WorkloadActual   5: 65536 op, 684853704.00 ns, 10.4500 us/op
+WorkloadActual   6: 65536 op, 1001954721.00 ns, 15.2886 us/op
+WorkloadActual   7: 65536 op, 647017029.00 ns, 9.8727 us/op
+WorkloadActual   8: 65536 op, 569179414.00 ns, 8.6850 us/op
+WorkloadActual   9: 65536 op, 557509612.00 ns, 8.5069 us/op
+WorkloadActual  10: 65536 op, 545026696.00 ns, 8.3164 us/op
+WorkloadActual  11: 65536 op, 548004722.00 ns, 8.3619 us/op
+WorkloadActual  12: 65536 op, 549112058.00 ns, 8.3788 us/op
+WorkloadActual  13: 65536 op, 548782256.00 ns, 8.3738 us/op
+WorkloadActual  14: 65536 op, 547253905.00 ns, 8.3504 us/op
+WorkloadActual  15: 65536 op, 547718870.00 ns, 8.3575 us/op
+WorkloadActual  16: 65536 op, 549739010.00 ns, 8.3884 us/op
+WorkloadActual  17: 65536 op, 549210190.00 ns, 8.3803 us/op
+
+// AfterActualRun
+WorkloadResult   1: 65536 op, 545074032.00 ns, 8.3172 us/op
+WorkloadResult   2: 65536 op, 543078326.00 ns, 8.2867 us/op
+WorkloadResult   3: 65536 op, 543018268.00 ns, 8.2858 us/op
+WorkloadResult   4: 65536 op, 568965886.00 ns, 8.6817 us/op
+WorkloadResult   5: 65536 op, 557296084.00 ns, 8.5037 us/op
+WorkloadResult   6: 65536 op, 544813168.00 ns, 8.3132 us/op
+WorkloadResult   7: 65536 op, 547791194.00 ns, 8.3586 us/op
+WorkloadResult   8: 65536 op, 548898530.00 ns, 8.3755 us/op
+WorkloadResult   9: 65536 op, 548568728.00 ns, 8.3705 us/op
+WorkloadResult  10: 65536 op, 547040377.00 ns, 8.3472 us/op
+WorkloadResult  11: 65536 op, 547505342.00 ns, 8.3543 us/op
+WorkloadResult  12: 65536 op, 549525482.00 ns, 8.3851 us/op
+WorkloadResult  13: 65536 op, 548996662.00 ns, 8.3770 us/op
+// GC:  33 0 0 141561360 65536
+// Threading:  0 0 65536
+
+// AfterAll
+// Benchmark Process 6802 has exited with code 0.
+
+Mean = 8.381 μs, StdErr = 0.029 μs (0.35%), N = 13, StdDev = 0.106 μs
+Min = 8.286 μs, Q1 = 8.317 μs, Median = 8.359 μs, Q3 = 8.377 μs, Max = 8.682 μs
+IQR = 0.060 μs, LowerFence = 8.227 μs, UpperFence = 8.467 μs
+ConfidenceInterval = [8.254 μs; 8.508 μs] (CI 99.9%), Margin = 0.127 μs (1.51% of Mean)
+Skewness = 1.72, Kurtosis = 5.24, MValue = 2
+
+// ** Remained 3 (75.0%) benchmark(s) to run. Estimated finish 2023-07-03 7:54 (0h 0m from now) **
+// **************************
+// Benchmark: DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=10]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 18da4218-0dbc-4242-981c-5f91724a9711.dll --anonymousPipes 111 112 --benchmarkName "DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.GetIdDynamic(Length: 10)" --job Default --benchmarkId 1 in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/bin/Release/net7.0
+Failed to set up high priority. Make sure you have the right permissions. Message: Permission denied
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX2,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 419477.00 ns, 419.4770 us/op
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot convert type 'System.Guid' to 'string'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.<>c.<GetIdDynamic>b__5_0(Object x) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/DynamicVsReflection/DynamicVsReflectionBenchmark.cs:line 29
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.ToList()
+   at DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.GetIdDynamic() in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/DynamicVsReflection/DynamicVsReflectionBenchmark.cs:line 25
+   at BenchmarkDotNet.Autogenerated.Runnable_1.WorkloadActionNoUnroll(Int64 invokeCount) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/18da4218-0dbc-4242-981c-5f91724a9711.notcs:line 519
+   at BenchmarkDotNet.Engines.Engine.RunIteration(IterationData data)
+   at BenchmarkDotNet.Engines.EngineFactory.Jit(Engine engine, Int32 jitIndex, Int32 invokeCount, Int32 unrollFactor)
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.Run(IHost host, String benchmarkName) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/18da4218-0dbc-4242-981c-5f91724a9711.notcs:line 376
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/18da4218-0dbc-4242-981c-5f91724a9711.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6809 has exited with code 255.
+
+// ** Remained 2 (50.0%) benchmark(s) to run. Estimated finish 2023-07-03 7:54 (0h 0m from now) **
+// **************************
+// Benchmark: DynamicVsReflectionBenchmark.GetIdReflection: DefaultJob [Length=100]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 18da4218-0dbc-4242-981c-5f91724a9711.dll --anonymousPipes 111 112 --benchmarkName "DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.GetIdReflection(Length: 100)" --job Default --benchmarkId 2 in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/bin/Release/net7.0
+Failed to set up high priority. Make sure you have the right permissions. Message: Permission denied
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX2,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 409995.00 ns, 409.9950 us/op
+WorkloadJitting  1: 1 op, 2313694.00 ns, 2.3137 ms/op
+
+OverheadJitting  2: 16 op, 326247.00 ns, 20.3904 us/op
+WorkloadJitting  2: 16 op, 2337066.00 ns, 146.0666 us/op
+
+WorkloadPilot    1: 16 op, 1737915.00 ns, 108.6197 us/op
+WorkloadPilot    2: 32 op, 3339072.00 ns, 104.3460 us/op
+WorkloadPilot    3: 64 op, 7046637.00 ns, 110.1037 us/op
+WorkloadPilot    4: 128 op, 13360107.00 ns, 104.3758 us/op
+WorkloadPilot    5: 256 op, 25693746.00 ns, 100.3662 us/op
+WorkloadPilot    6: 512 op, 49675942.00 ns, 97.0233 us/op
+WorkloadPilot    7: 1024 op, 97254673.00 ns, 94.9753 us/op
+WorkloadPilot    8: 2048 op, 178425066.00 ns, 87.1216 us/op
+WorkloadPilot    9: 4096 op, 324629325.00 ns, 79.2552 us/op
+WorkloadPilot   10: 8192 op, 652802348.00 ns, 79.6878 us/op
+
+OverheadWarmup   1: 8192 op, 28621.00 ns, 3.4938 ns/op
+OverheadWarmup   2: 8192 op, 34878.00 ns, 4.2576 ns/op
+OverheadWarmup   3: 8192 op, 27165.00 ns, 3.3160 ns/op
+OverheadWarmup   4: 8192 op, 27076.00 ns, 3.3052 ns/op
+OverheadWarmup   5: 8192 op, 27112.00 ns, 3.3096 ns/op
+OverheadWarmup   6: 8192 op, 27145.00 ns, 3.3136 ns/op
+OverheadWarmup   7: 8192 op, 27038.00 ns, 3.3005 ns/op
+
+OverheadActual   1: 8192 op, 27131.00 ns, 3.3119 ns/op
+OverheadActual   2: 8192 op, 28836.00 ns, 3.5200 ns/op
+OverheadActual   3: 8192 op, 27328.00 ns, 3.3359 ns/op
+OverheadActual   4: 8192 op, 27096.00 ns, 3.3076 ns/op
+OverheadActual   5: 8192 op, 27131.00 ns, 3.3119 ns/op
+OverheadActual   6: 8192 op, 27036.00 ns, 3.3003 ns/op
+OverheadActual   7: 8192 op, 27115.00 ns, 3.3099 ns/op
+OverheadActual   8: 8192 op, 27042.00 ns, 3.3010 ns/op
+OverheadActual   9: 8192 op, 27085.00 ns, 3.3063 ns/op
+OverheadActual  10: 8192 op, 28673.00 ns, 3.5001 ns/op
+OverheadActual  11: 8192 op, 27134.00 ns, 3.3123 ns/op
+OverheadActual  12: 8192 op, 56906.00 ns, 6.9465 ns/op
+OverheadActual  13: 8192 op, 29165.00 ns, 3.5602 ns/op
+OverheadActual  14: 8192 op, 36931.00 ns, 4.5082 ns/op
+OverheadActual  15: 8192 op, 27239.00 ns, 3.3251 ns/op
+
+WorkloadWarmup   1: 8192 op, 653063419.00 ns, 79.7197 us/op
+WorkloadWarmup   2: 8192 op, 651933819.00 ns, 79.5818 us/op
+WorkloadWarmup   3: 8192 op, 650401895.00 ns, 79.3948 us/op
+WorkloadWarmup   4: 8192 op, 665010749.00 ns, 81.1781 us/op
+WorkloadWarmup   5: 8192 op, 649716869.00 ns, 79.3111 us/op
+WorkloadWarmup   6: 8192 op, 649190016.00 ns, 79.2468 us/op
+WorkloadWarmup   7: 8192 op, 648728274.00 ns, 79.1905 us/op
+WorkloadWarmup   8: 8192 op, 647537852.00 ns, 79.0451 us/op
+WorkloadWarmup   9: 8192 op, 647482333.00 ns, 79.0384 us/op
+WorkloadWarmup  10: 8192 op, 648361791.00 ns, 79.1457 us/op
+WorkloadWarmup  11: 8192 op, 646856331.00 ns, 78.9620 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 8192 op, 649275546.00 ns, 79.2573 us/op
+WorkloadActual   2: 8192 op, 653022892.00 ns, 79.7147 us/op
+WorkloadActual   3: 8192 op, 645411144.00 ns, 78.7855 us/op
+WorkloadActual   4: 8192 op, 645372005.00 ns, 78.7808 us/op
+WorkloadActual   5: 8192 op, 645643572.00 ns, 78.8139 us/op
+WorkloadActual   6: 8192 op, 645292092.00 ns, 78.7710 us/op
+WorkloadActual   7: 8192 op, 652056141.00 ns, 79.5967 us/op
+WorkloadActual   8: 8192 op, 739219223.00 ns, 90.2367 us/op
+WorkloadActual   9: 8192 op, 711634274.00 ns, 86.8694 us/op
+WorkloadActual  10: 8192 op, 672953504.00 ns, 82.1476 us/op
+WorkloadActual  11: 8192 op, 703949769.00 ns, 85.9314 us/op
+WorkloadActual  12: 8192 op, 717655158.00 ns, 87.6044 us/op
+WorkloadActual  13: 8192 op, 645773740.00 ns, 78.8298 us/op
+WorkloadActual  14: 8192 op, 650025689.00 ns, 79.3488 us/op
+WorkloadActual  15: 8192 op, 646486822.00 ns, 78.9168 us/op
+WorkloadActual  16: 8192 op, 643877756.00 ns, 78.5984 us/op
+WorkloadActual  17: 8192 op, 644523287.00 ns, 78.6772 us/op
+WorkloadActual  18: 8192 op, 646078640.00 ns, 78.8670 us/op
+WorkloadActual  19: 8192 op, 648089336.00 ns, 79.1125 us/op
+
+// AfterActualRun
+WorkloadResult   1: 8192 op, 649248412.00 ns, 79.2540 us/op
+WorkloadResult   2: 8192 op, 652995758.00 ns, 79.7114 us/op
+WorkloadResult   3: 8192 op, 645384010.00 ns, 78.7822 us/op
+WorkloadResult   4: 8192 op, 645344871.00 ns, 78.7775 us/op
+WorkloadResult   5: 8192 op, 645616438.00 ns, 78.8106 us/op
+WorkloadResult   6: 8192 op, 645264958.00 ns, 78.7677 us/op
+WorkloadResult   7: 8192 op, 652029007.00 ns, 79.5934 us/op
+WorkloadResult   8: 8192 op, 672926370.00 ns, 82.1443 us/op
+WorkloadResult   9: 8192 op, 645746606.00 ns, 78.8265 us/op
+WorkloadResult  10: 8192 op, 649998555.00 ns, 79.3455 us/op
+WorkloadResult  11: 8192 op, 646459688.00 ns, 78.9135 us/op
+WorkloadResult  12: 8192 op, 643850622.00 ns, 78.5950 us/op
+WorkloadResult  13: 8192 op, 644496153.00 ns, 78.6738 us/op
+WorkloadResult  14: 8192 op, 646051506.00 ns, 78.8637 us/op
+WorkloadResult  15: 8192 op, 648062202.00 ns, 79.1092 us/op
+// GC:  37 0 0 156831248 8192
+// Threading:  0 0 8192
+
+// AfterAll
+// Benchmark Process 6810 has exited with code 0.
+
+Mean = 79.211 μs, StdErr = 0.227 μs (0.29%), N = 15, StdDev = 0.878 μs
+Min = 78.595 μs, Q1 = 78.780 μs, Median = 78.864 μs, Q3 = 79.300 μs, Max = 82.144 μs
+IQR = 0.520 μs, LowerFence = 78.000 μs, UpperFence = 80.080 μs
+ConfidenceInterval = [78.273 μs; 80.150 μs] (CI 99.9%), Margin = 0.938 μs (1.18% of Mean)
+Skewness = 2.42, Kurtosis = 8.37, MValue = 2
+
+// ** Remained 1 (25.0%) benchmark(s) to run. Estimated finish 2023-07-03 7:54 (0h 0m from now) **
+// **************************
+// Benchmark: DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=100]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet 18da4218-0dbc-4242-981c-5f91724a9711.dll --anonymousPipes 111 112 --benchmarkName "DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.GetIdDynamic(Length: 100)" --job Default --benchmarkId 3 in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/bin/Release/net7.0
+Failed to set up high priority. Make sure you have the right permissions. Message: Permission denied
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX2,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 413613.00 ns, 413.6130 us/op
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot convert type 'System.Guid' to 'string'
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.<>c.<GetIdDynamic>b__5_0(Object x) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/DynamicVsReflection/DynamicVsReflectionBenchmark.cs:line 29
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.ToList()
+   at DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark.GetIdDynamic() in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/DynamicVsReflection/DynamicVsReflectionBenchmark.cs:line 25
+   at BenchmarkDotNet.Autogenerated.Runnable_3.WorkloadActionNoUnroll(Int64 invokeCount) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/18da4218-0dbc-4242-981c-5f91724a9711.notcs:line 919
+   at BenchmarkDotNet.Engines.Engine.RunIteration(IterationData data)
+   at BenchmarkDotNet.Engines.EngineFactory.Jit(Engine engine, Int32 jitIndex, Int32 invokeCount, Int32 unrollFactor)
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.Run(IHost host, String benchmarkName) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/18da4218-0dbc-4242-981c-5f91724a9711.notcs:line 776
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/DDD.MrpDanu.Benchmark/bin/Release/net7.0/18da4218-0dbc-4242-981c-5f91724a9711/18da4218-0dbc-4242-981c-5f91724a9711.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 6811 has exited with code 255.
+
+// ** Remained 0 (0.0%) benchmark(s) to run. Estimated finish 2023-07-03 7:54 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark-report.csv
+  BenchmarkDotNet.Artifacts/results/DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark-report-github.md
+  BenchmarkDotNet.Artifacts/results/DDD.MrpDanu.Benchmark.DynamicVsReflection.DynamicVsReflectionBenchmark-report.html
+
+// * Detailed results *
+DynamicVsReflectionBenchmark.GetIdReflection: DefaultJob [Length=10]
+Runtime = .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2; GC = Concurrent Workstation
+Mean = 8.381 μs, StdErr = 0.029 μs (0.35%), N = 13, StdDev = 0.106 μs
+Min = 8.286 μs, Q1 = 8.317 μs, Median = 8.359 μs, Q3 = 8.377 μs, Max = 8.682 μs
+IQR = 0.060 μs, LowerFence = 8.227 μs, UpperFence = 8.467 μs
+ConfidenceInterval = [8.254 μs; 8.508 μs] (CI 99.9%), Margin = 0.127 μs (1.51% of Mean)
+Skewness = 1.72, Kurtosis = 5.24, MValue = 2
+-------------------- Histogram --------------------
+[8.252 μs ; 8.741 μs) | @@@@@@@@@@@@@
+---------------------------------------------------
+
+DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=10]
+Runtime = .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2; GC = Concurrent Workstation
+There are not any results runs
+
+DynamicVsReflectionBenchmark.GetIdReflection: DefaultJob [Length=100]
+Runtime = .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2; GC = Concurrent Workstation
+Mean = 79.211 μs, StdErr = 0.227 μs (0.29%), N = 15, StdDev = 0.878 μs
+Min = 78.595 μs, Q1 = 78.780 μs, Median = 78.864 μs, Q3 = 79.300 μs, Max = 82.144 μs
+IQR = 0.520 μs, LowerFence = 78.000 μs, UpperFence = 80.080 μs
+ConfidenceInterval = [78.273 μs; 80.150 μs] (CI 99.9%), Margin = 0.938 μs (1.18% of Mean)
+Skewness = 2.42, Kurtosis = 8.37, MValue = 2
+-------------------- Histogram --------------------
+[78.128 μs ; 79.760 μs) | @@@@@@@@@@@@@@
+[79.760 μs ; 82.611 μs) | @
+---------------------------------------------------
+
+DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=100]
+Runtime = .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2; GC = Concurrent Workstation
+There are not any results runs
+
+// * Summary *
+
+BenchmarkDotNet=v0.13.5, OS=macOS Ventura 13.4.1 (22F82) [Darwin 22.5.0]
+Intel Core i7-8569U CPU 2.80GHz (Coffee Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK=7.0.304
+  [Host]     : .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.7 (7.0.723.27404), X64 RyuJIT AVX2
+
+
+|          Method | Length |      Mean |     Error |    StdDev |   Gen0 | Allocated |
+|---------------- |------- |----------:|----------:|----------:|-------:|----------:|
+| GetIdReflection |     10 |  8.381 μs | 0.1268 μs | 0.1059 μs | 0.5035 |    2160 B |
+|    GetIdDynamic |     10 |        NA |        NA |        NA |      - |         - |
+| GetIdReflection |    100 | 79.211 μs | 0.9383 μs | 0.8777 μs | 4.5166 |   19144 B |
+|    GetIdDynamic |    100 |        NA |        NA |        NA |      - |         - |
+
+Benchmarks with issues:
+  DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=10]
+  DynamicVsReflectionBenchmark.GetIdDynamic: DefaultJob [Length=100]
+
+// * Hints *
+Outliers
+  DynamicVsReflectionBenchmark.GetIdReflection: Default -> 4 outliers were removed (9.82 μs..15.29 μs)
+  DynamicVsReflectionBenchmark.GetIdReflection: Default -> 4 outliers were removed (85.93 μs..90.24 μs)
+
+// * Legends *
+  Length    : Value of the 'Length' parameter
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Gen0      : GC Generation 0 collects per 1000 operations
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 μs      : 1 Microsecond (0.000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:00:39 (39.6 sec), executed benchmarks: 4
+
+Global total time: 00:00:47 (47.37 sec), executed benchmarks: 4
+// * Artifacts cleanup *

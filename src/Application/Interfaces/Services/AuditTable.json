@@ -1,0 +1,50 @@
+{
+  "Id": "c011706a-d3e0-4a9c-758b-08db70ae0176",
+  "Code": "asdsa",
+  "CodeUnique": "asdsa_asdas_sadas_asdasd_ASDASD_asdasd",
+  "Name": "asdsa",
+  "ColorCode": "assaaa",
+  "Width": "asdas",
+  "Weight": "asdasd",
+  "Unit": "ABAC",
+  "Varian": "ccc",
+  "MaterialType": {
+    "Id": 2,
+    "Name": "Subassemblies"
+  },
+  "RegionalMarket": {
+    "Code": "CN",
+    "Id": 3,
+    "Name": "China"
+  },
+  "MaterialCostManagements": [
+    {
+      "Id": "f19f0dd8-4c6d-4455-bad6-08db7c5a5242",
+      "Price": 9.00,
+      "MinQuantity": 2,
+      "Surcharge": 1.00,
+      "CurrencyType": {
+        "Id": 3,
+        "Name": "VND"
+      },
+      "Supplier": {
+        "Id": "bb4954b3-91d3-42de-906b-08db72437e2f",
+        "Name": "Supplier 1"
+      }
+    },
+    {
+      "Id": "4115a2e9-6676-4d99-bad7-08db7c5a5242",
+      "Price": 5.00,
+      "MinQuantity": 6,
+      "Surcharge": 511,
+      "CurrencyType": {
+        "Id": 3,
+        "Name": "VND"
+      },
+      "Supplier": {
+        "Id": "c8c88d3d-8848-4afd-5904-08db70ad7bf1",
+        "Name": "Supplier 2"
+      }
+    }
+  ]
+}

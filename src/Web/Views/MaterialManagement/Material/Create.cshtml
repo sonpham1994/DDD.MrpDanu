@@ -1,0 +1,104 @@
+<div class="text-left">
+    <div class="container">
+        <form action="/MaterialManagement/Material" method="POST">
+            <div id="BasicMaterialInformation">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Code</label>
+                        <input type="text" name="code" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Name</label>
+                        <input type="text" name="name" class="form-control" aria-label="Default"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Color Code</label>
+                        <input type="text" name="colorCode" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Width</label>
+                        <input type="text" name="width" class="form-control" aria-label="Default"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Weight</label>
+                        <input type="text" name="weight" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Unit</label>
+                        <input type="text" name="unit" class="form-control" aria-label="Default"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Varian</label>
+                        <input type="text" name="varian" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Regional Market</label>
+                        <select class="form-select" name="regionalMarketId" asp-items="@ViewBag.RegionalMarkets"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Type</label>
+                        <select class="form-select" name="materialTypeId" asp-items="@ViewBag.MaterialTypes"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="MaterialCostManagement">
+                <button type="button" onclick="addMaterialCost()" class="btn btn-primary btn-lg btn-block">Add Material Cost</button>
+                <table class="table table-bordered" id="materialCost">
+                    <thead>
+                    <tr>
+                        <th>Transactional Partner</th>
+                        <th>Surcharge</th>
+                        <th>MinQuantity</th>
+                        <th>Price</th>
+                        <th>Currency Type</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <button id="saveMaterial" type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        </form>
+    </div>
+</div>
+
+<script>
+var suppliers = @Html.Raw(Json.Serialize(ViewBag.Suppliers))
+
+function saveMaterial(ele) {
+    let formData = getMaterialForm(ele)
+    let form = ele.closest("form")[0]
+    let urlAction = form.action
+    let method = form.method
+    
+    $.ajax({
+            type: method,
+            data: formData,
+            url: urlAction,
+            dataType: "json",
+            success: function (result) {
+                location.href = "/MaterialManagement/Material"
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+}
+
+$(document).ready(function () {
+    $(document).on("click", "#saveMaterial", function(e) {
+        e.preventDefault()
+        saveMaterial($(this))
+    })
+})
+</script>
+<script src="~/MaterialManagement/UpdateMaterial.js"></script>

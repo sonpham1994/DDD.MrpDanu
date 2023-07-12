@@ -1,0 +1,5 @@
+using Application.Interfaces.Messaging;
+
+namespace Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+
+public sealed record GetTransactionalPartnersQuery : IQuery<IReadOnlyList<TransactionalPartnersResponse>>;
