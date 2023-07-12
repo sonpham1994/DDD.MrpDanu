@@ -13,6 +13,8 @@ Design patterns:
  - Factory design pattern
  - Interceptor design pattern
  - Chain of Responsibility design pattern
+ - Repository design pattern
+ - Unit of Work design pattern
 
 Patterns:
   - Enumeration pattern
