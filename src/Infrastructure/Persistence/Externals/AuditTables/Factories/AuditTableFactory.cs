@@ -20,7 +20,7 @@ internal static class AuditTableFactory
         var entityAudit = EntityAudit.Create(entityEntry); 
         var serializationResult = entityAudit.Serialize(entityEntry);
         if (serializationResult.IsFailure)
-            throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
+            throw new DomainException(serializationResult.Error);
         
         var result = new AuditTable
         (

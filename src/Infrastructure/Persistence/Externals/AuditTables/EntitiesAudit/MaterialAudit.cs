@@ -4,6 +4,7 @@ using Infrastructure.Errors;
 using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Domain.Extensions;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit;
 
@@ -51,6 +52,6 @@ internal sealed class MaterialAudit : EntityAudit
             return Result.Success();
         }
 
-        return DomainErrors.AuditData.Empty;
+        return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name);
     }
 }
