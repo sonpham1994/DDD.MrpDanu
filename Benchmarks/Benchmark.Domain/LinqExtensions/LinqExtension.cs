@@ -193,4 +193,34 @@ public static class LinqExtension
         
         return result;
     }
+
+    public static bool AnyDuplicationWithAlgorithmAndHashCode<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
+    {
+        bool result = false;
+        int count = enumerable.Count();
+
+        for (int i = 0; i < count; i++)
+        {
+            var tResult1 = predicate.Invoke(enumerable.ElementAt(i));
+            if (tResult1 is null) continue;
+
+            for (int j = i + 1; j < count; j++)
+            {
+                var tResult2 = predicate.Invoke(enumerable.ElementAt(j));
+                if (tResult2 is null) continue;
+
+                int hashCode1 = tResult1.GetHashCode();
+                int hashCode2 = tResult2.GetHashCode();
+                if (hashCode1 != hashCode2)
+                    continue;
+
+                if (tResult1.Equals(tResult2))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return result;
+    }
 }
