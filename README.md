@@ -21,8 +21,13 @@ Patterns:
   - Options pattern
 
 Framework and Libraries:
-  - Entity framework 7
+  - Entity Framework 7
+  - EntityFrameworkCore.SqlServer
+  - EntityFrameworkCore.Proxies
   - Serilog
   - MediatR
-  - Fluent Validation
-  - Fluent Assertion
+  - FluentValidation
+  - FluentAssertions
+  - Dapper
+  - NetArchTest.Rules
+  - xUnit
