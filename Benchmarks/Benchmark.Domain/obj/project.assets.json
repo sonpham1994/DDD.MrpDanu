@@ -1286,29 +1286,36 @@
     ]
   },
   "packageFolders": {
-    "/Users/sonpham/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\ACER\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Benchmarks/Benchmark.Domain/Benchmark.Domain.csproj",
+      "projectUniqueName": "D:\\DesignPatterns\\MrpDanu\\DDD.MrpDanu\\Benchmarks\\Benchmark.Domain\\Benchmark.Domain.csproj",
       "projectName": "Benchmark.Domain",
-      "projectPath": "/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Benchmarks/Benchmark.Domain/Benchmark.Domain.csproj",
-      "packagesPath": "/Users/sonpham/.nuget/packages/",
-      "outputPath": "/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Benchmarks/Benchmark.Domain/obj/",
+      "projectPath": "D:\\DesignPatterns\\MrpDanu\\DDD.MrpDanu\\Benchmarks\\Benchmark.Domain\\Benchmark.Domain.csproj",
+      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+      "outputPath": "D:\\DesignPatterns\\MrpDanu\\DDD.MrpDanu\\Benchmarks\\Benchmark.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/sonpham/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://pkgs.dev.azure.com/symphonyvsts/_packaging/nuget-feed/nuget/v3/index.json": {},
+        "https://symphonyvsts.pkgs.visualstudio.com/_packaging/deloitte-nuget/nuget/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -1347,7 +1354,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Application.Tests
-build_property.ProjectDir = /Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Tests/Application.Tests/
+build_property.ProjectDir = D:\DesignPatterns\MrpDanu\DDD.MrpDanu\Tests\Application.Tests\
