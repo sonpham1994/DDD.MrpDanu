@@ -1,0 +1,64 @@
+<div class="text-left" style="margin-bottom: 50px;">
+    <h1><b>Transactional Partners: </b></h1>
+</div>
+
+<div class="text-left" style="margin-bottom: 50px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <a type="button" asp-controller="MaterialManagement" asp-action="CreateTransactionalPartner" class="btn btn-primary btn-lg btn-block">Create</a>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Tax No</th>
+                        <th>Website</th>
+                        <th>Type</th>
+                        <th>Currency</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var transactionalPartner in Model.Result){
+                        <tr>
+                            <td>@transactionalPartner.Name</td>
+                            <td>@transactionalPartner.TaxNo</td>
+                            <td>@transactionalPartner.Website</td>
+                            <td>@transactionalPartner.Type</td>
+                            <td>@transactionalPartner.Currency</td>
+                            <td>
+                                <a type="button" asp-controller="MaterialManagement" asp-action="GetTransactionalPartner" asp-route-id="@transactionalPartner.Id" class="btn btn-primary btn-lg btn-block">Edit</a>
+                                <input hidden name="id" value="@transactionalPartner.Id"/>
+                                <button type="button" id="deleteTransactionalPartner" class="btn btn-primary btn-lg btn-block">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function deleteTransactionalPartner(ele) {
+    let td = ele.closest("td")
+    let transactionalPartnerId = td.find("input[name='id']").val()
+    let urlAction = `/MaterialManagement/TransactionalPartners/${transactionalPartnerId}`
+    $.ajax({
+            type: 'DELETE',
+            url: urlAction,
+            dataType: 'json',
+            success: function (result) {
+                location.href = "/MaterialManagement/TransactionalPartners"
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+}
+$(document).ready(function () {
+    $(document).on("click", '#deleteTransactionalPartner', function () {
+        deleteTransactionalPartner($(this))
+    })
+})
+</script>

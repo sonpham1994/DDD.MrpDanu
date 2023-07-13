@@ -1,0 +1,71 @@
+{
+    "TransactionalPartner": {
+        "Name": {
+            "Value": "Supplier 3"
+        },
+        "TaxNo": {
+            "Value": "1234567890",
+            "Country": {
+                "Code": "VN",
+                "Id": 1,
+                "Name": "Vietnam"
+            }
+        },
+        "Address": {
+            "Street": "street 1",
+            "City": "city 1",
+            "District": "distrcit 1",
+            "Ward": "ward 1",
+            "ZipCode": "12345",
+            "Country": {
+                "Code": "VN",
+                "Id": 1,
+                "Name": "Vietnam"
+            }
+        },
+        "Website": {
+            "Value": "http://abc123xyz.com"
+        },
+        "ContactPersonInformation": {
+            "Name": {
+                "Value": "Son 3"
+            },
+            "ContactInformation": {
+                "TelNo": "12345678911",
+                "Email": "abccc16c@gmail.com"
+            },
+            "Id": "a8247294-0830-4d92-4dd7-08db6a2d0849"
+        },
+        "TransactionalPartnerType": {
+            "Id": 2,
+            "Name": "Supplier"
+        },
+        "CurrencyType": {
+            "Id": 3,
+            "Name": "VND"
+        },
+        "LocationType": {
+            "Id": 2,
+            "Name": "Domestic"
+        },
+        "DomainEvents": [],
+        "Id": "a8247294-0830-4d92-4dd7-08db6a2d0849"
+    },
+    "LazyLoader": null,
+    "Surcharge": {
+        "Value": 5.00,
+        "CurrencyType": {
+            "Id": 3,
+            "Name": "VND"
+        }
+    },
+    "MinQuantity": 6,
+    "Price": {
+        "Value": 7.00,
+        "CurrencyType": {
+            "Id": 3,
+            "Name": "VND"
+        }
+    },
+    "Id": "b5458c75-b51a-4866-9189-08db76bfc5c9"
+}
