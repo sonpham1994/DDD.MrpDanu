@@ -52,7 +52,13 @@ internal sealed class ExternalDbContext : DbContext
         }
     }
 
-    public IReadOnlyList<AuditTable> GetAuditTables() => _entitiesEntry.Select(AuditTableFactory.Create).ToList();
+    public IReadOnlyList<AuditTable> GetAuditTables()
+    {
+        if (_entitiesEntry.Count == 0)
+            return Array.Empty<AuditTable>();
+        
+        return _entitiesEntry.Select(AuditTableFactory.Create).ToList();
+    } 
 
     public void SetAuditTables(AppDbContext appDbContext)
     {
