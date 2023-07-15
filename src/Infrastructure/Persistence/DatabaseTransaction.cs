@@ -1,8 +1,8 @@
+using Application.Behaviors.TransactionalBehaviours;
 using Application.Helpers;
 using Application.Interfaces;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Write;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,7 @@ internal sealed class DatabaseTransaction : ITransaction
         _logger = logger;
     }
     
-    public async Task<IResult> HandleAsync(Func<Task<IResult>> action)
+    public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
     {
         IResult result = null;
         try
@@ -30,7 +30,7 @@ internal sealed class DatabaseTransaction : ITransaction
             await strategy.ExecuteAsync(async () =>
             {
                 await using var transaction = await _appDbContext.BeginTransactionAsync();
-                result = await action();
+                result = await transactionalHandler.HandleAsync();
                 
                 if (result.IsSuccess)
                     await _appDbContext.CommitTransactionAsync(transaction);

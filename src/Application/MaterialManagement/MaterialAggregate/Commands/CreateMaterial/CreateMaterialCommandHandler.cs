@@ -6,7 +6,7 @@ using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
-internal sealed class CreateMaterialCommandHandler : ITransactionalCommandHandler<CreateMaterialCommand>
+internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;

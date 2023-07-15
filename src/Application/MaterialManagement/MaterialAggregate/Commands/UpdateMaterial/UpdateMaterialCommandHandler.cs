@@ -8,7 +8,7 @@ using Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
-internal sealed class UpdateMaterialCommandHandler : ITransactionalCommandHandler<UpdateMaterialCommand>
+internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;

@@ -1,4 +1,5 @@
 using Application.Interfaces.Services;
+using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.LoggingDefinitions;
 using Infrastructure.Persistence.Write;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ internal sealed class AuditTableService : IAuditTableService
         _logger = logger;
     }
 
-    public async Task LogChangesAsync()
+    public async Task<Result> LogChangesAsync()
     {
         var auditTables = _externalDbContext.GetAuditTables();
 
@@ -29,6 +30,8 @@ internal sealed class AuditTableService : IAuditTableService
             await _externalDbContext.SaveChangesAsync();
             _logger.CompletedLogAuditTable();
         }
+
+        return Result.Success();
     }
 
     //public async Task LogChangesForSolution1Async()

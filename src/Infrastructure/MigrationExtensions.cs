@@ -1,5 +1,4 @@
-﻿using System;
-using Infrastructure.Persistence.Externals;
+﻿using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,3 +1,4 @@
+using Application.Behaviors.TransactionalBehaviours.Handlers;
 using Application.Interfaces;
 using Domain.SharedKernel.Base;
 using MediatR;
@@ -7,7 +8,7 @@ using Application.Interfaces.Services;
 using Application.Extensions;
 using Application.LoggingDefinitions;
 
-namespace Application.Behaviors;
+namespace Application.Behaviors.TransactionalBehaviours;
 
 internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ITransactionalCommand
@@ -32,21 +33,10 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
         var requestName = request.GetGenericTypeName();
         _logger.StartTransactionalBehavior(requestName);
 
-        IResult response = default;
-        response = await _transaction.HandleAsync(async () =>
-        {
-            var result = (IResult)await next();
-
-            if (result.IsSuccess)
-            {
-                //Transactional outbox
-                
-                //audit table
-                await _auditTableService.LogChangesAsync();
-            }
-
-            return result;
-        });
+        var transactionalHandler = new TransactionalHandler(
+            new RequestHandler<TResponse>(next), 
+            new AuditTableHandler(_auditTableService));
+        var response = await _transaction.HandleAsync(transactionalHandler);
 
         _logger.CompletedTransactionalBehavior(requestName);
 

@@ -2,7 +2,7 @@ using Application.Interfaces.Messaging;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
-public sealed record UpdateMaterialCommand : ITransactionalCommand
+public sealed record UpdateMaterialCommand : ICommand, ITransactionalCommand
 {
     public Guid Id { get; init; }
     public string Code { get; init; }

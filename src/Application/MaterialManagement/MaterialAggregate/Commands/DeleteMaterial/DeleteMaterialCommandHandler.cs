@@ -5,7 +5,7 @@ using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.DeleteMaterial;
 
-internal sealed class DeleteMaterialCommandHandler : ITransactionalCommandHandler<DeleteMaterialCommand>
+internal sealed class DeleteMaterialCommandHandler : ICommandHandler<DeleteMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IMaterialRepository _materialRepository;
 

@@ -1,5 +1,5 @@
 namespace Application.Interfaces.Messaging;
 
-public interface ITransactionalCommand : ICommand
+public interface ITransactionalCommand
 {
 }

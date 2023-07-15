@@ -2,7 +2,7 @@ using Application.Interfaces.Messaging;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
-public sealed record CreateMaterialCommand : ITransactionalCommand
+public sealed record CreateMaterialCommand : ICommand, ITransactionalCommand
 {
     public string Code { get; init; }
     public string Name { get; init; }
