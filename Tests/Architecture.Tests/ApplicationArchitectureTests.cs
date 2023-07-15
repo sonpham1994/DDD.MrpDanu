@@ -44,6 +44,8 @@ public class ApplicationArchitectureTests
         var result = Types.InAssembly(applicationAssembly)
             .That()
             .HaveNameEndingWith(CommandHandlerClass)
+            .And()
+            .AreClasses()
             .Should()
             .HaveDependencyOn(DomainNamespace)
             .GetResult();
@@ -59,7 +61,7 @@ public class ApplicationArchitectureTests
             .Where(x => x.Name.EndsWith(CommandHandlerClass))
             .ToList();
 
-        var result = commandHandlerClasses.Any(x => x.IsPublic);
+        var result = commandHandlerClasses.Any(x => !x.IsAbstract && !x.IsInterface && x.IsPublic);
         
         result.Should().BeFalse();
     }

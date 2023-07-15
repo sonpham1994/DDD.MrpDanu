@@ -39,6 +39,8 @@
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:TransactionalPartnerAggregate/f:TaxNoTests.cs&lt;/ProjectFile&gt;
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:TransactionalPartnerAggregate/f:TransactionalPartnerTests.cs&lt;/ProjectFile&gt;
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:TransactionalPartnerAggregate/f:WebsiteTests.cs&lt;/ProjectFile&gt;
+    &lt;ProjectFile&gt;D0F5E602-1E46-47B6-A65D-4DD1FE6177CA/f:ApplicationArchitectureTests.cs&lt;/ProjectFile&gt;
+    &lt;Project Location="/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Tests/Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	
