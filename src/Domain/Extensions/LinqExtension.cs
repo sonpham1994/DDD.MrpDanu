@@ -23,64 +23,73 @@ public static class LinqExtension
         where TResult : Entity<Guid>
     {
         TResult? result = null;
-        int count = enumerable.Count();
-        
-        for (int i = 0; i < count; i++)
+        if (enumerable is IReadOnlyList<T> lst)
         {
-            var tResult1 = predicate(enumerable.ElementAt(i));
-            if (tResult1 is null) continue;
-
-            for (int j = i + 1; j < count; j++)
-            {
-                var tResult2 = predicate(enumerable.ElementAt(j));
-                if (tResult2 is null) continue;
-                
-                int hashCode1 = tResult1.GetHashCode();
-                int hashCode2 = tResult2.GetHashCode();
-                if (hashCode1 != hashCode2)
-                    continue;
-                
-                if (tResult1 == tResult2)
-                {
-                    result = tResult1;
-                    return result;
-                }
-            }
+            result = ItemWithLinearSearch(lst, predicate, lst.Count);
+        }
+        else
+        {
+            throw new ArgumentException($"DDD.MrpDanu.Fail: Does not support {enumerable.GetType()} yet.");
         }
         
         return result;
     }
     
-    public static TResult? ItemDuplication<T, TResult>(this List<T> enumerable, Func<T, TResult> predicate)
+    public static TResult? ItemDuplication<T, TResult>(this List<T> list, Func<T, TResult> predicate)
         where T : Entity<Guid>
         where TResult : Entity<Guid>
     {
-        TResult? result = null;
-        int count = enumerable.Count();
+        int count = list.Count;
+        TResult? result = ItemWithLinearSearch(list, predicate, count);
         
+        return result;
+    }
+    
+    public static TResult? ItemDuplication<T, TResult>(this T[] array, Func<T, TResult> predicate)
+        where T : Entity<Guid>
+        where TResult : Entity<Guid>
+    {
+        int count = array.Length;
+        TResult? result = ItemWithLinearSearch(array, predicate, count);
+        
+        return result;
+    }
+
+    private static TResult? ItemWithLinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
+        where T : Entity<Guid>
+        where TResult : Entity<Guid>
+    {
+         TResult? result = null;
+        
+        result = LinearSearch(array, predicate, count);
+        return result;
+    }
+    
+    private static TResult? LinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
+    {
+        TResult? result = default(TResult);
         for (int i = 0; i < count; i++)
         {
-            var tResult1 = predicate.Invoke(enumerable[i]);
+            var tResult1 = predicate(array[i]);
             if (tResult1 is null) continue;
 
             for (int j = i + 1; j < count; j++)
             {
-                var tResult2 = predicate.Invoke(enumerable[j]);
+                var tResult2 = predicate(array[j]);
                 if (tResult2 is null) continue;
-                
+
                 int hashCode1 = tResult1.GetHashCode();
                 int hashCode2 = tResult2.GetHashCode();
                 if (hashCode1 != hashCode2)
                     continue;
-                
-                if (tResult1 == tResult2)
+
+                if (tResult1.Equals(tResult2))
                 {
-                    result = tResult1;
                     return result;
                 }
             }
         }
-        
+
         return result;
     }
 }

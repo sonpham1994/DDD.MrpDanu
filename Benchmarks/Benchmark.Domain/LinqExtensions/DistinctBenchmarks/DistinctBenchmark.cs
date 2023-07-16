@@ -10,50 +10,110 @@ namespace Benchmark.Domain.LinqExtensions.DistinctBenchmarks;
 [MemoryDiagnoser()]
 public class DistinctBenchmark
 {
-    [Params(10, 100, 1000)]
+    [Params(10, 100, 1000)] 
     public int Length { get; set; }
-
-    private List<Guid> _guids = new();
+    public class MyClass : Entity
+    {
+        public string Name {get; set; }
+    }
+    
+    private List<Guid> _guids1 = new();
+    private List<Guid> _guids2 = new();
+    
+    private List<MyClass> _myclasses1 = new();
+    private List<MyClass> _myclasses2 = new();
 
     [GlobalSetup]
     public void Setup()
     {
         for(int i =0; i < Length; i++)
         {
-            _guids.Add(Guid.NewGuid());
+            _guids1.Add(Guid.NewGuid());
+            _guids2.Add(Guid.NewGuid());
+            _myclasses1.Add(new MyClass(){Id = Guid.NewGuid(), Name = "Name " + i});
+            _myclasses2.Add(new MyClass(){Id = Guid.NewGuid(), Name = "Name " + i});
         }
-        
+        _guids2.Insert(Length - 1, _guids2[Length / 2]);
+        _myclasses2.Insert(Length - 1, _myclasses2[Length / 2]);
     }
 
+    // [Benchmark]
+    // public void DistinctWithoutDuplication()
+    // {
+    //     var a = _guids1.Distinct().ToList();
+    // }
+    //
+    // [Benchmark]
+    // public void CheckingDuplicationBeforeExecuteWithoutDuplication()
+    // {
+    //     if (_guids1.AnyDuplicationWithAlgorithmAndHashCode(x=>x))
+    //     {
+    //         var a = _guids1.Distinct().ToList();
+    //     }
+    // }
+    //
+    // [Benchmark]
+    // public void DistinctWithDuplication()
+    // {
+    //     var a = _guids2.Distinct().ToList();
+    // }
+    //
+    // [Benchmark]
+    // public void CheckingDuplicationBeforeExecuteWithDuplication()
+    // {
+    //     if (_guids2.AnyDuplicationWithAlgorithmAndHashCode(x => x))
+    //     {
+    //         var a = _guids2.Distinct().ToList();
+    //     }
+    // }
+    
+    //
+    // [Benchmark]
+    // public void EntityDistinctWithoutDuplication()
+    // {
+    //     var a = _myclasses1.Distinct().ToList();
+    // }
+    //
+    // [Benchmark]
+    // public void EntityCheckingDuplicationBeforeExecuteWithoutDuplication()
+    // {
+    //     if (_myclasses1.AnyDuplicationWithAlgorithmAndHashCode(x=>x))
+    //     {
+    //         var a = _myclasses1.Distinct().ToList();
+    //     }
+    // }
+    //
+    // [Benchmark]
+    // public void EntityDistinctWithDuplication()
+    // {
+    //     var a = _myclasses2.Distinct().ToList();
+    // }
+    //
+    // [Benchmark]
+    // public void EntityCheckingDuplicationBeforeExecuteWithDuplication()
+    // {
+    //     if (_myclasses2.AnyDuplicationWithAlgorithmAndHashCode(x => x))
+    //     {
+    //         var a = _myclasses2.Distinct().ToList();
+    //     }
+    // }
+    
+    
     [Benchmark]
-    public void DistinctWithoutDupplication()
+    public void EntityCheckingDuplicationWithCheckingTypeBeforeExecuteWithoutDuplication()
     {
-        var a = _guids.Distinct().ToList();
-    }
-
-    [Benchmark]
-    public void CheckingDuplicationBeforeExecuteWithoutDuplication()
-    {
-        if (_guids.AnyDuplicationWithAlgorithmAndHashCode(x=>x))
+        if (_myclasses1.AnyDuplicationCheckingTypeWithAlgorithmAndHashCode(x=>x))
         {
-            var a = _guids.Distinct().ToList();
+            var a = _myclasses1.Distinct().ToList();
         }
     }
-
+    
     [Benchmark]
-    public void DistinctWithDupplication()
+    public void EntityCheckingDuplicationWithCheckingTypeBeforeExecuteWithDuplication()
     {
-        _guids.Insert(Length - 1, _guids[Length / 2]);
-        var a = _guids.Distinct().ToList();
-    }
-
-    [Benchmark]
-    public void CheckingDuplicationBeforeExecuteWithDuplication()
-    {
-        _guids.Insert(Length - 1, _guids[Length / 2]);
-        if (_guids.AnyDuplicationWithAlgorithmAndHashCode(x => x))
+        if (_myclasses2.AnyDuplicationCheckingTypeWithAlgorithmAndHashCode(x => x))
         {
-            var a = _guids.Distinct().ToList();
+            var a = _myclasses2.Distinct().ToList();
         }
     }
 }

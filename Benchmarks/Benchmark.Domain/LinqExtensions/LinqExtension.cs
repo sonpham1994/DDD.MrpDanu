@@ -193,6 +193,77 @@ public static class LinqExtension
         
         return result;
     }
+    
+    public static TResult? ItemDuplicationWithAlgorithmAndHashCodeWithCheckingList<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
+        where TResult : Entity
+    {
+        TResult? result = null;
+        if (enumerable is List<T> lst)
+        {
+            int count = lst.Count;
+        
+            for (int i = 0; i < count; i++)
+            {
+                var tResult1 = predicate.Invoke(lst[i]);
+                if (tResult1 is null) continue;
+
+                for (int j = i + 1; j < count; j++)
+                {
+                    var tResult2 = predicate.Invoke(lst[j]);
+                    if (tResult2 is null) continue;
+                
+                    int hashCode1 = tResult1.GetHashCode();
+                    int hashCode2 = tResult2.GetHashCode();
+                    if (hashCode1 != hashCode2)
+                        continue;
+                
+                    if (tResult1 == tResult2)
+                    {
+                        result = tResult1;
+                        return result;
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public static TResult? ItemDuplicationWithAlgorithmAndHashCodeWithCheckingIReadOnlyList<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
+        where TResult : Entity
+    {
+        TResult? result = null;
+        if (enumerable is IReadOnlyList<T> lst)
+        {
+            int count = lst.Count;
+        
+            for (int i = 0; i < count; i++)
+            {
+                var tResult1 = predicate.Invoke(lst[i]);
+                if (tResult1 is null) continue;
+
+                for (int j = i + 1; j < count; j++)
+                {
+                    var tResult2 = predicate.Invoke(lst[j]);
+                    if (tResult2 is null) continue;
+                
+                    int hashCode1 = tResult1.GetHashCode();
+                    int hashCode2 = tResult2.GetHashCode();
+                    if (hashCode1 != hashCode2)
+                        continue;
+                
+                    if (tResult1 == tResult2)
+                    {
+                        result = tResult1;
+                        return result;
+                    }
+                }
+            }
+        }
+        
+        
+        return result;
+    }
 
     public static bool AnyDuplicationWithAlgorithmAndHashCode<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
     {
@@ -223,4 +294,39 @@ public static class LinqExtension
 
         return result;
     }
+
+    public static bool AnyDuplicationCheckingTypeWithAlgorithmAndHashCode<T, TResult>(this IEnumerable<T> enumerable,
+        Func<T, TResult> predicate)
+    {
+        bool result = false;
+        if (enumerable is List<T> lst)
+        {
+            int count = lst.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                var tResult1 = predicate(lst[i]);
+                if (tResult1 is null) continue;
+
+                for (int j = i + 1; j < count; j++)
+                {
+                    var tResult2 = predicate(lst[j]);
+                    if (tResult2 is null) continue;
+
+                    int hashCode1 = tResult1.GetHashCode();
+                    int hashCode2 = tResult2.GetHashCode();
+                    if (hashCode1 != hashCode2)
+                        continue;
+
+                    if (tResult1.Equals(tResult2))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 }
