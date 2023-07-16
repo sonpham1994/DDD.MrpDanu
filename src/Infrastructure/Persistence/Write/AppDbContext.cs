@@ -133,7 +133,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
         }
     }
 
-    public void DisposeTransaction()
+    private void DisposeTransaction()
     {
         if (_currentTransaction != null)
         {

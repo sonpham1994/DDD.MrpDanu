@@ -35,8 +35,7 @@ internal sealed class DatabaseTransaction : ITransaction
                 if (result.IsSuccess)
                     await _appDbContext.CommitTransactionAsync(transaction);
                 else 
-                    _appDbContext.DisposeTransaction();
-
+                    _appDbContext.RollbackTransaction();
             });
         }
         catch (Exception ex)

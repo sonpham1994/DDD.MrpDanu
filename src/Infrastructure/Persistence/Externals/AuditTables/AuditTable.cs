@@ -1,4 +1,3 @@
-using System;
 using Application.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Infrastructure.Persistence.Externals.AuditTables;
 
 [Table(nameof(AuditTable))]
-public class AuditTable
+internal sealed class AuditTable
 {
     [Key]
     public Guid Id { get; set; }

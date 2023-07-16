@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Infrastructure.Persistence.Externals.AuditTables;
 
 [Table(nameof(StateAuditTable))]
-public sealed class StateAuditTable : Enumeration<StateAuditTable>
+internal sealed class StateAuditTable : Enumeration<StateAuditTable>
 {
     //Due to EF needs to define properties if using DataAnnotation
     [Key]
