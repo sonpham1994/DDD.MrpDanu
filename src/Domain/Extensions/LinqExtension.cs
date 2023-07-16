@@ -85,7 +85,7 @@ public static class LinqExtension
 
                 if (tResult1.Equals(tResult2))
                 {
-                    return result;
+                    return tResult1;
                 }
             }
         }
