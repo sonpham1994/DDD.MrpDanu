@@ -10,7 +10,7 @@
   "profiles": {
     "Development": {
       "commandName": "Project",
-      "launchUrl": "MaterialManagement/Material",
+      "launchUrl": "MaterialManagement/Materials",
       "applicationUrl": "http://localhost:5288",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -19,8 +19,8 @@
     },
     "Production": {
       "commandName": "Project",
-      "launchUrl": "MaterialManagement/Material",
-      "applicationUrl": "http://localhost:5288",
+      "launchUrl": "MaterialManagement/Materials",
+      "applicationUrl": "https://dddmrp.azurewebsites.net",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       },

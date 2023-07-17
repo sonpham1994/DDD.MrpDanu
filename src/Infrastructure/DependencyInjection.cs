@@ -14,6 +14,7 @@ using Infrastructure.Persistence.Write.EfRepositories;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.Extensions.Options;
 using Infrastructure.Persistence.Externals.AuditTables.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure;
 
@@ -21,7 +22,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, bool isProduction)
     {
-        services.AddDatabaseSettings()
+        services
+            //.AddDatabaseSettings(configuration)
             .AddDbInterceptors()
             .AddEventDispatcher()
             .AddDbContext(isProduction)
@@ -107,65 +109,65 @@ public static class DependencyInjection
         return services;
     }
     
-    private static IServiceCollection AddDatabaseSettings(this IServiceCollection services)
-    {
-        //https://www.youtube.com/watch?v=qRruEdjNVNE
-        services.AddOptions<DatabaseSettings>()
-            .BindConfiguration(nameof(DatabaseSettings))
-            .Validate(settings =>
-            {
-                if (settings.ConnectionString == string.Empty)
-                    return false;
-                if (settings.MaxRetryCount == 0)
-                    return false;
-                if (settings.MaxRetryDelay == 0)
-                    return false;
-                if (settings.StandardExecutedDbCommandTime == 0)
-                    return false;
+    //private static IServiceCollection AddDatabaseSettings(this IServiceCollection services, IConfiguration configuration)
+    //{
+    //    //https://www.youtube.com/watch?v=qRruEdjNVNE
+    //    services.AddOptions<DatabaseSettings>()
+    //        .BindConfiguration(nameof(DatabaseSettings))
+    //        .Validate(settings =>
+    //        {
+    //            if (settings.ConnectionString == string.Empty)
+    //                return false;
+    //            if (settings.MaxRetryCount == 0)
+    //                return false;
+    //            if (settings.MaxRetryDelay == 0)
+    //                return false;
+    //            if (settings.StandardExecutedDbCommandTime == 0)
+    //                return false;
 
-                var connections = settings.ConnectionString.Split(';');
-                foreach (var connection in connections)
-                {
-                    if (connection.StartsWith("Server", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var serverConfig = connection.Split('=');
-                        var server = serverConfig[1];
-                        var serverInfos = server.Split(',');
-                        var serverName = serverInfos[0];
-                        var port = serverInfos[1];
-                        if (string.IsNullOrEmpty(serverName) || string.IsNullOrWhiteSpace(serverName))
-                            return false;
-                    }
-                    else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase) || connection.StartsWith("Catalog", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var database = connection.Split('=');
-                        var databaseName = database[1];
-                        if (string.IsNullOrEmpty(databaseName) || string.IsNullOrWhiteSpace(databaseName))
-                            return false;
-                    }
-                    else if (connection.StartsWith("User Id", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var userId = connection.Split('=');
-                        var userIdName = userId[1];
-                        if (string.IsNullOrEmpty(userIdName) || string.IsNullOrWhiteSpace(userIdName))
-                            return false;
-                    }
-                    else if (connection.StartsWith("Password", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var password = connection.Split('=');
-                        var passwordInfo = password[1];
-                        if (string.IsNullOrEmpty(passwordInfo) || string.IsNullOrWhiteSpace(passwordInfo))
-                            return false;
-                    }
-                }
+    //            var connections = settings.ConnectionString.Split(';');
+    //            foreach (var connection in connections)
+    //            {
+    //                if (connection.StartsWith("Server", StringComparison.OrdinalIgnoreCase))
+    //                {
+    //                    var serverConfig = connection.Split('=');
+    //                    var server = serverConfig[1];
+    //                    var serverInfos = server.Split(',');
+    //                    var serverName = serverInfos[0];
+    //                    var port = serverInfos[1];
+    //                    if (string.IsNullOrEmpty(serverName) || string.IsNullOrWhiteSpace(serverName))
+    //                        return false;
+    //                }
+    //                else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase) || connection.StartsWith("Catalog", StringComparison.OrdinalIgnoreCase))
+    //                {
+    //                    var database = connection.Split('=');
+    //                    var databaseName = database[1];
+    //                    if (string.IsNullOrEmpty(databaseName) || string.IsNullOrWhiteSpace(databaseName))
+    //                        return false;
+    //                }
+    //                else if (connection.StartsWith("User Id", StringComparison.OrdinalIgnoreCase))
+    //                {
+    //                    var userId = connection.Split('=');
+    //                    var userIdName = userId[1];
+    //                    if (string.IsNullOrEmpty(userIdName) || string.IsNullOrWhiteSpace(userIdName))
+    //                        return false;
+    //                }
+    //                else if (connection.StartsWith("Password", StringComparison.OrdinalIgnoreCase))
+    //                {
+    //                    var password = connection.Split('=');
+    //                    var passwordInfo = password[1];
+    //                    if (string.IsNullOrEmpty(passwordInfo) || string.IsNullOrWhiteSpace(passwordInfo))
+    //                        return false;
+    //                }
+    //            }
 
-                return true;
-        });
+    //            return true;
+    //        });
 
-        //services.Configure<DatabaseOptions>(configuration.GetSection(nameof(DatabaseOptions)));
+    //    services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)), null);
 
-        return services;
-    }
+    //    return services;
+    //}
 
     private static IServiceCollection AddDbInterceptors(this IServiceCollection services)
     {

@@ -42,9 +42,11 @@ builder.Services.AddControllersWithViews();
 var isProduction = builder.Environment.IsProduction();
 
 builder.Services
+    .AddWeb()
     .AddApplication()
-    .AddInfrastructure(isProduction)
-    .AddWeb();
+    .AddInfrastructure(isProduction);
+    
+
 
 var app = builder.Build();
 
