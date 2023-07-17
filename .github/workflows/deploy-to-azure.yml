@@ -13,13 +13,13 @@ on:
 env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'
   AZURE_WEBAPP_NAME: dddmrp
+  
 
 jobs:
   build:
     env: 
       BUILD_CONFIG: Release
       DOT_NET_VERSION: 7.0.x
-      OUT_PUT_APP: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp
       
     runs-on: ubuntu-latest
 
@@ -41,7 +41,7 @@ jobs:
       run: dotnet build --configuration '${{ env.BUILD_CONFIG }}'
       
     - name: Publish
-      run: dotnet publish -c Release -o '${{ env.OUT_PUT_APP }}'
+      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
       
     - name: Deploy
       uses: azure/webapps-deploy@v2
@@ -49,6 +49,6 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         slot-name: ${{ env.SLOT_NAME }}
         publish-profile: '${{ secrets.PRODUCTION_AZURE_WEBAPP_PUBLISH_PROFILE }}'
-        package: '${{ env.OUT_PUT_APP }}'
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
       env:
         SLOT_NAME: 'Production'
