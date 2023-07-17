@@ -8,12 +8,21 @@
     }
   },
   "profiles": {
-    "Local": {
+    "Development": {
       "commandName": "Project",
       "launchUrl": "MaterialManagement/Material",
       "applicationUrl": "http://localhost:5288",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Local"
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
+    },
+    "Production": {
+      "commandName": "Project",
+      "launchUrl": "MaterialManagement/Material",
+      "applicationUrl": "http://localhost:5288",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "dotnetRunMessages": true
     }
