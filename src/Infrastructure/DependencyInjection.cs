@@ -136,7 +136,7 @@ public static class DependencyInjection
                         if (string.IsNullOrEmpty(serverName) || string.IsNullOrWhiteSpace(serverName))
                             return false;
                     }
-                    else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase))
+                    else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase) || connection.StartsWith("Catalog", StringComparison.OrdinalIgnoreCase))
                     {
                         var database = connection.Split('=');
                         var databaseName = database[1];

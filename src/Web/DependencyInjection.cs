@@ -1,5 +1,4 @@
 using Application;
-using Infrastructure;
 using Web.Middlewares;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
