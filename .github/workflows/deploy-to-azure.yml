@@ -1,0 +1,54 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: 'Deploy to Production Azure App Service'
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  AZURE_WEBAPP_NAME: dddmrp
+
+jobs:
+  build:
+    env: 
+      BUILD_CONFIG: Release
+      DOT_NET_VERSION: 7.0.x
+      OUT_PUT_APP: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp
+      
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOT_NET_VERSION }}
+        
+    - name: Print build config
+      run: echo "Build config - $BUILD_CONFIG"
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration '${{ env.BUILD_CONFIG }}'
+      
+    - name: Publish
+      run: dotnet publish -c Release -o '${{ env.OUT_PUT_APP }}'
+      
+    - name: Deploy
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        slot-name: ${{ env.SLOT_NAME }}
+        publish-profile: '${{ secrets.PRODUCTION_AZURE_WEBAPP_PUBLISH_PROFILE }}'
+        package: '${{ env.OUT_PUT_APP }}'
+      env:
+        SLOT_NAME: 'Production'
