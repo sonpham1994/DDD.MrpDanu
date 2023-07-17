@@ -29,7 +29,7 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
     public static readonly StateAuditTable Modified = new(2, nameof(Modified));
     public static readonly StateAuditTable Deleted = new(3, nameof(Deleted));
 
-    protected StateAuditTable() { }
+    private StateAuditTable() { }
 
     public static Result<StateAuditTable> FromEntityState(EntityState entityState)
     {
