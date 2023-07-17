@@ -3,7 +3,9 @@ using Benchmark.Domain.LinqExtensions.ItemDupplicationBenchmarks;
 using Benchmark.Domain.EntityGetHashCode;
 using Benchmark.Domain.LinqExtensions.DistinctBenchmarks;
 
-BenchmarkRunner.Run<ItemDuplicationWithCheckingTypeBenchmark>();
-//var test = new DistinctBenchmark();
-//test.DistinctWithDuplication();
+//BenchmarkRunner.Run<ItemDuplicationWithLinearSearchAndBinarySearchBenchmark>();
+var test = new ItemDuplicationWithLinearSearchAndBinarySearchBenchmark();
+test.BinarySearchWithDuplicationAtNearMiddleAndLastPosition();
+test.BinarySearchWithDuplicationAtFirstAndNearFirstPosition();
+test.BinarySearchWithDuplicationAtFirstAndMiddlePosition();
 Console.WriteLine("Hello, World!");
