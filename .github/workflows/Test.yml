@@ -36,11 +36,11 @@ jobs:
       
     - name: Build Test
       run: dotnet build --configuration '${{ env.BUILD_CONFIG }}' --no-restore
-      working-directory: Tests
+      working-directory: run/Tests
       
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
-      working-directory: Tests
+      working-directory: run/Tests
 
     - name: Build Src
       run: dotnet build ./src/Web --configuration '${{ env.BUILD_CONFIG }}' --no-restore
