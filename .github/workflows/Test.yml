@@ -35,12 +35,12 @@ jobs:
       run: dotnet restore
       
     - name: Build Test
-      run: dotnet build ./src/Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+      run: dotnet build ./Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
       
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
 
-    - name: Build Test
+    - name: Build Src
       run: dotnet build ./src/Web --configuration '${{ env.BUILD_CONFIG }}' --no-restore
 
     - name: Publish
