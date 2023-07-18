@@ -99,7 +99,8 @@ public static class DependencyInjection
                 }
 
                 return true;
-            });
+            })
+            .ValidateOnStart();
 
         //services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)), null);
 

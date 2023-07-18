@@ -45,8 +45,6 @@ builder.Services
     .AddWeb()
     .AddApplication()
     .AddInfrastructure(isProduction);
-    
-
 
 var app = builder.Build();
 
