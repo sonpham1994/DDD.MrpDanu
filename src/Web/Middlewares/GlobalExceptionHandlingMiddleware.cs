@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Text.Json;
 using Application.Helpers;
@@ -9,10 +8,10 @@ namespace Web.Middlewares;
 
 public class GlobalExceptionHandlingMiddleware : IMiddleware
 {
-    private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
+    private readonly Serilog.ILogger _logger;
     private readonly IWebHostEnvironment _env;
 
-    public GlobalExceptionHandlingMiddleware(IWebHostEnvironment env, ILogger<GlobalExceptionHandlingMiddleware> logger) 
+    public GlobalExceptionHandlingMiddleware(IWebHostEnvironment env, Serilog.ILogger logger) 
     {
         _env = env;
         _logger = logger;
@@ -46,7 +45,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
             string messageDetail = $"Exception: {e.Message}{Environment.NewLine}{e.InnerException}";
             string errorMessage = _env.IsProduction() ? "Internal server error" : messageDetail;
             
-            _logger.LogError(e, "----- TraceId: {TraceId}, ErrorMessageDetail: {ErrorMessageDetail}", traceId, messageDetail);
+            _logger.Error(e, "----- TraceId: {TraceId}, ErrorMessageDetail: {ErrorMessageDetail}", traceId, messageDetail);
             
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
