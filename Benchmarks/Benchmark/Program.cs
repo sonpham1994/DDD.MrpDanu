@@ -7,6 +7,7 @@ using Benchmark.IEnumerableBenchmarks;
 using Benchmark.MoveNextEnumerators;
 using Benchmark.PassStructAsObjectParameter;
 using Benchmark.StringBoxing;
+using Benchmark.StructWithIEquatable;
 
-BenchmarkRunner.Run<PassStructAsObjectParameterBenchmark>();
+BenchmarkRunner.Run<StructWithIEquatableBenchmark>();
 Console.WriteLine("Hello, World!");
