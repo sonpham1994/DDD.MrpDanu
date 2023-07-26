@@ -2,7 +2,7 @@
 
 namespace Domain.Errors;
 
-public partial class DomainErrors
+public sealed partial class DomainErrors
 {
     public static class Material
     {

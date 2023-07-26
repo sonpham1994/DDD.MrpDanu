@@ -22,7 +22,7 @@ public class LinqExtensionTests
         var array = new List<int> { 2, 4, 6 };
         var isSuccess = array.AnyFailure(ExistElement);
         isSuccess.IsSuccess.Should().Be(true);
-        isSuccess.Error.Should().Be(DomainError.Empty);
+        isSuccess.Error.IsEmpty().Should().BeTrue();
     }
 
     [Fact]

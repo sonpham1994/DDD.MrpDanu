@@ -2,7 +2,7 @@ namespace Domain.SharedKernel.Base;
 
 public readonly struct DomainError : IEquatable<DomainError>
 {
-    public static DomainError Empty => new(string.Empty, string.Empty);
+    internal static DomainError Empty => new(string.Empty, string.Empty);
 
     public string Code { get; }
     public string Message { get; }
