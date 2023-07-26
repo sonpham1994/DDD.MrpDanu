@@ -7,7 +7,7 @@ public readonly struct Result<T> : IResult<T>
     public bool IsFailure { get; }
     public bool IsSuccess => !IsFailure;
 
-    private readonly DomainError _error;
+    private readonly DomainError _error = DomainError.Empty;
 
     public DomainError Error => _error;
 

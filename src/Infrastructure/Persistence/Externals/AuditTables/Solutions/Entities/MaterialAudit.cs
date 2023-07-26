@@ -5,6 +5,7 @@ using System.Text.Json;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;
 using Infrastructure.Errors;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.Solutions.Entities;
 
@@ -101,7 +102,7 @@ internal sealed class MaterialAudit : MaterialForLutionAudit, IAuditTableForSolu
             return (id, json);
         }
 
-        return Result.Failure(DomainErrors.AuditData.Empty);
+        return Result.Failure(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(obj.GetType().Name));
     }
 }
 
@@ -144,10 +145,9 @@ internal sealed class MaterialAuditForSolution2_1 : AuditTableForSolution2_1
             Id = id;
             Content = json;
             ObjectName = nameof(Material);
-
             return this;
         }
 
-        return Result.Failure(DomainErrors.AuditData.Empty);
+        return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(obj.GetType().Name);
     }
 }

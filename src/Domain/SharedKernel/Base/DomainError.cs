@@ -1,7 +1,9 @@
 namespace Domain.SharedKernel.Base;
 
-public sealed class DomainError : ValueObject
+public readonly struct DomainError : IEquatable<DomainError>
 {
+    public static DomainError Empty => new(string.Empty, string.Empty);
+
     public string Code { get; }
     public string Message { get; }
 
@@ -11,8 +13,34 @@ public sealed class DomainError : ValueObject
         Message = message;
     }
 
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    public bool IsEmpty()
     {
-        yield return Code;
+        return this == Empty;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null)
+            return false;
+        
+        if (obj is DomainError error)
+        {
+            return Equals(error);
+        }
+
+        return false;
+    }
+
+    public bool Equals(DomainError other)
+    {
+        return Code == other.Code;
+    }
+
+    public static bool operator ==(DomainError a, DomainError b) => a.Equals(b);
+    public static bool operator !=(DomainError a, DomainError b) => !a.Equals(b);
+
+    public override int GetHashCode()
+    {
+        return (this.GetType().Name.GetHashCode() + Code.GetHashCode()).GetHashCode();
     }
 }

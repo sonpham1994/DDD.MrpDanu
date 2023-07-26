@@ -8,12 +8,12 @@ public readonly struct Result : IResult
     public bool IsFailure { get; }
     public bool IsSuccess => !IsFailure;
 
-    private readonly DomainError _error;
+    private readonly DomainError _error = DomainError.Empty;
     public DomainError Error => _error;
 
     private Result(bool isFailure, DomainError error)
     {
-        if (isFailure && error is null)
+        if (isFailure && error.IsEmpty())
             throw new DomainException(new DomainError("SafeFail", "DomainError cannot null if process is fail"));
 
         IsFailure = isFailure;
@@ -22,12 +22,12 @@ public readonly struct Result : IResult
 
     public static Result Success()
     {
-        return new Result(false, default);
+        return new Result(false, DomainError.Empty);
     }
 
     public static Result<T> Success<T>(T? value)
     {
-        return new Result<T>(false, default, value);
+        return new Result<T>(false, DomainError.Empty, value);
     }
 
     public static Result Failure(DomainError error)
