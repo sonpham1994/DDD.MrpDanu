@@ -48,3 +48,26 @@ jobs:
       with:
         name: .ddd-mrp-app
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp
+        
+  deploy-to-azure:
+    runs-on: ubuntu-latest
+    env: 
+      BUILD_CONFIG: Release
+      DOT_NET_VERSION: 7.0.x
+    environment: Production
+
+    steps:
+     
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .ddd-mrp-app
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: ${{ env.SLOT_NAME }}
+          publish-profile: '${{ secrets.PRODUCTION_AZURE_WEB_APP }}'
+          package: .
+        env:
+          SLOT_NAME: 'Production'
