@@ -21,16 +21,16 @@ public class TaxNo : ValueObject
     public static Result<TaxNo> Create(string value, Country country)
     {
         if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-            return DomainErrors.TransactionalPartner.EmptyTaxNo;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyTaxNo;
 
         value = value.Trim();
 
         if (country == Country.VietNam)
         {
             if (value.Length != TaxNoVietnamLength)
-                return DomainErrors.TransactionalPartner.InvalidLengthTaxNo;
+                return MaterialManagementDomainErrors.TransactionalPartner.InvalidLengthTaxNo;
             if (!value.All(char.IsDigit))
-                return DomainErrors.TransactionalPartner.InvalidTaxNo;
+                return MaterialManagementDomainErrors.TransactionalPartner.InvalidTaxNo;
         }
         
         return new TaxNo(value, country);

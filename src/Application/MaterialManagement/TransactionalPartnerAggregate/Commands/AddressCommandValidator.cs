@@ -10,8 +10,8 @@ internal sealed class AddressCommandValidator : AbstractValidator<AddressCommand
     public AddressCommandValidator()
     {
         RuleFor(x => x).NotNull()
-            .WithErrorCode(DomainErrors.TransactionalPartner.NullAddress.Code)
-            .WithMessage(DomainErrors.TransactionalPartner.NullAddress.Message);
+            .WithErrorCode(MaterialManagementDomainErrors.TransactionalPartner.NullAddress.Code)
+            .WithMessage(MaterialManagementDomainErrors.TransactionalPartner.NullAddress.Message);
         
         RuleFor(x => x.CountryId).MustBeEnumeration(Country.FromId);
         

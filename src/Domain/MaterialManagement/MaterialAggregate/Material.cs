@@ -62,7 +62,7 @@ public class Material : AggregateRoot
     {
         var supplierDuplication = materialCosts.ItemDuplication(x => x.TransactionalPartner);
         if (supplierDuplication is not null)
-            return DomainErrors.MaterialCostManagement.DuplicationSupplierId(supplierDuplication.Id);
+            return MaterialManagementDomainErrors.MaterialCostManagement.DuplicationSupplierId(supplierDuplication.Id);
 
         foreach (var materialCost in materialCosts)
         {
@@ -93,7 +93,7 @@ public class Material : AggregateRoot
         var materialCost = _materialCostManagements.FirstOrDefault(x => x.TransactionalPartner == supplier);
 
         if (materialCost is null)
-            return DomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);
+            return MaterialManagementDomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);
 
         return materialCost;
     }
@@ -101,13 +101,13 @@ public class Material : AggregateRoot
     private static Result CanCreateOrUpdateMaterial(string code, MaterialType materialType, RegionalMarket regionalMarket)
     {
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
-            return DomainErrors.Material.EmptyCode;
+            return MaterialManagementDomainErrors.Material.EmptyCode;
 
         if (materialType == MaterialType.Material && regionalMarket != RegionalMarket.None)
-            return DomainErrors.Material.InvalidMaterialType;
+            return MaterialManagementDomainErrors.Material.InvalidMaterialType;
 
         if (materialType == MaterialType.Subassemblies && regionalMarket == RegionalMarket.None)
-            return DomainErrors.Material.InvalidSubassembliesType;
+            return MaterialManagementDomainErrors.Material.InvalidSubassembliesType;
 
         return Result.Success();
     }
@@ -169,7 +169,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
     {
         var supplierDuplication = materialCosts.ItemDuplication(x => x.TransactionalPartner);
         if (supplierDuplication is not null)
-            return DomainErrors.MaterialCostManagement.DuplicationSupplierId(supplierDuplication.Id);
+            return MaterialManagementDomainErrors.MaterialCostManagement.DuplicationSupplierId(supplierDuplication.Id);
 
         foreach (var materialCost in materialCosts)
         {
@@ -200,7 +200,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
         var materialCost = _materialCostManagements.FirstOrDefault(x => x.TransactionalPartner == supplier);
 
         if (materialCost is null)
-            return DomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);
+            return MaterialManagementDomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);
 
         return materialCost;
     }
@@ -208,13 +208,13 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
     private static Result CanCreateOrUpdateMaterial(string code, MaterialType materialType, RegionalMarket regionalMarket)
     {
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
-            return DomainErrors.Material.EmptyCode;
+            return MaterialManagementDomainErrors.Material.EmptyCode;
 
         if (materialType == MaterialType.Material && regionalMarket != RegionalMarket.None)
-            return DomainErrors.Material.InvalidMaterialType;
+            return MaterialManagementDomainErrors.Material.InvalidMaterialType;
 
         if (materialType == MaterialType.Subassemblies && regionalMarket == RegionalMarket.None)
-            return DomainErrors.Material.InvalidSubassembliesType;
+            return MaterialManagementDomainErrors.Material.InvalidSubassembliesType;
 
         return Result.Success();
     }

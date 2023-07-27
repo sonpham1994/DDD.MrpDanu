@@ -18,7 +18,7 @@ public class CurrencyType : Enumeration<CurrencyType>
     {
         var result = Enumeration<CurrencyType>.FromId(id);
         if (result.IsFailure)
-            return DomainErrors.CurrencyType.NotFoundId(id);
+            return MaterialManagementDomainErrors.CurrencyType.NotFoundId(id);
 
         return result;
     }

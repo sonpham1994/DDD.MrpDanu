@@ -19,12 +19,12 @@ public class Money : ValueObject
     public static Result<Money> Create(decimal value, CurrencyType currencyType)
     {
         if (value <= 0)
-            return DomainErrors.General.InvalidMoney;
+            return GeneralDomainErrors.InvalidMoney;
         
         if (currencyType == CurrencyType.VND)
         {
             if (!decimal.IsInteger(value)) //VND should be integer
-                return DomainErrors.General.InvalidVNDCurrencyMoney;
+                return GeneralDomainErrors.InvalidVNDCurrencyMoney;
         }
 
         return new Money(value, currencyType);

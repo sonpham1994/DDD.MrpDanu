@@ -25,7 +25,7 @@ public class TransactionalPartnerTests
         );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
     
     [Fact]
@@ -45,7 +45,7 @@ public class TransactionalPartnerTests
         );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
     
     [Fact]
@@ -65,7 +65,7 @@ public class TransactionalPartnerTests
         );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
     
     [Fact]
@@ -124,7 +124,7 @@ public class TransactionalPartnerTests
         );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
     
     [Fact]
@@ -155,7 +155,7 @@ public class TransactionalPartnerTests
         );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
     
     [Fact]
@@ -186,7 +186,7 @@ public class TransactionalPartnerTests
         );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
     
     [Fact]
@@ -249,7 +249,7 @@ public class TransactionalPartnerTests
 
         var result = transactionalPartner.Value.IsSupplier();
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.MaterialCostManagement.NotSupplier(Guid.Empty));
+        result.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.NotSupplier(Guid.Empty));
     }
     
     [Fact]

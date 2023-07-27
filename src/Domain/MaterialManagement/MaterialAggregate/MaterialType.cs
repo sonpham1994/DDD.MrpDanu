@@ -18,7 +18,7 @@ public class MaterialType : Enumeration<MaterialType>
     {
         var result = Enumeration<MaterialType>.FromId(id);
         if (result.IsFailure)
-            return DomainErrors.MaterialType.NotFoundId(id);
+            return MaterialManagementDomainErrors.MaterialType.NotFoundId(id);
 
         return result;
     }

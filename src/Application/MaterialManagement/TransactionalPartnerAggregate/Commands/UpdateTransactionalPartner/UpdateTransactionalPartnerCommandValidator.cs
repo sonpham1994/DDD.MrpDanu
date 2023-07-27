@@ -12,12 +12,12 @@ internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValid
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(DomainErrors.General.NullRequestBodyParameter.Code)
-            .WithMessage(DomainErrors.General.NullRequestBodyParameter.Message);
+            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithErrorCode(DomainErrors.TransactionalPartner.NotFound.Code)
-            .WithMessage(DomainErrors.TransactionalPartner.NotFound.Message);
+            .WithErrorCode(MaterialManagementDomainErrors.TransactionalPartner.NotFound.Code)
+            .WithMessage(MaterialManagementDomainErrors.TransactionalPartner.NotFound.Message);
         
         RuleFor(x => x.Address).SetValidator(new AddressCommandValidator());
 

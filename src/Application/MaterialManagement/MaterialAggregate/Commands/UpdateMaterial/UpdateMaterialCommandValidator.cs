@@ -12,11 +12,11 @@ internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateM
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(DomainErrors.General.NullRequestBodyParameter.Code)
-            .WithMessage(DomainErrors.General.NullRequestBodyParameter.Message);
+            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
         RuleFor(x => x.Id).NotEmpty()
-            .WithErrorCode(DomainErrors.Material.EmptyId.Code)
-            .WithMessage(DomainErrors.Material.EmptyId.Message);
+            .WithErrorCode(MaterialManagementDomainErrors.Material.EmptyId.Code)
+            .WithMessage(MaterialManagementDomainErrors.Material.EmptyId.Message);
         
         RuleFor(x => x)
             .MustBeValueObject(

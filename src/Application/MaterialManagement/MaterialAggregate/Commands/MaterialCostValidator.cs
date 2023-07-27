@@ -10,13 +10,13 @@ internal sealed class MaterialCostsValidator : AbstractValidator<IEnumerable<Mat
         RuleFor(x => x).ForEach(x =>
         {
             x.NotNull()
-            .WithErrorCode(DomainErrors.MaterialCostManagement.NullMaterialCost.Code)
-            .WithMessage(DomainErrors.MaterialCostManagement.NullMaterialCost.Message);
+            .WithErrorCode(MaterialManagementDomainErrors.MaterialCostManagement.NullMaterialCost.Code)
+            .WithMessage(MaterialManagementDomainErrors.MaterialCostManagement.NullMaterialCost.Message);
         });
 
         RuleFor(x => x).Must(ContainsSupplierId)
-            .WithErrorCode(DomainErrors.MaterialCostManagement.EmptySupplierId.Code)
-            .WithMessage(DomainErrors.MaterialCostManagement.EmptySupplierId.Message);
+            .WithErrorCode(MaterialManagementDomainErrors.MaterialCostManagement.EmptySupplierId.Code)
+            .WithMessage(MaterialManagementDomainErrors.MaterialCostManagement.EmptySupplierId.Message);
     }
 
     private bool ContainsSupplierId(IEnumerable<MaterialCostCommand> materialCost)

@@ -47,7 +47,7 @@ internal sealed class CreateTransactionalPartnerCommandHandler : ICommandHandler
          *  checking contact info and return boolean data type. This approach will make your repositories clean 
          */
         if (await _transactionalPartnerQuery.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
-            return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
+            return MaterialManagementDomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         
         var country = Country.FromId(request.Address.CountryId).Value;
         var taxNo = TaxNo.Create(request.TaxNo, country).Value;

@@ -12,7 +12,7 @@ public class MoneyTests
         var money = Money.Create(0m, CurrencyType.SGD);
 
         money.IsFailure.Should().Be(true);
-        money.Error.Should().Be(DomainErrors.General.InvalidMoney);
+        money.Error.Should().Be(GeneralDomainErrors.InvalidMoney);
     }
     
     [Fact]
@@ -21,7 +21,7 @@ public class MoneyTests
         var money = Money.Create(-1m, CurrencyType.SGD);
 
         money.IsFailure.Should().Be(true);
-        money.Error.Should().Be(DomainErrors.General.InvalidMoney);
+        money.Error.Should().Be(GeneralDomainErrors.InvalidMoney);
     }
     
     [Fact]
@@ -30,7 +30,7 @@ public class MoneyTests
         var money = Money.Create(1.5m, CurrencyType.VND);
 
         money.IsFailure.Should().Be(true);
-        money.Error.Should().Be(DomainErrors.General.InvalidVNDCurrencyMoney);
+        money.Error.Should().Be(GeneralDomainErrors.InvalidVNDCurrencyMoney);
     }
     
     [Fact]

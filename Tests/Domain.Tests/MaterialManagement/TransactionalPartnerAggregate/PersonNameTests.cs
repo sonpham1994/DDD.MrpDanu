@@ -14,7 +14,7 @@ public class PersonNameTests
     {
         var result = PersonName.Create(name);
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmptyName);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.EmptyName);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class PersonNameTests
         var name = new string('t', 201);
         var result = PersonName.Create(name);
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);
     }
 
     

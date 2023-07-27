@@ -17,7 +17,7 @@ internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByI
         var material = await _materialQuery.GetByIdAsync(request.Id, cancellationToken);
 
         if (material is null)
-            return DomainErrors.Material.MaterialIdNotFound(request.Id);
+            return MaterialManagementDomainErrors.Material.MaterialIdNotFound(request.Id);
         
         return material;
     }

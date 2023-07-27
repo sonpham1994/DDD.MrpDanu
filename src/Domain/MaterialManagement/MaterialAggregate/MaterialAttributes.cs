@@ -34,13 +34,13 @@ public class MaterialAttributes : ValueObject
         string varian)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            return DomainErrors.Material.EmptyName;
+            return MaterialManagementDomainErrors.Material.EmptyName;
         if (string.IsNullOrEmpty(width) || string.IsNullOrWhiteSpace(width))
-            return DomainErrors.Material.EmptyWidth;
+            return MaterialManagementDomainErrors.Material.EmptyWidth;
         if (string.IsNullOrEmpty(unit) || string.IsNullOrWhiteSpace(unit))
-            return DomainErrors.Material.EmptyUnit;
+            return MaterialManagementDomainErrors.Material.EmptyUnit;
         if (string.IsNullOrEmpty(varian) || string.IsNullOrWhiteSpace(varian))
-            return DomainErrors.Material.EmptyVarian;
+            return MaterialManagementDomainErrors.Material.EmptyVarian;
 
         name = name.Trim();
         colorCode = colorCode.Trim();

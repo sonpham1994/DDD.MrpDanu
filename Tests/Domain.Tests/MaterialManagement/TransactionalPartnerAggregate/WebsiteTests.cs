@@ -21,7 +21,7 @@ public class WebsiteTests
         var result = Website.Create(website);
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidWebsite(website));
+        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidWebsite(website));
     }
 
     [Theory]

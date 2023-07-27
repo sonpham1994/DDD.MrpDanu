@@ -15,7 +15,7 @@ public class MaterialTests
         var material = Material.Create("code1", materialAttributes, MaterialType.Material, RegionalMarket.Florida);
 
         material.IsFailure.Should().Be(true);
-        material.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
+        material.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidMaterialType);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class MaterialTests
         var material = Material.Create("code1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None);
 
         material.IsFailure.Should().Be(true);
-        material.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
+        material.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidSubassembliesType);
     }
     
     [Theory]
@@ -38,7 +38,7 @@ public class MaterialTests
         var material = Material.Create(code, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida);
 
         material.IsFailure.Should().Be(true);
-        material.Error.Should().Be(DomainErrors.Material.EmptyCode);
+        material.Error.Should().Be(MaterialManagementDomainErrors.Material.EmptyCode);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class MaterialTests
         var result = material.Value.UpdateMaterial("code1", materialAttributes, MaterialType.Material, RegionalMarket.Florida);
         
         result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidMaterialType);
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class MaterialTests
         var result = material.Value.UpdateMaterial("code1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None);
         
         result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
+        result.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidSubassembliesType);
     }
     
     [Theory]
@@ -107,7 +107,7 @@ public class MaterialTests
         var result = material.Value.UpdateMaterial(code, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida);
 
         result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(DomainErrors.Material.EmptyCode);
+        result.Error.Should().Be(MaterialManagementDomainErrors.Material.EmptyCode);
     }
     
     [Fact]
@@ -184,7 +184,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateCost(materialCosts);
         result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(DomainErrors.MaterialCostManagement.DuplicationSupplierId(Guid.Empty));
+        result.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.DuplicationSupplierId(Guid.Empty));
     }
     
     [Fact]

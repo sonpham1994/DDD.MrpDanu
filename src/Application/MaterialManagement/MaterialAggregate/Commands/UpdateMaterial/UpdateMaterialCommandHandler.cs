@@ -27,7 +27,7 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
     {
         var material = await _materialRepository.GetByIdAsync(request.Id, cancellationToken);
         if (material is null)
-            return DomainErrors.Material.MaterialIdNotFound(request.Id);
+            return MaterialManagementDomainErrors.Material.MaterialIdNotFound(request.Id);
 
         var suppliers = await _transactionalPartnerRepository.GetByIdsAsync(request.MaterialCosts.Select(x => x.SupplierId).ToList(), cancellationToken);
 

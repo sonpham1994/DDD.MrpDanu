@@ -30,17 +30,17 @@ public class Address : ValueObject
         Country country)
     {
         if (string.IsNullOrEmpty(street) || string.IsNullOrWhiteSpace(street))
-            return DomainErrors.TransactionalPartner.EmptyAddressStreet;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressStreet;
         if (string.IsNullOrEmpty(city) || string.IsNullOrWhiteSpace(city))
-            return DomainErrors.TransactionalPartner.EmptyAddressCity;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressCity;
         if (string.IsNullOrEmpty(district) || string.IsNullOrWhiteSpace(district))
-            return DomainErrors.TransactionalPartner.EmptyAddressDistrict;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressDistrict;
         if (string.IsNullOrEmpty(ward) || string.IsNullOrWhiteSpace(ward))
-            return DomainErrors.TransactionalPartner.EmptyAddressWard;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressWard;
         if (string.IsNullOrEmpty(zipCode) || string.IsNullOrWhiteSpace(zipCode))
-            return DomainErrors.TransactionalPartner.EmptyAddressZipCode;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressZipCode;
         if (zipCode.Length != ZipCodeLength || !zipCode.All(char.IsDigit))
-            return DomainErrors.TransactionalPartner.InvalidAddressZipCode;
+            return MaterialManagementDomainErrors.TransactionalPartner.InvalidAddressZipCode;
 
         return new Address(street.Trim(), city.Trim(), district.Trim(), ward.Trim(), zipCode, country);
     }

@@ -41,7 +41,7 @@ public class CreateTransactionalPartnerTests
         var result = commandHandler.Handle(command, default).Result;
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
     }
     
     [Fact]

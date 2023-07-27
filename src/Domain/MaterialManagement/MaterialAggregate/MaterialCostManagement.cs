@@ -45,11 +45,11 @@ public class MaterialCostManagement : Entity
     {
         var existNullSupplier = suppliers.Any(x => x is null);
         if (existNullSupplier)
-            return DomainErrors.MaterialCostManagement.NullSupplier;
+            return MaterialManagementDomainErrors.MaterialCostManagement.NullSupplier;
 
         var transientSupplier = suppliers.FirstOrDefault(x => x.IsTransient());
         if (transientSupplier is not null)
-            return DomainErrors.TransactionalPartner.NotFoundId(transientSupplier.Id);
+            return MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(transientSupplier.Id);
 
         var isNotSupplier = suppliers.AnyFailure(x => x.IsSupplier());
         if (isNotSupplier.IsFailure)
@@ -61,18 +61,18 @@ public class MaterialCostManagement : Entity
         {
             var supplier = suppliers.FirstOrDefault(x => x.Id == supplierId);
             if (supplier is null)
-                return DomainErrors.TransactionalPartner.NotFoundId(supplierId);
+                return MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(supplierId);
 
             var priceResult = Money.Create(price, supplier.CurrencyType);
             if (priceResult.IsFailure)
-                return DomainErrors.MaterialCostManagement.InvalidPrice;
+                return MaterialManagementDomainErrors.MaterialCostManagement.InvalidPrice;
 
             var surchargeResult = Money.Create(surcharge, supplier.CurrencyType);
             if (surchargeResult.IsFailure)
-                return DomainErrors.MaterialCostManagement.InvalidSurcharge;
+                return MaterialManagementDomainErrors.MaterialCostManagement.InvalidSurcharge;
 
             if (minQuantity == 0)
-                return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
+                return MaterialManagementDomainErrors.MaterialCostManagement.InvalidMinQuantity;
 
             var materialCost = Create(priceResult.Value, minQuantity, surchargeResult.Value, supplier);
             if (materialCost.IsFailure)
@@ -87,7 +87,7 @@ public class MaterialCostManagement : Entity
     internal Result SetMaterialCost(Money price, uint minQuantity, Money surcharge)
     {
         if (minQuantity == 0)
-            return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
+            return MaterialManagementDomainErrors.MaterialCostManagement.InvalidMinQuantity;
         
         var validityResult = IsValidCurrency(price, surcharge, TransactionalPartner);
         if (validityResult.IsFailure)
@@ -109,7 +109,7 @@ public class MaterialCostManagement : Entity
         TransactionalPartner? supplier)
     {
         if (supplier is null)
-            return DomainErrors.TransactionalPartner.NotFound;
+            return MaterialManagementDomainErrors.TransactionalPartner.NotFound;
 
         var isSupplier = supplier.IsSupplier();
         if (isSupplier.IsFailure)
@@ -125,7 +125,7 @@ public class MaterialCostManagement : Entity
     private static Result IsValidCurrency(Money price, Money surcharge, TransactionalPartner supplier)
     {
         if (price.CurrencyType != supplier.CurrencyType || surcharge.CurrencyType != supplier.CurrencyType)
-            return DomainErrors.MaterialCostManagement
+            return MaterialManagementDomainErrors.MaterialCostManagement
                 .DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(price.CurrencyType.Name, surcharge.CurrencyType.Name, supplier.CurrencyType.Name);
 
         return Result.Success();

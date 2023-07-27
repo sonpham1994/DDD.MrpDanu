@@ -18,7 +18,7 @@ internal sealed class GetTransactionalPartnerByIdQueryHandler : IQueryHandler<Ge
         var transactionalPartner = await _transactionalPartnerQuery.GetTransactionalPartnerByIdAsync(request.Id, cancellationToken);
 
         if (transactionalPartner is null)
-            return DomainErrors.TransactionalPartner.NotFoundId(request.Id);
+            return MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(request.Id);
 
         return transactionalPartner;
     }

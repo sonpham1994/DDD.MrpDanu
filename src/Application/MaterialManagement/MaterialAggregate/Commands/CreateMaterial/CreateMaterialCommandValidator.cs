@@ -13,8 +13,8 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(DomainErrors.General.NullRequestBodyParameter.Code)
-            .WithMessage(DomainErrors.General.NullRequestBodyParameter.Message);
+            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
         RuleFor(x => x.MaterialCosts)
             .SetValidator(new MaterialCostsValidator())
             .When(x => x.MaterialCosts.Any());

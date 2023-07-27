@@ -87,20 +87,20 @@ public class MaterialAttributesTests
     
     public static IEnumerable<object[]> GetNullOrEmptyOfMandatoryProperties()
     {
-        yield return new object[] { "", "", "width1", "", "unit", "varian", true, DomainErrors.Material.EmptyName };
-        yield return new object[] { null, "", "width1", "", "unit", "varian", true, DomainErrors.Material.EmptyName };
-        yield return new object[] { " ", "", "width1", "", "unit", "varian", true, DomainErrors.Material.EmptyName };
+        yield return new object[] { "", "", "width1", "", "unit", "varian", true, MaterialManagementDomainErrors.Material.EmptyName };
+        yield return new object[] { null, "", "width1", "", "unit", "varian", true, MaterialManagementDomainErrors.Material.EmptyName };
+        yield return new object[] { " ", "", "width1", "", "unit", "varian", true, MaterialManagementDomainErrors.Material.EmptyName };
         
-        yield return new object[] { "name1", "", "", "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };
-        yield return new object[] { "name1", "", null, "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };
-        yield return new object[] { "name1", "", " ", "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };
+        yield return new object[] { "name1", "", "", "", "unit", "varian", true, MaterialManagementDomainErrors.Material.EmptyWidth };
+        yield return new object[] { "name1", "", null, "", "unit", "varian", true, MaterialManagementDomainErrors.Material.EmptyWidth };
+        yield return new object[] { "name1", "", " ", "", "unit", "varian", true, MaterialManagementDomainErrors.Material.EmptyWidth };
 
-        yield return new object[] { "name1", "", "width1", "", "", "varian", true, DomainErrors.Material.EmptyUnit };
-        yield return new object[] { "name1", "", "width1", "", null, "varian", true, DomainErrors.Material.EmptyUnit };
-        yield return new object[] { "name1", "", "width1", "", " ", "varian", true, DomainErrors.Material.EmptyUnit };
+        yield return new object[] { "name1", "", "width1", "", "", "varian", true, MaterialManagementDomainErrors.Material.EmptyUnit };
+        yield return new object[] { "name1", "", "width1", "", null, "varian", true, MaterialManagementDomainErrors.Material.EmptyUnit };
+        yield return new object[] { "name1", "", "width1", "", " ", "varian", true, MaterialManagementDomainErrors.Material.EmptyUnit };
 
-        yield return new object[] { "name1", "", "width1", "", "unit", "", true, DomainErrors.Material.EmptyVarian };
-        yield return new object[] { "name1", "", "width1", "", "unit", null, true, DomainErrors.Material.EmptyVarian };
-        yield return new object[] { "name1", "", "width1", "", "unit", " ", true, DomainErrors.Material.EmptyVarian };
+        yield return new object[] { "name1", "", "width1", "", "unit", "", true, MaterialManagementDomainErrors.Material.EmptyVarian };
+        yield return new object[] { "name1", "", "width1", "", "unit", null, true, MaterialManagementDomainErrors.Material.EmptyVarian };
+        yield return new object[] { "name1", "", "width1", "", "unit", " ", true, MaterialManagementDomainErrors.Material.EmptyVarian };
     }
 }

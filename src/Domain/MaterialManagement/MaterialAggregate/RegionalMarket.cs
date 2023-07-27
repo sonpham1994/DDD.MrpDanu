@@ -28,7 +28,7 @@ public class RegionalMarket : Enumeration<RegionalMarket>
         var result = Enumeration<RegionalMarket>.FromId(id);
 
         if (result.IsFailure)
-            return DomainErrors.RegionalMarket.NotFoundId(id);
+            return MaterialManagementDomainErrors.RegionalMarket.NotFoundId(id);
 
         return result;
     }

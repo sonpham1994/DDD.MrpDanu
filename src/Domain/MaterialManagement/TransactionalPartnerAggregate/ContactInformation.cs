@@ -27,7 +27,7 @@ public class ContactInformation : ValueObject
         
         if ((string.IsNullOrEmpty(telNo) || string.IsNullOrWhiteSpace(telNo)) 
             && (string.IsNullOrEmpty(email) || string.IsNullOrWhiteSpace(email)))
-            return DomainErrors.ContactPersonInformation.EmptyContact;
+            return MaterialManagementDomainErrors.ContactPersonInformation.EmptyContact;
 
         telNo = telNo.Trim();
         email = email.Trim();
@@ -35,19 +35,19 @@ public class ContactInformation : ValueObject
         if (!string.IsNullOrEmpty(telNo))
         {
             if (telNo.Length > TelNoMaxLength)
-                return DomainErrors.ContactPersonInformation.TelNoExceedsMaxLength;
+                return MaterialManagementDomainErrors.ContactPersonInformation.TelNoExceedsMaxLength;
 
             if (!telNo.All(char.IsDigit))
-                return DomainErrors.ContactPersonInformation.TelNoIsNotNumbers;
+                return MaterialManagementDomainErrors.ContactPersonInformation.TelNoIsNotNumbers;
         }
 
         if (!string.IsNullOrEmpty(email))
         {
             if (email.Length > EmailMaxLength)
-                return DomainErrors.ContactPersonInformation.EmailExceedsMaxLength;
+                return MaterialManagementDomainErrors.ContactPersonInformation.EmailExceedsMaxLength;
             
             if (!Regex.IsMatch(email, @"^(.+)@(.+)\.\w{2,}$"))
-                return DomainErrors.ContactPersonInformation.InvalidEmail;
+                return MaterialManagementDomainErrors.ContactPersonInformation.InvalidEmail;
         }
 
         return new ContactInformation(telNo, email);

@@ -16,7 +16,7 @@ public class LocationType : Enumeration<LocationType>
     {
         var result = Enumeration<LocationType>.FromId(id);
         if (result.IsFailure)
-            return DomainErrors.LocationType.NotFoundId(id);
+            return MaterialManagementDomainErrors.LocationType.NotFoundId(id);
 
         return result;
     }

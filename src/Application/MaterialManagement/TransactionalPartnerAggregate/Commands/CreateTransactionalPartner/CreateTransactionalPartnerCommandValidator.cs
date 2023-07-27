@@ -13,13 +13,13 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(DomainErrors.General.NullRequestBodyParameter.Code)
-            .WithMessage(DomainErrors.General.NullRequestBodyParameter.Message);
+            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
         
         RuleFor(x => x).MustBeEntity(x =>
         {
             if (x.Address is null)
-                return DomainErrors.TransactionalPartner.NullAddress;
+                return MaterialManagementDomainErrors.TransactionalPartner.NullAddress;
 
             var result1 = Result.Combine
             (

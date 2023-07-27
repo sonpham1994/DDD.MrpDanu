@@ -18,12 +18,12 @@ public class CompanyName : ValueObject
     public static Result<CompanyName> Create(string name)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            return DomainErrors.TransactionalPartner.EmptyName;
+            return MaterialManagementDomainErrors.TransactionalPartner.EmptyName;
 
         name = name.Trim();
 
         if (name.Length > CompanyNameMaxLength)
-            return DomainErrors.TransactionalPartner.TheLengthOfNameExceedsMaxLength;
+            return MaterialManagementDomainErrors.TransactionalPartner.TheLengthOfNameExceedsMaxLength;
 
         return new CompanyName(name);
     }

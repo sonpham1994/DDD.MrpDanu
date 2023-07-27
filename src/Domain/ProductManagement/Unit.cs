@@ -26,7 +26,7 @@ public class Unit : ValueObject
     public static Result<Unit> Create(decimal value)
     {
         if (value <= 0 || (!decimal.IsInteger(value) && !validUnitDecimals.Contains(value))) 
-            return DomainErrors.BoMRevisionMaterial.InvalidUnit;
+            return ProductManagementDomainErrors.BoMRevisionMaterial.InvalidUnit;
 
         return new Unit(value);
     }

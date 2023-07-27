@@ -14,7 +14,7 @@ public class ContactInformationTests
     {
         var result = ContactInformation.Create(telNo, email);
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmptyContact);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.EmptyContact);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class ContactInformationTests
     {
         var result = ContactInformation.Create("asdvv123aa", "abcxyz@gmail.com");
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoIsNotNumbers);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.TelNoIsNotNumbers);
     }
     
     [Fact]
@@ -32,7 +32,7 @@ public class ContactInformationTests
         var result = ContactInformation.Create("123456789", email);
         
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmailExceedsMaxLength);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.EmailExceedsMaxLength);
     }
     
     [Theory]
@@ -50,7 +50,7 @@ public class ContactInformationTests
         var result = ContactInformation.Create("123456789", email);
         
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.InvalidEmail);
+        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.InvalidEmail);
     }
 
     [Fact]

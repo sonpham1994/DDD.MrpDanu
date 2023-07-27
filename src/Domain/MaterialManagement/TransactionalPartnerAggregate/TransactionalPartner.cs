@@ -100,7 +100,7 @@ public class TransactionalPartner : AggregateRoot
         var isSupplier = TransactionalPartnerType.GetSupplierTypes().Any(x => x == TransactionalPartnerType);
 
         if (!isSupplier)
-            return DomainErrors.MaterialCostManagement.NotSupplier(Id);
+            return MaterialManagementDomainErrors.MaterialCostManagement.NotSupplier(Id);
 
         return Result.Success();
     }
@@ -130,7 +130,7 @@ public class TransactionalPartner : AggregateRoot
          */
         if (address.Country == Country.VietNam 
             && currency != CurrencyType.VND)
-            return DomainErrors.TransactionalPartner.InvalidCurrencyType;
+            return MaterialManagementDomainErrors.TransactionalPartner.InvalidCurrencyType;
 
         return Result.Success();
     }
@@ -144,7 +144,7 @@ public class TransactionalPartner : AggregateRoot
          */
         if ((address.Country != Country.VietNam && location == LocationType.Domestic)
             || (address.Country == Country.VietNam && location == LocationType.Oversea))
-            return DomainErrors.TransactionalPartner.InvalidCountryAndLocationType;
+            return MaterialManagementDomainErrors.TransactionalPartner.InvalidCountryAndLocationType;
 
         return Result.Success();
     }

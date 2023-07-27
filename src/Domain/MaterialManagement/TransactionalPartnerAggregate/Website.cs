@@ -19,7 +19,7 @@ public class Website : ValueObject
 
         value = value.Trim();
         if (!Regex.IsMatch(value, @"^http:\/\/(.+)\.\w{2,}$|https:\/\/(.+)\.\w{2,}$"))
-            return DomainErrors.TransactionalPartner.InvalidWebsite(value);
+            return MaterialManagementDomainErrors.TransactionalPartner.InvalidWebsite(value);
 
         return new Website(value);
     }

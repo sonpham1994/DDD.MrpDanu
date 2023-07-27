@@ -20,7 +20,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
         var result = Enumeration<TransactionalPartnerType>.FromId(id);
 
         if (result.IsFailure)
-            return DomainErrors.TransactionalPartnerType.NotFoundId(id);
+            return MaterialManagementDomainErrors.TransactionalPartnerType.NotFoundId(id);
 
         return result;
     }

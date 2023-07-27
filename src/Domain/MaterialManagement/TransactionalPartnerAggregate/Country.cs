@@ -25,7 +25,7 @@ public class Country : Enumeration<Country>
     {
         var result = Enumeration<Country>.FromId(id);
         if (result.IsFailure)
-            return DomainErrors.Country.NotFoundId(id);
+            return MaterialManagementDomainErrors.Country.NotFoundId(id);
 
         return result;
     }

@@ -18,12 +18,12 @@ public class PersonName : ValueObject
     public static Result<PersonName> Create(string name)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            return DomainErrors.ContactPersonInformation.EmptyName;
+            return MaterialManagementDomainErrors.ContactPersonInformation.EmptyName;
 
         name = name.Trim();
 
         if (name.Length > PersonNameMaxLength)
-            return DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength;
+            return MaterialManagementDomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength;
 
         return new PersonName(name);
     }
