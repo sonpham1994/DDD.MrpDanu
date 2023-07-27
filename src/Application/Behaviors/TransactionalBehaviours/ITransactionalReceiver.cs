@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Application.Behaviors.TransactionalBehaviours;
 
-public interface ITransactionalReceiver
+internal interface ITransactionalReceiver
 { 
     Task<IResult> HandleAsync();
 }

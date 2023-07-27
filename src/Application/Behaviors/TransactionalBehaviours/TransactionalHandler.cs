@@ -6,7 +6,7 @@ public sealed class TransactionalHandler
 {
     private readonly ITransactionalReceiver[] _transactionalReceivers;
 
-    public TransactionalHandler(params ITransactionalReceiver[] transactionalReceivers)
+    internal TransactionalHandler(params ITransactionalReceiver[] transactionalReceivers)
     {
         _transactionalReceivers = transactionalReceivers;
     }
