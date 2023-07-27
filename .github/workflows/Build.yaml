@@ -44,7 +44,7 @@ jobs:
       run: dotnet publish ./src/Web -c ${{ env.BUILD_CONFIG }} -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
       
     - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: .ddd-mrp-app
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp
