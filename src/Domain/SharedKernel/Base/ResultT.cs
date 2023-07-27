@@ -19,6 +19,9 @@ public readonly struct Result<T> : IResult<T>
 
     internal Result(bool isFailure, DomainError error, T value)
     {
+        if (isFailure && error.IsEmpty())
+            throw new DomainException(new DomainError("SafeFail", "DomainError cannot null if process is fail"));
+        
         IsFailure = isFailure;
         _error = error;
         _value = value;

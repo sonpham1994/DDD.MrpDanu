@@ -15,7 +15,7 @@ public readonly struct DomainError : IEquatable<DomainError>
 
     public bool IsEmpty()
     {
-        return this == Empty;
+        return this == Empty || Code is null;
     }
 
     public override bool Equals(object? obj)
