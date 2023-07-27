@@ -52,6 +52,6 @@ internal sealed class MaterialAudit : EntityAudit
             return Result.Success();
         }
 
-        return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name);
+        return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name);
     }
 }

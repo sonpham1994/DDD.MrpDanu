@@ -43,7 +43,7 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
         };
 
         if (state == None)
-            return DomainErrors.AuditData.InvalidStateAuditData(entityState.ToString());
+            return InfrastructureDomainErrors.AuditData.InvalidStateAuditData(entityState.ToString());
 
         return state;
     }

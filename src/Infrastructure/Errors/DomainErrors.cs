@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Infrastructure.Errors;
 
-internal sealed class DomainErrors
+internal sealed class InfrastructureDomainErrors
 {
     public static class AuditData
     {

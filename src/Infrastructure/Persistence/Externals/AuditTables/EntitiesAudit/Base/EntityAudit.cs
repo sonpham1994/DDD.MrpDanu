@@ -22,7 +22,7 @@ internal abstract class EntityAudit
         var result = typeName switch
         {
             nameof(Material) => new MaterialAudit(),
-            _ => throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(typeName))
+            _ => throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(typeName))
         };
 
         return result;

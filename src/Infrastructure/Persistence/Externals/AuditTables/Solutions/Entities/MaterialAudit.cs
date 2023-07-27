@@ -102,7 +102,7 @@ internal sealed class MaterialAudit : MaterialForLutionAudit, IAuditTableForSolu
             return (id, json);
         }
 
-        return Result.Failure(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(obj.GetType().Name));
+        return Result.Failure(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(obj.GetType().Name));
     }
 }
 
@@ -148,6 +148,6 @@ internal sealed class MaterialAuditForSolution2_1 : AuditTableForSolution2_1
             return this;
         }
 
-        return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(obj.GetType().Name);
+        return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(obj.GetType().Name);
     }
 }

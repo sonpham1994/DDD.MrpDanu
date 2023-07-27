@@ -63,7 +63,7 @@ internal sealed class MaterialAuditFactory
         }
         else
         {
-            return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
+            return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
         }
 
         return auditTable;
@@ -74,7 +74,7 @@ internal sealed class MaterialAuditFactory
         var auditType = typeof(MaterialAudit);
         var isMaterialAuditType = auditType.IsSubclassOf(entityEntry.Entity.GetUnproxiedType());
         if (!isMaterialAuditType)
-            return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
+            return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
 
         AuditTable auditTable = null;
         var state = StateAuditTable.FromEntityState(entityEntry.State);
@@ -97,7 +97,7 @@ internal sealed class MaterialAuditFactory
         }
         else
         {
-            return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
+            return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
         }
 
         return auditTable;
@@ -125,7 +125,7 @@ internal sealed class MaterialAuditFactory
         }
         else
         {
-            return DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
+            return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
         }
 
         return auditTable;

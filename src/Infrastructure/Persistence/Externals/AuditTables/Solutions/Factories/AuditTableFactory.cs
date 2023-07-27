@@ -34,13 +34,13 @@ internal sealed class AuditTableFactory
         {
             var result = MaterialAuditFactory.CreateForSolution1(entityEntry);
             if (result.IsFailure)
-                throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
+                throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
 
             auditTable = result.Value;
         }
         else
         {
-            throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
+            throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
         }
 
         return auditTable;
@@ -50,7 +50,7 @@ internal sealed class AuditTableFactory
     {
         var result = MaterialAuditFactory.CreateForSolution2(entityEntry);
         if (result.IsFailure)
-            throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
+            throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
 
         return result.Value;
     }
@@ -81,7 +81,7 @@ internal sealed class AuditTableFactory
             AuditTableForSolution2_1 audit = typeName switch
             {
                 nameof(MaterialAuditForSolution2_1) => new MaterialAuditForSolution2_1(),
-                _ => throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name))
+                _ => throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name))
             };
 
             var materialAudit = audit.Serialize(entityEntry.Entity);
@@ -99,7 +99,7 @@ internal sealed class AuditTableFactory
 
         if (result is null)
         {
-            throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
+            throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
         }
 
 
@@ -110,7 +110,7 @@ internal sealed class AuditTableFactory
     {
         var result = MaterialAuditFactory.CreateForSolution3(entityEntry);
         if (result.IsFailure)
-            throw new DomainException(DomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
+            throw new DomainException(InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetUnproxiedType().Name));
 
         return result.Value;
     }
