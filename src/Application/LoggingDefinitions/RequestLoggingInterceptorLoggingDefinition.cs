@@ -1,6 +1,7 @@
 using Application.Extensions;
 using Application.Helpers;
 using Domain.SharedKernel.Base;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Application.LoggingDefinitions;
@@ -30,9 +31,9 @@ internal static class RequestLoggingInterceptorLoggingDefinition
         LoggerMessage.Define<string, string, Result, DateTime>(LogLevel.Information, 0,
             "----- TraceId: {TraceId} - Completed request: {RequestName} - Response: {@Response} - Time: {@DateTimeUtc}");
 
-    public static void StartRequest(this ILogger logger, object request)
+    public static void StartRequest<TRequest>(this ILogger logger, TRequest request)
     {
-        var requestTypeName = request.GetGenericTypeName();
+        var requestTypeName = typeof(TRequest).Name;
         string traceId = Helper.GetTraceId();
         
         StartRequestLoggingDefinition(logger, traceId, requestTypeName, request, DateTime.UtcNow, null);

@@ -21,9 +21,9 @@ internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
 
     protected async Task<TResponse> HandleRequest(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var typeName = request?.GetGenericTypeName();
-        
-        _logger.StartValidation(typeName);
+        var requestTypeName = typeof(TRequest).Name;
+
+        _logger.StartValidation(requestTypeName);
         
         IReadOnlyList<DomainError> domainErrors = _validators
             .Select(x => x.Validate(request))
@@ -33,7 +33,7 @@ internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
         
         if (domainErrors.Count > 0)
         {
-            _logger.ValidateFailure(typeName, domainErrors);
+            _logger.ValidateFailure(requestTypeName, domainErrors);
             
             IResult result = Result.Failure(domainErrors[0]);
             
@@ -44,7 +44,7 @@ internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
             //throw new DomainException(domainErrors);
         }
         
-        _logger.CompletedValidation(typeName);
+        _logger.CompletedValidation(requestTypeName);
 
         var response = await next();
 

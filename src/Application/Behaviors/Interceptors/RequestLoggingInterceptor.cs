@@ -16,8 +16,8 @@ internal sealed class RequestLoggingInterceptor<TRequest, TResponse> : IPipeline
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var requestTypeName = request.GetGenericTypeName();
-        
+        var requestTypeName = typeof(TRequest).Name;
+
         _logger.StartRequest(request);
         
         var response = await next();
