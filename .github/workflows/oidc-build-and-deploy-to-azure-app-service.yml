@@ -58,7 +58,6 @@ jobs:
     env: 
       BUILD_CONFIG: Release
       DOT_NET_VERSION: 7.0.x
-    environment: Production
     needs: build
 
     steps:
