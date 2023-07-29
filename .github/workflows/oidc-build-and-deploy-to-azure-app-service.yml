@@ -62,11 +62,6 @@ jobs:
     needs: build
 
     steps:
-     
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .ddd-mrp-app
       
       - name: OIDC Login to Azure Public Cloud
         uses: azure/login@v1.4.6
@@ -80,6 +75,11 @@ jobs:
           az account show
           az group list
           pwd 
+      
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .ddd-mrp-app
       
       - name: Deploy
         uses: azure/webapps-deploy@v2
