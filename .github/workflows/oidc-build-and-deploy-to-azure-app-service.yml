@@ -1,0 +1,92 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: 'Build and deploy to DDD.MRP App service'
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  AZURE_WEBAPP_NAME: dddmrp
+  
+permissions:
+  id-token: write
+  contents: read
+
+
+jobs:
+  build:
+    env: 
+      BUILD_CONFIG: Release
+      DOT_NET_VERSION: 7.0.x
+      
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOT_NET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
+      
+    - name: Publish
+      run: dotnet publish ./src/Web -c ${{ env.BUILD_CONFIG }} -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
+      
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: .ddd-mrp-app
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp
+        
+  deploy-to-azure:
+    runs-on: ubuntu-latest
+    env: 
+      BUILD_CONFIG: Release
+      DOT_NET_VERSION: 7.0.x
+    environment: Production
+    needs: build
+
+    steps:
+     
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .ddd-mrp-app
+      
+      - name: OIDC Login to Azure Public Cloud
+        uses: azure/login@v1.4.6
+        with:
+          client-id: 3b4184c8-203b-4334-b68e-3007585ac372
+          tenant-id: 131b0c86-27ed-483d-a9b5-7ecc09c99b42
+          subscription-id: c71d42ed-9b85-48a0-a347-6f4be0986feb
+        
+      - name: 'Run Azure CLI commands'
+        run: |
+          az account show
+          az group list
+          pwd 
+      
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: ${{ env.SLOT_NAME }}
+          publish-profile: '${{ secrets.PRODUCTION_AZURE_WEB_APP }}'
+          package: .
+        env:
+          SLOT_NAME: 'Production'
