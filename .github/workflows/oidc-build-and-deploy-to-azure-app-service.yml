@@ -59,6 +59,7 @@ jobs:
       BUILD_CONFIG: Release
       DOT_NET_VERSION: 7.0.x
     needs: build
+    environment: Production
 
     steps:
       
