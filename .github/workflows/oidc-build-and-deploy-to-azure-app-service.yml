@@ -37,14 +37,14 @@ jobs:
         
     - name: Restore dependencies
       run: |
-        dotnet restore ./src/web
+        dotnet restore ./src/Web
         dotnet restore ./Tests/Application.Tests
         dotnet restore ./Tests/Architecture.Tests
         dotnet restore ./Tests/Domain.Tests
       
     - name: Build
       run: |
-        dotnet build ./src/web --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+        dotnet build ./src/Web --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Application.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Architecture.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Domain.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
