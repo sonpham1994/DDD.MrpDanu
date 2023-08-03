@@ -50,5 +50,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"sonpham1994_DDD.MrpDanu" /o:"sonpham1994" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER=1 dotnet build ./src/Web --configuration Release
+            dotnet build ./src/Web
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
