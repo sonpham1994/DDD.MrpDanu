@@ -36,10 +36,18 @@ jobs:
         dotnet-version: ${{ env.DOT_NET_VERSION }}
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        dotnet restore ./src/web
+        dotnet restore ./Tests/Application.Tests
+        dotnet restore ./Tests/Architecture.Tests
+        dotnet restore ./Tests/Domain.Tests
       
     - name: Build
-      run: dotnet build --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+      run: |
+        dotnet build ./src/web --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+        dotnet build ./Tests/Application.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+        dotnet build ./Tests/Architecture.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+        dotnet build ./Tests/Domain.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
       
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
