@@ -49,6 +49,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"sonpham1994_DDD.MrpDanu" /o:"sonpham1994" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner\5.13.0\dotnet-sonarscanner\5.13.0\tools\net7.0 begin /k:"sonpham1994_DDD.MrpDanu" /o:"sonpham1994" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
             dotnet build ./src/Web
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner\5.13.0\dotnet-sonarscanner\5.13.0\tools\net7.0 end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
