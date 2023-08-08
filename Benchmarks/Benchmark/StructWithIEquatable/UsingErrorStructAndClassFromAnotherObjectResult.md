@@ -24,3 +24,6 @@
 |                        MethodErrorStructWithIEquatableTwice |  0.1558 ns | 0.0953 ns | 0.2811 ns |  0.0000 ns |      - |         - |
 |                                     PropertyErrorClassTwice | 32.6231 ns | 0.7317 ns | 1.6062 ns | 31.9675 ns | 0.0204 |      64 B |
 |                                       MethodErrorClassTwice | 31.9819 ns | 0.6581 ns | 1.0996 ns | 31.8982 ns | 0.0204 |      64 B |
+
+## Although PropertyWithAssigningErrorStruct and PropertyWithAssigningReadonlyErrorStruct don't allocate memory. In fact,
+they allocate memory, please check by using Rider and check at memory tab.
