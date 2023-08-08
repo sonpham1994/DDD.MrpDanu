@@ -1,14 +1,18 @@
-﻿|                                 Method |       Mean |     Error |    StdDev |     Median |   Gen0 | Allocated |
-|--------------------------------------- |-----------:|----------:|----------:|-----------:|-------:|----------:|
-|                    PropertyErrorStruct |  0.0593 ns | 0.0496 ns | 0.1456 ns |  0.0000 ns |      - |         - |
-|                      MethodErrorStruct |  0.0145 ns | 0.0279 ns | 0.0343 ns |  0.0000 ns |      - |         - |
-|      PropertyErrorStructWithIEquatable |  2.3509 ns | 0.0839 ns | 0.0824 ns |  2.3433 ns |      - |         - |
-|        MethodErrorStructWithIEquatable |  0.1554 ns | 0.0736 ns | 0.1553 ns |  0.1290 ns |      - |         - |
-|                     PropertyErrorClass | 14.7844 ns | 1.3289 ns | 3.9184 ns | 15.9223 ns | 0.0102 |      32 B |
-|                       MethodErrorClass | 14.2576 ns | 1.3649 ns | 3.9597 ns | 15.5109 ns | 0.0102 |      32 B |
-|               PropertyErrorStructTwice |  0.0068 ns | 0.0165 ns | 0.0177 ns |  0.0000 ns |      - |         - |
-|                 MethodErrorStructTwice |  0.0857 ns | 0.0518 ns | 0.1526 ns |  0.0000 ns |      - |         - |
-| PropertyErrorStructWithIEquatableTwice |  1.3454 ns | 0.3118 ns | 0.9195 ns |  1.9509 ns |      - |         - |
-|   MethodErrorStructWithIEquatableTwice |  0.0048 ns | 0.0103 ns | 0.0091 ns |  0.0000 ns |      - |         - |
-|                PropertyErrorClassTwice | 35.8634 ns | 3.1345 ns | 9.0937 ns | 37.4391 ns | 0.0204 |      64 B |
-|                  MethodErrorClassTwice | 38.1713 ns | 1.4661 ns | 4.2997 ns | 37.5737 ns | 0.0204 |      64 B |
+﻿|                                              Method |       Mean |     Error |    StdDev |     Median |   Gen0 | Allocated |
+|---------------------------------------------------- |-----------:|----------:|----------:|-----------:|-------:|----------:|
+|                                 PropertyErrorStruct |  0.0000 ns | 0.0000 ns | 0.0000 ns |  0.0000 ns |      - |         - |
+|                    PropertyWithAssigningErrorStruct |  0.0217 ns | 0.0038 ns | 0.0031 ns |  0.0207 ns |      - |         - |
+|                                   MethodErrorStruct |  0.0000 ns | 0.0000 ns | 0.0000 ns |  0.0000 ns |      - |         - |
+|                   PropertyErrorStructWithIEquatable |  0.0000 ns | 0.0000 ns | 0.0000 ns |  0.0000 ns |      - |         - |
+|      PropertyErrorWithAssigningStructWithIEquatable |  0.0240 ns | 0.0043 ns | 0.0033 ns |  0.0229 ns |      - |         - |
+|                     MethodErrorStructWithIEquatable |  0.0243 ns | 0.0290 ns | 0.0387 ns |  0.0000 ns |      - |         - |
+|                                  PropertyErrorClass | 12.6825 ns | 0.4085 ns | 1.1388 ns | 12.4379 ns | 0.0076 |      32 B |
+|                                    MethodErrorClass | 11.4564 ns | 0.1556 ns | 0.1299 ns | 11.3922 ns | 0.0076 |      32 B |
+|                            PropertyErrorStructTwice |  0.0214 ns | 0.0032 ns | 0.0028 ns |  0.0202 ns |      - |         - |
+|               PropertyWithAssigningErrorStructTwice |  0.0566 ns | 0.0310 ns | 0.0305 ns |  0.0568 ns |      - |         - |
+|                              MethodErrorStructTwice |  0.0086 ns | 0.0281 ns | 0.0234 ns |  0.0000 ns |      - |         - |
+|              PropertyErrorStructWithIEquatableTwice |  0.0459 ns | 0.0349 ns | 0.0309 ns |  0.0339 ns |      - |         - |
+| PropertyErrorWithAssigningStructWithIEquatableTwice |  0.0281 ns | 0.0375 ns | 0.0351 ns |  0.0219 ns |      - |         - |
+|                MethodErrorStructWithIEquatableTwice |  0.0730 ns | 0.0338 ns | 0.0316 ns |  0.0758 ns |      - |         - |
+|                             PropertyErrorClassTwice | 24.2037 ns | 0.5323 ns | 1.5101 ns | 23.6582 ns | 0.0153 |      64 B |
+|                               MethodErrorClassTwice | 23.1726 ns | 0.0786 ns | 0.0697 ns | 23.1821 ns | 0.0153 |      64 B |

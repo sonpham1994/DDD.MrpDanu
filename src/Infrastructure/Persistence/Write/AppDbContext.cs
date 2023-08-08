@@ -60,6 +60,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
                 //Interceptor: https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
                 //https://devblogs.microsoft.com/dotnet/announcing-ef7-preview7-entity-framework/
                 .AddInterceptors(_loggingDbCommandInterceptor);

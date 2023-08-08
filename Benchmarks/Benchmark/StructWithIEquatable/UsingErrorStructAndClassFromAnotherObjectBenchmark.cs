@@ -15,6 +15,12 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     {
         var a = ErrorDefinitionStruct.PropertyErrorStruct;
     }
+    
+    [Benchmark]
+    public void PropertyWithAssigningErrorStruct()
+    {
+        var a = ErrorDefinitionStruct.PropertyWithAssigningErrorStruct;
+    }
 
     [Benchmark]
     public void MethodErrorStruct()
@@ -26,6 +32,12 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     public void PropertyErrorStructWithIEquatable()
     {
         var a = ErrorDefinitionStruct.PropertyErrorStructWithIEquatable;
+    }
+    
+    [Benchmark]
+    public void PropertyErrorWithAssigningStructWithIEquatable()
+    {
+        var a = ErrorDefinitionStruct.PropertyErrorWithAssigningStructWithIEquatable;
     }
 
     [Benchmark]
@@ -53,6 +65,13 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
         var a = ErrorDefinitionStruct.PropertyErrorStruct;
         var b = ErrorDefinitionStruct.PropertyErrorStruct;
     }
+    
+    [Benchmark]
+    public void PropertyWithAssigningErrorStructTwice()
+    {
+        var a = ErrorDefinitionStruct.PropertyWithAssigningErrorStruct;
+        var b = ErrorDefinitionStruct.PropertyWithAssigningErrorStruct;
+    }
 
     [Benchmark]
     public void MethodErrorStructTwice()
@@ -66,6 +85,13 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     {
         var a = ErrorDefinitionStruct.PropertyErrorStructWithIEquatable;
         var b = ErrorDefinitionStruct.PropertyErrorStructWithIEquatable;
+    }
+    
+    [Benchmark]
+    public void PropertyErrorWithAssigningStructWithIEquatableTwice()
+    {
+        var a = ErrorDefinitionStruct.PropertyErrorWithAssigningStructWithIEquatable;
+        var b = ErrorDefinitionStruct.PropertyErrorWithAssigningStructWithIEquatable;
     }
 
     [Benchmark]
