@@ -23,6 +23,24 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     }
 
     [Benchmark]
+    public void PropertyWithAssigningReadonlyErrorStruct()
+    {
+        var a = ErrorDefinitionStruct.PropertyWithAssigningReadonlyErrorStruct;
+    }
+
+    [Benchmark]
+    public void ConstInt()
+    {
+        var a = ErrorDefinitionStruct.ConstInt;
+    }
+
+    [Benchmark]
+    public void StaticReadonlyInt()
+    {
+        var a = ErrorDefinitionStruct.StaticReadonlytInt;
+    }
+
+    [Benchmark]
     public void MethodErrorStruct()
     {
         var a = ErrorDefinitionStruct.MethodErrorStruct();
@@ -38,6 +56,12 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     public void PropertyErrorWithAssigningStructWithIEquatable()
     {
         var a = ErrorDefinitionStruct.PropertyErrorWithAssigningStructWithIEquatable;
+    }
+
+    [Benchmark]
+    public void PropertyErrorWithAssigningReadonlyStructWithIEquatable()
+    {
+        var a = ErrorDefinitionStruct.PropertyErrorWithAssigningReadonlyStructWithIEquatable;
     }
 
     [Benchmark]
@@ -74,6 +98,27 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     }
 
     [Benchmark]
+    public void PropertyWithAssigningReadonlyErrorStructTwice()
+    {
+        var a = ErrorDefinitionStruct.PropertyWithAssigningReadonlyErrorStruct;
+        var b = ErrorDefinitionStruct.PropertyWithAssigningReadonlyErrorStruct;
+    }
+
+    [Benchmark]
+    public void ConstIntTwice()
+    {
+        var a = ErrorDefinitionStruct.ConstInt;
+        var b = ErrorDefinitionStruct.ConstInt;
+    }
+
+    [Benchmark]
+    public void StaticReadonlyIntTwice()
+    {
+        var a = ErrorDefinitionStruct.StaticReadonlytInt;
+        var b = ErrorDefinitionStruct.StaticReadonlytInt;
+    }
+
+    [Benchmark]
     public void MethodErrorStructTwice()
     {
         var a = ErrorDefinitionStruct.MethodErrorStruct();
@@ -92,6 +137,13 @@ public class UsingErrorStructAndClassFromAnotherObjectBenchmark
     {
         var a = ErrorDefinitionStruct.PropertyErrorWithAssigningStructWithIEquatable;
         var b = ErrorDefinitionStruct.PropertyErrorWithAssigningStructWithIEquatable;
+    }
+
+    [Benchmark]
+    public void PropertyErrorWithAssigningReadonlyStructWithIEquatableTwice()
+    {
+        var a = ErrorDefinitionStruct.PropertyErrorWithAssigningReadonlyStructWithIEquatable;
+        var b = ErrorDefinitionStruct.PropertyErrorWithAssigningReadonlyStructWithIEquatable;
     }
 
     [Benchmark]
