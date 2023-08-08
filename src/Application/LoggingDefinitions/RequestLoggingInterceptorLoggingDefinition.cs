@@ -39,7 +39,7 @@ internal static class RequestLoggingInterceptorLoggingDefinition
         StartRequestLoggingDefinition(logger, traceId, requestTypeName, request, DateTime.UtcNow, null);
     }
     
-    public static void CompletedRequest<T>(this ILogger logger, T response, string requestTypeName)
+    public static void CompletedRequest<T>(this ILogger logger, in T response, string requestTypeName)
     {
         string traceId = Helper.GetTraceId();
         //Result is struct, so we need to prevent boxing

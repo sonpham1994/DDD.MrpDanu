@@ -38,7 +38,7 @@ internal static class HandlerLoggingInterceptorLoggingDefinition
             CompletedLongHandlerLoggingDefinition(logger, traceId, handlerName, requestTypeName, DateTime.UtcNow, milliseconds, null);
     }
     
-    public static void HandleFailure(this ILogger logger, string handlerName, string requestTypeName, DomainError error, double milliseconds)
+    public static void HandleFailure(this ILogger logger, string handlerName, string requestTypeName, in DomainError error, double milliseconds)
     {
         string traceId = Helper.GetTraceId();
         HandleFailureLoggingDefinition(logger, traceId, handlerName, requestTypeName, error, DateTime.UtcNow, milliseconds, null);

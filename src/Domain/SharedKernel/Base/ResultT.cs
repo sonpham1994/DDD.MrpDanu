@@ -17,7 +17,7 @@ public readonly struct Result<T> : IResult<T>
         : throw new DomainException(new DomainError($"FailSafe.{_error.Code}"
             , $"Should check failure for {_error.Code} before executing operation."));
 
-    internal Result(bool isFailure, DomainError error, T value)
+    internal Result(bool isFailure, in DomainError error, T value)
     {
         if (isFailure && error.IsEmpty())
             throw new DomainException(new DomainError("SafeFail", "DomainError cannot null if process is fail"));
@@ -32,7 +32,7 @@ public readonly struct Result<T> : IResult<T>
         return Result.Success(value);
     }
     
-    public static implicit operator Result(Result<T> result)
+    public static implicit operator Result(in Result<T> result)
     {
         if (result.IsSuccess)
             return Result.Success();
@@ -40,12 +40,12 @@ public readonly struct Result<T> : IResult<T>
             return Result.Failure(result.Error);
     }
 
-    public static implicit operator Result<T>(DomainError domainError)
+    public static implicit operator Result<T>(in DomainError domainError)
     {
         return new Result<T>(true, domainError, default);
     }
 
-    public static implicit operator Result<T?>(Result result)
+    public static implicit operator Result<T?>(in Result result)
     {
         return new Result<T?>(result.IsFailure, result.Error, default);
     }

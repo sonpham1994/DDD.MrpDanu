@@ -11,7 +11,7 @@ public readonly struct Result : IResult
     private readonly DomainError _error = DomainError.Empty;
     public DomainError Error => _error;
 
-    private Result(bool isFailure, DomainError error)
+    private Result(bool isFailure, in DomainError error)
     {
         if (isFailure && error.IsEmpty())
             throw new DomainException(new DomainError("SafeFail", "DomainError cannot null if process is fail"));
@@ -30,18 +30,19 @@ public readonly struct Result : IResult
         return new Result<T>(false, DomainError.Empty, value);
     }
 
-    public static Result Failure(DomainError error)
+    public static Result Failure(in DomainError error)
     {
         return new Result(true, error);
     }
 
-    public static implicit operator Result(DomainError domainError)
+    public static implicit operator Result(in DomainError domainError)
     {
         return Failure(domainError);
     }
     
-    public static Result<(T1, T2)> Combine<T1, T2>(Result<T1> result1, 
-        Result<T2> result2)
+    public static Result<(T1, T2)> Combine<T1, T2>(
+        in Result<T1> result1, 
+        in Result<T2> result2)
     {
         if (result1.IsFailure)
             return result1.Error;
@@ -52,9 +53,10 @@ public readonly struct Result : IResult
         return Success((result1.Value, result2.Value));
     }
     
-    public static Result<(T1, T2, T3)> Combine<T1, T2, T3>(Result<T1> result1, 
-        Result<T2> result2,
-        Result<T3> result3)
+    public static Result<(T1, T2, T3)> Combine<T1, T2, T3>(
+        in Result<T1> result1, 
+        in Result<T2> result2,
+        in Result<T3> result3)
     {
         var result = Combine(result1, result2);
         if (result.IsFailure)
@@ -66,10 +68,11 @@ public readonly struct Result : IResult
         return Success((result1.Value, result2.Value, result3.Value));
     }
     
-    public static Result<(T1, T2, T3, T4)> Combine<T1, T2, T3, T4>(Result<T1> result1, 
-        Result<T2> result2,
-        Result<T3> result3,
-        Result<T4> result4)
+    public static Result<(T1, T2, T3, T4)> Combine<T1, T2, T3, T4>(
+        in Result<T1> result1, 
+        in Result<T2> result2,
+        in Result<T3> result3,
+        in Result<T4> result4)
     {
         var result = Combine(result1, result2, result3);
         if (result.IsFailure)
@@ -81,11 +84,12 @@ public readonly struct Result : IResult
         return Success((result1.Value, result2.Value, result3.Value, result4.Value));
     }
     
-    public static Result<(T1, T2, T3, T4, T5)> Combine<T1, T2, T3, T4, T5>(Result<T1> result1, 
-        Result<T2> result2,
-        Result<T3> result3,
-        Result<T4> result4,
-        Result<T5> result5)
+    public static Result<(T1, T2, T3, T4, T5)> Combine<T1, T2, T3, T4, T5>(
+        in Result<T1> result1, 
+        in Result<T2> result2,
+        in Result<T3> result3,
+        in Result<T4> result4,
+        in Result<T5> result5)
     {
         var result = Combine(result1, result2, result3, result4);
         if (result.IsFailure)
@@ -97,12 +101,13 @@ public readonly struct Result : IResult
         return Success((result1.Value, result2.Value, result3.Value, result4.Value, result5.Value));
     }
     
-    public static Result<(T1, T2, T3, T4, T5, T6)> Combine<T1, T2, T3, T4, T5, T6>(Result<T1> result1, 
-        Result<T2> result2,
-        Result<T3> result3,
-        Result<T4> result4,
-        Result<T5> result5,
-        Result<T6> result6)
+    public static Result<(T1, T2, T3, T4, T5, T6)> Combine<T1, T2, T3, T4, T5, T6>(
+        in Result<T1> result1, 
+        in Result<T2> result2,
+        in Result<T3> result3,
+        in Result<T4> result4,
+        in Result<T5> result5,
+        in Result<T6> result6)
     {
         var result = Combine(result1, result2, result3, result4, result5);
         if (result.IsFailure)
@@ -114,13 +119,14 @@ public readonly struct Result : IResult
         return Success((result1.Value, result2.Value, result3.Value, result4.Value, result5.Value, result6.Value));
     }
     
-    public static Result<(T1, T2, T3, T4, T5, T6, T7)> Combine<T1, T2, T3, T4, T5, T6, T7>(Result<T1> result1, 
-        Result<T2> result2,
-        Result<T3> result3,
-        Result<T4> result4,
-        Result<T5> result5,
-        Result<T6> result6,
-        Result<T7> result7)
+    public static Result<(T1, T2, T3, T4, T5, T6, T7)> Combine<T1, T2, T3, T4, T5, T6, T7>(
+        in Result<T1> result1, 
+        in Result<T2> result2,
+        in Result<T3> result3,
+        in Result<T4> result4,
+        in Result<T5> result5,
+        in Result<T6> result6,
+        in Result<T7> result7)
     {
         var result = Combine(result1, result2, result3, result4, result5, result6);
         if (result.IsFailure)
@@ -132,14 +138,15 @@ public readonly struct Result : IResult
         return Success((result1.Value, result2.Value, result3.Value, result4.Value, result5.Value, result6.Value, result7.Value));
     }
     
-    public static Result<(T1, T2, T3, T4, T5, T6, T7, T8)> Combine<T1, T2, T3, T4, T5, T6, T7, T8>(Result<T1> result1, 
-        Result<T2> result2,
-        Result<T3> result3,
-        Result<T4> result4,
-        Result<T5> result5,
-        Result<T6> result6,
-        Result<T7> result7,
-        Result<T8> result8)
+    public static Result<(T1, T2, T3, T4, T5, T6, T7, T8)> Combine<T1, T2, T3, T4, T5, T6, T7, T8>(
+        in Result<T1> result1, 
+        in Result<T2> result2,
+        in Result<T3> result3,
+        in Result<T4> result4,
+        in Result<T5> result5,
+        in Result<T6> result6,
+        in Result<T7> result7,
+        in Result<T8> result8)
     {
         var result = Combine(result1, result2, result3, result4, result5, result6, result7);
         if (result.IsFailure)
