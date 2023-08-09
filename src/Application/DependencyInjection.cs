@@ -1,5 +1,6 @@
 using Application.Behaviors.Interceptors;
 using Application.Behaviors.TransactionalBehaviours;
+using Application.Behaviors.TransactionalBehaviours.Handlers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,26 +11,31 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediator()
-            .AddBehaviours();
+            .AddHandlers();
 
         return services;
     }
     
     private static IServiceCollection AddMediator(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ApplicationAssembly.Instance));
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(ApplicationAssembly.Instance)
+                .AddOpenBehavior(typeof(RequestLoggingInterceptor<,>))
+                .AddOpenBehavior(typeof(ValidatorInterceptor<,>))
+                .AddOpenBehavior(typeof(ValidatorResponseInterceptor<,>))
+                .AddOpenBehavior(typeof(TransactionalBehavior<,>))
+                .AddOpenBehavior(typeof(RequestLoggingInterceptor<,>))
+                .AddOpenBehavior(typeof(HandlerLoggingInterceptor<,>));
+        });
         
         return services;
     }
 
-    private static IServiceCollection AddBehaviours(this IServiceCollection services)
+    private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestLoggingInterceptor<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorInterceptor<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorResponseInterceptor<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionalBehavior<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(HandlerLoggingInterceptor<,>));
-        
+        services.AddScoped<AuditTableHandler>();
+
         return services;
     }
 }

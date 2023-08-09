@@ -29,18 +29,18 @@ internal static class HandlerLoggingInterceptorLoggingDefinition
         StartHandlerLoggingDefinition(logger, traceId, handlerName, requestTypeName, DateTime.UtcNow, null);
     }
     
-    public static void CompletedHandler(this ILogger logger, string handlerName, string requestTypeName, double milliseconds)
+    public static void CompletedHandler(this ILogger logger, string handlerName, string requestTypeName, double totalMilliseconds)
     {
         string traceId = Helper.GetTraceId();
-        if (milliseconds <= 2000)
-            CompletedHandlerLoggingDefinition(logger, traceId, handlerName, requestTypeName, DateTime.UtcNow, milliseconds, null);
+        if (totalMilliseconds <= 2000)
+            CompletedHandlerLoggingDefinition(logger, traceId, handlerName, requestTypeName, DateTime.UtcNow, totalMilliseconds, null);
         else
-            CompletedLongHandlerLoggingDefinition(logger, traceId, handlerName, requestTypeName, DateTime.UtcNow, milliseconds, null);
+            CompletedLongHandlerLoggingDefinition(logger, traceId, handlerName, requestTypeName, DateTime.UtcNow, totalMilliseconds, null);
     }
     
-    public static void HandleFailure(this ILogger logger, string handlerName, string requestTypeName, in DomainError error, double milliseconds)
+    public static void HandleFailure(this ILogger logger, string handlerName, string requestTypeName, in DomainError error, double totalMilliseconds)
     {
         string traceId = Helper.GetTraceId();
-        HandleFailureLoggingDefinition(logger, traceId, handlerName, requestTypeName, error, DateTime.UtcNow, milliseconds, null);
+        HandleFailureLoggingDefinition(logger, traceId, handlerName, requestTypeName, error, DateTime.UtcNow, totalMilliseconds, null);
     }
 }

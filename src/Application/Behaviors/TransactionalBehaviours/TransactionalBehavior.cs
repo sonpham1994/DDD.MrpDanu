@@ -16,15 +16,15 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
 {
     private readonly ILogger<TransactionalBehavior<TRequest, TResponse>> _logger;
     private readonly ITransaction _transaction;
-    private readonly IAuditTableService _auditTableService;
+    private readonly AuditTableHandler _auditTableHandler;
 
     public TransactionalBehavior(ILogger<TransactionalBehavior<TRequest, TResponse>> logger,
         ITransaction transaction,
-        IAuditTableService auditTableService)
+        AuditTableHandler auditTableHandler)
     {
         _logger = logger;
         _transaction = transaction;
-        _auditTableService = auditTableService;
+        _auditTableHandler = auditTableHandler;
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
@@ -35,7 +35,7 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
 
         var transactionalHandler = new TransactionalHandler(
             new RequestHandler<TResponse>(next), 
-            new AuditTableHandler(_auditTableService));
+            _auditTableHandler);
         var response = await _transaction.HandleAsync(transactionalHandler);
 
         _logger.CompletedTransactionalBehavior(requestName);

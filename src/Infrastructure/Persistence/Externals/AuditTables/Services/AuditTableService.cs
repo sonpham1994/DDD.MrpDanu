@@ -10,13 +10,12 @@ internal sealed class AuditTableService : IAuditTableService
 {
     private readonly ExternalDbContext _externalDbContext;
     private readonly AppDbContext _appDbContext;
-    private readonly ILogger<AuditTableService> _logger;
 
-    public AuditTableService(ExternalDbContext externalDbContext, AppDbContext appDbContext, ILogger<AuditTableService> logger)
+    public AuditTableService(ExternalDbContext externalDbContext, AppDbContext appDbContext)
     {
         _externalDbContext = externalDbContext;
         _appDbContext = appDbContext;
-        _logger = logger;
+        
     }
 
     public async Task<Result> LogChangesAsync()
@@ -25,10 +24,8 @@ internal sealed class AuditTableService : IAuditTableService
 
         if (_appDbContext.HasActiveTransaction && auditTables.Count > 0)
         {
-            _logger.StartLogAuditTable();
             await _externalDbContext.AuditTables.AddRangeAsync(auditTables);
             await _externalDbContext.SaveChangesAsync();
-            _logger.CompletedLogAuditTable();
         }
 
         return Result.Success();
