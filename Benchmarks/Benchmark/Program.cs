@@ -9,5 +9,5 @@ using Benchmark.PassStructAsObjectParameter;
 using Benchmark.StringBoxing;
 using Benchmark.StructWithIEquatable;
 
-BenchmarkRunner.Run<ValueTypeWithInKeyword>();
+BenchmarkRunner.Run<ValueTypeBoxingBenchmark>();
 Console.WriteLine("Hello, World!");
