@@ -3,7 +3,7 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
+public abstract class Enumeration<T> : IComparable
     where T : Enumeration<T>
 {
     private int? cachedHashCode;
@@ -25,15 +25,6 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
 
         return Equals(otherValue);
     }
-    
-    public bool Equals(Enumeration<T> otherValue)
-    {
-        var typeMatches = this.GetUnproxiedType().Equals(otherValue.GetUnproxiedType());
-        var valueMatches = Id.Equals(otherValue.Id);
-
-        return typeMatches && valueMatches;
-    }
-
     public static bool operator ==(Enumeration<T> a, Enumeration<T> b) => a.Equals(b);
 
     public static bool operator !=(Enumeration<T> a, Enumeration<T> b) => !(a == b);
