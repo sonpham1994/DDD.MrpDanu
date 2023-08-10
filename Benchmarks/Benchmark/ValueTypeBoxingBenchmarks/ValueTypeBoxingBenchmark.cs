@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Attributes;
 
-namespace Benchmark.StringBoxing;
+namespace Benchmark.ValueTypeBoxingBenchmarks;
 
 //https://www.youtube.com/watch?v=bnVfrd3lRv8&t=1113s&ab_channel=NickChapsas
 

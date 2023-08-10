@@ -40,8 +40,8 @@ public class MaterialCostManagement : Entity
     }
     
     public static Result<IReadOnlyList<MaterialCostManagement>> Create(
-        IEnumerable<(decimal price, uint minQuantity, decimal surcharge, Guid supplierId)> input
-        , IEnumerable<TransactionalPartner> suppliers)
+        IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, Guid supplierId)> input
+        , IReadOnlyList<TransactionalPartner> suppliers)
     {
         var existNullSupplier = suppliers.Any(x => x is null);
         if (existNullSupplier)
@@ -55,7 +55,7 @@ public class MaterialCostManagement : Entity
         if (isNotSupplier.IsFailure)
             return isNotSupplier.Error;
 
-        var result = new List<MaterialCostManagement>(input.Count());
+        var result = new List<MaterialCostManagement>(input.Count);
         
         foreach ((decimal price, uint minQuantity, decimal surcharge, Guid supplierId) in input)
         {

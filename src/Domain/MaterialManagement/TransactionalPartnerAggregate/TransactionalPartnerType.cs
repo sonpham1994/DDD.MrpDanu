@@ -15,8 +15,10 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, I
     {
     }
 
-    public bool Equals(TransactionalPartnerType value)
+    public bool Equals(TransactionalPartnerType? value)
     {
+        if (value is null)
+            return false;
         if (ReferenceEquals(this, value)) 
             return true;
         if (Id == value.Id)
@@ -37,7 +39,6 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, I
 
     public static Span<TransactionalPartnerType> GetSupplierTypes()
     {
-        const byte countSuppliers = 2;
         Span<TransactionalPartnerType> result = ((TransactionalPartnerType[])List).AsSpan(1, 2);
         return result;
     }

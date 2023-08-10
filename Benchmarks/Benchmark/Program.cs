@@ -6,8 +6,9 @@ using Benchmark.EmptyCollectionAndToList;
 using Benchmark.IEnumerableBenchmarks;
 using Benchmark.MoveNextEnumerators;
 using Benchmark.PassStructAsObjectParameter;
-using Benchmark.StringBoxing;
+using Benchmark.SpanWithObjects;
+using Benchmark.ValueTypeBoxingBenchmarks;
 using Benchmark.StructWithIEquatable;
 
-BenchmarkRunner.Run<ValueTypeBoxingBenchmark>();
+BenchmarkRunner.Run<SpanWithObjectBenchmark>();
 Console.WriteLine("Hello, World!");

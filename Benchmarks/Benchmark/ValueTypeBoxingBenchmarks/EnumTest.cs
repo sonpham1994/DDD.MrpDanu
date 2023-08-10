@@ -1,4 +1,4 @@
-namespace Benchmark.StringBoxing;
+namespace Benchmark.ValueTypeBoxingBenchmarks;
 
 public enum EnumTest
 {
