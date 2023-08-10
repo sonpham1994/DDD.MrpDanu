@@ -25,13 +25,10 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
         return result;
     }
 
-    public static IReadOnlyList<TransactionalPartnerType> GetSupplierTypes()
+    public static Span<TransactionalPartnerType> GetSupplierTypes()
     {
         const byte countSuppliers = 2;
-        return new TransactionalPartnerType[countSuppliers]
-        {
-            Supplier,
-            Both
-        };
+        Span<TransactionalPartnerType> result = ((TransactionalPartnerType[])List).AsSpan(1, 2);
+        return result;
     }
 }

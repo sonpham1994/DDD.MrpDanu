@@ -3,7 +3,7 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class Enumeration<T> : IComparable
+public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
     where T : Enumeration<T>
 {
     private int? cachedHashCode;
@@ -23,7 +23,12 @@ public abstract class Enumeration<T> : IComparable
             return false;
         }
 
-        var typeMatches = this.GetUnproxiedType().Equals(obj.GetUnproxiedType());
+        return Equals(otherValue);
+    }
+    
+    public bool Equals(Enumeration<T> otherValue)
+    {
+        var typeMatches = this.GetUnproxiedType().Equals(otherValue.GetUnproxiedType());
         var valueMatches = Id.Equals(otherValue.Id);
 
         return typeMatches && valueMatches;

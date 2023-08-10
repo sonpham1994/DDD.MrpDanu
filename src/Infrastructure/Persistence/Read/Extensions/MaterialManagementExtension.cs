@@ -7,6 +7,6 @@ internal static partial class MaterialManagementExtension
 {
     public static IReadOnlyList<byte> GetSupplierTypeIds()
     {
-        return TransactionalPartnerType.GetSupplierTypes().Select(x => x.Id).ToList();
+        return TransactionalPartnerType.GetSupplierTypes().ToArray().Select(x => x.Id).ToList();
     }
 }
