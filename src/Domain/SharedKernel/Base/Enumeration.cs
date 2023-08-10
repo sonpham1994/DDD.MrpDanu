@@ -23,7 +23,10 @@ public abstract class Enumeration<T> : IComparable
             return false;
         }
 
-        return Equals(otherValue);
+        var typeMatches = this.GetUnproxiedType().Equals(otherValue.GetUnproxiedType());
+        var valueMatches = Id.Equals(otherValue.Id);
+
+        return typeMatches && valueMatches;
     }
     public static bool operator ==(Enumeration<T> a, Enumeration<T> b) => a.Equals(b);
 
