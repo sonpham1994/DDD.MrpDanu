@@ -7,6 +7,9 @@ namespace Domain.MaterialManagement.MaterialAggregate;
 //Should we consider whether this class should be a Value Object or not?
 public class MaterialAttributes : ValueObject
 {
+    //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
+    private static readonly Regex UniqueCodePattern = new("[^A-Za-z0-9]", RegexOptions.Compiled);
+    
     public string Name { get; }
     public string ColorCode { get; }
     public string Width { get; }
@@ -56,7 +59,7 @@ public class MaterialAttributes : ValueObject
     {
         string ReplaceSpecialCharacters(string data)
         {
-            return Regex.Replace(data, "[^A-Za-z0-9]", string.Empty);
+            return UniqueCodePattern.Replace(data, string.Empty);
         }
         
         string ReplaceSpecialCharactersWithEmptyData(string data)

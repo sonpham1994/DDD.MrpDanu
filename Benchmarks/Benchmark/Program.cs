@@ -6,9 +6,10 @@ using Benchmark.EmptyCollectionAndToList;
 using Benchmark.IEnumerableBenchmarks;
 using Benchmark.MoveNextEnumerators;
 using Benchmark.PassStructAsObjectParameter;
+using Benchmark.RegexBenchmarks;
 using Benchmark.SpanWithObjects;
 using Benchmark.ValueTypeBoxingBenchmarks;
 using Benchmark.StructWithIEquatable;
 
-BenchmarkRunner.Run<SpanWithObjectBenchmark>();
+BenchmarkRunner.Run<RegexBenchmark>();
 Console.WriteLine("Hello, World!");

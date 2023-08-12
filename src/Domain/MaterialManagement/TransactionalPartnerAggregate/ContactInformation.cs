@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Domain.Errors;
+﻿using Domain.Errors;
 using System.Text.RegularExpressions;
 using Domain.SharedKernel.Base;
 
@@ -9,6 +8,10 @@ public class ContactInformation : ValueObject
 {
     private const byte EmailMaxLength = 200;
     private const byte TelNoMaxLength = 20;
+    
+    //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
+    private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$", RegexOptions.Compiled);
+    
     public string TelNo { get; }
     public string Email { get; }
 
@@ -46,7 +49,7 @@ public class ContactInformation : ValueObject
             if (email.Length > EmailMaxLength)
                 return MaterialManagementDomainErrors.ContactPersonInformation.EmailExceedsMaxLength;
             
-            if (!Regex.IsMatch(email, @"^(.+)@(.+)\.\w{2,}$"))
+            if (!EmailPattern.IsMatch(email));
                 return MaterialManagementDomainErrors.ContactPersonInformation.InvalidEmail;
         }
 
@@ -58,7 +61,4 @@ public class ContactInformation : ValueObject
         yield return TelNo;
         yield return Email;
     }
-
-    // [GeneratedRegex("^(.+)@(.+)\.\w{2,}$")]
-    // private static partial Regex EmailPattern();
 }
