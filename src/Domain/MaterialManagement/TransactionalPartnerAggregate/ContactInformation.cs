@@ -8,10 +8,10 @@ public class ContactInformation : ValueObject
 {
     private const byte EmailMaxLength = 200;
     private const byte TelNoMaxLength = 20;
-    
+
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
     private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$", RegexOptions.Compiled);
-    
+
     public string TelNo { get; }
     public string Email { get; }
 
@@ -27,14 +27,14 @@ public class ContactInformation : ValueObject
     {
         telNo ??= string.Empty;
         email ??= string.Empty;
-        
-        if ((string.IsNullOrEmpty(telNo) || string.IsNullOrWhiteSpace(telNo)) 
+
+        if ((string.IsNullOrEmpty(telNo) || string.IsNullOrWhiteSpace(telNo))
             && (string.IsNullOrEmpty(email) || string.IsNullOrWhiteSpace(email)))
             return MaterialManagementDomainErrors.ContactPersonInformation.EmptyContact;
 
         telNo = telNo.Trim();
         email = email.Trim();
-        
+
         if (!string.IsNullOrEmpty(telNo))
         {
             if (telNo.Length > TelNoMaxLength)
@@ -48,8 +48,8 @@ public class ContactInformation : ValueObject
         {
             if (email.Length > EmailMaxLength)
                 return MaterialManagementDomainErrors.ContactPersonInformation.EmailExceedsMaxLength;
-            
-            if (!EmailPattern.IsMatch(email));
+
+            if (!EmailPattern.IsMatch(email))
                 return MaterialManagementDomainErrors.ContactPersonInformation.InvalidEmail;
         }
 
