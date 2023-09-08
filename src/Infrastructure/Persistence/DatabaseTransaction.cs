@@ -19,24 +19,44 @@ internal sealed class DatabaseTransaction : ITransaction
         _logger = logger;
     }
     
+    //public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
+    //{
+    //    IResult result = null;
+    //    try
+    //    {
+    //        //https://learn.microsoft.com/en-gb/ef/core/saving/transactions
+    //        var strategy = _appDbContext.Database.CreateExecutionStrategy();
+
+    //        await strategy.ExecuteAsync(async () =>
+    //        {
+    //            await using var transaction = await _appDbContext.BeginTransactionAsync();
+    //            result = await transactionalHandler.HandleAsync();
+                
+    //            if (result.IsSuccess)
+    //                await _appDbContext.CommitTransactionAsync(transaction);
+    //            else 
+    //                _appDbContext.RollbackTransaction();
+    //        });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        string traceId = Helper.GetTraceId();
+    //        _appDbContext.RollbackTransaction();
+    //        var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
+    //        _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
+
+    //        throw;
+    //    }
+
+    //    return result;
+    //}
+
     public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
     {
         IResult result = null;
         try
         {
-            //https://learn.microsoft.com/en-gb/ef/core/saving/transactions
-            var strategy = _appDbContext.Database.CreateExecutionStrategy();
-
-            await strategy.ExecuteAsync(async () =>
-            {
-                await using var transaction = await _appDbContext.BeginTransactionAsync();
-                result = await transactionalHandler.HandleAsync();
-                
-                if (result.IsSuccess)
-                    await _appDbContext.CommitTransactionAsync(transaction);
-                else 
-                    _appDbContext.RollbackTransaction();
-            });
+            result = await transactionalHandler.HandleAsync();
         }
         catch (Exception ex)
         {

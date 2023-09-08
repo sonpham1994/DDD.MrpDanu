@@ -48,6 +48,7 @@ internal sealed class EnumerationSaveChangesInterceptor : SaveChangesInterceptor
         Func<Type, bool> enumerationPredicate = x => x.BaseType is not null
                         && x.BaseType.IsGenericType
                         && x.BaseType.GetGenericTypeDefinition() == typeof(Enumeration<>);
+
         var enumerationTypes = DomainAssembly.Instance.GetTypes().Where(enumerationPredicate).ToArray();
         var enumerationInfrastructureTypes = InfrastructureAssembly.Instance.GetTypes().Where(enumerationPredicate).ToArray();
 
