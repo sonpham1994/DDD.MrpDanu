@@ -22,7 +22,11 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
             return material;
 
         await dbSet.Entry(material).Collection(x => x.MaterialCostManagements).LoadAsync(cancellationToken);
-
+        
+        //for audit material purpose
+        //await dbSet.Entry(material).Reference(x => x.MaterialType).LoadAsync(cancellationToken);
+        //await dbSet.Entry(material).Reference(x => x.RegionalMarket).LoadAsync(cancellationToken);
+        
         //material = await dbSet
         //    .Include(x => x.MaterialType)
         //    .Include(x => x.RegionalMarket)

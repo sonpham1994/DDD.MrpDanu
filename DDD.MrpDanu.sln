@@ -32,6 +32,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Tests", "Tests\Application.Tests\Application.Tests.csproj", "{F53BD83D-1319-4567-9E0B-D5021BFC7DEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ED0F9C97-4DE1-4E5C-8149-949FEE57E121}"
+	ProjectSection(SolutionItems) = preProject
+		src\docker-compose.yml = src\docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark.Application", "Benchmarks\Benchmark.Application\Benchmark.Application.csproj", "{465182BE-1B3C-4D42-A06E-E9083D5C2CCE}"
 EndProject

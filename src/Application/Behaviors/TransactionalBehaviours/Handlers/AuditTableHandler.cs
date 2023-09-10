@@ -19,6 +19,7 @@ internal sealed class AuditTableHandler : ITransactionalReceiver
 
     public async Task<IResult> HandleAsync()
     {
+        throw new Exception();
         _logger.StartLogAuditTable();
         var start = Stopwatch.GetTimestamp();
         var result = await _auditTableService.LogChangesAsync();

@@ -1,6 +1,7 @@
 namespace Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
 
-public sealed record MaterialsResponse(Guid Id, 
+public sealed record MaterialsResponse(
+    Guid Id, 
     string Code, 
     string Name, 
     string ColorCode, 

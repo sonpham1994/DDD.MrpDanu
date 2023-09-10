@@ -15,11 +15,11 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
     where TResponse : IResult
 {
     private readonly ILogger<TransactionalBehavior<TRequest, TResponse>> _logger;
-    private readonly ITransaction _transaction;
+    private readonly ITransaction<TRequest, TResponse> _transaction;
     private readonly AuditTableHandler _auditTableHandler;
 
     public TransactionalBehavior(ILogger<TransactionalBehavior<TRequest, TResponse>> logger,
-        ITransaction transaction,
+        ITransaction<TRequest, TResponse> transaction,
         AuditTableHandler auditTableHandler)
     {
         _logger = logger;
@@ -33,8 +33,8 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
         var requestName = request.GetGenericTypeName();
         _logger.StartTransactionalBehavior(requestName);
 
-        var transactionalHandler = new TransactionalHandler(
-            new RequestHandler<TResponse>(next), 
+        var transactionalHandler = new TransactionalHandler<TRequest, TResponse>(
+            new RequestHandler<TRequest, TResponse>(request, next), 
             _auditTableHandler);
 
         //the next handler is DomainEvent or publish message to message broker

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Write.EfRepositories;

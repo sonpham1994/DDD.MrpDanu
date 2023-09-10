@@ -6,7 +6,7 @@ public sealed class MaterialManagementDomainErrors
 {
     public static class Material
     {
-        public static DomainError InvalidMaterialType => new("Material.InvalidMaterialType", "Material type should not be None Regional Market");
+        public static DomainError InvalidMaterialType => new("Material.InvalidMaterialType", "Material type should be None Regional Market");
         public static DomainError InvalidSubassembliesType => new("Material.InvalidSubassembliesType", "Subassemblies type should not be None Regional Market");
         public static DomainError EmptyId => new("Material.EmptyId", "MaterialId should not be empty.");
         public static DomainError EmptyCode => new("Material.EmptyCode", "Material code should not be empty.");

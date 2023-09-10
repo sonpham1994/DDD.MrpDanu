@@ -52,8 +52,6 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
         if (result.IsFailure)
             return result;
 
-        //_materialRepository.Save(material);
-
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

@@ -32,7 +32,6 @@ namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManageme
                 .HasForeignKey("MaterialTypeId")
                 .IsRequired();
 
-
             builder.HasOne(x => x.RegionalMarket)
                 .WithMany()
                 .HasForeignKey("RegionalMarketId")

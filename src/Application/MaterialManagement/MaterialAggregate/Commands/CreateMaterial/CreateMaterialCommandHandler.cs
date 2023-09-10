@@ -6,7 +6,7 @@ using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
-internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
+internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand, Guid>, ITransactionalCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
@@ -21,7 +21,7 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         _materialRepository = materialRepository;
     }
     
-    public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
@@ -49,6 +49,6 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         _materialRepository.Save(material.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success(material.Value.Id);
     }
 }

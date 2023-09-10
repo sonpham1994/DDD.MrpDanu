@@ -48,11 +48,24 @@ public class Material : AggregateRoot
         var result = CanCreateOrUpdateMaterial(code, materialType, regionalMarket);
         if (result.IsFailure)
             return result;
-
+        var a = MaterialType.Id;
         Code = code.Trim();
         Attributes = attributes;
-        MaterialType = materialType;
-        RegionalMarket = regionalMarket;
+        
+        /*For disconnected object (detached mode), if we don't modify these objects and hit save, it will cause
+         * error "The instance of entity type 'MaterialType' cannot be tracked because another instance with the key
+         * value '{Id: 1}' is already being tracked. When attaching existing entities, ensure that only one entity
+         * instance with a given key value is attached."
+         * Because the MaterialType with Id already attached to dbContext, and then we assign a disconnected
+         * object (MaterialType) with the same Id (Id: 1). As a result, it will cause the error above.
+         * If we use lazy loading and MaterialType does not load, it will be okay for this case, but if we load
+         * MaterialType entity, it will cause the error above.
+         * To solve this problem, we will check the difference.
+        */
+        if (MaterialType != materialType)
+            MaterialType = materialType;
+        if(RegionalMarket != regionalMarket)
+            RegionalMarket = regionalMarket;
 
         return Result.Success();
     }
