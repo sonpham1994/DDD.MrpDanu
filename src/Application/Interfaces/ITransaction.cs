@@ -3,7 +3,7 @@ using Domain.SharedKernel.Base;
 
 namespace Application.Interfaces;
 
-public interface ITransaction<TRequest, TResponse> where TResponse : IResult
+public interface ITransaction
 {
-    Task<IResult> HandleAsync(TransactionalHandler<TRequest, TResponse> transactionalHandler);
+    Task<IResult> HandleAsync(TransactionalHandler transactionalHandler);
 }

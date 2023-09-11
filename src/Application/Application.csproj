@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Behaviors\TransactionalBehaviours\Factories" />
     <Folder Include="MaterialManagement\TransactionalPartnerAggregate\Queries\GetSuppliers\" />
   </ItemGroup>
   

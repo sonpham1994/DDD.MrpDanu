@@ -1,10 +1,10 @@
-﻿using Domain.MaterialManagement.MaterialAggregate;
+﻿using Application.Interfaces;
+using Domain.MaterialManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Write.Mementos.MementoModels;
 
-internal sealed class MaterialMemento
+public sealed class MaterialMemento : BaseMemento
 {
-    internal Guid Id { get; }
     internal string Code { get; }
     internal string CodeUnique { get; }
     internal string Name { get; }
@@ -18,9 +18,8 @@ internal sealed class MaterialMemento
 
     internal List<MaterialCostManagementMemento> MaterialCostManagements { get; }
 
-    internal MaterialMemento(Material material)
+    internal MaterialMemento(Material material) : base(material.Id)
     {
-        Id = material.Id;
         Code = material.Code;
         CodeUnique = material.CodeUnique;
         Name = material.Attributes.Name;
@@ -37,9 +36,8 @@ internal sealed class MaterialMemento
     }
 }
 
-internal sealed class MaterialCostManagementMemento
+public sealed class MaterialCostManagementMemento : BaseMemento
 {
-    internal Guid Id { get; }
     internal Guid MaterialId { get; }
     internal Guid TransactionalPartnerId { get; }
     internal decimal Surcharge { get; }
@@ -49,9 +47,8 @@ internal sealed class MaterialCostManagementMemento
     internal decimal Price { get; }
     internal byte CurrencyTypeId { get; }
 
-    public MaterialCostManagementMemento(MaterialCostManagement materialCost, Guid materialId)
+    public MaterialCostManagementMemento(MaterialCostManagement materialCost, Guid materialId) : base(materialCost.Id)
     {
-        Id = materialCost.Id;
         MaterialId = materialId;
         TransactionalPartnerId = materialCost.TransactionalPartner.Id;
         Surcharge = materialCost.Surcharge.Value;

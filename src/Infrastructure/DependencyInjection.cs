@@ -6,6 +6,7 @@ using System.Data;
 using Application.Interfaces.Queries;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
+using Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Read.Queries;
@@ -129,6 +130,23 @@ public static class DependencyInjection
         services.AddScoped<LoggingDbCommandInterceptor>();
         services.AddScoped<InsertAuditableEntitiesSaveChangesInterceptor>();
         services.AddScoped<EnumerationSaveChangesInterceptor>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddMementos(this IServiceCollection services)
+    {
+        services.AddScoped<Func<string, IOriginatorCommand>>((sp) => (requestName) =>
+        {
+            switch (requestName)
+            {
+                case nameof(CreateMaterialCommand):
+                    return new CreateMaterialCommandOriginator();
+                    break;
+                default:
+                    return null;
+            }
+        });
 
         return services;
     }
