@@ -70,8 +70,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<MaterialEfRepository>();
-        services.AddScoped<IMaterialRepository>(sp => new MaterialWithUndoRepository(sp.GetRequiredService<MaterialEfRepository>()));
+        services.AddScoped<IMaterialRepository, MaterialEfRepository>();
         
         services.AddScoped<ITransactionalPartnerRepository, TransactionalPartnerEfRepository>();
         services.AddScoped<IProductRepository, ProductEfRepository>();
