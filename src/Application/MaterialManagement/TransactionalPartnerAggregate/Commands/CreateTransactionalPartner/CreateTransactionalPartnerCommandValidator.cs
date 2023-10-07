@@ -21,7 +21,7 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
             if (x.Address is null)
                 return MaterialManagementDomainErrors.TransactionalPartner.NullAddress;
 
-            var result1 = Result.Combine
+            var result1 = ResultCombine.Create
             (
                 Country.FromId(x.Address.CountryId),
                 CompanyName.Create(x.Name),
@@ -37,7 +37,7 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
                 return result1.Error;
             var (country, companyName, personName, contactInfo, locationType, transactionalPartnerType, currencyType, website) = result1.Value;
             
-            var result2 = Result.Combine
+            var result2 = ResultCombine.Create
             (
                 Address.Create(x.Address.Street, x.Address.City, x.Address.District, x.Address.Ward, x.Address.ZipCode, country),
                 TaxNo.Create(x.TaxNo, country)

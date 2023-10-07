@@ -21,7 +21,7 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
 
         RuleFor(x => x).MustBeEntity(x =>
         {
-            var result = Result.Combine
+            var result = ResultCombine.Create
             (
                 MaterialAttributes.Create(x.Name, x.ColorCode, x.Width, x.Weight, x.Unit, x.Varian),
                 RegionalMarket.FromId(x.RegionalMarketId),
