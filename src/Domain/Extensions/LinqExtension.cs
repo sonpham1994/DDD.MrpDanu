@@ -23,9 +23,13 @@ public static class LinqExtension
         where TResult : Entity<Guid>
     {
         TResult? result = null;
-        if (enumerable is IReadOnlyList<T> lst)
+        if (enumerable is List<T> lst)
         {
-            result = ItemWithLinearSearch(lst, predicate, lst.Count);
+            result = ItemDuplication(lst, predicate);
+        }
+        else if (enumerable is T[] array)
+        {
+            result = ItemDuplication(array, predicate);
         }
         else
         {
@@ -40,7 +44,7 @@ public static class LinqExtension
         where TResult : Entity<Guid>
     {
         int count = list.Count;
-        TResult? result = ItemWithLinearSearch(list, predicate, count);
+        TResult? result = LinearSearch(list, predicate, count);
         
         return result;
     }
@@ -50,21 +54,11 @@ public static class LinqExtension
         where TResult : Entity<Guid>
     {
         int count = array.Length;
-        TResult? result = ItemWithLinearSearch(array, predicate, count);
+        TResult? result = LinearSearch(array, predicate, count);
         
         return result;
     }
 
-    private static TResult? ItemWithLinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
-        where T : Entity<Guid>
-        where TResult : Entity<Guid>
-    {
-         TResult? result = null;
-        
-        result = LinearSearch(array, predicate, count);
-        return result;
-    }
-    
     private static TResult? LinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
     {
         TResult? result = default(TResult);

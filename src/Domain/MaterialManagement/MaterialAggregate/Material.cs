@@ -8,7 +8,11 @@ namespace Domain.MaterialManagement.MaterialAggregate;
 
 public class Material : AggregateRoot
 {
-    private readonly List<MaterialCostManagement> _materialCostManagements = new();
+    // this largest number of materials depends on domain, it doesn't make sense if we have the infinite number.
+    // The number 20 is the number you should discuss with domain experts, if the domain experts say that 
+    // the number 20 is the maximum, you put it here. (Write UT for this case)
+    private const byte MaxNumberOfMaterialCosts = 20;
+    private readonly List<MaterialCostManagement> _materialCostManagements = new(MaxNumberOfMaterialCosts);
 
     public string Code { get; private set; }
     public string CodeUnique { get; }
@@ -17,7 +21,7 @@ public class Material : AggregateRoot
     public virtual RegionalMarket RegionalMarket { get; private set; }
 
     public virtual IReadOnlyList<MaterialCostManagement> MaterialCostManagements =>
-        _materialCostManagements;
+        _materialCostManagements.ToList();
 
     //required EF Proxies
     protected Material() { }
@@ -77,6 +81,9 @@ public class Material : AggregateRoot
             }
             else if (materialCostManagement is null)
             {
+                if (_materialCostManagements.Count + 1 > MaxNumberOfMaterialCosts)
+                    return MaterialManagementDomainErrors.Material.ExceedsMaxNumberOfMaterialCosts;
+                
                 _materialCostManagements.Add(materialCost);
             }
         }

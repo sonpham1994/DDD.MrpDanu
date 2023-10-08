@@ -14,6 +14,7 @@ public sealed class MaterialManagementDomainErrors
         public static DomainError EmptyVarian => new("Material.EmptyVarian", "Material varian should not be empty.");
         public static DomainError EmptyWidth => new("Material.EmptyWidth", "Material width should not be empty.");
         public static DomainError EmptyUnit => new("Material.EmptyUnit", "Material unit should not be empty.");
+        public static DomainError ExceedsMaxNumberOfMaterialCosts => new("Material.ExceedsMaxNumberOfQuantity", "Cannot exceed the max number of Material cost.");
 
         public static DomainError MaterialIdNotFound(Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
     }
