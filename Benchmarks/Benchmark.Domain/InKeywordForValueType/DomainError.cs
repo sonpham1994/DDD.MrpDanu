@@ -1,4 +1,4 @@
-namespace Domain.SharedKernel.Base;
+namespace Benchmark.Domain.InKeywordForValueType;
 
 /*
  * Good design for struct:

@@ -16,17 +16,17 @@ public sealed class MaterialManagementDomainErrors
         public static DomainError EmptyUnit => new("Material.EmptyUnit", "Material unit should not be empty.");
         public static DomainError ExceedsMaxNumberOfMaterialCosts => new("Material.ExceedsMaxNumberOfQuantity", "Cannot exceed the max number of Material cost.");
 
-        public static DomainError MaterialIdNotFound(Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
+        public static DomainError MaterialIdNotFound(in Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
     }
     
     public static class RegionalMarket
     {
-        public static DomainError NotFoundId(byte id) => new("RegionalMarket.NotFoundId", $"Regional market id '{id}' is not found");
+        public static DomainError NotFoundId(in byte id) => new("RegionalMarket.NotFoundId", $"Regional market id '{id}' is not found");
     }
     
     public static class MaterialType
     {
-        public static DomainError NotFoundId(byte id) => new("MaterialType.NotFoundId", $"Material type id '{id}' is not found");
+        public static DomainError NotFoundId(in byte id) => new("MaterialType.NotFoundId", $"Material type id '{id}' is not found");
     }
 
     public static class MaterialCostManagement
@@ -39,9 +39,9 @@ public sealed class MaterialManagementDomainErrors
         public static DomainError NullSupplier => new("MaterialCostManagement.NullSupplier", "Supplier should not null");
         
         public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string currencyPrice, string currencySurcharge, string currencySupplier) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ({currencyPrice}, {currencySurcharge}) are different from supplier ({currencySupplier})");
-        public static DomainError DuplicationSupplierId(Guid id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id}.");
-        public static DomainError NotSupplier(Guid id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id}' is not a supplier");
-        public static DomainError NotExistSupplier(Guid supplierId, Guid materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId}' does not exist in material id '{materialId}'");
+        public static DomainError DuplicationSupplierId(in Guid id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id}.");
+        public static DomainError NotSupplier(in Guid id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id}' is not a supplier");
+        public static DomainError NotExistSupplier(in Guid supplierId, in Guid materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId}' does not exist in material id '{materialId}'");
     }
 
     public static class TransactionalPartner
@@ -63,7 +63,7 @@ public sealed class MaterialManagementDomainErrors
         public static DomainError NotFound => new("TransactionalPartner.NotFound", "Transactional partner is not found");
         
         public static DomainError InvalidWebsite(string website) => new("TransactionalPartner.InvalidWebsite", $"The website '{website}' is invalid.");
-        public static DomainError NotFoundId(Guid id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id}' is not found");
+        public static DomainError NotFoundId(in Guid id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id}' is not found");
     }
 
     public static class ContactPersonInformation
@@ -82,21 +82,21 @@ public sealed class MaterialManagementDomainErrors
     public static class TransactionalPartnerType
     {
         public static DomainError NotExist => new("TransactionalPartnerType.NotExist", "Transactional partner type does not exits.");
-        public static DomainError NotFoundId(byte id) => new("TransactionalPartnerType.NotExist", $"Transactional partner type id '{id}' does not exist.");
+        public static DomainError NotFoundId(in byte id) => new("TransactionalPartnerType.NotExist", $"Transactional partner type id '{id}' does not exist.");
     }
 
     public static class LocationType
     {
-        public static DomainError NotFoundId(byte id) => new("LocationType.NotFoundId", $"Location type id '{id}' does not exist.");
+        public static DomainError NotFoundId(in byte id) => new("LocationType.NotFoundId", $"Location type id '{id}' does not exist.");
     }
 
     public static class Country
     {
-        public static DomainError NotFoundId(byte id) => new("Country.NotFoundId", $"Country id '{id}' is not found");
+        public static DomainError NotFoundId(in byte id) => new("Country.NotFoundId", $"Country id '{id}' is not found");
     }
 
     public static class CurrencyType
     {
-        public static DomainError NotFoundId(byte id) => new("CurrencyType.NotFoundId", $"Currency type id '{id}' does not exist.");
+        public static DomainError NotFoundId(in byte id) => new("CurrencyType.NotFoundId", $"Currency type id '{id}' does not exist.");
     }
 }

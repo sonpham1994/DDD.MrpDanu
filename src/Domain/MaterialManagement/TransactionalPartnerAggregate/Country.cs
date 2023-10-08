@@ -14,14 +14,14 @@ public class Country : Enumeration<Country>
     
     public string Code { get; }
 
-    private Country(byte id, string code, string name) : base(id, name)
+    private Country(in byte id, string code, string name) : base(id, name)
     {
         Code = code;
     }
 
     protected Country() { }
 
-    public new static Result<Country> FromId(byte id)
+    public new static Result<Country> FromId(in byte id)
     {
         var result = Enumeration<Country>.FromId(id);
         if (result.IsFailure)

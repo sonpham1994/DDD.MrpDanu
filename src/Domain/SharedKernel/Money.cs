@@ -8,7 +8,7 @@ public class Money : ValueObject
     public decimal Value { get; }
     public virtual CurrencyType CurrencyType { get; }
 
-    private Money(decimal value, CurrencyType currencyType)
+    private Money(in decimal value, CurrencyType currencyType)
     {
         Value = value;
         CurrencyType = currencyType;
@@ -16,7 +16,7 @@ public class Money : ValueObject
 
     protected Money() { }
 
-    public static Result<Money> Create(decimal value, CurrencyType currencyType)
+    public static Result<Money> Create(in decimal value, CurrencyType currencyType)
     {
         if (value <= 0)
             return GeneralDomainErrors.InvalidMoney;

@@ -11,7 +11,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, I
 
     protected TransactionalPartnerType() { }
 
-    private TransactionalPartnerType(byte id, string name) : base(id, name)
+    private TransactionalPartnerType(in byte id, string name) : base(id, name)
     {
     }
 
@@ -27,7 +27,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, I
         return false;
     }
 
-    public new static Result<TransactionalPartnerType> FromId(byte id)
+    public new static Result<TransactionalPartnerType> FromId(in byte id)
     {
         var result = Enumeration<TransactionalPartnerType>.FromId(id);
 

@@ -10,11 +10,11 @@ public class MaterialType : Enumeration<MaterialType>
 
     protected MaterialType() {}
         
-    private MaterialType(byte id, string name) : base(id, name)
+    private MaterialType(in byte id, string name) : base(id, name)
     {
     }
 
-    public new static Result<MaterialType> FromId(byte id)
+    public new static Result<MaterialType> FromId(in byte id)
     {
         var result = Enumeration<MaterialType>.FromId(id);
         if (result.IsFailure)

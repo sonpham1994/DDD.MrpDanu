@@ -13,7 +13,7 @@ internal sealed class AddressCommandValidator : AbstractValidator<AddressCommand
             .WithErrorCode(MaterialManagementDomainErrors.TransactionalPartner.NullAddress.Code)
             .WithMessage(MaterialManagementDomainErrors.TransactionalPartner.NullAddress.Message);
         
-        RuleFor(x => x.CountryId).MustBeEnumeration(Country.FromId);
+        RuleFor(x => x.CountryId).MustBeEnumeration(x=> Country.FromId(x));
         
         RuleFor(x => x)
             .MustBeValueObject(x => 

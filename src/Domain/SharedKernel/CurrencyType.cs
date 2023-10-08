@@ -12,7 +12,7 @@ public class CurrencyType : Enumeration<CurrencyType>
     //EF Proxies requires
     protected CurrencyType() { }
 
-    private CurrencyType(byte id, string name) : base(id, name) { }
+    private CurrencyType(in byte id, string name) : base(id, name) { }
 
     public new static Result<CurrencyType> FromId(byte id)
     {

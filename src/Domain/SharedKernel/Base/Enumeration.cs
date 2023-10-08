@@ -14,7 +14,7 @@ public abstract class Enumeration<T> : IComparable
 
     protected Enumeration() { }
 
-    protected Enumeration(byte id, string name) => (Id, Name) = (id, name);
+    protected Enumeration(in byte id, string name) => (Id, Name) = (id, name);
 
     public override bool Equals(object? obj)
     {

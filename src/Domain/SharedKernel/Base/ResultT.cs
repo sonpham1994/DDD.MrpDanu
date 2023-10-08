@@ -7,7 +7,7 @@ public readonly struct Result<T> : IResult<T>
     public bool IsFailure { get; }
     public bool IsSuccess => !IsFailure;
 
-    private readonly DomainError _error = DomainError.Empty;
+    private readonly DomainError _error;
 
     public DomainError Error => _error;
 
@@ -17,7 +17,7 @@ public readonly struct Result<T> : IResult<T>
         : throw new DomainException(new DomainError($"FailSafe.{_error.Code}"
             , $"Should check failure for {_error.Code} before executing operation."));
 
-    internal Result(bool isFailure, in DomainError error, T value)
+    internal Result(in bool isFailure, in DomainError error, T value)
     {
         if (isFailure && error.IsEmpty())
             throw new DomainException(new DomainError("SafeFail", "DomainError cannot null if process is fail"));

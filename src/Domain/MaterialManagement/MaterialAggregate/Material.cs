@@ -27,7 +27,7 @@ public class Material : AggregateRoot
     protected Material() { }
 
     private Material(string code, MaterialAttributes attributes, MaterialType materialType, RegionalMarket regionalMarket)
-    : this()
+        : this()
     {
         Code = code;
         CodeUnique = attributes.ToUniqueCode();

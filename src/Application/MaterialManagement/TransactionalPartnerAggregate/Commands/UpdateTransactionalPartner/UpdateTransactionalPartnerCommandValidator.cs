@@ -36,10 +36,10 @@ internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValid
                 => ContactInformation.Create(x.TelNo, x.Email));
         
         RuleFor(x => x.LocationTypeId)
-            .MustBeEnumeration(LocationType.FromId);
+            .MustBeEnumeration(x=> LocationType.FromId(x));
         
         RuleFor(x => x.TransactionalPartnerTypeId)
-            .MustBeEnumeration(TransactionalPartnerType.FromId);
+            .MustBeEnumeration(x=> TransactionalPartnerType.FromId(x));
         
         RuleFor(x => x)
             .MustBeEnumeration(x 

@@ -18,12 +18,12 @@ public class RegionalMarket : Enumeration<RegionalMarket>
     
     protected RegionalMarket() {}
     
-    private RegionalMarket(byte id, string code, string name) : base(id, name) 
+    private RegionalMarket(in byte id, string code, string name) : base(id, name) 
     { 
         Code = code;
     }
 
-    public new static Result<RegionalMarket> FromId(byte id)
+    public new static Result<RegionalMarket> FromId(in byte id)
     {
         var result = Enumeration<RegionalMarket>.FromId(id);
 

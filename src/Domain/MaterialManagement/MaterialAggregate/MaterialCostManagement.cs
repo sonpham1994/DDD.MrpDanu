@@ -28,8 +28,9 @@ public class MaterialCostManagement : Entity
     //required EF Proxies
     protected MaterialCostManagement() {}
     
-    private MaterialCostManagement(Money price, 
-        uint minQuantity, 
+    private MaterialCostManagement(
+        Money price, 
+        in uint minQuantity, 
         Money surcharge,  
         TransactionalPartner transactionalPartner)
     {
@@ -104,7 +105,7 @@ public class MaterialCostManagement : Entity
     }
 
     private static Result<MaterialCostManagement> Create(Money price, 
-        uint minQuantity, 
+        in uint minQuantity, 
         Money surcharge, 
         TransactionalPartner? supplier)
     {
