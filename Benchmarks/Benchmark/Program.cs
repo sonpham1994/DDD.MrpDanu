@@ -3,6 +3,7 @@
 using BenchmarkDotNet.Running;
 using Benchmark.DynamicVsReflection;
 using Benchmark.EmptyCollectionAndToList;
+using Benchmark.GuidBenchmark;
 using Benchmark.IEnumerableBenchmarks;
 using Benchmark.MoveNextEnumerators;
 using Benchmark.PassStructAsObjectParameter;
@@ -11,5 +12,5 @@ using Benchmark.SpanWithObjects;
 using Benchmark.ValueTypeBoxingBenchmarks;
 using Benchmark.StructWithIEquatable;
 
-BenchmarkRunner.Run<RegexBenchmark>();
+BenchmarkRunner.Run<GuidToByteArrayAndInt>();
 Console.WriteLine("Hello, World!");
