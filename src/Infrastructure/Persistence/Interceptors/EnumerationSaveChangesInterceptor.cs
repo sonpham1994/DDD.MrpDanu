@@ -48,12 +48,15 @@ internal sealed class EnumerationSaveChangesInterceptor : SaveChangesInterceptor
         Func<Type, bool> enumerationPredicate = x => x.BaseType is not null
                         && x.BaseType.IsGenericType
                         && x.BaseType.GetGenericTypeDefinition() == typeof(Enumeration<>);
-
+        
+        
         var enumerationTypes = DomainAssembly.Instance.GetTypes().Where(enumerationPredicate).ToArray();
         var enumerationInfrastructureTypes = InfrastructureAssembly.Instance.GetTypes().Where(enumerationPredicate).ToArray();
 
-        enumerationInfrastructureTypes.CopyTo(enumerationTypes, 0);
+        var types = new Type[enumerationTypes.Length + enumerationInfrastructureTypes.Length];
+        enumerationTypes.CopyTo(types, 0);
+        enumerationInfrastructureTypes.CopyTo(types, enumerationTypes.Length);
 
-        return enumerationTypes;
+        return types;
     }
 }

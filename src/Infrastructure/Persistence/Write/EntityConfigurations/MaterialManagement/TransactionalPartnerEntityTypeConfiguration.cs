@@ -23,10 +23,10 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
                 .HasColumnType("nvarchar(200)")
                 .HasColumnName(nameof(TransactionalPartner.TaxNo));
 
-            j.Property<byte>("CountryId").HasColumnName("CountryId");
+            j.Property<byte>(ShadowProperties.CountryId).HasColumnName(ShadowProperties.CountryId);
             j.HasOne(x => x.Country)
                 .WithMany()
-                .HasForeignKey("CountryId")
+                .HasForeignKey(ShadowProperties.CountryId)
                 .IsRequired();
         });
 
@@ -68,27 +68,27 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
                 .HasColumnName($"{nameof(Address)}_{nameof(Address.ZipCode)}")
                 .IsRequired();
 
-            y.Property<byte>("CountryId").HasColumnName("CountryId");
+            y.Property<byte>(ShadowProperties.CountryId).HasColumnName(ShadowProperties.CountryId);
             y.HasOne(x => x.Country)
                 .WithMany()
-                .HasForeignKey("CountryId")
+                .HasForeignKey(ShadowProperties.CountryId)
                 .IsRequired();
         });
 
         builder
             .HasOne(x => x.TransactionalPartnerType)
             .WithMany()
-            .HasForeignKey("TransactionalPartnerTypeId").IsRequired();
+            .HasForeignKey(ShadowProperties.TransactionalPartnerTypeId).IsRequired();
 
         builder
             .HasOne(x => x.CurrencyType)
             .WithMany()
-            .HasForeignKey("CurrencyTypeId").IsRequired();
+            .HasForeignKey(ShadowProperties.CurrencyTypeId).IsRequired();
         
         builder
             .HasOne(x => x.LocationType)
             .WithMany()
-            .HasForeignKey("LocationTypeId")
+            .HasForeignKey(ShadowProperties.LocationTypeId)
             .IsRequired();
     }
 }
