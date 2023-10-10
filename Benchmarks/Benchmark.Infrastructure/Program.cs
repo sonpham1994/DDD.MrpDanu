@@ -2,6 +2,10 @@
 
 using BenchmarkDotNet.Running;
 using Benchmark.Infrastructure.ConnectionPoolings;
+using Benchmark.Infrastructure.EnumerationLoading;
 
-BenchmarkRunner.Run<ConnectionPoolingBenchmark>();
+BenchmarkRunner.Run<EnumerationLoadingBenchmark>();
+//var b = new EnumerationLoadingBenchmark();
+//b.GetMaterialWithLazyLoading();
+//b.GetMaterialWithoutLazyLoadingAndUseEnumeration();
 Console.WriteLine("Hello, World!");

@@ -29,13 +29,13 @@ namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManageme
 
             builder.HasOne(x => x.MaterialType)
                 .WithMany()
-                .HasForeignKey("MaterialTypeId")
+                .HasForeignKey(ShadowProperties.MaterialTypeId)
                 .IsRequired();
 
 
             builder.HasOne(x => x.RegionalMarket)
                 .WithMany()
-                .HasForeignKey("RegionalMarketId")
+                .HasForeignKey(ShadowProperties.RegionalMarketId)
                 .IsRequired();
 
             //builder
