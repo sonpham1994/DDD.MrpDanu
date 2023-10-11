@@ -42,9 +42,9 @@ builder.Services.AddControllersWithViews();
 var isProduction = builder.Environment.IsProduction();
 
 builder.Services
-    .AddWeb()
     .AddApplication()
-    .AddInfrastructure(isProduction);
+    .AddInfrastructure(isProduction)
+    .AddWeb(isProduction);
 
 var app = builder.Build();
 
@@ -58,7 +58,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.Services.ApplyMigrations(isProduction);
+//app.Services.ApplyMigrations(isProduction);
 
 app.UseRouting();
 

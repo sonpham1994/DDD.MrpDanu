@@ -1,7 +1,7 @@
-using System.Reflection;
 using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel;
+using Infrastructure.Persistence.Write.EfRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Write.EfRepositories;
@@ -25,12 +25,12 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
         return transactionalPartner;
     }
     
-    public async ValueTask<IReadOnlyList<TransactionalPartner>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken)
+    public async ValueTask<IReadOnlyList<TransactionalPartner>> GetByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
     {
         IReadOnlyList<TransactionalPartner> transactionalPartners = Array.Empty<TransactionalPartner>();
         var transactionalPartnerIds = ids.Where(x => x != Guid.Empty).Distinct().ToList();
         
-        if (!transactionalPartnerIds.Any())
+        if (transactionalPartnerIds.Count == 0)
             return transactionalPartners;
 
         transactionalPartners = await dbSet.Where(x => transactionalPartnerIds.Contains(x.Id)).ToListAsync(cancellationToken);
@@ -53,20 +53,24 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
     {
         if (transactionalPartner is null)
             return;
-        
+
         /*
         * if you want to reduce round trip from backend to database, you may use reflection for enumeration data type, due to the
         fact that the enumeration data type store own data in memory, hence we don't need to make a call to database, we may
-        only the data that we store in memory. In fact, EF Core also use reflection to bind data to your entity. By doing this
-        we reduce the round-trip but the use of reflection remains intact. And another benefit is that, we reduce the memory
-        usage when we retrieve the enumeration data type from database, which increase additional enumeration object. We just
-        use the enumeration object that store in database.
+        only need the data that we store in memory. In fact, EF Core also use reflection to bind data to your entity. 
+        By doing this, we gain some benefits:
+            - We reduce the round-trip but the use of reflection remains intact
+            - We reduce the memory usage when we retrieve the enumeration data type from database, which increase additional 
+            enumeration object, we just use the enumeration object that store in database.
+            - The binding member of enumeration don't use reflection. For example, the MaterialType has Id, Name properties and 
+            we avoid binding those properties using reflection, but the binding MaterialType to Entity like Material remain intact. 
         Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
         */
-        
+
         transactionalPartner.BindingEnumeration<TransactionalPartner, TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
         transactionalPartner.BindingEnumeration<TransactionalPartner, CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
         transactionalPartner.BindingEnumeration<TransactionalPartner, LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
         transactionalPartner.TaxNo.BindingEnumeration<TaxNo, Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.TaxNo.Country), context);
+        transactionalPartner.Address.BindingEnumeration<Address, Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.Address.Country), context);
     }
 }

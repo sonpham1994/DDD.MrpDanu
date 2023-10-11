@@ -149,7 +149,7 @@ internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbCont
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        string connectionString = "Server=LAPTOP-IHQC4RF9,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
+        string connectionString = "Server=son-quang-pham-0131,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
         //string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
         ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
         {

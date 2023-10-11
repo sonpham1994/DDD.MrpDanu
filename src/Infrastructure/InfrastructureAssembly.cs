@@ -2,7 +2,7 @@
 
 namespace Infrastructure;
 
-public class InfrastructureAssembly
+internal sealed class InfrastructureAssembly
 {
-    public static readonly Assembly Instance = typeof(InfrastructureAssembly).Assembly;
+    public static Assembly Instance => typeof(InfrastructureAssembly).Assembly;
 }

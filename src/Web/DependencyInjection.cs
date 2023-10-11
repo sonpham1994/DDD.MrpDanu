@@ -3,17 +3,23 @@ using Web.Middlewares;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Infrastructure.Persistence;
+using Web.HostedServices;
 
 namespace Web;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWeb(this IServiceCollection services)
+    public static IServiceCollection AddWeb(this IServiceCollection services, bool isProduction)
     {
         services.AddCustomMiddlewares()
             .DisableDefaultModelValidation()
             .AddValidators()
             .AddDatabaseSettings();
+
+        if (!isProduction)
+        {
+            services.AddCustomHostedService();
+        }
 
         return services;
     }
@@ -106,4 +112,12 @@ public static class DependencyInjection
 
         return services;
     }
+
+    private static IServiceCollection AddCustomHostedService(this IServiceCollection services)
+    {
+        services.AddHostedService<MrpDanuHostedService>();
+
+        return services;
+    }
+
 }

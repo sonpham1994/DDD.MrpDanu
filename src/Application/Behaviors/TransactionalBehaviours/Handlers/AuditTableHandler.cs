@@ -21,7 +21,9 @@ internal sealed class AuditTableHandler : ITransactionalReceiver
     {
         _logger.StartLogAuditTable();
         var start = Stopwatch.GetTimestamp();
+
         var result = await _auditTableService.LogChangesAsync();
+
         var delta = Stopwatch.GetElapsedTime(start);
         _logger.CompletedLogAuditTable(delta.TotalMicroseconds);
 

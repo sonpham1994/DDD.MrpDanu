@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Domain;
 
-public class DomainAssembly
+public sealed class DomainAssembly
 {
-    public static readonly Assembly Instance = typeof(DomainAssembly).Assembly;
+    public static Assembly Instance => typeof(DomainAssembly).Assembly;
 }

@@ -2,7 +2,7 @@
 
 namespace Web;
 
-public class WebAssembly
+internal sealed class WebAssembly
 {
-    public static readonly Assembly Instance = typeof(WebAssembly).Assembly;
+    public static Assembly Instance => typeof(WebAssembly).Assembly;
 }
