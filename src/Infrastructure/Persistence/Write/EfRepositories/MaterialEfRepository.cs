@@ -41,13 +41,9 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
          use the enumeration object that store in database.
          Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
          */
+        material.BindingEnumeration<Material, MaterialType>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context);
+        material.BindingEnumeration<Material, RegionalMarket>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
         
-        var materialTypeId = context.Entry(material).Property<byte>(ShadowProperties.MaterialTypeId).CurrentValue;
-        var regionalMarketId = context.Entry(material).Property<byte>(ShadowProperties.RegionalMarketId).CurrentValue;
-
-        typeof(Material).GetProperty(nameof(Material.MaterialType))!.SetValue(material, MaterialType.FromId(materialTypeId).Value, null);
-        typeof(Material).GetProperty(nameof(Material.RegionalMarket))!.SetValue(material, RegionalMarket.FromId(regionalMarketId).Value, null);
-
         return material;
     }
 

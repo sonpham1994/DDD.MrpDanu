@@ -32,7 +32,7 @@ public abstract class Enumeration<T> : IComparable
 
     public static bool operator !=(Enumeration<T> a, Enumeration<T> b) => !(a == b);
 
-    protected static Result<T> FromId(byte id)
+    public static Result<T> FromId(byte id)
     {
         var result = List.FirstOrDefault(x => x.Id == id);
         if (result is null)

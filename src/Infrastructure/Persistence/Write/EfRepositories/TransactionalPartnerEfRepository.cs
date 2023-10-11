@@ -63,23 +63,10 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
         use the enumeration object that store in database.
         Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
         */
-        var countryId = context.Entry(transactionalPartner)
-            .Reference(x=>x.TaxNo)
-            .TargetEntry!
-            .Property<byte>(ShadowProperties.CountryId)
-            .CurrentValue;
         
-        var transactionalPartnerTypeId = context.Entry(transactionalPartner).Property<byte>(ShadowProperties.TransactionalPartnerTypeId).CurrentValue;
-        var currencyTypeId = context.Entry(transactionalPartner).Property<byte>(ShadowProperties.CurrencyTypeId).CurrentValue;
-        var locationTypeId = context.Entry(transactionalPartner).Property<byte>(ShadowProperties.LocationTypeId).CurrentValue;
-
-        typeof(TransactionalPartner).GetProperty(nameof(TransactionalPartner.TransactionalPartnerType))!.SetValue(transactionalPartner, TransactionalPartnerType.FromId(transactionalPartnerTypeId).Value, null);
-        typeof(TransactionalPartner).GetProperty(nameof(TransactionalPartner.CurrencyType))!.SetValue(transactionalPartner, CurrencyType.FromId(currencyTypeId).Value, null);
-        typeof(TransactionalPartner).GetProperty(nameof(TransactionalPartner.LocationType))!.SetValue(transactionalPartner, LocationType.FromId(locationTypeId).Value, null);
-        
-        var taxNoProperty = typeof(TransactionalPartner).GetProperty(nameof(TransactionalPartner.TaxNo))!;
-        var taxNo = (TaxNo)taxNoProperty.GetValue(transactionalPartner)!;
-        var countryBackingField = typeof(TaxNo).GetField($"<{nameof(TaxNo.Country)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
-        countryBackingField.SetValue(taxNo, Country.FromId(countryId).Value);
+        transactionalPartner.BindingEnumeration<TransactionalPartner, TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
+        transactionalPartner.BindingEnumeration<TransactionalPartner, CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
+        transactionalPartner.BindingEnumeration<TransactionalPartner, LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
+        transactionalPartner.TaxNo.BindingEnumeration<TaxNo, Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.TaxNo.Country), context);
     }
 }
