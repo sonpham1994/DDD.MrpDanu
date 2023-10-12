@@ -36,6 +36,12 @@ builder.Host.UseSerilog((context, services, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration);
 });
 
+builder.Services.Configure<HostOptions>(x =>
+{
+    //wait for .NET 8 to use HostedService as background task which is concurrently.
+    //https://www.youtube.com/watch?v=XA_3CZmD9y0&ab_channel=NickChapsas
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -57,8 +63,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-//app.Services.ApplyMigrations(isProduction);
 
 app.UseRouting();
 

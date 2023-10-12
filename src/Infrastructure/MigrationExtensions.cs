@@ -26,12 +26,13 @@ public static class MigrationExtensions
         await externalDbContext.Database.MigrateAsync();
 
         //Due to ignoring all changes of Enumeration on DbInterceptor, we cannot use dbContext, we use sql raw instead.
+        
         if (!(await dbContext.Set<MaterialType>().AnyAsync()))
         {
             var list = MaterialType.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsync(list, nameof(MaterialType) , dbContext);
         }
-
+        
         if (!(await dbContext.Set<RegionalMarket>().AnyAsync()))
         {
             var list = RegionalMarket.List.Where(x => x.Id > 0).ToList();
@@ -69,7 +70,7 @@ public static class MigrationExtensions
         }
     }
 
-    private async static Task InsertEnumerationAsync<T>(List<T> list, string tableName, DbContext dbContext)
+    private static async Task InsertEnumerationAsync<T>(List<T> list, string tableName, DbContext dbContext)
         where T : Enumeration<T>
     {
         var commandBuilder = new StringBuilder();
@@ -83,7 +84,7 @@ public static class MigrationExtensions
         await dbContext.Database.ExecuteSqlAsync(command);
     }
 
-    private async static Task InsertEnumerationAsyncWithCode<T>(List<T> list, string tableName, AppDbContext dbContext)
+    private static async Task InsertEnumerationAsyncWithCode<T>(List<T> list, string tableName, AppDbContext dbContext)
         where T : Enumeration<T>
     {
         var commandBuilder = new StringBuilder();

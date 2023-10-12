@@ -1,16 +1,14 @@
 ﻿using Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Web.HostedServices;
 
-public sealed class MrpDanuHostedService : IHostedService
+//wait for .NET 8 to use HostedService as background task which is concurrently.
+//https://www.youtube.com/watch?v=XA_3CZmD9y0&ab_channel=NickChapsas
+public sealed class MigrationsHostedService : IHostedService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public MrpDanuHostedService(IServiceScopeFactory serviceScopeFactory)
+    public MigrationsHostedService(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }

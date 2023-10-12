@@ -115,7 +115,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddCustomHostedService(this IServiceCollection services)
     {
-        services.AddHostedService<MrpDanuHostedService>();
+        services.AddHostedService<MigrationsHostedService>();
 
         return services;
     }
