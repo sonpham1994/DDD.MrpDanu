@@ -1,0 +1,38 @@
+# docker compose -p mrp_infra up -d
+
+version: "3.8"
+
+services:
+  mssqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mrp_sql_server
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    environment:
+      SA_PASSWORD: "reallyStrongPwd123"
+      ACCEPT_EULA: "Y"
+  
+  seq:
+    image: datalust/seq:latest
+    container_name: mrp_seq
+    ports: 
+      - "8081:80"
+    volumes:
+      - seqdata:/Users/sonpham/Projects/SonPhamProjects/MrpDanu/MrpDanu.Logs
+    environment:
+      ACCEPT_EULA: "Y"
+      
+  mongo:
+    image: mongo
+    container_name: mrp_mongo_db
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodbdata:/data/db
+      
+volumes:
+  mongodbdata:
+  seqdata:
+  sqlvolume:

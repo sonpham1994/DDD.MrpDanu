@@ -31,3 +31,15 @@ Framework and Libraries:
   - Dapper
   - NetArchTest.Rules
   - xUnit
+
+## Run project
+At the root of project run docker compose:
+```
+# docker compose -p mrp_infra up -d
+```
+
+url:
+```
+http://localhost:5288/MaterialManagement/Materials
+http://localhost:5288/MaterialManagement/TransactionalPartners
+```
