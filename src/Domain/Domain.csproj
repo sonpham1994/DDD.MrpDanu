@@ -11,9 +11,5 @@
       <_Parameter1>Domain.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
-  </ItemGroup>
   
 </Project>
