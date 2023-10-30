@@ -13,7 +13,7 @@ public sealed record AppError
         Message = message;
     }
 
-    public static implicit operator AppError(DomainError domainError)
+    public static implicit operator AppError(in DomainError domainError)
     {
         return new AppError(domainError.Code, domainError.Message);
     }

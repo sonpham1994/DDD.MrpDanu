@@ -17,17 +17,17 @@ public abstract class BaseController : Controller
         return Ok(AppResponse.Success());
     }
 
-    public OkObjectResult Success(object result)
+    public OkObjectResult Success<T>(T result)
     {
-        return Ok(AppResponse.Success(result));
+        return Ok(AppResponse<T>.Success(result));
     }
 
-    public BadRequestObjectResult BadRequest(DomainError domainError)
+    public BadRequestObjectResult BadRequest(in DomainError domainError)
     {
         return BadRequest(AppResponse.Error(domainError));
     }
 
-    public NotFoundObjectResult NotFound(DomainError domainError)
+    public NotFoundObjectResult NotFound(in DomainError domainError)
     {
         return NotFound(AppResponse.Error(domainError));
     }

@@ -17,7 +17,7 @@ public sealed partial class MaterialManagementController
     public async Task<IActionResult> IndexTransactionalPartner(CancellationToken cancellationToken)
     {
         var result = await Sender.Send(new GetTransactionalPartnersQuery(), cancellationToken);
-        return View("TransactionalPartner/Index", AppResponse.Success(result.Value));
+        return View("TransactionalPartner/Index", AppResponse<IReadOnlyList<TransactionalPartnersResponse>>.Success(result.Value));
     }
     
     [HttpGet("TransactionalPartner")]

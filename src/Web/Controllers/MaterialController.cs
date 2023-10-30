@@ -17,7 +17,7 @@ public sealed partial class MaterialManagementController
     public async Task<IActionResult> IndexMaterial(CancellationToken cancellationToken)
     {
         var materials = await Sender.Send( new GetMaterialsQuery(), cancellationToken);
-        return View("Material/Index",AppResponse.Success(materials.Value));
+        return View("Material/Index", AppResponse<IReadOnlyList<MaterialsResponse>>.Success(materials.Value));
     }
     
     [HttpGet("material")]

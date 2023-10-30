@@ -48,25 +48,41 @@
     </div>
 </div>
 <script>
-function deleteMaterial(ele) {
-    let td = ele.closest("td")
-    let materialId = td.find("input[name='id']").val()
-    let urlAction = `/MaterialManagement/Materials/${materialId}`
-    $.ajax({
-            type: 'DELETE',
-            url: urlAction,
+    function deleteMaterial(ele) {
+        let td = ele.closest("td")
+        let materialId = td.find("input[name='id']").val()
+        let urlAction = `/MaterialManagement/Materials/${materialId}`
+        $.ajax({
+                type: 'DELETE',
+                url: urlAction,
+                dataType: 'json',
+                success: function (result) {
+                    location.href = "/MaterialManagement/Materials"
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            });
+    }
+
+    function getMaterials(ele) {
+        $.ajax({
+            type: 'GET',
+            url: '/MaterialManagement/Materials'',
             dataType: 'json',
             success: function (result) {
-                location.href = "/MaterialManagement/Materials"
+                
             },
             error: function (data) {
                 console.log(data)
             }
         });
-}
-$(document).ready(function () {
-    $(document).on("click", '#deleteMaterial', function () {
-        deleteMaterial($(this))
+    }
+
+    $(document).ready(function () {
+        $(document).on("click", '#deleteMaterial', function () {
+            deleteMaterial($(this))
+        })
+        getMaterials()
     })
-})
 </script>
