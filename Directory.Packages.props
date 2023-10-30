@@ -44,5 +44,6 @@
     <!-- BenchmarkDotNet -->
     <PackageVersion Include="BenchmarkDotNet" Version="0.13.9" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

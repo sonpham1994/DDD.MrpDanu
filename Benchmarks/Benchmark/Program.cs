@@ -5,12 +5,20 @@ using Benchmark.DynamicVsReflection;
 using Benchmark.EmptyCollectionAndToList;
 using Benchmark.GuidBenchmark;
 using Benchmark.IEnumerableBenchmarks;
+using Benchmark.JsonSerializerBenchmarks;
 using Benchmark.MoveNextEnumerators;
 using Benchmark.PassStructAsObjectParameter;
 using Benchmark.RegexBenchmarks;
 using Benchmark.SpanWithObjects;
 using Benchmark.ValueTypeBoxingBenchmarks;
 using Benchmark.StructWithIEquatable;
+using Microsoft.Extensions.Logging;
 
-BenchmarkRunner.Run<GuidToByteArrayAndInt>();
+// Logger = new LoggerConfiguration()
+//             .WriteTo.Console()
+
+//BenchmarkRunner.Run<JsonSerializerBenchmark>();
+
+var a = new JsonSerializerBenchmark();
+a.SystemTextJsonStructSerializer();
 Console.WriteLine("Hello, World!");
