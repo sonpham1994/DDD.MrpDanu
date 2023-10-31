@@ -1,3 +1,4 @@
+using Application.MaterialManagement.MaterialAggregate;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
 using Application.MaterialManagement.Shared;
@@ -16,7 +17,7 @@ internal static partial class MaterialManagementExtension
     {
         var materialTypeResponse = MaterialType
             .FromId(materialReadModel.MaterialTypeId).Value
-            .ToMaterialTypeResponse();
+            .ToResponse();
         var regionalMarketResponse = RegionalMarket
             .FromId(materialReadModel.RegionalMarketId).Value
             .ToRegionalMarketResponse();
@@ -146,10 +147,7 @@ internal static partial class MaterialManagementExtension
     public static TransactionalPartnerTypeResponse ToTransactionalPartnerTypeResponse(
         this TransactionalPartnerType transactionalPartnerType)
         => new(transactionalPartnerType.Id, transactionalPartnerType.Name);
-    
-    public static MaterialTypeResponse ToMaterialTypeResponse(this MaterialType materialType)
-        => new(materialType.Id, materialType.Name);
-    
+
     public static RegionalMarketResponse ToRegionalMarketResponse(this RegionalMarket regionalMarket)
         => new(regionalMarket.Id, regionalMarket.Name);
 }

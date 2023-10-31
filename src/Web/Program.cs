@@ -3,6 +3,10 @@ using Infrastructure;
 using Web;
 using Web.Middlewares;
 using Serilog;
+using Web.JsonSourceGenerator;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+using Web.Api.MaterialManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +47,12 @@ builder.Services.Configure<HostOptions>(x =>
 });
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    //options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.JsonSerializerOptions.AddContext<JsonSourceGeneratorJsonContext>();
+
+});;
 
 var isProduction = builder.Environment.IsProduction();
 
@@ -75,5 +84,7 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=MaterialManagement}/{action=Index}/{id?}");
+
+app.MapMaterialManagementEndpoints();
 
 app.Run();

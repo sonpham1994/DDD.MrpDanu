@@ -17,10 +17,10 @@ using Microsoft.Extensions.Logging;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<JsonSerializerBenchmark>();
+//BenchmarkRunner.Run<JsonSerializerBenchmark>();
 
-//var a = new JsonSerializerBenchmark();
-//a.SystemTextJsonStructSerializer();
+var a = new JsonSerializerBenchmark();
+a.LoggingSystemTextJsonStructGenericCustomSerializer();
 //a.SystemTextJsonStructCustomSerializer();
 
 Console.WriteLine("Hello, World!");
