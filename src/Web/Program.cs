@@ -3,10 +3,8 @@ using Infrastructure;
 using Web;
 using Web.Middlewares;
 using Serilog;
-using Web.JsonSourceGenerator;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Json;
 using Web.Api.MaterialManagement;
+using Web.SourceGenerators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,13 +44,21 @@ builder.Services.Configure<HostOptions>(x =>
     //https://www.youtube.com/watch?v=XA_3CZmD9y0&ab_channel=NickChapsas
 });
 
-// Add services to the container.
-builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
-    //options.JsonSerializerOptions.PropertyNamingPolicy = null;
-    options.JsonSerializerOptions.AddContext<JsonSourceGeneratorJsonContext>();
+    options.SerializerOptions.AddContext<JsonSourceGeneratorJsonContext>();
+});
 
-});;
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+// builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+// {
+//     //options.JsonSerializerOptions.PropertyNamingPolicy = null;
+//     options.JsonSerializerOptions.AddContext<JsonSourceGeneratorJsonContext>();
+//
+// });
+
+
 
 var isProduction = builder.Environment.IsProduction();
 
@@ -81,6 +87,11 @@ app.UseAuthorization();
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
+// app.MapControllerRoute(name: "materials",
+//     pattern: "api/material-management/materials/{*id}",
+//     defaults: new { controller = "Material", action = "Delete" });
+// app.MapControllerRoute("material_route", "api/material-management/materials",
+//     defaults: new { area = "Material" }, constraints: new { area = "Material" });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=MaterialManagement}/{action=Index}/{id?}");

@@ -42,13 +42,15 @@
                     </div>
                     <div class="col-md-6">
                         <label class="label label-default">Regional Market</label>
-                        <select class="form-select" name="regionalMarketId" asp-items="@ViewBag.RegionalMarkets"></select>
+                        @* <select class="form-select" name="regionalMarketId" asp-items="@ViewBag.RegionalMarkets"></select> *@
+                        <select class="form-select" name="regionalMarketId"></select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label class="label label-default">Type</label>
-                        <select class="form-select" name="materialTypeId" asp-items="@ViewBag.MaterialTypes"></select>
+                        @* <select class="form-select" name="materialTypeId" asp-items="@ViewBag.MaterialTypes"></select> *@
+                        <select class="form-select" name="materialTypeId"></select>
                     </div>
                 </div>
             </div>
@@ -112,8 +114,6 @@
     </div>
 </div>
 <script>
-var suppliers = @Html.Raw(Json.Serialize(ViewBag.Suppliers))
-
 function saveMaterial(ele) {
     let formData = getMaterialForm(ele)
     let eleForm = ele.closest("form")
@@ -126,9 +126,10 @@ function saveMaterial(ele) {
         
     $.ajax({
         type: method,
-        data: formData,
-        url: urlAction,
-        dataType: 'application/json; charset=utf-8',
+        data: JSON.stringify(formData),
+        url: `/api/material-management/materials/${formData.id}`,
+        contentType: "application/json",
+        dataType: "json",
         success: function (result) {
             location.href = "/MaterialManagement/Materials"
         },

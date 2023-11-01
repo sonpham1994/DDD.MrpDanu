@@ -11,7 +11,7 @@ namespace Web.Api.MaterialManagement;
 
 //https://www.youtube.com/watch?v=gsAuFIhXz3g&ab_channel=MilanJovanovi%C4%87
 //https://www.youtube.com/watch?v=GCuVC_qDOV4&ab_channel=MilanJovanovi%C4%87
-public static class MaterialManagementModule
+public static class MaterialManagementEndpoints
 {
     public static void MapMaterialManagementEndpoints(this IEndpointRouteBuilder app)
     {
@@ -22,11 +22,16 @@ public static class MaterialManagementModule
             IReadOnlyList<MaterialTypeResponse> materialTypes = MaterialType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return materialTypes;
-            //return AppResponse<IReadOnlyList<MaterialTypeResponse>>.Success(materialTypes);
+            return AppResponse<IReadOnlyList<MaterialTypeResponse>>.Success(materialTypes);
         });
         
-        group.MapGet("regional-markets", () => AppResponse<IReadOnlyCollection<RegionalMarket>>.Success(RegionalMarket.List));
+        group.MapGet("regional-markets", () =>
+        {
+            IReadOnlyList<RegionalMarketResponse> regionalMarkets = RegionalMarket.List
+                .Select(x => x.ToResponse())
+                .ToList();
+            return AppResponse<IReadOnlyList<RegionalMarketResponse>>.Success(regionalMarkets);
+        });
         
         group.MapGet("suppliers", async (ISender sender, CancellationToken cancellationToken) =>
         {

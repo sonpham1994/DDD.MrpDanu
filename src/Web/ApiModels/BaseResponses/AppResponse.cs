@@ -45,11 +45,7 @@ public sealed record AppResponse<T> : AppResponse
 {
     public T Result { get; }
     
-    private AppResponse(bool isSuccess, IReadOnlyList<AppError> errors) : base(isSuccess, errors)
-    {
-    }
-
-    private AppResponse(bool isSuccess, T result) : this(isSuccess, Array.Empty<AppError>())
+    private AppResponse(bool isSuccess, T result) : base(isSuccess, Array.Empty<AppError>())
     {
         Result = result;
     }

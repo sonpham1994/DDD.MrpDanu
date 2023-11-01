@@ -1,11 +1,4 @@
-var suppliers;
-let selectOptionSuppliers = "";
-let optionSuppliers = "<option value='' currency-type=''>Please select Supplier</option>";
-
-for (let supplier of suppliers) {
-    optionSuppliers += `<option value=${supplier.id} currency-type=${supplier.currencyTypeName}>${supplier.name}</option>`
-}
-selectOptionSuppliers = `<select class="form-select" id="supplierId" name="supplierId">${optionSuppliers}</select>`
+let selectOptionSuppliers = ''
 
 function addMaterialCost() {
     let materialCostTemplate = getMaterialCostTemplate()
@@ -89,6 +82,65 @@ function getMaterialCostTemplate() {
     return template
 }
 
+function getMaterialTypes() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/material-management/material-types',
+        dataType: 'json',
+        success: function (data) {
+            let result = data.result
+            let select = $("select[name='materialTypeId']")
+            for (var i = 0; i < result.length; i++)
+            {
+                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+            }
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    });
+}
+
+function getRegionalMarkets() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/material-management/regional-markets',
+        dataType: 'json',
+        success: function (data) {
+            let result = data.result
+            let select = $("select[name='regionalMarketId']")
+            for (var i = 0; i < result.length; i++)
+            {
+                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+            }
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    });
+}
+
+function getSuppliers() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/material-management/suppliers',
+        dataType: 'json',
+        success: function (data) {
+            let suppliers = data.result;
+            let optionSuppliers = "<option value='' currency-type=''>Please select Supplier</option>";
+
+            for (let supplier of suppliers) {
+                optionSuppliers += `<option value=${supplier.id} currency-type=${supplier.currencyTypeName}>${supplier.name}</option>`
+            }
+            
+            selectOptionSuppliers = `<select class="form-select" id="supplierId" name="supplierId">${optionSuppliers}</select>`
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    });
+}
+
 $(document).ready(function () {
     $(document).on("change", '#supplierId', function () {
         changeSupplier($(this))
@@ -96,4 +148,7 @@ $(document).ready(function () {
     $(document).on("click", "#deleteCost", function(e) {
         deleteCost($(this))
     })
+    getMaterialTypes()
+    getRegionalMarkets()
+    getSuppliers()
 })

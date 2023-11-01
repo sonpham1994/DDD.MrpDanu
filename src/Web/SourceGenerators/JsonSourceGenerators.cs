@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
+using Application.MaterialManagement.Shared;
 using Domain.MaterialManagement.MaterialAggregate;
 using Web.ApiModels.BaseResponses;
 
@@ -29,11 +30,15 @@ namespace Web.SourceGenerators;
 //Some questions in Json source generator: https://github.com/dotnet/docs/issues/37370
 // multi objects in JsonSerializerContext (please check "Then boolean and int have to be declared as [JsonSerializable]"):
 // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-7-0
+//for Serialization GenerationMode with Record, it would be in .Net 8, please check: https://github.com/dotnet/runtime/issues/75139
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     GenerationMode = JsonSourceGenerationMode.Default)]
+[JsonSerializable(typeof(AppResponse))]
 [JsonSerializable(typeof(AppResponse<IReadOnlyList<MaterialsResponse>>))]
-[JsonSerializable(typeof(List<MaterialTypeResponse>))]
+[JsonSerializable(typeof(AppResponse<IReadOnlyList<MaterialTypeResponse>>))]
+[JsonSerializable(typeof(AppResponse<IReadOnlyList<RegionalMarketResponse>>))]
+[JsonSerializable(typeof(AppResponse<IReadOnlyList<SuppliersResponse>>))]
 public partial class JsonSourceGeneratorJsonContext : JsonSerializerContext
 {
 }

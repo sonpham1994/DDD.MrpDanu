@@ -52,6 +52,17 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await context.Database.ExecuteSqlAsync($"DELETE Material WHERE Id = {id}", cancellationToken);
+        if (id == Guid.Empty)
+            return;
+        var material = await base.GetByIdAsync(id, cancellationToken);
+        if (material is null)
+            return;
+
+        context.Materials.Remove(material);
+        
+        //we use remove method instead of "context.Database.ExecuteSqlAsync" because it will go through db context,
+        // and it has change tracker which is for sake of executing audit data. While "context.Database.ExecuteSqlAsync"
+        // does not go through change tracker, so it cannot get the change tracker.
+        //await context.Database.ExecuteSqlAsync($"DELETE Material WHERE Id = {id}", cancellationToken);
     }
 }

@@ -8,15 +8,19 @@ namespace Application.MaterialManagement.MaterialAggregate.Commands.DeleteMateri
 internal sealed class DeleteMaterialCommandHandler : ICommandHandler<DeleteMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IMaterialRepository _materialRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteMaterialCommandHandler(IMaterialRepository materialRepository)
+    public DeleteMaterialCommandHandler(IMaterialRepository materialRepository, IUnitOfWork unitOfWork)
     {
         _materialRepository = materialRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result> Handle(DeleteMaterialCommand request, CancellationToken cancellationToken)
     {
         await _materialRepository.DeleteAsync(request.Id, cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

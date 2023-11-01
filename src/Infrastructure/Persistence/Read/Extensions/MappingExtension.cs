@@ -20,7 +20,7 @@ internal static partial class MaterialManagementExtension
             .ToResponse();
         var regionalMarketResponse = RegionalMarket
             .FromId(materialReadModel.RegionalMarketId).Value
-            .ToRegionalMarketResponse();
+            .ToResponse();
 
         var result = new MaterialResponse
         (
@@ -147,7 +147,4 @@ internal static partial class MaterialManagementExtension
     public static TransactionalPartnerTypeResponse ToTransactionalPartnerTypeResponse(
         this TransactionalPartnerType transactionalPartnerType)
         => new(transactionalPartnerType.Id, transactionalPartnerType.Name);
-
-    public static RegionalMarketResponse ToRegionalMarketResponse(this RegionalMarket regionalMarket)
-        => new(regionalMarket.Id, regionalMarket.Name);
 }

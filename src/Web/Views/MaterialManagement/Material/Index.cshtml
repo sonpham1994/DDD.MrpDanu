@@ -33,11 +33,11 @@
     function deleteMaterial(ele) {
         let td = ele.closest("td")
         let materialId = td.find("input[name='id']").val()
-        let urlAction = `/MaterialManagement/Materials/${materialId}`
+        let urlAction = `/api/material-management/materials/${materialId}`
         $.ajax({
                 type: 'DELETE',
                 url: urlAction,
-                dataType: 'json',
+                dataType: "json",
                 success: function (result) {
                     location.href = "/MaterialManagement/Materials"
                 },
@@ -80,25 +80,11 @@
             }
         });
     }
-    
-    function getMaterialTypes() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/material-management/material-types',
-                dataType: 'json',
-                success: function (data) {
-                },
-                error: function (data) {
-                    console.log(data)
-                }
-            });
-        }
 
     $(document).ready(function () {
         $(document).on("click", '#deleteMaterial', function () {
             deleteMaterial($(this))
         })
         getMaterials()
-        getMaterialTypes()
     })
 </script>
