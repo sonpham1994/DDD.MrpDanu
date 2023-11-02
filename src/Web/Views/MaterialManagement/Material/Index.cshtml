@@ -33,7 +33,7 @@
     function deleteMaterial(ele) {
         let td = ele.closest("td")
         let materialId = td.find("input[name='id']").val()
-        let urlAction = `/api/material-management/materials/${materialId}`
+        let urlAction = `${apiHost}/material-management/materials/${materialId}`
         $.ajax({
                 type: 'DELETE',
                 url: urlAction,

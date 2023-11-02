@@ -85,7 +85,7 @@ function getMaterialCostTemplate() {
 function getMaterialTypes() {
     $.ajax({
         type: 'GET',
-        url: '/api/material-management/material-types',
+        url: `${apiHost}/material-management/material-types`,
         dataType: 'json',
         success: function (data) {
             let result = data.result
@@ -104,7 +104,7 @@ function getMaterialTypes() {
 function getRegionalMarkets() {
     $.ajax({
         type: 'GET',
-        url: '/api/material-management/regional-markets',
+        url: `${apiHost}/material-management/regional-markets`,
         dataType: 'json',
         success: function (data) {
             let result = data.result
@@ -123,7 +123,7 @@ function getRegionalMarkets() {
 function getSuppliers() {
     $.ajax({
         type: 'GET',
-        url: '/api/material-management/suppliers',
+        url: `${apiHost}/material-management/suppliers`,
         dataType: 'json',
         success: function (data) {
             let suppliers = data.result;

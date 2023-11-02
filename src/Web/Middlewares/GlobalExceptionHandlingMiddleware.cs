@@ -3,6 +3,7 @@ using System.Text.Json;
 using Application.Helpers;
 using Domain.Exceptions;
 using Web.ApiModels.BaseResponses;
+using Web.SourceGenerators;
 
 namespace Web.Middlewares;
 
@@ -17,14 +18,8 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         _logger = logger;
     }
 
-
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var jsonOptions = new JsonSerializerOptions {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-
         try
         {
             await next(context);
@@ -33,7 +28,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         {
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            string json = JsonSerializer.Serialize(AppResponse.Error(e.Errors), jsonOptions);
+            string json = JsonSerializer.Serialize(AppResponse.Failure(e.Errors), JsonSourceGeneratorJsonContext.Default.AppResponse);
 
             context.Response.ContentType = "application/json";
 
@@ -43,14 +38,13 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         {
             string traceId = Helper.GetTraceId();
             string messageDetail = $"Exception: {e.Message}{Environment.NewLine}{e.InnerException}";
-            string errorMessage = _env.IsProduction() ? "Internal server error" : messageDetail;
+            var error = _env.IsProduction() ? AppErrors.InternalServerErrorOnProduction : AppErrors.InternalServerError(messageDetail);
             
             _logger.Error(e, "----- TraceId: {TraceId}, ErrorMessageDetail: {ErrorMessageDetail}", traceId, messageDetail);
             
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            string json = JsonSerializer
-                .Serialize(AppResponse.Error(AppErrors.InternalServerError(errorMessage)), jsonOptions);
+            string json = JsonSerializer.Serialize(AppResponse.Failure(error), JsonSourceGeneratorJsonContext.Default.AppResponse);
 
             context.Response.ContentType = "application/json";
 

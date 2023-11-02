@@ -12,7 +12,7 @@ public class StringBenchmark
     public const string CodeTemplate = "Material.NotFoundId";
     public static string StaticCodeTemplate = "Material.NotFoundId";
 
-    [Params(10, 100, 1000, 10000)]
+    [Params(10, 100)]
     public int Length { get; set; }
 
     [Benchmark]
@@ -48,6 +48,24 @@ public class StringBenchmark
         for (int i = 0; i < Length; i++)
         {
             string a = string.Empty;
+        }
+    }
+
+    [Benchmark]
+    public void CacheInternalStringForReuse()
+    {
+        for (int i = 0; i < Length; i++)
+        {
+            AppErrors.InternalServerCode($"{i}");
+        }
+    }
+
+    [Benchmark]
+    public void NotCacheInternalStringForReuse()
+    {
+        for (int i = 0; i < Length; i++)
+        {
+            AppErrors.CacheInternalServerCode($"{i}");
         }
     }
 }

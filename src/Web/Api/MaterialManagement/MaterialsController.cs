@@ -42,7 +42,7 @@ public sealed class MaterialsController : BaseApiController
     }
     
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromRoute]Guid id, CancellationToken cancellationToken)
     {
         var result = await Sender.Send(new DeleteMaterialCommand(id), cancellationToken);
 

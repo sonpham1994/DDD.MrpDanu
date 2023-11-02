@@ -82,7 +82,7 @@ function saveMaterial(ele) {
     $.ajax({
             type: method,
             data: JSON.stringify(formData),
-            url: '/api/material-management/materials',
+            url: `${apiHost}/material-management/materials`,
             contentType: "application/json",
             dataType: "json",
             success: function (result) {

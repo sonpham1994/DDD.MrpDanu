@@ -13,14 +13,11 @@ using Benchmark.SpanWithObjects;
 using Benchmark.ValueTypeBoxingBenchmarks;
 using Benchmark.StructWithIEquatable;
 using Microsoft.Extensions.Logging;
+using Benchmark.StringBenchmarks;
 
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-//BenchmarkRunner.Run<JsonSerializerBenchmark>();
-
-var a = new JsonSerializerBenchmark();
-a.LoggingSystemTextJsonStructGenericCustomSerializer();
-//a.SystemTextJsonStructCustomSerializer();
+BenchmarkRunner.Run<StringBenchmark>();
 
 Console.WriteLine("Hello, World!");

@@ -24,11 +24,11 @@ public abstract class BaseApiController : ControllerBase
 
     public BadRequestObjectResult BadRequest(in DomainError domainError)
     {
-        return BadRequest(AppResponse.Error(domainError));
+        return BadRequest(AppResponse.Failure(domainError));
     }
 
     public NotFoundObjectResult NotFound(in DomainError domainError)
     {
-        return NotFound(AppResponse.Error(domainError));
+        return NotFound(AppResponse.Failure(domainError));
     }
 }
