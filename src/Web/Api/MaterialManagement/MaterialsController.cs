@@ -8,11 +8,12 @@ using Web.Api.BaseControllers;
 
 namespace Web.Api.MaterialManagement;
 
-[Route("api/material-management/materials")]
+[Route("api/material-management/[controller]")]
+[ApiController]
 //[Area("Material")]
-public sealed class MaterialController : BaseApiController
+public sealed class MaterialsController : BaseApiController
 {
-    public MaterialController(ISender sender) : base(sender)
+    public MaterialsController(ISender sender) : base(sender)
     {
     }
 
@@ -41,7 +42,7 @@ public sealed class MaterialController : BaseApiController
     }
     
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete([FromRoute]Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var result = await Sender.Send(new DeleteMaterialCommand(id), cancellationToken);
 

@@ -37,7 +37,9 @@
         $.ajax({
                 type: 'DELETE',
                 url: urlAction,
+                data: materialId,
                 dataType: "json",
+                contentType: "application/json",
                 success: function (result) {
                     location.href = "/MaterialManagement/Materials"
                 },
@@ -55,10 +57,11 @@
             success: function (data) {
                 let result = data.result
                 let tbodyMaterials = $("#materials").find("tbody")
-                let tbodyData = '<tr>'
+                
                 for(var i = 0; i < result.length; i++)
                 {
-                    tbodyData += `<td>${result[i].code}</td>
+                    let trBodyData = '<tr>'
+                    trBodyData += `<td>${result[i].code}</td>
                                     <td>${result[i].name}</td>
                                     <td>${result[i].colorCode}</td>
                                     <td>${result[i].unit}</td>
@@ -71,9 +74,10 @@
                                         <input hidden name='id' value='${result[i].id}'/>
                                         <button type='button' id='deleteMaterial' class='btn btn-primary btn-lg btn-block'>Delete</button>
                                     </td>`
-                    tbodyData += '</tr>'
+                    trBodyData += '</tr>'
+                    
+                    tbodyMaterials.append(trBodyData)
                 }
-                $("#materials").find("tbody").append(tbodyData)
             },
             error: function (data) {
                 console.log(data)

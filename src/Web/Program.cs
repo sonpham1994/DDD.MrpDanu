@@ -44,6 +44,8 @@ builder.Services.Configure<HostOptions>(x =>
     //https://www.youtube.com/watch?v=XA_3CZmD9y0&ab_channel=NickChapsas
 });
 
+//we should use this approach instead of .AddJsonOptions for minimal api
+// please check https://github.com/dotnet/aspnetcore/issues/38621
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
     options.SerializerOptions.AddContext<JsonSourceGeneratorJsonContext>();
@@ -90,11 +92,12 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 // app.MapControllerRoute(name: "materials",
 //     pattern: "api/material-management/materials/{*id}",
 //     defaults: new { controller = "Material", action = "Delete" });
-// app.MapControllerRoute("material_route", "api/material-management/materials",
-//     defaults: new { area = "Material" }, constraints: new { area = "Material" });
+// app.MapControllerRoute("material_route", "api/material-management/[controller]",
+//     defaults: "api/material-management/{controller=Materials}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=MaterialManagement}/{action=Index}/{id?}");
+
 
 app.MapMaterialManagementEndpoints();
 

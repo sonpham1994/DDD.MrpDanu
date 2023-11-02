@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Web.Api.BaseControllers;
 
 [ApiController]
-[Route("api/")]
 public abstract class BaseApiController : ControllerBase
 {
     protected ISender Sender;

@@ -28,8 +28,8 @@ namespace Web.SourceGenerators;
 // AppResponse<List<MaterialsResponse>>, it will throw an exception
 
 //Some questions in Json source generator: https://github.com/dotnet/docs/issues/37370
-// multi objects in JsonSerializerContext (please check "Then boolean and int have to be declared as [JsonSerializable]"):
-// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-7-0
+// multi objects in JsonSerializerContext (please check "Then boolean and int have to be declared as [JsonSerializable]"): https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-7-0
+// or multi objects in JsonSerializerContext also show here (please check "Recommended action"): https://learn.microsoft.com/en-us/dotnet/core/compatibility/serialization/7.0/reflection-fallback
 //for Serialization GenerationMode with Record, it would be in .Net 8, please check: https://github.com/dotnet/runtime/issues/75139
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
