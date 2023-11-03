@@ -82,7 +82,7 @@ function saveMaterial(ele) {
     $.ajax({
             type: method,
             data: JSON.stringify(formData),
-            url: `${apiHost}/material-management/materials`,
+            url: `${materialManagementApi}/materials`,
             contentType: "application/json",
             dataType: "json",
             success: function (result) {
@@ -99,6 +99,9 @@ $(document).ready(function () {
         e.preventDefault()
         saveMaterial($(this))
     })
+    getMaterialTypes()
+    getRegionalMarkets()
+    getSuppliers()
 })
 </script>
 <script src="~/MaterialManagement/UpdateMaterial.js"></script>

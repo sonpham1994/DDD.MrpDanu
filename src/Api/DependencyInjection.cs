@@ -1,7 +1,6 @@
 using Application;
 using Api.Middlewares;
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Infrastructure.Persistence;
 using Api.HostedServices;
 
@@ -12,7 +11,6 @@ public static class DependencyInjection
     public static IServiceCollection AddApi(this IServiceCollection services, bool isProduction)
     {
         services.AddCustomMiddlewares()
-            .DisableDefaultModelValidation()
             .AddValidators()
             .AddDatabaseSettings();
 

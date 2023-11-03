@@ -2,47 +2,46 @@
 
 <div class="text-left">
     <div class="container">
-        <!form action="/MaterialManagement/Materials/@Model.Id" method="PUT">
+        <!form method="PUT">
             <div id="BasicMaterialInformation">
-                <input hidden name="id" value="@Model.Id"/>
+                <input hidden name="id" />
                 <div class="row">
                     <div class="col-md-6">
                         <label class="label label-default">Code</label>
-                        <input type="text" name="code" class="form-control" aria-label="Default" value="@Model.Code"/>
+                        <input type="text" name="code" class="form-control" aria-label="Default" />
                     </div>
                     <div class="col-md-6">
                         <label class="label label-default">Name</label>
-                        <input type="text" name="name" class="form-control" aria-label="Default" value="@Model.Name"/>
+                        <input type="text" name="name" class="form-control" aria-label="Default" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label class="label label-default">Color Code</label>
-                        <input type="text" name="colorCode" class="form-control" aria-label="Default" value="@Model.ColorCode"/>
+                        <input type="text" name="colorCode" class="form-control" aria-label="Default" />
                     </div>
                     <div class="col-md-6">
                         <label class="label label-default">Width</label>
-                        <input type="text" name="width" class="form-control" aria-label="Default" value="@Model.Width"/>
+                        <input type="text" name="width" class="form-control" aria-label="Default" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label class="label label-default">Weight</label>
-                        <input type="text" name="weight" class="form-control" aria-label="Default" value="@Model.Weight"/>
+                        <input type="text" name="weight" class="form-control" aria-label="Default" />
                     </div>
                     <div class="col-md-6">
                         <label class="label label-default">Unit</label>
-                        <input type="text" name="unit" class="form-control" aria-label="Default" value="@Model.Unit"/>
+                        <input type="text" name="unit" class="form-control" aria-label="Default" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label class="label label-default">Varian</label>
-                        <input type="text" name="varian" class="form-control" aria-label="Default" value="@Model.Varian"/>
+                        <input type="text" name="varian" class="form-control" aria-label="Default" />
                     </div>
                     <div class="col-md-6">
                         <label class="label label-default">Regional Market</label>
-                        @* <select class="form-select" name="regionalMarketId" asp-items="@ViewBag.RegionalMarkets"></select> *@
                         <select class="form-select" name="regionalMarketId"></select>
                     </div>
                 </div>
@@ -70,42 +69,42 @@
 
                     </thead>
                     <tbody>
-                    @foreach (var materialCostManagement in Model.MaterialCostManagements)
-                    {
-                        var transactionalPartner = materialCostManagement.Supplier;
-                        string currencyTypeName = transactionalPartner.CurrencyTypeName;
-
-                        <tr>
-                            <td>
-                                <select class="form-select" id="supplierId" name="supplierId">
-                                    @foreach (var supplier in ViewBag.Suppliers)
-                                    {
-                                        string selected = transactionalPartner.Id == supplier.Id ? "selected" : "";
-
-                                        <!option value="@supplier.Id" currency-type="@currencyTypeName" @selected>
-                                            @supplier.Name
-                                        </!option>
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" name="surcharge" class="form-control" aria-label="Default" value="@materialCostManagement.Surcharge"/>
-                            </td>
-                            <td>
-                                <input type="text" name="minQuantity" class="form-control" aria-label="Default" value="@materialCostManagement.MinQuantity"/>
-                            </td>
-                            <td>
-                                <input type="text" name="price" class="form-control" aria-label="Default" value="@materialCostManagement.Price"/>
-                            </td>
-                            <td>
-                                <label Id="currencyType" aria-label="Default">@currencyTypeName</label>
-                            </td>
-                            <td>
-                                <button Id="deleteCost" aria-label="Default">Delete</button>
-                                <input name="isDeleted" value="false" hidden/>
-                            </td>
-                        </tr>
-                    }
+                    @* @foreach (var materialCostManagement in Model.MaterialCostManagements) *@
+                    @* { *@
+                    @*     var transactionalPartner = materialCostManagement.Supplier; *@
+                    @*     string currencyTypeName = transactionalPartner.CurrencyTypeName; *@
+                    @* *@
+                    @*     <tr> *@
+                    @*         <td> *@
+                    @*             <select class="form-select" id="supplierId" name="supplierId"> *@
+                    @*                 @foreach (var supplier in ViewBag.Suppliers) *@
+                    @*                 { *@
+                    @*                     string selected = transactionalPartner.Id == supplier.Id ? "selected" : ""; *@
+                    @* *@
+                    @*                     <!option value="@supplier.Id" currency-type="@currencyTypeName" @selected> *@
+                    @*                         @supplier.Name *@
+                    @*                     </!option> *@
+                    @*                 } *@
+                    @*             </select> *@
+                    @*         </td> *@
+                    @*         <td> *@
+                    @*             <input type="text" name="surcharge" class="form-control" aria-label="Default" value="@materialCostManagement.Surcharge"/> *@
+                    @*         </td> *@
+                    @*         <td> *@
+                    @*             <input type="text" name="minQuantity" class="form-control" aria-label="Default" value="@materialCostManagement.MinQuantity"/> *@
+                    @*         </td> *@
+                    @*         <td> *@
+                    @*             <input type="text" name="price" class="form-control" aria-label="Default" value="@materialCostManagement.Price"/> *@
+                    @*         </td> *@
+                    @*         <td> *@
+                    @*             <label Id="currencyType" aria-label="Default">@currencyTypeName</label> *@
+                    @*         </td> *@
+                    @*         <td> *@
+                    @*             <button Id="deleteCost" aria-label="Default">Delete</button> *@
+                    @*             <input name="isDeleted" value="false" hidden/> *@
+                    @*         </td> *@
+                    @*     </tr> *@
+                    @* } *@
                     </tbody>
                 </table>
             </div>
@@ -113,6 +112,7 @@
         </!form>
     </div>
 </div>
+<script src="~/MaterialManagement/UpdateMaterial.js"></script>
 <script>
 function saveMaterial(ele) {
     let formData = getMaterialForm(ele)
@@ -120,24 +120,63 @@ function saveMaterial(ele) {
     let form = eleForm[0]
     let basicMaterialInformation = eleForm.find("#BasicMaterialInformation")
     formData.id = basicMaterialInformation.find("input[name='id']").val()
-    
-    let urlAction = form.action
     let method = eleForm.attr("method")
         
     $.ajax({
         type: method,
         data: JSON.stringify(formData),
-        url: `${apiHost}/material-management/materials/${formData.id}`,
+        url: `${materialManagementApi}/materials/${formData.id}`,
         contentType: "application/json",
         dataType: "json",
         success: function (result) {
             location.href = "/MaterialManagement/Materials"
         },
         error: function (data) {
-                    alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
+            alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
             console.log(data)
         }
     });
+}
+
+function getMaterialById() {
+    let id = getIdByUrl()
+        
+    $.ajax({
+        type: 'GET',
+        url: `${materialManagementApi}/materials/${id}`,
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            let result = data.result
+            let basicForm = $('#BasicMaterialInformation')
+            
+            basicForm.find("input[name='id']").val(result.id)
+            basicForm.find("input[name='code']").val(result.code)
+            basicForm.find("input[name='name']").val(result.name)
+            basicForm.find("input[name='colorCode']").val(result.colorCode)
+            basicForm.find("input[name='width']").val(result.width)
+            basicForm.find("input[name='weight']").val(result.weight)
+            basicForm.find("input[name='unit']").val(result.unit)
+            basicForm.find("input[name='varian']").val(result.varian)
+            basicForm.find("input[name='regionalMarketId']").val(result.regionalMarketId)
+            basicForm.find("input[name='materialTypeId']").val(result.materialTypeId)
+            
+            for (let materialCost of result.materialCostManagements) {
+                loadMaterialCost(materialCost)
+            }
+        },
+        error: function (data) {
+            alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
+            console.log(data)
+        }
+    });
+}
+
+function getIdByUrl() {
+    let elePathNames = window.location.pathname.split('/')
+    let id = elePathNames[elePathNames.length - 1]
+    
+    return id
 }
 
 $(document).ready(function () {
@@ -145,6 +184,9 @@ $(document).ready(function () {
         e.preventDefault()
         saveMaterial($(this))
     })
+    getMaterialById()
+    getMaterialTypes()
+    getRegionalMarkets()
+    getSuppliers()
 })
 </script>
-<script src="~/MaterialManagement/UpdateMaterial.js"></script>

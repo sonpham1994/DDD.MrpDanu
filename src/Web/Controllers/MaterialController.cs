@@ -21,16 +21,8 @@ public sealed partial class MaterialManagementController
     }
 
     [HttpGet("materials/{id:guid}")]
-    public async Task<IActionResult> GetMaterial(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> EditMaterial(Guid id, CancellationToken cancellationToken)
     {
-        var materialResult = await Sender.Send(new GetMaterialByIdQuery(id), cancellationToken);
-        if (materialResult.IsFailure)
-            return BadRequest(materialResult.Error);
-
-        var material = materialResult.Value;
-        
-        return View("Material/Edit", material);
+        return View("Material/Edit");
     }
-    
-    
 }

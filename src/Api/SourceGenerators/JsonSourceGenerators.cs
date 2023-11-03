@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
 using Application.MaterialManagement.Shared;
+using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Domain.MaterialManagement.MaterialAggregate;
 using Web.ApiModels.BaseResponses;
 
@@ -39,6 +40,9 @@ namespace Api.SourceGenerators;
 [JsonSerializable(typeof(AppResponse<IReadOnlyList<MaterialTypeResponse>>))]
 [JsonSerializable(typeof(AppResponse<IReadOnlyList<RegionalMarketResponse>>))]
 [JsonSerializable(typeof(AppResponse<IReadOnlyList<SuppliersResponse>>))]
+[JsonSerializable(typeof(AppResponse<IReadOnlyList<LocationTypeResponse>>))]
+[JsonSerializable(typeof(AppResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>))]
+[JsonSerializable(typeof(AppResponse<IReadOnlyList<CurrencyTypeResponse>>))]
 public partial class JsonSourceGeneratorJsonContext : JsonSerializerContext
 {
 }

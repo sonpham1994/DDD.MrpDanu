@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Persistence.Externals.AuditTables;
 
@@ -31,19 +32,30 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
 
     private StateAuditTable() { }
 
-    public static Result<StateAuditTable> FromEntityState(EntityState entityState)
+    public static Result<StateAuditTable> FromEntityState(EntityEntry entity)
     {
+        var entityState = entity.State;
+        var isInternalEntityModified = entity.References.Any(j => j.IsModified)
+                                  || entity.Collections.Any(j => j.IsModified);
         var state = entityState switch
         {
             EntityState.Added => Added,
             EntityState.Modified => Modified,
             EntityState.Deleted => Deleted,
-            EntityState.Unchanged => Modified, //mark Unchanged as Modified due to behavior of EF Core when working with owned entity type
             _ => None
         };
 
         if (state == None)
-            return InfrastructureDomainErrors.AuditData.InvalidStateAuditData(entityState.ToString());
+        {
+            if (isInternalEntityModified)
+            {
+                state = Modified;
+            }
+            else
+            {
+                return InfrastructureDomainErrors.AuditData.InvalidStateAuditData(entityState.ToEnumString());
+            }
+        }
 
         return state;
     }

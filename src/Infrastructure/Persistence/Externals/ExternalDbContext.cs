@@ -18,7 +18,7 @@ internal sealed class ExternalDbContext : DbContext
     private readonly bool _isProduction;
     private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
     private readonly IInterceptor[] _interceptors;
-    private List<EntityEntry> _entitiesEntry;
+    private List<AuditTable> _auditTables;
 
     internal ExternalDbContext(IOptions<DatabaseSettings> databaseSettings
         , bool isProduction
@@ -52,13 +52,7 @@ internal sealed class ExternalDbContext : DbContext
         }
     }
 
-    public IReadOnlyList<AuditTable> GetAuditTables()
-    {
-        if (_entitiesEntry.Count == 0)
-            return Array.Empty<AuditTable>();
-        
-        return _entitiesEntry.Select(AuditTableFactory.Create).ToList();
-    } 
+    public IReadOnlyList<AuditTable> GetAuditTables() => _auditTables;
 
     public void SetAuditTables(AppDbContext appDbContext)
     {
@@ -108,19 +102,29 @@ internal sealed class ExternalDbContext : DbContext
              .Select(AuditTableFactory.Create) ---> make a further loading here due to Lazy loading
              .ToList();
          */
-        _entitiesEntry = appDbContext.ChangeTracker
+        _auditTables = appDbContext.ChangeTracker
             .Entries()
             .Where(x => AuditTableFactory.Entities.Any(j => j == x.Entity.GetUnproxiedType()!)
                         && (x.State != EntityState.Unchanged
-                            || (x.State == EntityState.Unchanged // for ValueObject with Owned Entity Type
-                                && x.References
-                                    .Any(j => j.IsModified))))
+                            || (x.State == EntityState.Unchanged 
+                                // for ValueObject with Owned Entity Type. The problem here is that whenever we reassign
+                                // the owned entity type, it always is a modified state, although the value of this remains unchanged
+                                // Let's wait the ComplexType from .NET 8 to check whether is it addressed or not.
+                                && (x.References.Any(j => j.IsModified)
+                                    // for internal entities and they are collections
+                                    || x.Collections.Any(j=>j.IsModified)))
+                            ))
+            /*
+             *  we need to create a list of audit tables this, not in GetAuditTables method. Because after saving
+             * is made, the entity state will reset. For example Added would be Unchanged, Deleted would be Detached
+             */
+            .Select(AuditTableFactory.Create) 
             .ToList();
     }
 
     public void ClearAuditTables()
     {
-        _entitiesEntry.Clear();
+        _auditTables.Clear();
     }
 }
 

@@ -10,28 +10,28 @@ public abstract class BaseApiController : ControllerBase
 {
     protected ISender Sender;
 
-    public BaseApiController(ISender sender) => Sender = sender;
+    protected BaseApiController(ISender sender) => Sender = sender;
 
     [NonAction]
-    public OkObjectResult Success()
+    protected OkObjectResult Success()
     {
         return Ok(AppResponse.Success());
     }
 
     [NonAction]
-    public OkObjectResult Success<T>(T result)
+    protected OkObjectResult Success<T>(T result)
     {
         return Ok(AppResponse<T>.Success(result));
     }
 
     [NonAction]
-    public BadRequestObjectResult BadRequest(in DomainError domainError)
+    protected BadRequestObjectResult BadRequest(in DomainError domainError)
     {
         return BadRequest(AppResponse.Failure(domainError));
     }
 
     [NonAction]
-    public NotFoundObjectResult NotFound(in DomainError domainError)
+    protected NotFoundObjectResult NotFound(in DomainError domainError)
     {
         return NotFound(AppResponse.Failure(domainError));
     }

@@ -2,6 +2,7 @@ using Application.MaterialManagement.MaterialAggregate;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
 using Application.MaterialManagement.Shared;
+using Application.MaterialManagement.TransactionalPartnerAggregate;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Domain.MaterialManagement.MaterialAggregate;
@@ -93,16 +94,16 @@ internal static partial class MaterialManagementExtension
 
         var transactionalPartnerTypeResponse = TransactionalPartnerType
             .FromId(transactionalPartnerReadModel.TransactionalPartnerTypeId).Value
-            .ToTransactionalPartnerTypeResponse();
+            .ToResponse();
         var currencyTypeResponse = CurrencyType
             .FromId(transactionalPartnerReadModel.CurrencyTypeId).Value
-            .ToCurrencyTypeResponse();
+            .ToResponse();
         var countryResponse = Country
             .FromId(transactionalPartnerReadModel.CountryId).Value
-            .ToCountryResponse();
+            .ToResponse();
         var locationTypeResponse = LocationType
             .FromId(transactionalPartnerReadModel.LocationTypeId).Value
-            .ToLocationTypeResponse();
+            .ToResponse();
         var addressResponse = new AddressResponse
             (
                 transactionalPartnerReadModel.Address_City,
@@ -134,17 +135,4 @@ internal static partial class MaterialManagementExtension
 
         return result;
     }
-
-    public static CurrencyTypeResponse ToCurrencyTypeResponse(this CurrencyType currencyType)
-        => new(currencyType.Id, currencyType.Name);
-
-    public static CountryResponse ToCountryResponse(this Country country)
-        => new(country.Id, country.Name);
-
-    public static LocationTypeResponse ToLocationTypeResponse(this LocationType locationType)
-        => new(locationType.Id, locationType.Name);
-
-    public static TransactionalPartnerTypeResponse ToTransactionalPartnerTypeResponse(
-        this TransactionalPartnerType transactionalPartnerType)
-        => new(transactionalPartnerType.Id, transactionalPartnerType.Name);
 }

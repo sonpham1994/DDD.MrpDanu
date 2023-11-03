@@ -13,7 +13,7 @@ internal static class AuditTableFactory
 
     public static AuditTable Create(EntityEntry entityEntry)
     {
-        var state = StateAuditTable.FromEntityState(entityEntry.State);
+        var state = StateAuditTable.FromEntityState(entityEntry);
         if (state.IsFailure)
             throw new DomainException(state.Error);
 

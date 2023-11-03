@@ -1,8 +1,12 @@
 using Application.MaterialManagement.MaterialAggregate;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Application.MaterialManagement.Shared;
+using Application.MaterialManagement.TransactionalPartnerAggregate;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
+using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Domain.MaterialManagement.MaterialAggregate;
+using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SharedKernel;
 using MediatR;
 using Web.ApiModels.BaseResponses;
 
@@ -18,19 +22,60 @@ public static class MaterialManagementEndpoints
 
         group.MapGet("material-types", () =>
         {
-            IReadOnlyList<MaterialTypeResponse> materialTypes = MaterialType.List
+            IReadOnlyList<MaterialTypeResponse> result = MaterialType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return AppResponse<IReadOnlyList<MaterialTypeResponse>>.Success(materialTypes);
+            return AppResponse<IReadOnlyList<MaterialTypeResponse>>.Success(result);
         });
         
         group.MapGet("regional-markets", () =>
         {
-            IReadOnlyList<RegionalMarketResponse> regionalMarkets = RegionalMarket.List
+            IReadOnlyList<RegionalMarketResponse> result = RegionalMarket.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return AppResponse<IReadOnlyList<RegionalMarketResponse>>.Success(regionalMarkets);
+            return AppResponse<IReadOnlyList<RegionalMarketResponse>>.Success(result);
         });
+        
+        
+        
+        
+        
+        group.MapGet("countries", () =>
+        {
+            IReadOnlyList<CountryResponse> countries = Country.List
+                .Select(x => x.ToResponse())
+                .ToList();
+            return AppResponse<IReadOnlyList<CountryResponse>>.Success(countries);
+        });
+        
+        group.MapGet("location-types", () =>
+        {
+            IReadOnlyList<LocationTypeResponse> result = LocationType.List
+                .Select(x => x.ToResponse())
+                .ToList();
+            return AppResponse<IReadOnlyList<LocationTypeResponse>>.Success(result);
+        });
+        
+        group.MapGet("transactional-partner-types", () =>
+        {
+            IReadOnlyList<TransactionalPartnerTypeResponse> result = TransactionalPartnerType.List
+                .Select(x => x.ToResponse())
+                .ToList();
+            return AppResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>.Success(result);
+        });
+        
+        group.MapGet("currency-types", () =>
+        {
+            IReadOnlyList<CurrencyTypeResponse> result = CurrencyType.List
+                .Select(x => x.ToResponse())
+                .ToList();
+            return AppResponse<IReadOnlyList<CurrencyTypeResponse>>.Success(result);
+        });
+        
+        
+        
+        
+        
         
         group.MapGet("suppliers", async (ISender sender, CancellationToken cancellationToken) =>
         {

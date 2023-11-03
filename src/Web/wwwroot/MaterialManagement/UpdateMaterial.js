@@ -5,6 +5,19 @@ function addMaterialCost() {
     $("#materialCost").find("tbody").prepend(materialCostTemplate)
 }
 
+function loadMaterialCost(data) {
+    let materialCostTemplate = getMaterialCostTemplate()
+    let tbodyMaterialCost = $("#materialCost").find("tbody")
+    
+    tbodyMaterialCost.append(materialCostTemplate)
+    tbodyMaterialCost.find('#supplierId').val(data.supplier.id)
+    tbodyMaterialCost.find('#currencyType').val(data.supplier.currencyTypeName)
+    tbodyMaterialCost.find("input[name='surcharge']").val(data.surcharge)
+    tbodyMaterialCost.find("input[name='minQuantity']").val(data.minQuantity)
+    tbodyMaterialCost.find("input[name='price']").val(data.price)
+    
+}
+
 function changeSupplier(ele) {
     let currencyType = ele.find("option:selected").attr("currency-type")
     let tr = ele.closest("tr")
@@ -85,7 +98,7 @@ function getMaterialCostTemplate() {
 function getMaterialTypes() {
     $.ajax({
         type: 'GET',
-        url: `${apiHost}/material-management/material-types`,
+        url: `${materialManagementApi}/material-types`,
         dataType: 'json',
         success: function (data) {
             let result = data.result
@@ -104,7 +117,7 @@ function getMaterialTypes() {
 function getRegionalMarkets() {
     $.ajax({
         type: 'GET',
-        url: `${apiHost}/material-management/regional-markets`,
+        url: `${materialManagementApi}/regional-markets`,
         dataType: 'json',
         success: function (data) {
             let result = data.result
@@ -123,7 +136,7 @@ function getRegionalMarkets() {
 function getSuppliers() {
     $.ajax({
         type: 'GET',
-        url: `${apiHost}/material-management/suppliers`,
+        url: `${materialManagementApi}/suppliers`,
         dataType: 'json',
         success: function (data) {
             let suppliers = data.result;
@@ -148,7 +161,5 @@ $(document).ready(function () {
     $(document).on("click", "#deleteCost", function(e) {
         deleteCost($(this))
     })
-    getMaterialTypes()
-    getRegionalMarkets()
-    getSuppliers()
+    
 })

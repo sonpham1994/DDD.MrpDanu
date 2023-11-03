@@ -6,6 +6,7 @@ using Serilog;
 using Api.SourceGenerators;
 using Api.MaterialManagement;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,12 +59,19 @@ builder.Services.AddControllers(options =>
 
     //disable validation in .Net core 7: there are two ways:
     // - https://stackoverflow.com/questions/46374994/correct-way-to-disable-model-validation-in-asp-net-core-2-mvc
-    // - https://stackoverflow.com/questions/46374994/correct-way-to-disable-model-validation-in-asp-net-core-2-mvc
-    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    // - https://alexlvovich.com/blog/how-to-disable-object-model-validation-net-7
+    //options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    options.ModelValidatorProviders.Clear();
+    
+    //disable removing Aync for api
+    options.SuppressAsyncSuffixInActionNames = false;
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c=>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MrpDanu.Api", Version = "v1" });
+});
 
 var isProduction = builder.Environment.IsProduction();
 
@@ -71,6 +79,8 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(isProduction)
     .AddApi(isProduction);
+
+string allowedOrigin = builder.Configuration["AllowedOrigin"]!;
 
 var app = builder.Build();
 
@@ -82,6 +92,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(cors =>
+{
+    cors.WithOrigins(allowedOrigin)
+        .AllowAnyHeader() //Allows any the headers that the client want to send
+        .AllowAnyMethod(); //Allows any the methods the client side want to use including GET, POST, PUT and all other verbs
+});
 
 app.UseAuthorization();
 
