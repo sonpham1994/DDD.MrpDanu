@@ -11,7 +11,8 @@ public class Material : AggregateRoot
     // this largest number of materials depends on domain, it doesn't make sense if we have the infinite number.
     // The number 20 is the number you should discuss with domain experts, if the domain experts say that 
     // the number 20 is the maximum, you put it here. (Write UT for this case)
-    private const byte MaxNumberOfMaterialCosts = 20;
+    // we use expression body to reduce memory allocation on heap, instead of using "private const byte MaxNumberOfMaterialCosts = 20"
+    private static byte MaxNumberOfMaterialCosts => 20;
     private readonly List<MaterialCostManagement> _materialCostManagements = new(MaxNumberOfMaterialCosts);
 
     public string Code { get; private set; }
@@ -120,6 +121,8 @@ public class Material : AggregateRoot
     }
 }
 
+
+//not use this, this is just for analyze each solution for audit data
 public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IAuditTableForSolution3
 {
     private readonly List<MaterialCostManagement> _materialCostManagements = new();

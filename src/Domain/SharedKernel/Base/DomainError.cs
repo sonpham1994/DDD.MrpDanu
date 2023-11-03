@@ -12,6 +12,10 @@ namespace Domain.SharedKernel.Base;
  * https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/struct?redirectedfrom=MSDN
  * https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct?redirectedfrom=MSDN
  * https://stackoverflow.com/questions/34353330/c-sharp-struct-vs-class-performace-design-focus
+ * 
+ * "ref readonly" don't need to use "in": https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/performance/
+ * HashSet use Entry as Node, and that Node is struct and it uses ref for assigning. Please take a look more detail on this.
+ * "readonly ref struct": https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct
  */
 public readonly struct DomainError : IEquatable<DomainError>
 {
