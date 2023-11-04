@@ -62,13 +62,13 @@ builder.Services.AddControllers(options =>
     // - https://alexlvovich.com/blog/how-to-disable-object-model-validation-net-7
     //options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
     options.ModelValidatorProviders.Clear();
-    
+
     //disable removing Aync for api
     options.SuppressAsyncSuffixInActionNames = false;
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c=>
+builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MrpDanu.Api", Version = "v1" });
 });

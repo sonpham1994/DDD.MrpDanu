@@ -95,29 +95,31 @@ function saveMaterial(ele) {
 function getMaterialById() {
     let id = getIdByUrl()
     httpGet(`${materialManagementApi}/materials/${id}`)
-        .done(function(data) {
-            let result = data.result
-            let basicForm = $('#BasicMaterialInformation')
-            
-            basicForm.find("input[name='id']").val(result.id)
-            basicForm.find("input[name='code']").val(result.code)
-            basicForm.find("input[name='name']").val(result.name)
-            basicForm.find("input[name='colorCode']").val(result.colorCode)
-            basicForm.find("input[name='width']").val(result.width)
-            basicForm.find("input[name='weight']").val(result.weight)
-            basicForm.find("input[name='unit']").val(result.unit)
-            basicForm.find("input[name='varian']").val(result.varian)
-            basicForm.find("select[name='regionalMarketId']").val(result.regionalMarket.id).change()
-            basicForm.find("select[name='materialTypeId']").val(result.materialType.id).change()
-            
-            for (let materialCost of result.materialCostManagements) {
-                loadMaterialCost(materialCost)
-            }
-        })
+        .done(renderMaterial)
         .fail(function(data) {
             alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
             console.log(data)
         })
+}
+
+function renderMaterial(data) {
+    let result = data.result
+    let basicForm = $('#BasicMaterialInformation')
+    
+    basicForm.find("input[name='id']").val(result.id)
+    basicForm.find("input[name='code']").val(result.code)
+    basicForm.find("input[name='name']").val(result.name)
+    basicForm.find("input[name='colorCode']").val(result.colorCode)
+    basicForm.find("input[name='width']").val(result.width)
+    basicForm.find("input[name='weight']").val(result.weight)
+    basicForm.find("input[name='unit']").val(result.unit)
+    basicForm.find("input[name='varian']").val(result.varian)
+    basicForm.find("select[name='regionalMarketId']").val(result.regionalMarket.id).change()
+    basicForm.find("select[name='materialTypeId']").val(result.materialType.id).change()
+    
+    for (let materialCost of result.materialCostManagements) {
+        renderMaterialCost(materialCost)
+    }
 }
 
 $(document).ready(function () {

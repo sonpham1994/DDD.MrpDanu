@@ -114,33 +114,36 @@
 function getTransactionalPartnerById() {
     let id = getIdByUrl()
     httpGet(`${materialManagementApi}/transactional-partners/${id}`)
-        .done(function(data) {
-            let result = data.result
-            let basicForm = $('#BasicInformation')
-            
-            basicForm.find("input[name='id']").val(result.id)
-            basicForm.find("input[name='name']").val(result.name)
-            basicForm.find("input[name='taxNo']").val(result.taxNo)
-            basicForm.find("input[name='website']").val(result.website)
-            basicForm.find("input[name='contactPersonName']").val(result.contactPersonInformation.name)
-            basicForm.find("input[name='telNo']").val(result.contactPersonInformation.telNo)
-            basicForm.find("input[name='email']").val(result.contactPersonInformation.email)
-            basicForm.find("input[name='city']").val(result.address.city)
-            basicForm.find("input[name='district']").val(result.address.district)
-            basicForm.find("input[name='street']").val(result.address.street)
-            basicForm.find("input[name='ward']").val(result.address.ward)
-            basicForm.find("input[name='zipCode']").val(result.address.zipCode)
-            
-            basicForm.find("select[name='transactionalPartnerTypeId']").val(result.transactionalPartnerType.id).change()
-            basicForm.find("select[name='currencyTypeId']").val(result.currencyType.id).change()
-            basicForm.find("select[name='countryId']").val(result.address.country.id).change()
-            basicForm.find("select[name='locationTypeId']").val(result.locationType.id).change()
-        })
+        .done(renderTransactionalPartner)
         .fail(function(data) {
             alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
             console.log(data)
         })
 }
+
+function renderTransactionalPartner(data) {
+    let result = data.result
+    let basicForm = $('#BasicInformation')
+    
+    basicForm.find("input[name='id']").val(result.id)
+    basicForm.find("input[name='name']").val(result.name)
+    basicForm.find("input[name='taxNo']").val(result.taxNo)
+    basicForm.find("input[name='website']").val(result.website)
+    basicForm.find("input[name='contactPersonName']").val(result.contactPersonInformation.name)
+    basicForm.find("input[name='telNo']").val(result.contactPersonInformation.telNo)
+    basicForm.find("input[name='email']").val(result.contactPersonInformation.email)
+    basicForm.find("input[name='city']").val(result.address.city)
+    basicForm.find("input[name='district']").val(result.address.district)
+    basicForm.find("input[name='street']").val(result.address.street)
+    basicForm.find("input[name='ward']").val(result.address.ward)
+    basicForm.find("input[name='zipCode']").val(result.address.zipCode)
+    
+    basicForm.find("select[name='transactionalPartnerTypeId']").val(result.transactionalPartnerType.id).change()
+    basicForm.find("select[name='currencyTypeId']").val(result.currencyType.id).change()
+    basicForm.find("select[name='countryId']").val(result.address.country.id).change()
+    basicForm.find("select[name='locationTypeId']").val(result.locationType.id).change()
+}
+
 function save(ele) {
     let formData = getTransactionalPartnerForm(ele)
     let eleForm = ele.closest("form")

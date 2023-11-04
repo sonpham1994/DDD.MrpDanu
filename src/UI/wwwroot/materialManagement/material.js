@@ -5,7 +5,7 @@ function addMaterialCost() {
     $("#materialCost").find("tbody").prepend(materialCostTemplate)
 }
 
-function loadMaterialCost(data) {
+function renderMaterialCost(data) {
     let materialCostTemplate = getMaterialCostTemplate()
     let tbodyMaterialCost = $("#materialCost").find("tbody")
     
@@ -15,7 +15,6 @@ function loadMaterialCost(data) {
     tbodyMaterialCost.find("tr:last input[name='surcharge']").val(data.surcharge)
     tbodyMaterialCost.find("tr:last input[name='minQuantity']").val(data.minQuantity)
     tbodyMaterialCost.find("tr:last input[name='price']").val(data.price)
-    
 }
 
 function changeSupplier(ele) {
@@ -97,48 +96,53 @@ function getMaterialCostTemplate() {
 
 function getMaterialTypes() {
     return httpGet(`${materialManagementApi}/material-types`)
-        .done(function(data) {
-            let result = data.result
-            let select = $("select[name='materialTypeId']")
-            for (var i = 0; i < result.length; i++) {
-                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-            }
-        })
+        .done(renderMaterialTypes)
         .fail(function(data) {
             console.log(data)
         })
+}
+
+function renderMaterialTypes(data) {
+    let result = data.result
+    let select = $("select[name='materialTypeId']")
+    for (var i = 0; i < result.length; i++) {
+        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+    }
 }
 
 function getRegionalMarkets() {
     return httpGet(`${materialManagementApi}/regional-markets`)
-        .done(function(data) {
-            let result = data.result
-            let select = $("select[name='regionalMarketId']")
-            for (var i = 0; i < result.length; i++)
-            {
-                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-            }
-        })
+        .done(renderRegionalMarkets)
         .fail(function(data) {
             console.log(data)
         })
 }
 
+function renderRegionalMarkets(data) {
+    let result = data.result
+    let select = $("select[name='regionalMarketId']")
+    for (var i = 0; i < result.length; i++) {
+        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+    }
+}
+
 function getSuppliers() {
     return httpGet(`${materialManagementApi}/transactional-partners/suppliers`)
-        .done(function (data) {
-            let suppliers = data.result;
-            let optionSuppliers = "<option value='' currency-type=''>Please select Supplier</option>";
-
-            for (let supplier of suppliers) {
-                optionSuppliers += `<option value=${supplier.id} currency-type=${supplier.currencyTypeName}>${supplier.name}</option>`
-            }
-
-            selectOptionSuppliers = `<select class="form-select" id="supplierId" name="supplierId">${optionSuppliers}</select>`
-        })
+        .done(renderSuppliers)
         .fail(function (data) {
             console.log(data)
         })
+}
+
+function renderSuppliers(data) {
+    let suppliers = data.result;
+    let optionSuppliers = "<option value='' currency-type=''>Please select Supplier</option>";
+
+    for (let supplier of suppliers) {
+        optionSuppliers += `<option value=${supplier.id} currency-type=${supplier.currencyTypeName}>${supplier.name}</option>`
+    }
+
+    selectOptionSuppliers = `<select class="form-select" id="supplierId" name="supplierId">${optionSuppliers}</select>`
 }
 
 $(document).ready(function () {

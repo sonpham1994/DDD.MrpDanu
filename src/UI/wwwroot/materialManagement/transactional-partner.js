@@ -27,56 +27,64 @@ function getTransactionalPartnerForm(ele) {
 
 function getTransactionalPartnerTypes() {
     return httpGet(`${materialManagementApi}/transactional-partner-types`)
-        .done(function (data) {
-            let result = data.result
-            let select = $("select[name='transactionalPartnerTypeId']")
-            for (var i = 0; i < result.length; i++) {
-                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-            }
-        })
+        .done(renderTransactionalPartnerTypes)
         .fail(function (data) {
             console.log(data)
         })
+}
+
+function renderTransactionalPartnerTypes (data) {
+    let result = data.result
+    let select = $("select[name='transactionalPartnerTypeId']")
+    for (var i = 0; i < result.length; i++) {
+        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+    }
 }
 
 function getCountries() {
     return httpGet(`${materialManagementApi}/countries`)
-        .done(function (data) {
-            let result = data.result
-            let select = $("select[name='countryId']")
-            for (var i = 0; i < result.length; i++) {
-                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-            }
-        })
+        .done(renderCountries)
         .fail(function (data) {
             console.log(data)
         })
+}
+
+function renderCountries(data) {
+    let result = data.result
+    let select = $("select[name='countryId']")
+    for (var i = 0; i < result.length; i++) {
+        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+    }
 }
 
 function getCurrencyTypes() {
     return httpGet(`${materialManagementApi}/currency-types`)
-        .done(function (data) {
-            let result = data.result
-            let select = $("select[name='currencyTypeId']") 
-            for (var i = 0; i < result.length; i++) {
-                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-            }
-        })
+        .done(renderCurrencyTypes)
         .fail(function (data) {
             console.log(data)
         })
 }
 
+function renderCurrencyTypes(data) {
+    let result = data.result
+    let select = $("select[name='currencyTypeId']")
+    for (var i = 0; i < result.length; i++) {
+        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+    }
+}
+
 function getLocationTypes() {
     return httpGet(`${materialManagementApi}/location-types`)
-        .done(function (data) {
-            let result = data.result
-            let select = $("select[name='locationTypeId']")
-            for (var i = 0; i < result.length; i++) {
-                select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-            }
-        })
+        .done(renderLocationTypes)
         .fail(function (data) {
             console.log(data)
         })
+}
+
+function renderLocationTypes(data) {
+    let result = data.result
+    let select = $("select[name='locationTypeId']")
+    for (var i = 0; i < result.length; i++) {
+        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
+    }
 }
