@@ -1,16 +1,13 @@
 using Application.MaterialManagement.MaterialAggregate;
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
-using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel;
-using MediatR;
 using Web.ApiModels.BaseResponses;
 
-namespace Api.MaterialManagement;
+namespace Api.Controllers.MaterialManagement;
 
 //https://www.youtube.com/watch?v=gsAuFIhXz3g&ab_channel=MilanJovanovi%C4%87
 //https://www.youtube.com/watch?v=GCuVC_qDOV4&ab_channel=MilanJovanovi%C4%87
@@ -35,10 +32,6 @@ public static class MaterialManagementEndpoints
                 .ToList();
             return AppResponse<IReadOnlyList<RegionalMarketResponse>>.Success(result);
         });
-        
-        
-        
-        
         
         group.MapGet("countries", () =>
         {
@@ -70,18 +63,6 @@ public static class MaterialManagementEndpoints
                 .Select(x => x.ToResponse())
                 .ToList();
             return AppResponse<IReadOnlyList<CurrencyTypeResponse>>.Success(result);
-        });
-        
-        
-        
-        
-        
-        
-        group.MapGet("suppliers", async (ISender sender, CancellationToken cancellationToken) =>
-        {
-            var suppliers = await sender.Send(new GetSuppliersQuery(), cancellationToken);
-
-            return AppResponse<IReadOnlyList<SuppliersResponse>>.Success(suppliers.Value);
         });
     }
 }

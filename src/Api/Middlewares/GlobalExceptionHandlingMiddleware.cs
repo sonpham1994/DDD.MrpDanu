@@ -28,7 +28,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         {
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            string json = JsonSerializer.Serialize(AppResponse.Failure(e.Errors), JsonSourceGeneratorJsonContext.Default.AppResponse);
+            string json = JsonSerializer.Serialize(AppResponse.Failure(e.Errors), ApiJsonSourceGenerator.Default.AppResponse);
 
             context.Response.ContentType = "application/json";
 
@@ -44,7 +44,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
             
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            string json = JsonSerializer.Serialize(AppResponse.Failure(error), JsonSourceGeneratorJsonContext.Default.AppResponse);
+            string json = JsonSerializer.Serialize(AppResponse.Failure(error), ApiJsonSourceGenerator.Default.AppResponse);
 
             context.Response.ContentType = "application/json";
 

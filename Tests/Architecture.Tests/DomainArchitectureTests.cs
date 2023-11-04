@@ -18,7 +18,7 @@ public class DomainArchitectureTests
         {
             ApplicationNamespace,
             InfrastructureNamespace,
-            WebNamespace,
+            ApiNamespace,
         };
 
         var result = Types.InAssembly(domainAssembly).ShouldNot().HaveDependencyOnAll(otherProjects).GetResult();

@@ -1,0 +1,84 @@
+<div class="text-left" style="margin-bottom: 50px;">
+    <h1><b>Materials: </b></h1>
+</div>
+
+<div class="text-left" style="margin-bottom: 50px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <a type="button" asp-controller="MaterialManagement" asp-action="CreateMaterial" class="btn btn-primary btn-lg btn-block">Create</a>
+                <table id="materials" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Color Code</th>
+                        <th>Unit</th>
+                        <th>Varian</th>
+                        <th>Weight</th>
+                        <th>Width</th>
+                        <th>Type</th>
+                        <th>Regional Market</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Common/http.js"></script>
+<script>
+    function deleteMaterial(ele) {
+        let td = ele.closest("td")
+        let materialId = td.find("input[name='id']").val()
+        httpDelete(`${materialManagementApi}/materials/${materialId}`)
+            .done(function(data) {
+                location.href = "/MaterialManagement/Materials"
+            })
+            .fail(function(data) {
+                console.log(data)
+            })
+    }
+
+    function getMaterials() {
+        httpGet(`${materialManagementApi}/materials`)
+            .done(function(data) {
+                let result = data.result
+                let tbodyMaterials = $("#materials").find("tbody")
+                
+                for(var i = 0; i < result.length; i++) {
+                    let trBodyData = '<tr>'
+                    trBodyData += `<td>${result[i].code}</td>
+                                    <td>${result[i].name}</td>
+                                    <td>${result[i].colorCode}</td>
+                                    <td>${result[i].unit}</td>
+                                    <td>${result[i].varian}</td>
+                                    <td>${result[i].weight}</td>
+                                    <td>${result[i].width}</td>
+                                    <td>${result[i].materialTypeName}</td>
+                                    <td>${result[i].regionalMarketName}</td>
+                                    <td>
+                                        <a type='button' href='Materials/${result[i].id}' class="btn btn-primary btn-lg btn-block">Edit</a>
+                                        <input hidden name='id' value='${result[i].id}'/>
+                                        <button type='button' id='deleteMaterial' class='btn btn-primary btn-lg btn-block'>Delete</button>
+                                    </td>`
+                    trBodyData += '</tr>'
+                    
+                    tbodyMaterials.append(trBodyData)
+                }
+            })
+            .fail(function(data) {
+                console.log(data)
+            })
+    }
+
+    $(document).ready(function () {
+        $(document).on("click", '#deleteMaterial', function () {
+            deleteMaterial($(this))
+        })
+        getMaterials()
+    })
+</script>

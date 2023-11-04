@@ -1,0 +1,170 @@
+<div class="text-left">
+    <div class="container">
+        <!form method="PUT">
+            <div id="BasicInformation">
+                <input hidden name="id"/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Name</label>
+                        <input type="text" name="name" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Tax No</label>
+                        @* <input type="text" name="taxNo" class="form-control" aria-label="Default" value="@Model.TaxNo"/> *@
+                        <input type="text" name="taxNo" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="label label-default">Website</label>
+                            @* <input type="text" name="website" class="form-control" aria-label="Default" value="@Model.Website"/> *@
+                            <input type="text" name="website" class="form-control" aria-label="Default"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label label-default">Transactional partner type</label>
+                            @* <select class="form-select" name="transactionalPartnerTypeId" asp-items="@ViewBag.TransactionalPartnerTypes"></select> *@
+                            <select class="form-select" name="transactionalPartnerTypeId"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label label-default">Currency type</label>
+                                @* <select class="form-select" name="currencyTypeId" asp-items="@ViewBag.CurrencyTypes"></select> *@
+                                <select class="form-select" name="currencyTypeId"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>
+                    Contact person information
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Contact person name</label>
+                        @* <input type="text" name="contactPersonName" class="form-control" aria-label="Default" value="@Model.ContactPersonInformation.Name"/> *@
+                        <input type="text" name="contactPersonName" class="form-control" aria-label="Default"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Tel No</label>
+                        @* <input type="text" name="telNo" class="form-control" aria-label="Default" value="@Model.ContactPersonInformation.TelNo"/> *@
+                        <input type="text" name="telNo" class="form-control" aria-label="Default"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Email</label>
+                        @* <input type="text" name="email" class="form-control" aria-label="Default" value="@Model.ContactPersonInformation.Email"/> *@
+                        <input type="text" name="email" class="form-control" aria-label="Default"/>
+                    </div>
+                </div>
+                <h3>
+                    Address:
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">City</label>
+                        @* <input type="text" name="city" class="form-control" aria-label="Default" value="@Model.Address.City"/> *@
+                        <input type="text" name="city" class="form-control" aria-label="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">District</label>
+                        @* <input type="text" name="district" class="form-control" aria-label="Default" value="@Model.Address.District"/> *@
+                        <input type="text" name="district" class="form-control" aria-label="Default"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Street</label>
+                        @* <input type="text" name="street" class="form-control" aria-label="Default" value="@Model.Address.Street"/> *@
+                        <input type="text" name="street" class="form-control" aria-label="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Ward</label>
+                        @* <input type="text" name="ward" class="form-control" aria-label="Default" value="@Model.Address.Ward"/> *@
+                        <input type="text" name="ward" class="form-control" aria-label="Default" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Zip code</label>
+                        <input type="text" name="zipCode" class="form-control" aria-label="Default" />
+                        @* <input type="text" name="zipCode" class="form-control" aria-label="Default" value="@Model.Address.ZipCode"/> *@
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Country</label>
+                        <select class="form-select" name="countryId"></select>
+                        @* <select class="form-select" name="countryId" asp-items="@ViewBag.Countries"></select> *@
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Location type</label>
+                        @* <select class="form-select" name="locationTypeId" asp-items="@ViewBag.LocationTypes"></select> *@
+                        <select class="form-select" name="locationTypeId"></select>
+                    </div>
+                </div>
+            </div>
+            <button id="save" type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        </!form>
+    </div>
+</div>
+<script src="~/Common/http.js"></script>
+<script src="~/MaterialManagement/UpdateTransactionalPartner.js"></script>
+<script>
+function getTransactionalPartnerById() {
+    let id = getIdByUrl()
+    httpGet(`${materialManagementApi}/transactional-partners/${id}`)
+        .done(function(data) {
+            let result = data.result
+            let basicForm = $('#BasicInformation')
+            
+            basicForm.find("input[name='id']").val(result.id)
+            basicForm.find("input[name='name']").val(result.name)
+            basicForm.find("input[name='taxNo']").val(result.taxNo)
+            basicForm.find("input[name='website']").val(result.website)
+            basicForm.find("input[name='contactPersonName']").val(result.contactPersonInformation.name)
+            basicForm.find("input[name='telNo']").val(result.contactPersonInformation.telNo)
+            basicForm.find("input[name='email']").val(result.contactPersonInformation.email)
+            basicForm.find("input[name='city']").val(result.address.city)
+            basicForm.find("input[name='district']").val(result.address.district)
+            basicForm.find("input[name='street']").val(result.address.street)
+            basicForm.find("input[name='ward']").val(result.address.ward)
+            basicForm.find("input[name='zipCode']").val(result.address.zipCode)
+            
+            basicForm.find("select[name='transactionalPartnerTypeId']").val(result.transactionalPartnerType.id).change()
+            basicForm.find("select[name='currencyTypeId']").val(result.currencyType.id).change()
+            basicForm.find("select[name='countryId']").val(result.address.country.id).change()
+            basicForm.find("select[name='locationTypeId']").val(result.locationType.id).change()
+        })
+        .fail(function(data) {
+            alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
+            console.log(data)
+        })
+}
+function save(ele) {
+    let formData = getTransactionalPartnerForm(ele)
+    let eleForm = ele.closest("form")
+    let basicInfo = eleForm.find("#BasicInformation")
+    formData.id = basicInfo.find("input[name='id']").val()
+    
+    httpPut(formData, `${materialManagementApi}/transactional-partners/${formData.id}`)
+        .done(function(data) { 
+            location.href = "/MaterialManagement/TransactionalPartners"
+        })
+        .fail(function(data) {
+            alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
+            console.log(data)
+        })
+}
+
+$(document).ready(function () {
+    $(document).on("click", "#save", function(e) {
+        e.preventDefault()
+        save($(this))
+    })
+    $.when(getTransactionalPartnerTypes(), getCountries(), getCurrencyTypes(), getLocationTypes())
+        .then(function() {
+            getTransactionalPartnerById()
+        })
+})
+</script>

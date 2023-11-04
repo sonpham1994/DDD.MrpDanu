@@ -1,0 +1,133 @@
+<div class="text-left">
+    <div class="container">
+        <!form>
+            <div id="BasicMaterialInformation">
+                <input hidden name="id" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Code</label>
+                        <input type="text" name="code" class="form-control" aria-label="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Name</label>
+                        <input type="text" name="name" class="form-control" aria-label="Default" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Color Code</label>
+                        <input type="text" name="colorCode" class="form-control" aria-label="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Width</label>
+                        <input type="text" name="width" class="form-control" aria-label="Default" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Weight</label>
+                        <input type="text" name="weight" class="form-control" aria-label="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Unit</label>
+                        <input type="text" name="unit" class="form-control" aria-label="Default" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Varian</label>
+                        <input type="text" name="varian" class="form-control" aria-label="Default" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label label-default">Regional Market</label>
+                        <select class="form-select" name="regionalMarketId"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label label-default">Type</label>
+                        @* <select class="form-select" name="materialTypeId" asp-items="@ViewBag.MaterialTypes"></select> *@
+                        <select class="form-select" name="materialTypeId"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="MaterialCostManagement">
+                <button type="button" onclick="addMaterialCost()" class="btn btn-primary btn-lg btn-block">Add Material Cost</button>
+                <table class="table table-bordered" id="materialCost">
+                    <thead>
+                    <tr>
+                        <th>Transactional Partner</th>
+                        <th>Surcharge</th>
+                        <th>MinQuantity</th>
+                        <th>Price</th>
+                        <th>Currency Type</th>
+                        <th>Action</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <button id="saveMaterial" type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        </!form>
+    </div>
+</div>
+<script src="~/Common/http.js"></script>
+<script src="~/MaterialManagement/UpdateMaterial.js"></script>
+<script>
+function saveMaterial(ele) {
+    let formData = getMaterialForm(ele)
+    let eleForm = ele.closest("form")
+    let basicMaterialInformation = eleForm.find("#BasicMaterialInformation")
+    formData.id = basicMaterialInformation.find("input[name='id']").val()
+    httpPut(formData, `${materialManagementApi}/materials/${formData.id}`)
+        .done(function(data) {
+            location.href = "/MaterialManagement/Materials"
+        })
+        .fail(function(data) {
+            alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
+            console.log(data)
+        })
+}
+
+function getMaterialById() {
+    let id = getIdByUrl()
+    httpGet(`${materialManagementApi}/materials/${id}`)
+        .done(function(data) {
+            let result = data.result
+            let basicForm = $('#BasicMaterialInformation')
+            
+            basicForm.find("input[name='id']").val(result.id)
+            basicForm.find("input[name='code']").val(result.code)
+            basicForm.find("input[name='name']").val(result.name)
+            basicForm.find("input[name='colorCode']").val(result.colorCode)
+            basicForm.find("input[name='width']").val(result.width)
+            basicForm.find("input[name='weight']").val(result.weight)
+            basicForm.find("input[name='unit']").val(result.unit)
+            basicForm.find("input[name='varian']").val(result.varian)
+            basicForm.find("select[name='regionalMarketId']").val(result.regionalMarket.id).change()
+            basicForm.find("select[name='materialTypeId']").val(result.materialType.id).change()
+            
+            for (let materialCost of result.materialCostManagements) {
+                loadMaterialCost(materialCost)
+            }
+        })
+        .fail(function(data) {
+            alert("some thing went wrong with code: " + data.errors[0].Code + ", and message: " + data.errors[0].Message)
+            console.log(data)
+        })
+}
+
+$(document).ready(function () {
+    $(document).on("click", "#saveMaterial", function(e) {
+        e.preventDefault()
+        saveMaterial($(this))
+    })
+    $.when(getSuppliers(), getMaterialTypes(), getRegionalMarkets())
+        .then(function() {
+            getMaterialById()
+        })
+})
+</script>

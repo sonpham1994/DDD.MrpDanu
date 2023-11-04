@@ -28,7 +28,7 @@ public class ApplicationArchitectureTests
         var otherProjects = new[]
         {
             InfrastructureNamespace,
-            WebNamespace,
+            ApiNamespace,
         };
 
         var result = Types.InAssembly(applicationAssembly).ShouldNot().HaveDependencyOnAll(otherProjects).GetResult();

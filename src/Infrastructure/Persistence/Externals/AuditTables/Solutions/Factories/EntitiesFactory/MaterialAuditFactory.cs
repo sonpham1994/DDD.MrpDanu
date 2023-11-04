@@ -15,7 +15,7 @@ internal sealed class MaterialAuditFactory
     public static Result<AuditTable> CreateForSolution1(EntityEntry entityEntry)
     {
         AuditTable? auditTable = null;
-        var state = StateAuditTable.FromEntityState(entityEntry.State);
+        var state = StateAuditTable.FromEntityState(entityEntry);
         if (state.IsFailure)
             return state.Error;
 
@@ -77,7 +77,7 @@ internal sealed class MaterialAuditFactory
             return InfrastructureDomainErrors.AuditData.NotSupportEntityAuditTypeYet(entityEntry.Entity.GetType().Name);
 
         AuditTable auditTable = null;
-        var state = StateAuditTable.FromEntityState(entityEntry.State);
+        var state = StateAuditTable.FromEntityState(entityEntry);
         if (state.IsFailure)
             return state.Error;
 
@@ -106,7 +106,7 @@ internal sealed class MaterialAuditFactory
     public static Result<AuditTable> CreateForSolution3(EntityEntry entityEntry)
     {
         AuditTable auditTable = null;
-        var state = StateAuditTable.FromEntityState(entityEntry.State);
+        var state = StateAuditTable.FromEntityState(entityEntry);
         if (state.IsFailure)
             return state.Error;
 

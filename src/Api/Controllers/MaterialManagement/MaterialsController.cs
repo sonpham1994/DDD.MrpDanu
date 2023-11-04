@@ -20,7 +20,7 @@ public sealed class MaterialsController : BaseApiController
     public async Task<IActionResult> GetMaterialsAsync(CancellationToken cancellationToken)
     {
         var materials = await Sender.Send(new GetMaterialsQuery(), cancellationToken);
-
+        
         return Success(materials.Value);
     }
     

@@ -4,7 +4,7 @@ using Api;
 using Api.Middlewares;
 using Serilog;
 using Api.SourceGenerators;
-using Api.MaterialManagement;
+using Api.Controllers.MaterialManagement;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 
@@ -50,7 +50,7 @@ builder.Services.Configure<HostOptions>(x =>
 // please check https://github.com/dotnet/aspnetcore/issues/38621
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
-    options.SerializerOptions.AddContext<JsonSourceGeneratorJsonContext>();
+    options.SerializerOptions.AddContext<ApiJsonSourceGenerator>();
 });
 
 builder.Services.AddControllers(options =>

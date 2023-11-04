@@ -39,6 +39,4 @@ public readonly struct Result : IResult
     {
         return Failure(domainError);
     }
-    
-    
 }

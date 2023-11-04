@@ -21,7 +21,7 @@ public class InfrastructureArchitectureTests
     {
         var infrastructureAssembly = InfrastructureAssembly.Instance;
 
-        var result = Types.InAssembly(infrastructureAssembly).ShouldNot().HaveDependencyOn(WebNamespace).GetResult();
+        var result = Types.InAssembly(infrastructureAssembly).ShouldNot().HaveDependencyOn(ApiNamespace).GetResult();
 
         result.IsSuccessful.Should().BeTrue();
     }

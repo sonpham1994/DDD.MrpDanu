@@ -111,7 +111,7 @@ internal sealed class ExternalDbContext : DbContext
                                 // the owned entity type, it always is a modified state, although the value of this remains unchanged
                                 // Let's wait the ComplexType from .NET 8 to check whether is it addressed or not.
                                 && (x.References.Any(j => j.IsModified)
-                                    // for internal entities and they are collections
+                                    // for internal entities which are collections
                                     || x.Collections.Any(j=>j.IsModified)))
                             ))
             /*

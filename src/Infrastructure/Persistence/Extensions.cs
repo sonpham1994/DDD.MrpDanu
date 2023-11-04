@@ -5,7 +5,8 @@ namespace Infrastructure.Persistence;
 public static class Extensions
 {
     //improve performance and reduce memory allocation instead of using .ToString() for enum
-    public static string ToEnumString(EntityState entityState)
+    //https://www.youtube.com/watch?v=BoE5Y6Xkm6w&t=449s&ab_channel=NickChapsas
+    public static string ToEnumString(this EntityState entityState)
     {
         return entityState switch
         {

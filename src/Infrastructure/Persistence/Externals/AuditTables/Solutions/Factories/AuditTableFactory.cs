@@ -71,7 +71,7 @@ internal sealed class AuditTableFactory
     public static AuditTable CreateForSolution2_1(EntityEntry entityEntry)
     {
         AuditTable? result = null;
-        var state = StateAuditTable.FromEntityState(entityEntry.State);
+        var state = StateAuditTable.FromEntityState(entityEntry);
         if (state.IsFailure)
             throw new DomainException(state.Error);
 
