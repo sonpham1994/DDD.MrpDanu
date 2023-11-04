@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
@@ -16,7 +15,7 @@ public class LocationType : Enumeration<LocationType>
     {
         var result = Enumeration<LocationType>.FromId(id);
         if (result.IsFailure)
-            return MaterialManagementDomainErrors.LocationType.NotFoundId(id);
+            return DomainErrors.LocationType.NotFoundId(id);
 
         return result;
     }

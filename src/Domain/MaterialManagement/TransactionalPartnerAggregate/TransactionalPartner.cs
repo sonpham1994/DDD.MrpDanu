@@ -1,6 +1,5 @@
-﻿using Domain.SharedKernel;
-using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
+using Domain.SharedKernel.DomainClasses;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
@@ -100,7 +99,7 @@ public class TransactionalPartner : AggregateRoot
         var indexOfSupplierType = TransactionalPartnerType.GetSupplierTypes().IndexOf(TransactionalPartnerType);
 
         if (indexOfSupplierType == -1)
-            return MaterialManagementDomainErrors.MaterialCostManagement.NotSupplier(Id);
+            return DomainErrors.MaterialCostManagement.NotSupplier(Id);
 
         return Result.Success();
     }
@@ -130,7 +129,7 @@ public class TransactionalPartner : AggregateRoot
          */
         if (address.Country == Country.VietNam 
             && currency != CurrencyType.VND)
-            return MaterialManagementDomainErrors.TransactionalPartner.InvalidCurrencyType;
+            return DomainErrors.TransactionalPartner.InvalidCurrencyType;
 
         return Result.Success();
     }
@@ -144,7 +143,7 @@ public class TransactionalPartner : AggregateRoot
          */
         if ((address.Country != Country.VietNam && location == LocationType.Domestic)
             || (address.Country == Country.VietNam && location == LocationType.Oversea))
-            return MaterialManagementDomainErrors.TransactionalPartner.InvalidCountryAndLocationType;
+            return DomainErrors.TransactionalPartner.InvalidCountryAndLocationType;
 
         return Result.Success();
     }

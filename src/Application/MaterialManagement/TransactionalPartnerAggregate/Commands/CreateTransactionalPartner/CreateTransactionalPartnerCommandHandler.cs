@@ -1,11 +1,11 @@
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
-using Domain.Errors;
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Queries;
+using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 

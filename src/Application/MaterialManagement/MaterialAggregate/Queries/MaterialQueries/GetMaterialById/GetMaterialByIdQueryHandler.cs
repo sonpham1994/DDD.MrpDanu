@@ -1,7 +1,7 @@
 using Application.Interfaces.Messaging;
-using Domain.Errors;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Queries;
+using Domain.MaterialManagement;
 
 namespace Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 
@@ -17,7 +17,7 @@ internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByI
         var material = await _materialQuery.GetByIdAsync(request.Id, cancellationToken);
 
         if (material is null)
-            return MaterialManagementDomainErrors.Material.MaterialIdNotFound(request.Id);
+            return DomainErrors.Material.MaterialIdNotFound(request.Id);
         
         return material;
     }

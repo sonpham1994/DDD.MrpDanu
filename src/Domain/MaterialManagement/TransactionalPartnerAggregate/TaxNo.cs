@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
@@ -21,16 +20,16 @@ public class TaxNo : ValueObject
     public static Result<TaxNo> Create(string value, Country country)
     {
         if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-            return MaterialManagementDomainErrors.TransactionalPartner.EmptyTaxNo;
+            return DomainErrors.TransactionalPartner.EmptyTaxNo;
 
         value = value.Trim();
 
         if (country == Country.VietNam)
         {
             if (value.Length != TaxNoVietnamLength)
-                return MaterialManagementDomainErrors.TransactionalPartner.InvalidLengthTaxNo;
+                return DomainErrors.TransactionalPartner.InvalidLengthTaxNo;
             if (!value.All(char.IsDigit))
-                return MaterialManagementDomainErrors.TransactionalPartner.InvalidTaxNo;
+                return DomainErrors.TransactionalPartner.InvalidTaxNo;
         }
         
         return new TaxNo(value, country);

@@ -1,4 +1,3 @@
-using Domain.Errors;
 using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
@@ -25,7 +24,7 @@ public class Country : Enumeration<Country>
     {
         var result = Enumeration<Country>.FromId(id);
         if (result.IsFailure)
-            return MaterialManagementDomainErrors.Country.NotFoundId(id);
+            return DomainErrors.Country.NotFoundId(id);
 
         return result;
     }

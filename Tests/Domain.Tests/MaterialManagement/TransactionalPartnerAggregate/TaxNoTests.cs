@@ -1,4 +1,4 @@
-using Domain.Errors;
+using Domain.MaterialManagement;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
@@ -15,7 +15,7 @@ public class TaxNoTests
         var result = TaxNo.Create(taxNo, Country.Korean);
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.EmptyTaxNo);
+        result.Error.Should().Be(DomainErrors.TransactionalPartner.EmptyTaxNo);
     }
 
     [Theory]
@@ -26,7 +26,7 @@ public class TaxNoTests
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidLengthTaxNo);
+        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidLengthTaxNo);
     }
     
     [Theory]
@@ -37,7 +37,7 @@ public class TaxNoTests
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidTaxNo);
+        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidTaxNo);
     }
 
     [Fact]

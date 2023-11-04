@@ -7,7 +7,7 @@ using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTr
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using Infrastructure.Persistence.Read.Models;
 
 namespace Infrastructure.Persistence.Read.Extensions;

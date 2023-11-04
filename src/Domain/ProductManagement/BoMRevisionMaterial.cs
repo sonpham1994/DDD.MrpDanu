@@ -1,4 +1,4 @@
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;

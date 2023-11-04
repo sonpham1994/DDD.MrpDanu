@@ -1,4 +1,4 @@
-using Domain.Errors;
+using Domain.MaterialManagement;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
@@ -14,7 +14,7 @@ public class CompanyNameTests
     {
         var result = CompanyName.Create(name);
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.EmptyName);
+        result.Error.Should().Be(DomainErrors.TransactionalPartner.EmptyName);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class CompanyNameTests
         var name = new string('t', 301);
         var result = CompanyName.Create(name);
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.TheLengthOfNameExceedsMaxLength);
+        result.Error.Should().Be(DomainErrors.TransactionalPartner.TheLengthOfNameExceedsMaxLength);
     }
 
     

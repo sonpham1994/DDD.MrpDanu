@@ -6,6 +6,7 @@ using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTr
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 
 namespace Api.Controllers.MaterialManagement;
 

@@ -3,11 +3,11 @@ using Application.Interfaces.Queries;
 using Application.Interfaces.Repositories;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Commands;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
-using Domain.Errors;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using FluentAssertions;
 using Moq;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.Tests.MaterialManagement.TransactionalPartnerAggregate.Commands;
 
@@ -41,7 +41,7 @@ public class CreateTransactionalPartnerTests
         var result = await commandHandler.Handle(command, default);
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(MaterialManagementDomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
+        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
     }
     
     [Fact]

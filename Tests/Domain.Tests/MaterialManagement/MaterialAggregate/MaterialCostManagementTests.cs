@@ -1,8 +1,8 @@
-﻿using Domain.Errors;
-using Domain.MaterialManagement.MaterialAggregate;
+﻿using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using FluentAssertions;
+using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Domain.Tests.MaterialManagement.MaterialAggregate;
 

@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
@@ -32,7 +31,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, I
         var result = Enumeration<TransactionalPartnerType>.FromId(id);
 
         if (result.IsFailure)
-            return MaterialManagementDomainErrors.TransactionalPartnerType.NotFoundId(id);
+            return DomainErrors.TransactionalPartnerType.NotFoundId(id);
 
         return result;
     }

@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
@@ -37,13 +36,13 @@ public class MaterialAttributes : ValueObject
         string varian)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            return MaterialManagementDomainErrors.Material.EmptyName;
+            return DomainErrors.Material.EmptyName;
         if (string.IsNullOrEmpty(width) || string.IsNullOrWhiteSpace(width))
-            return MaterialManagementDomainErrors.Material.EmptyWidth;
+            return DomainErrors.Material.EmptyWidth;
         if (string.IsNullOrEmpty(unit) || string.IsNullOrWhiteSpace(unit))
-            return MaterialManagementDomainErrors.Material.EmptyUnit;
+            return DomainErrors.Material.EmptyUnit;
         if (string.IsNullOrEmpty(varian) || string.IsNullOrWhiteSpace(varian))
-            return MaterialManagementDomainErrors.Material.EmptyVarian;
+            return DomainErrors.Material.EmptyVarian;
 
         name = name.Trim();
         colorCode = colorCode.Trim();

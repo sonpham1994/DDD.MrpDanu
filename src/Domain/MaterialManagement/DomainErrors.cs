@@ -1,8 +1,8 @@
 ﻿using Domain.SharedKernel.Base;
 
-namespace Domain.Errors;
+namespace Domain.MaterialManagement;
 
-public sealed class MaterialManagementDomainErrors
+public sealed class DomainErrors
 {
     public static class Material
     {
@@ -93,10 +93,5 @@ public sealed class MaterialManagementDomainErrors
     public static class Country
     {
         public static DomainError NotFoundId(in byte id) => new("Country.NotFoundId", $"Country id '{id}' is not found");
-    }
-
-    public static class CurrencyType
-    {
-        public static DomainError NotFoundId(in byte id) => new("CurrencyType.NotFoundId", $"Currency type id '{id}' does not exist.");
     }
 }

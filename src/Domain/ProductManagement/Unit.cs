@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.ProductManagement;
 
@@ -26,7 +25,7 @@ public class Unit : ValueObject
     public static Result<Unit> Create(decimal value)
     {
         if (value <= 0 || (!decimal.IsInteger(value) && !validUnitDecimals.Contains(value))) 
-            return ProductManagementDomainErrors.BoMRevisionMaterial.InvalidUnit;
+            return DomainErrors.BoMRevisionMaterial.InvalidUnit;
 
         return new Unit(value);
     }

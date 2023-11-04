@@ -1,6 +1,6 @@
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate;
 

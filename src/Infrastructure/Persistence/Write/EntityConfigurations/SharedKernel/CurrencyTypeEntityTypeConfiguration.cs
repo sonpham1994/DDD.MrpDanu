@@ -1,4 +1,5 @@
 ﻿using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

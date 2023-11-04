@@ -1,5 +1,5 @@
 using Application.Extensions;
-using Domain.Errors;
+using Domain.MaterialManagement;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using FluentValidation;
 
@@ -10,8 +10,8 @@ internal sealed class AddressCommandValidator : AbstractValidator<AddressCommand
     public AddressCommandValidator()
     {
         RuleFor(x => x).NotNull()
-            .WithErrorCode(MaterialManagementDomainErrors.TransactionalPartner.NullAddress.Code)
-            .WithMessage(MaterialManagementDomainErrors.TransactionalPartner.NullAddress.Message);
+            .WithErrorCode(DomainErrors.TransactionalPartner.NullAddress.Code)
+            .WithMessage(DomainErrors.TransactionalPartner.NullAddress.Message);
         
         RuleFor(x => x.CountryId).MustBeEnumeration(x=> Country.FromId(x));
         

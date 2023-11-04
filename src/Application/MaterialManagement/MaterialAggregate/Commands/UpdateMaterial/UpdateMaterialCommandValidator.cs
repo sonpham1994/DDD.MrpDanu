@@ -1,8 +1,8 @@
 using Application.Extensions;
-using Application.Interfaces;
-using Domain.Errors;
 using Domain.MaterialManagement.MaterialAggregate;
 using FluentValidation;
+using DomainErrors = Domain.SharedKernel.DomainClasses.DomainErrors;
+using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
@@ -12,8 +12,8 @@ internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateM
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
-            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
+            .WithErrorCode(DomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(DomainErrors.NullRequestBodyParameter.Message);
         RuleFor(x => x.Id).NotEmpty()
             .WithErrorCode(MaterialManagementDomainErrors.Material.EmptyId.Code)
             .WithMessage(MaterialManagementDomainErrors.Material.EmptyId.Message);

@@ -1,4 +1,3 @@
-using Domain.Errors;
 using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
@@ -30,17 +29,17 @@ public class Address : ValueObject
         Country country)
     {
         if (string.IsNullOrEmpty(street) || string.IsNullOrWhiteSpace(street))
-            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressStreet;
+            return DomainErrors.TransactionalPartner.EmptyAddressStreet;
         if (string.IsNullOrEmpty(city) || string.IsNullOrWhiteSpace(city))
-            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressCity;
+            return DomainErrors.TransactionalPartner.EmptyAddressCity;
         if (string.IsNullOrEmpty(district) || string.IsNullOrWhiteSpace(district))
-            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressDistrict;
+            return DomainErrors.TransactionalPartner.EmptyAddressDistrict;
         if (string.IsNullOrEmpty(ward) || string.IsNullOrWhiteSpace(ward))
-            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressWard;
+            return DomainErrors.TransactionalPartner.EmptyAddressWard;
         if (string.IsNullOrEmpty(zipCode) || string.IsNullOrWhiteSpace(zipCode))
-            return MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressZipCode;
+            return DomainErrors.TransactionalPartner.EmptyAddressZipCode;
         if (zipCode.Length != ZipCodeLength || !zipCode.All(char.IsDigit))
-            return MaterialManagementDomainErrors.TransactionalPartner.InvalidAddressZipCode;
+            return DomainErrors.TransactionalPartner.InvalidAddressZipCode;
 
         return new Address(street.Trim(), city.Trim(), district.Trim(), ward.Trim(), zipCode, country);
     }

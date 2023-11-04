@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
 
@@ -18,7 +17,7 @@ public class MaterialType : Enumeration<MaterialType>
     {
         var result = Enumeration<MaterialType>.FromId(id);
         if (result.IsFailure)
-            return MaterialManagementDomainErrors.MaterialType.NotFoundId(id);
+            return DomainErrors.MaterialType.NotFoundId(id);
 
         return result;
     }

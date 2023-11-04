@@ -1,6 +1,6 @@
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Queries;
-using Domain.Errors;
+using Domain.MaterialManagement;
 using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
@@ -18,7 +18,7 @@ internal sealed class GetTransactionalPartnerByIdQueryHandler : IQueryHandler<Ge
         var transactionalPartner = await _transactionalPartnerQuery.GetTransactionalPartnerByIdAsync(request.Id, cancellationToken);
 
         if (transactionalPartner is null)
-            return MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(request.Id);
+            return DomainErrors.TransactionalPartner.NotFoundId(request.Id);
 
         return transactionalPartner;
     }

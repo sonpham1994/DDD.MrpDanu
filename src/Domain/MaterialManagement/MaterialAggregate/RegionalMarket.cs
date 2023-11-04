@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
 
@@ -28,7 +27,7 @@ public class RegionalMarket : Enumeration<RegionalMarket>
         var result = Enumeration<RegionalMarket>.FromId(id);
 
         if (result.IsFailure)
-            return MaterialManagementDomainErrors.RegionalMarket.NotFoundId(id);
+            return DomainErrors.RegionalMarket.NotFoundId(id);
 
         return result;
     }

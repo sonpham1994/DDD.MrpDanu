@@ -1,9 +1,10 @@
 using Application.Extensions;
-using Domain.Errors;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
+using Domain.SharedKernel.DomainClasses;
 using Domain.SharedKernel.Base;
 using FluentValidation;
+using DomainErrors = Domain.SharedKernel.DomainClasses.DomainErrors;
+using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
@@ -13,8 +14,8 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
-            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
+            .WithErrorCode(DomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(DomainErrors.NullRequestBodyParameter.Message);
         
         RuleFor(x => x).MustBeEntity(x =>
         {

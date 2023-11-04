@@ -1,4 +1,4 @@
-using Domain.Errors;
+using Domain.MaterialManagement;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using FluentAssertions;
@@ -26,7 +26,7 @@ public class AddressTests
     {
         var address = Address.Create("street", "city", "district", "ward", "123456", Country.VietNam);
         address.IsFailure.Should().BeTrue();
-        address.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidAddressZipCode);
+        address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class AddressTests
     {
         var address = Address.Create("street", "city", "district", "ward", "abcde", Country.VietNam);
         address.IsFailure.Should().BeTrue();
-        address.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.InvalidAddressZipCode);
+        address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
     
     [Fact]
@@ -88,38 +88,38 @@ public class AddressTests
     public static IEnumerable<object[]> GetNullOrEmptyOfMandatoryProperties()
     {
         yield return new object[]
-            { " ", "city", "district", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressStreet };
+            { " ", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
         yield return new object[]
-            { "", "city", "district", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressStreet };
+            { "", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
         yield return new object[]
-            { null, "city", "district", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressStreet };
+            { null, "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
 
         yield return new object[]
-            { "street", " ", "district", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressCity };
+            { "street", " ", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
         yield return new object[]
-            { "street", "", "district", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressCity };
+            { "street", "", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
         yield return new object[]
-            { "street", null, "district", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressCity };
+            { "street", null, "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
 
         yield return new object[]
-            { "street", "city", " ", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressDistrict };
+            { "street", "city", " ", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
         yield return new object[]
-            { "street", "city", "", "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressDistrict };
+            { "street", "city", "", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
         yield return new object[]
-            { "street", "city", null, "ward", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressDistrict };
+            { "street", "city", null, "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
 
         yield return new object[]
-            { "street", "city", "district", " ", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressWard };
+            { "street", "city", "district", " ", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
         yield return new object[]
-            { "street", "city", "district", "", "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressWard };
+            { "street", "city", "district", "", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
         yield return new object[]
-            { "street", "city", "district", null, "zipCode", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressWard };
+            { "street", "city", "district", null, "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
 
         yield return new object[]
-            { "street", "city", "district", "ward", " ", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressZipCode };
+            { "street", "city", "district", "ward", " ", DomainErrors.TransactionalPartner.EmptyAddressZipCode };
         yield return new object[]
-            { "street", "city", "district", "ward", "", MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressZipCode };
+            { "street", "city", "district", "ward", "", DomainErrors.TransactionalPartner.EmptyAddressZipCode };
         yield return new object[]
-            { "street", "city", "district", "ward", null, MaterialManagementDomainErrors.TransactionalPartner.EmptyAddressZipCode };
+            { "street", "city", "district", "ward", null, DomainErrors.TransactionalPartner.EmptyAddressZipCode };
     }
 }

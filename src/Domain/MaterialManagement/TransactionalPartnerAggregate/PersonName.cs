@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
@@ -18,12 +17,12 @@ public class PersonName : ValueObject
     public static Result<PersonName> Create(string name)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            return MaterialManagementDomainErrors.ContactPersonInformation.EmptyName;
+            return DomainErrors.ContactPersonInformation.EmptyName;
 
         name = name.Trim();
 
         if (name.Length > PersonNameMaxLength)
-            return MaterialManagementDomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength;
+            return DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength;
 
         return new PersonName(name);
     }

@@ -1,8 +1,8 @@
 ﻿using Domain.SharedKernel.Base;
 
-namespace Domain.Errors;
+namespace Domain.ProductManagement;
 
-public sealed class ProductManagementDomainErrors
+public sealed class DomainErrors
 {
     public static class BoMRevisionMaterial
     {

@@ -1,5 +1,4 @@
-﻿using Domain.Errors;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
@@ -30,7 +29,7 @@ public class ContactInformation : ValueObject
 
         if ((string.IsNullOrEmpty(telNo) || string.IsNullOrWhiteSpace(telNo))
             && (string.IsNullOrEmpty(email) || string.IsNullOrWhiteSpace(email)))
-            return MaterialManagementDomainErrors.ContactPersonInformation.EmptyContact;
+            return DomainErrors.ContactPersonInformation.EmptyContact;
 
         telNo = telNo.Trim();
         email = email.Trim();
@@ -38,19 +37,19 @@ public class ContactInformation : ValueObject
         if (!string.IsNullOrEmpty(telNo))
         {
             if (telNo.Length > TelNoMaxLength)
-                return MaterialManagementDomainErrors.ContactPersonInformation.TelNoExceedsMaxLength;
+                return DomainErrors.ContactPersonInformation.TelNoExceedsMaxLength;
 
             if (!telNo.All(char.IsDigit))
-                return MaterialManagementDomainErrors.ContactPersonInformation.TelNoIsNotNumbers;
+                return DomainErrors.ContactPersonInformation.TelNoIsNotNumbers;
         }
 
         if (!string.IsNullOrEmpty(email))
         {
             if (email.Length > EmailMaxLength)
-                return MaterialManagementDomainErrors.ContactPersonInformation.EmailExceedsMaxLength;
+                return DomainErrors.ContactPersonInformation.EmailExceedsMaxLength;
 
             if (!EmailPattern.IsMatch(email))
-                return MaterialManagementDomainErrors.ContactPersonInformation.InvalidEmail;
+                return DomainErrors.ContactPersonInformation.InvalidEmail;
         }
 
         return new ContactInformation(telNo, email);

@@ -1,8 +1,7 @@
 using Application.Extensions;
-using Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
-using Domain.Errors;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.DomainClasses;
 using FluentValidation;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
@@ -13,8 +12,8 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(GeneralDomainErrors.NullRequestBodyParameter.Code)
-            .WithMessage(GeneralDomainErrors.NullRequestBodyParameter.Message);
+            .WithErrorCode(DomainErrors.NullRequestBodyParameter.Code)
+            .WithMessage(DomainErrors.NullRequestBodyParameter.Message);
         RuleFor(x => x.MaterialCosts)
             .SetValidator(new MaterialCostsValidator())
             .When(x => x.MaterialCosts.Any());
