@@ -3,8 +3,7 @@ using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.G
 using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
 using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
-using Domain.MaterialManagement.MaterialAggregate;
-using Web.ApiModels.BaseResponses;
+using Api.ApiResponses;
 
 namespace Api.SourceGenerators;
 //https://www.youtube.com/watch?v=HhyBaJ7uisU&t=402s&ab_channel=NickChapsas
@@ -35,15 +34,15 @@ namespace Api.SourceGenerators;
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     GenerationMode = JsonSourceGenerationMode.Default)]
-[JsonSerializable(typeof(AppResponse))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<MaterialsResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<MaterialTypeResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<RegionalMarketResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<SuppliersResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<LocationTypeResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<CurrencyTypeResponse>>))]
-[JsonSerializable(typeof(AppResponse<IReadOnlyList<CountryResponse>>))]
+[JsonSerializable(typeof(ApiResponse))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialsResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialTypeResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<RegionalMarketResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<SuppliersResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<LocationTypeResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<CurrencyTypeResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<CountryResponse>>))]
 public partial class ApiJsonSourceGenerator : JsonSerializerContext
 {
 }

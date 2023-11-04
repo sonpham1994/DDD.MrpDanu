@@ -3,8 +3,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var isProduction = builder.Environment.IsProduction();
-
 // builder.Services
 //     .AddApplication()
 //     .AddInfrastructure(isProduction)

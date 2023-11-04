@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers.MaterialManagement;
+namespace UI.Controllers;
 
 public sealed partial class MaterialManagementController
 {
     [HttpGet("TransactionalPartners")]
-    public async Task<IActionResult> IndexTransactionalPartner(CancellationToken cancellationToken)
+    public IActionResult IndexTransactionalPartner(CancellationToken cancellationToken)
     {
         return View("TransactionalPartner/Index");
     }
@@ -17,7 +17,7 @@ public sealed partial class MaterialManagementController
     }
     
     [HttpGet("TransactionalPartners/{id:guid}")]
-    public async Task<IActionResult> GetTransactionalPartner(Guid id, CancellationToken cancellationToken)
+    public IActionResult GetTransactionalPartner(Guid id, CancellationToken cancellationToken)
     {
         return View("TransactionalPartner/Edit");
     }

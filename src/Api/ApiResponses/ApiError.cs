@@ -1,13 +1,13 @@
 using Domain.SharedKernel.Base;
 
-namespace Web.ApiModels.BaseResponses;
+namespace Api.ApiResponses;
 
-public sealed record AppError(string Code, string Message)
+public sealed record ApiError(string Code, string Message)
 {
-    public static implicit operator AppError(in DomainError domainError) => new(domainError.Code, domainError.Message);
+    public static implicit operator ApiError(in DomainError domainError) => new(domainError.Code, domainError.Message);
 }
 
-public static class AppErrors
+public static class ApiErrors
 {
 
     //This is the way we think each request the program will allocate "InternalServerError" value, but it's not correct. The .Net core will cache
@@ -23,9 +23,7 @@ public static class AppErrors
 
     private const string InternalServerErrorCode = "InternalServerError";
 
-    public static readonly AppError InternalServerErrorOnProduction = new(InternalServerErrorCode, "Internal server error. Please contact admin to support.");
+    public static readonly ApiError InternalServerErrorOnProduction = new(InternalServerErrorCode, "Internal server error. Please contact admin to support.");
 
-    public static AppError InternalServerError(string message) => new(InternalServerErrorCode, message);
-
-    
+    public static ApiError InternalServerError(string message) => new(InternalServerErrorCode, message);
 }

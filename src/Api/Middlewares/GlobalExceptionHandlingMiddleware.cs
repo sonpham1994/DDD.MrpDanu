@@ -2,7 +2,7 @@ using System.Net;
 using System.Text.Json;
 using Application.Helpers;
 using Domain.Exceptions;
-using Web.ApiModels.BaseResponses;
+using Api.ApiResponses;
 using Api.SourceGenerators;
 
 namespace Api.Middlewares;
@@ -28,7 +28,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         {
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            string json = JsonSerializer.Serialize(AppResponse.Failure(e.Errors), ApiJsonSourceGenerator.Default.AppResponse);
+            string json = JsonSerializer.Serialize(ApiResponse.Failure(e.Errors), ApiJsonSourceGenerator.Default.AppResponse);
 
             context.Response.ContentType = "application/json";
 
@@ -38,13 +38,13 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         {
             string traceId = Helper.GetTraceId();
             string messageDetail = $"Exception: {e.Message}{Environment.NewLine}{e.InnerException}";
-            var error = _env.IsProduction() ? AppErrors.InternalServerErrorOnProduction : AppErrors.InternalServerError(messageDetail);
+            var error = _env.IsProduction() ? ApiErrors.InternalServerErrorOnProduction : ApiErrors.InternalServerError(messageDetail);
             
             _logger.Error(e, "----- TraceId: {TraceId}, ErrorMessageDetail: {ErrorMessageDetail}", traceId, messageDetail);
             
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            string json = JsonSerializer.Serialize(AppResponse.Failure(error), ApiJsonSourceGenerator.Default.AppResponse);
+            string json = JsonSerializer.Serialize(ApiResponse.Failure(error), ApiJsonSourceGenerator.Default.AppResponse);
 
             context.Response.ContentType = "application/json";
 
