@@ -105,15 +105,9 @@ internal sealed class ExternalDbContext : DbContext
         _auditTables = appDbContext.ChangeTracker
             .Entries()
             .Where(x => AuditTableFactory.Entities.Any(j => j == x.Entity.GetUnproxiedType()!)
-                        && (x.State != EntityState.Unchanged
-                            || (x.State == EntityState.Unchanged 
-                                // for ValueObject with Owned Entity Type. The problem here is that whenever we reassign
-                                // the owned entity type, it always is a modified state, although the value of this remains unchanged
-                                // Let's wait the ComplexType from .NET 8 to check whether is it addressed or not.
-                                && (x.References.Any(j => j.IsModified)
-                                    // for internal entities which are collections
-                                    || x.Collections.Any(j=>j.IsModified)))
-                            ))
+                        && (x.State.IsModifiedEntityState()
+                            || (x.State == EntityState.Unchanged && x.IsInternalEntityModified()))
+                    )
             /*
              *  we need to create a list of audit tables this, not in GetAuditTables method. Because after saving
              * is made, the entity state will reset. For example Added would be Unchanged, Deleted would be Detached

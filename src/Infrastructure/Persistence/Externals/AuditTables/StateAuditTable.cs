@@ -34,8 +34,6 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
     public static Result<StateAuditTable> FromEntityState(EntityEntry entity)
     {
         var entityState = entity.State;
-        var isInternalEntityModified = entity.References.Any(j => j.IsModified)
-                                  || entity.Collections.Any(j => j.IsModified);
         var state = entityState switch
         {
             EntityState.Added => Added,
@@ -46,7 +44,7 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
 
         if (state == None)
         {
-            if (isInternalEntityModified)
+            if (entity.IsInternalEntityModified())
             {
                 state = Modified;
             }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Persistence;
 
@@ -17,5 +18,21 @@ public static class Extensions
             EntityState.Unchanged => nameof(EntityState.Unchanged),
             _ => string.Empty
         };
+    }
+
+    public static bool IsModifiedEntityState(this EntityState entityState)
+    {
+        return entityState is EntityState.Added or EntityState.Modified or EntityState.Deleted;
+    }
+
+    public static bool IsInternalEntityModified(this EntityEntry entity)
+    {
+        // for internal entities are object
+        // for ValueObject with Owned Entity Type. The problem here is that whenever we reassign
+        // the owned entity type, it always is a modified state, although the value of this remains unchanged
+        // Let's wait the ComplexType from .NET 8 to check whether is it addressed or not.
+        return entity.References.Any(j => j.IsModified)
+               // for internal entities which are collections
+               || entity.Collections.Any(j => j.IsModified);
     }
 }

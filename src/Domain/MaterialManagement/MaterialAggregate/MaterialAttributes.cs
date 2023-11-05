@@ -56,6 +56,13 @@ public class MaterialAttributes : ValueObject
 
     public string ToUniqueCode()
     {
+        return $"{ReplaceSpecialCharacters(Name)}" +
+               $"_{ReplaceSpecialCharactersWithEmptyData(ColorCode)}" +
+               $"_{ReplaceSpecialCharacters(Width)}" +
+               $"_{ReplaceSpecialCharactersWithEmptyData(Weight)}" +
+               $"_{ReplaceSpecialCharacters(Unit)}" +
+               $"_{ReplaceSpecialCharacters(Varian)}";
+        
         string ReplaceSpecialCharacters(string data)
         {
             return UniqueCodePattern.Replace(data, string.Empty);
@@ -67,13 +74,6 @@ public class MaterialAttributes : ValueObject
                 ? "000" 
                 : ReplaceSpecialCharacters(data);
         }
-
-        return $"{ReplaceSpecialCharacters(Name)}" +
-               $"_{ReplaceSpecialCharactersWithEmptyData(ColorCode)}" +
-               $"_{ReplaceSpecialCharacters(Width)}" +
-               $"_{ReplaceSpecialCharactersWithEmptyData(Weight)}" +
-               $"_{ReplaceSpecialCharacters(Unit)}" +
-               $"_{ReplaceSpecialCharacters(Varian)}";
     }
     
     protected override IEnumerable<IComparable> GetEqualityComponents()
