@@ -2,8 +2,8 @@ using Application.Extensions;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.DomainClasses;
 using FluentValidation;
-using DomainErrors = Domain.SharedKernel.DomainClasses.DomainErrors;
-using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrorsShared = Domain.SharedKernel.DomainClasses.DomainErrors;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
@@ -14,12 +14,12 @@ internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValid
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(DomainErrors.NullRequestBodyParameter.Code)
-            .WithMessage(DomainErrors.NullRequestBodyParameter.Message);
+            .WithErrorCode(DomainErrorsShared.NullRequestBodyParameter.Code)
+            .WithMessage(DomainErrorsShared.NullRequestBodyParameter.Message);
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithErrorCode(MaterialManagementDomainErrors.TransactionalPartner.NotFound.Code)
-            .WithMessage(MaterialManagementDomainErrors.TransactionalPartner.NotFound.Message);
+            .WithErrorCode(DomainErrors.TransactionalPartner.NotFound.Code)
+            .WithMessage(DomainErrors.TransactionalPartner.NotFound.Message);
         
         RuleFor(x => x.Address).SetValidator(new AddressCommandValidator());
 

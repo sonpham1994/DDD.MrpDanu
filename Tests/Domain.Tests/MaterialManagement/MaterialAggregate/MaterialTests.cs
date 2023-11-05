@@ -2,7 +2,7 @@ using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.DomainClasses;
 using FluentAssertions;
-using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Domain.Tests.MaterialManagement.MaterialAggregate;
 
@@ -15,7 +15,7 @@ public class MaterialTests
         var material = Material.Create("code1", materialAttributes, MaterialType.Material, RegionalMarket.Florida);
 
         material.IsFailure.Should().Be(true);
-        material.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidMaterialType);
+        material.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class MaterialTests
         var material = Material.Create("code1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None);
 
         material.IsFailure.Should().Be(true);
-        material.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidSubassembliesType);
+        material.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
     }
     
     [Theory]
@@ -38,7 +38,7 @@ public class MaterialTests
         var material = Material.Create(code, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida);
 
         material.IsFailure.Should().Be(true);
-        material.Error.Should().Be(MaterialManagementDomainErrors.Material.EmptyCode);
+        material.Error.Should().Be(DomainErrors.Material.EmptyCode);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public class MaterialTests
         var materialAttributes = MaterialManagementPreparingData.MaterialAttributes1;
         var material = Material.Create($" {code} ", materialAttributes, MaterialType.Material, RegionalMarket.None);
 
-        material.IsSuccess.Should().Be(true);
+        material.IsSuccess.Should().BeTrue();
         material.Value.Attributes.Should().Be(materialAttributes);
         material.Value.Code.Should().Be(code);
         material.Value.CodeUnique.Should().Be(materialAttributes.ToUniqueCode());
@@ -79,8 +79,8 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial("code1", materialAttributes, MaterialType.Material, RegionalMarket.Florida);
         
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidMaterialType);
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
     }
 
     [Fact]
@@ -91,8 +91,8 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial("code1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None);
         
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.Material.InvalidSubassembliesType);
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
     }
     
     [Theory]
@@ -106,8 +106,8 @@ public class MaterialTests
         
         var result = material.Value.UpdateMaterial(code, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida);
 
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.Material.EmptyCode);
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.Material.EmptyCode);
     }
     
     [Fact]
@@ -158,7 +158,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial($"    {code}    ", materialAttributes2, MaterialType.Subassemblies, RegionalMarket.Florida);
         
-        result.IsSuccess.Should().Be(true);
+        result.IsSuccess.Should().BeTrue();
         material.Value.Attributes.Should().Be(materialAttributes2);
         material.Value.CodeUnique.Should().Be(materialAttributes1.ToUniqueCode());
     }
@@ -183,8 +183,8 @@ public class MaterialTests
         var materialCosts = MaterialCostManagement.Create(input, suppliers).Value;
 
         var result = material.Value.UpdateCost(materialCosts);
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.DuplicationSupplierId(Guid.Empty));
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.MaterialCostManagement.DuplicationSupplierId(Guid.Empty));
     }
     
     [Fact]

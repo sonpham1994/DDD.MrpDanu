@@ -5,7 +5,7 @@ using Domain.SharedKernel.DomainClasses;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Queries;
-using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
@@ -47,7 +47,7 @@ internal sealed class CreateTransactionalPartnerCommandHandler : ICommandHandler
          *  checking contact info and return boolean data type. This approach will make your repositories clean 
          */
         if (await _transactionalPartnerQuery.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
-            return MaterialManagementDomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
+            return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         
         var country = Country.FromId(request.Address.CountryId).Value;
         var taxNo = TaxNo.Create(request.TaxNo, country).Value;

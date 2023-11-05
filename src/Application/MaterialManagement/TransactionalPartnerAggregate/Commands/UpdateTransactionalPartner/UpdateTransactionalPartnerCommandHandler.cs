@@ -5,7 +5,7 @@ using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.DomainClasses;
 using Domain.SharedKernel.Base;
-using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
 
@@ -29,9 +29,9 @@ internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
         var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(request.Id, cancellationToken);
         if (transactionalPartner is null)
-            return MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(request.Id);
+            return DomainErrors.TransactionalPartner.NotFoundId(request.Id);
         if (await _transactionalPartnerQuery.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
-            return MaterialManagementDomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
+            return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         
         var country = Country.FromId(request.Address.CountryId).Value;
         var taxNo = TaxNo.Create(request.TaxNo, country).Value;

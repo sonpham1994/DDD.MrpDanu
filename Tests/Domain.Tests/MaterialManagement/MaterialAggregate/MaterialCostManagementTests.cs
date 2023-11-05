@@ -2,7 +2,7 @@
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.DomainClasses;
 using FluentAssertions;
-using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Domain.Tests.MaterialManagement.MaterialAggregate;
 
@@ -25,8 +25,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.NotSupplier(Guid.Empty));
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.NotSupplier(Guid.Empty));
     }
     
     [Fact]
@@ -44,8 +44,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(Guid.Empty));
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.TransactionalPartner.NotFoundId(Guid.Empty));
     }
     
     [Fact]
@@ -63,8 +63,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(Guid.Empty));
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.TransactionalPartner.NotFoundId(Guid.Empty));
     }
     
     [Fact]
@@ -82,8 +82,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.TransactionalPartner.NotFoundId(Guid.Empty));
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.TransactionalPartner.NotFoundId(Guid.Empty));
     }
     
     [Fact]
@@ -103,8 +103,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.NullSupplier);
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.NullSupplier);
     }
     
     [Fact]
@@ -122,8 +122,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.InvalidMinQuantity);
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.InvalidMinQuantity);
     }
 
     [Fact]
@@ -141,8 +141,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.InvalidPrice);
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.InvalidPrice);
     }
 
     [Fact]
@@ -160,8 +160,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.InvalidPrice);
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.InvalidPrice);
     }
 
     [Fact]
@@ -179,8 +179,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.InvalidSurcharge);
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.InvalidSurcharge);
     }
 
     [Fact]
@@ -198,8 +198,8 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsFailure.Should().Be(true);
-        materialCosts.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.InvalidSurcharge);
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialCostManagement.InvalidSurcharge);
     }
 
     [Fact]
@@ -219,7 +219,7 @@ public class MaterialCostManagementTests
 
         var materialCosts = MaterialCostManagement.Create(input, suppliers);
 
-        materialCosts.IsSuccess.Should().Be(true);
+        materialCosts.IsSuccess.Should().BeTrue();
         materialCosts.Value.Should().HaveCount(1);
         materialCosts.Value.First().Price.CurrencyType.Should().Be(supplier.CurrencyType);
         materialCosts.Value.First().Price.Value.Should().Be(6m);
@@ -247,8 +247,8 @@ public class MaterialCostManagementTests
         var materialCost = MaterialCostManagement.Create(input, suppliers).Value.First();
         var result = materialCost.SetMaterialCost(price, 12, surcharge);
         
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string.Empty, string.Empty, string.Empty));
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string.Empty, string.Empty, string.Empty));
     }
     
     [Fact]
@@ -271,8 +271,8 @@ public class MaterialCostManagementTests
         var materialCost = MaterialCostManagement.Create(input, suppliers).Value.First();
         var result = materialCost.SetMaterialCost(price, 12, surcharge);
         
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string.Empty, string.Empty, string.Empty));
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string.Empty, string.Empty, string.Empty));
     }
     
     [Fact]
@@ -295,8 +295,8 @@ public class MaterialCostManagementTests
         var materialCost = MaterialCostManagement.Create(input, suppliers).Value.First();
         var result = materialCost.SetMaterialCost(price, 0, surcharge);
         
-        result.IsFailure.Should().Be(true);
-        result.Error.Should().Be(MaterialManagementDomainErrors.MaterialCostManagement.InvalidMinQuantity);
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.MaterialCostManagement.InvalidMinQuantity);
     }
 
     [Fact]

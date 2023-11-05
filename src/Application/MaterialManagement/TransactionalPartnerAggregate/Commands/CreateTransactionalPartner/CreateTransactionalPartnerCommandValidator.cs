@@ -3,8 +3,8 @@ using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.DomainClasses;
 using Domain.SharedKernel.Base;
 using FluentValidation;
-using DomainErrors = Domain.SharedKernel.DomainClasses.DomainErrors;
-using MaterialManagementDomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrorsShared = Domain.SharedKernel.DomainClasses.DomainErrors;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
@@ -14,13 +14,13 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
     {
         RuleFor(x => x)
             .NotNull()
-            .WithErrorCode(DomainErrors.NullRequestBodyParameter.Code)
-            .WithMessage(DomainErrors.NullRequestBodyParameter.Message);
+            .WithErrorCode(DomainErrorsShared.NullRequestBodyParameter.Code)
+            .WithMessage(DomainErrorsShared.NullRequestBodyParameter.Message);
         
         RuleFor(x => x).MustBeEntity(x =>
         {
             if (x.Address is null)
-                return MaterialManagementDomainErrors.TransactionalPartner.NullAddress;
+                return DomainErrors.TransactionalPartner.NullAddress;
 
             var result1 = ResultCombine.Create
             (

@@ -4,7 +4,6 @@ using Infrastructure.Persistence.Externals.AuditTables.Factories;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
