@@ -15,6 +15,7 @@ public class ApiArchitectureTests
         $"{ApplicationNamespace}.Interfaces.Messaging",
         $"{ApplicationNamespace}.Interfaces.Queries",
         $"{ApplicationNamespace}.Interfaces.Repositories",
+        $"{ApplicationNamespace}.Interfaces.Services"
     };
 
     private const string ControllerClass = "Controller";

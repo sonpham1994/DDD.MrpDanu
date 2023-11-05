@@ -62,7 +62,7 @@ public class Material : AggregateRoot
     }
 
     //need to use ubiquitous language for this method
-    public Result UpdateCost(IEnumerable<MaterialCostManagement> materialCosts)
+    public Result UpdateCost(IReadOnlyList<MaterialCostManagement> materialCosts)
     {
         var supplierDuplication = materialCosts.ItemDuplication(x => x.TransactionalPartner);
         if (supplierDuplication is not null)
@@ -79,7 +79,7 @@ public class Material : AggregateRoot
                 if (setMaterialCostResult.IsFailure)
                     return setMaterialCostResult;
             }
-            else if (materialCostManagement is null)
+            else
             {
                 if (_materialCostManagements.Count + 1 > MaxNumberOfMaterialCosts)
                     return DomainErrors.Material.ExceedsMaxNumberOfMaterialCosts;

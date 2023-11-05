@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Benchmark.CastingObject;
 using BenchmarkDotNet.Running;
 using Benchmark.DynamicVsReflection;
 using Benchmark.EmptyCollectionAndToList;
@@ -18,6 +19,6 @@ using Benchmark.StringBenchmarks;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<StringBenchmark>();
+BenchmarkRunner.Run<CastingObjectBenchmark>();
 
 Console.WriteLine("Hello, World!");

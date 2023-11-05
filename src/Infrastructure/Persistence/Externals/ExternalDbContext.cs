@@ -101,6 +101,7 @@ internal sealed class ExternalDbContext : DbContext
              .Select(AuditTableFactory.Create) ---> make a further loading here due to Lazy loading
              .ToList();
          */
+        
         _auditTables = appDbContext.ChangeTracker
             .Entries()
             .Where(x => AuditTableFactory.Entities.Any(j => j == x.Entity.GetUnproxiedType()!)

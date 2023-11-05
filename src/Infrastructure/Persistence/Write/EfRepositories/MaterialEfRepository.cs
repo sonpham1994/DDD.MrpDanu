@@ -44,8 +44,8 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
            we avoid binding those properties using reflection, but the binding MaterialType to Entity like Material remain intact. 
        Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
        */
-        material.BindingEnumeration<Material, MaterialType>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context);
-        material.BindingEnumeration<Material, RegionalMarket>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
+        material.BindingEnumeration<MaterialType>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context);
+        material.BindingEnumeration<RegionalMarket>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
         
         return material;
     }

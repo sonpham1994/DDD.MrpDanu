@@ -68,10 +68,10 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
         Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
         */
 
-        transactionalPartner.BindingEnumeration<TransactionalPartner, TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
-        transactionalPartner.BindingEnumeration<TransactionalPartner, CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
-        transactionalPartner.BindingEnumeration<TransactionalPartner, LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
-        transactionalPartner.TaxNo.BindingEnumeration<TaxNo, Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.TaxNo.Country), context);
-        transactionalPartner.Address.BindingEnumeration<Address, Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.Address.Country), context);
+        transactionalPartner.BindingEnumeration<TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
+        transactionalPartner.BindingEnumeration<CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
+        transactionalPartner.BindingEnumeration<LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
+        transactionalPartner.TaxNo.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.TaxNo.Country), context);
+        transactionalPartner.Address.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.Address.Country), context);
     }
 }
