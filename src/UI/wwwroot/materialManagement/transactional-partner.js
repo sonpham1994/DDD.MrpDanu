@@ -34,11 +34,7 @@ function getTransactionalPartnerTypes() {
 }
 
 function renderTransactionalPartnerTypes (data) {
-    let result = data.result
-    let select = $("select[name='transactionalPartnerTypeId']")
-    for (var i = 0; i < result.length; i++) {
-        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-    }
+    renderOption(data.result, 'transactionalPartnerTypeId')
 }
 
 function getCountries() {
@@ -50,11 +46,7 @@ function getCountries() {
 }
 
 function renderCountries(data) {
-    let result = data.result
-    let select = $("select[name='countryId']")
-    for (var i = 0; i < result.length; i++) {
-        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-    }
+    renderOption(data.result, 'countryId')
 }
 
 function getCurrencyTypes() {
@@ -66,11 +58,7 @@ function getCurrencyTypes() {
 }
 
 function renderCurrencyTypes(data) {
-    let result = data.result
-    let select = $("select[name='currencyTypeId']")
-    for (var i = 0; i < result.length; i++) {
-        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-    }
+    renderOption(data.result, 'currencyTypeId')
 }
 
 function getLocationTypes() {
@@ -82,9 +70,5 @@ function getLocationTypes() {
 }
 
 function renderLocationTypes(data) {
-    let result = data.result
-    let select = $("select[name='locationTypeId']")
-    for (var i = 0; i < result.length; i++) {
-        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-    }
+    renderOption(data.result, 'locationTypeId')
 }

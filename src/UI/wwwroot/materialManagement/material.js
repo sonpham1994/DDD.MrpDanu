@@ -103,11 +103,7 @@ function getMaterialTypes() {
 }
 
 function renderMaterialTypes(data) {
-    let result = data.result
-    let select = $("select[name='materialTypeId']")
-    for (var i = 0; i < result.length; i++) {
-        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-    }
+    renderOption(data.result, 'materialTypeId')
 }
 
 function getRegionalMarkets() {
@@ -119,11 +115,7 @@ function getRegionalMarkets() {
 }
 
 function renderRegionalMarkets(data) {
-    let result = data.result
-    let select = $("select[name='regionalMarketId']")
-    for (var i = 0; i < result.length; i++) {
-        select.append(`<option value='${result[i].id}'>${result[i].name}</option>`)
-    }
+    renderOption(data.result, 'regionalMarketId')
 }
 
 function getSuppliers() {
