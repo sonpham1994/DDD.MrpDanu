@@ -4,7 +4,7 @@ namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 public class CompanyName : ValueObject
 {
-    private const ushort CompanyNameMaxLength = 300;
+    private static ushort CompanyNameMaxLength => 300;
     public string Value { get; }
 
     private CompanyName(string name) 

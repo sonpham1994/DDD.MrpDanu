@@ -60,7 +60,7 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
         if (cachedHashCode.HasValue) 
             return cachedHashCode.Value;
 
-        cachedHashCode = (typeof(T).GetUnproxiedType().Name.GetHashCode() + Id.GetHashCode()).GetHashCode();
+        cachedHashCode = (typeof(T).GetUnproxiedType().Name.GetHashCode() + Id).GetHashCode();
 
         return cachedHashCode.Value;
     }

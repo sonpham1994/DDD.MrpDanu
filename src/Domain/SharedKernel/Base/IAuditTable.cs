@@ -1,5 +1,3 @@
-using Domain.Exceptions;
-
 namespace Domain.SharedKernel.Base;
 
 //Please check Solutions in Infrastructure

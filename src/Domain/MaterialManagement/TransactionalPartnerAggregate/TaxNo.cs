@@ -4,7 +4,7 @@ namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 public class TaxNo : ValueObject
 {
-    private const byte TaxNoVietnamLength = 10;
+    private static byte TaxNoVietnamLength => 10;
 
     public string Value { get; }
     public virtual Country Country { get; }

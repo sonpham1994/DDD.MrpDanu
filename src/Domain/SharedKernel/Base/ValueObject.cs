@@ -22,6 +22,17 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>, IEqua
      * by calling this Equals(object? obj), it increases a lot of casting behaviour and reduce performance.
      * Need to somehow to void this casting object and use Equals(ValueObject? valueObject) instead
      */
+    /*
+     * When we use ChangeTracker for load data. It will call DetectValueChange and result in a lot of comparing values in
+     * Entity.
+     * When I investigate this method why EF call this a lot and I see the EF boxing value a lot. It will call all
+     * properties that exist in object and compare them for Detecting value change in DetectValueChange method.
+     * It also compare two objects. For example Website1 and Website2 objects, and after that comparing the properties
+     * in two objects Website1 and Website2.
+     * EF call this Equals method and also introduce a lot of boxing through this "Equals(object? left, object? right)"
+     * in "public class ValueComparer" class in "Microsoft.EntityFrameworkCore.ChangeTracking" namespace, and also in
+     * "bool Equals(object? objA, object? objB)" in "Object class" in "System" namespace
+     */
     public override bool Equals(object? obj)
     {
         if (obj is null)

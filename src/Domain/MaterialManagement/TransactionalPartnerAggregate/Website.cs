@@ -5,6 +5,9 @@ namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 public class Website : ValueObject
 {
+    //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
+    private static readonly Regex WebsitePattern = new(@"^http:\/\/(.+)\.\w{2,}$|https:\/\/(.+)\.\w{2,}$", RegexOptions.Compiled);
+    
     public string Value { get; }
 
     protected Website() { }
@@ -14,10 +17,10 @@ public class Website : ValueObject
     public static Result<Website?> Create(string value)
     {
         if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-            return Result.Success((Website)null);
+            return Result.Success(default(Website));
 
         value = value.Trim();
-        if (!Regex.IsMatch(value, @"^http:\/\/(.+)\.\w{2,}$|https:\/\/(.+)\.\w{2,}$"))
+        if (!WebsitePattern.IsMatch(value))
             return DomainErrors.TransactionalPartner.InvalidWebsite(value);
 
         return new Website(value);

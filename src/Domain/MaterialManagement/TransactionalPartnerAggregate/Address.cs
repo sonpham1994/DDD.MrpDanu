@@ -4,7 +4,7 @@ namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 public class Address : ValueObject
 {
-    private const byte ZipCodeLength = 5;
+    private static byte ZipCodeLength => 5;
     
     public string Street { get; }
     public string City { get; }
@@ -46,11 +46,11 @@ public class Address : ValueObject
     
     protected override IEnumerable<IComparable> GetEqualityComponents()
     {
-        yield return Street;
-        yield return City;
-        yield return District;
-        yield return Ward;
         yield return ZipCode;
+        yield return Ward;
+        yield return District;
+        yield return City;
+        yield return Street;
         yield return Country;
     }
 }

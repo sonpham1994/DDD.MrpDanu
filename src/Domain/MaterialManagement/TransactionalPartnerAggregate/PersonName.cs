@@ -4,7 +4,7 @@ namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 public class PersonName : ValueObject
 {
-    private const byte PersonNameMaxLength = 200;
+    private static byte PersonNameMaxLength => 200;
     public string Value { get; }
 
     private PersonName(string name) 

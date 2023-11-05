@@ -5,8 +5,8 @@ namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
 public class ContactInformation : ValueObject
 {
-    private const byte EmailMaxLength = 200;
-    private const byte TelNoMaxLength = 20;
+    private static byte EmailMaxLength => 200;
+    private static byte TelNoMaxLength => 20;
 
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
     private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$", RegexOptions.Compiled);
