@@ -24,7 +24,9 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>, IEqua
      */
     /*
      * When we use ChangeTracker for load data. It will call DetectValueChange and result in a lot of comparing values in
-     * Entity.
+     * Entity. (it comes from "public object? this[IPropertyBase propertyBase]" in InternalEntityEntry, this place
+     * will return value type and convert it to object -> boxing in "Microsoft.EntityFrameworkCore.ChangeTracking.Internal"
+     * namespace)
      * When I investigate this method why EF call this a lot and I see the EF boxing value a lot. It will call all
      * properties that exist in object and compare them for Detecting value change in DetectValueChange method.
      * It also compare two objects. For example Website1 and Website2 objects, and after that comparing the properties

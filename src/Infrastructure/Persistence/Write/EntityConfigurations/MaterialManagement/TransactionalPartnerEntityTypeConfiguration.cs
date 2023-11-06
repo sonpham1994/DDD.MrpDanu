@@ -1,6 +1,5 @@
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement;
@@ -11,14 +10,6 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
     {
         builder.ToTable(nameof(TransactionalPartner));
         builder.HasKey(x => x.Id);
-        builder.Property<Guid>(x => x.Id).HasColumnType("uniqueidentifier")
-            .HasConversion(
-                    v => v, 
-                    v => v, 
-            new ValueComparer<Guid>(
-                (c1, c2) => c1 == c2,
-                v=>v.GetHashCode(),
-                v=> v));
 
         builder.Property(x => x.Name)
             .HasColumnName(nameof(TransactionalPartner.Name))
