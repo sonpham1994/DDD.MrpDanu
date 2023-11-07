@@ -8,12 +8,19 @@ namespace Benchmark.JsonSerializerBenchmarks;
 public class JsonSerializerBenchmark
 {
     private MyClass mclass;
+    private MyRecord mrecord;
     private MyClassWithNoSourceGenerator mclassWithNoSourceGenerator;
     private IMyClass Imclass;
     private string serializeMClass;
+    private string serializeMRecord;
     private string serializeMClassWithDefaultSourceGenerator;
     private string serializeMClassWithMetadataSourceGenerator;
     private string serializeMClassWithSerializationSourceGenerator;
+
+    private string serializeMRecordWithDefaultSourceGenerator;
+    private string serializeMRecordWithMetadataSourceGenerator;
+    private string serializeMRecordWithSerializationSourceGenerator;
+
     private readonly Serilog.ILogger _logger;
 
     public JsonSerializerBenchmark()
@@ -41,6 +48,17 @@ public class JsonSerializerBenchmark
                 Name = "Namemyclass3"
             }
         };
+
+        mrecord = new MyRecord(Guid.NewGuid(), 
+            "Name", 
+            new List<MyRecord2>
+            {
+                new MyRecord2(Guid.NewGuid(), "NameMyclass2_1"),
+                new MyRecord2(Guid.NewGuid(), "NameMyclass2_2")
+            }, 
+            new MyRecord3(Guid.NewGuid(), "Namemyclass3"), 
+            DateTime.UtcNow
+        );
 
         Imclass = new MyClass()
         {
@@ -93,9 +111,15 @@ public class JsonSerializerBenchmark
 
 
         serializeMClass = System.Text.Json.JsonSerializer.Serialize(mclass);
+        serializeMRecord = System.Text.Json.JsonSerializer.Serialize(mrecord);
+
         serializeMClassWithDefaultSourceGenerator = System.Text.Json.JsonSerializer.Serialize(mclass, MyClassDefaultJsonContext.Default.MyClass);
         serializeMClassWithMetadataSourceGenerator = System.Text.Json.JsonSerializer.Serialize(mclass, MyClassMetadatatJsonContext.Default.MyClass);
         serializeMClassWithSerializationSourceGenerator = System.Text.Json.JsonSerializer.Serialize(mclass, MyClassSerializationJsonContext.Default.MyClass);
+
+        serializeMRecordWithDefaultSourceGenerator = System.Text.Json.JsonSerializer.Serialize(mrecord, MyRecordDefaultJsonContext.Default.MyRecord);
+        serializeMRecordWithMetadataSourceGenerator = System.Text.Json.JsonSerializer.Serialize(mrecord, MyRecordMetadatatJsonContext.Default.MyRecord);
+        serializeMRecordWithSerializationSourceGenerator = System.Text.Json.JsonSerializer.Serialize(mrecord, MyRecordSerializationJsonContext.Default.MyRecord);
 
         _logger = new LoggerConfiguration()
                         .MinimumLevel.Information()
@@ -136,6 +160,37 @@ public class JsonSerializerBenchmark
     {
         var a = System.Text.Json.JsonSerializer.Serialize(mclass, MyClassSerializationJsonContext.Default.MyClass);
     }
+
+    [Benchmark]
+    public void NewtonsoftJsonSerializerWithRecordImplementation()
+    {
+        var a = Newtonsoft.Json.JsonConvert.SerializeObject(mrecord);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonSerializerWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Serialize(mrecord);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonSerializerSourceGeneratorDefaultWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Serialize(mrecord, MyRecordDefaultJsonContext.Default.MyRecord);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonSerializerSourceGeneratorMetadataWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Serialize(mrecord, MyRecordMetadatatJsonContext.Default.MyRecord);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonSerializerSourceGeneratorSerializationWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Serialize(mrecord, MyRecordSerializationJsonContext.Default.MyRecord);
+    }
+
 
     [Benchmark]
     public void NewtonsoftJsonSerializerWithInterface()
@@ -183,6 +238,33 @@ public class JsonSerializerBenchmark
     {
         var a = System.Text.Json.JsonSerializer.Deserialize(serializeMClassWithMetadataSourceGenerator, MyClassMetadatatJsonContext.Default.MyClass);
     }
+
+
+    [Benchmark]
+    public void NewtonsoftJsonDeserializerWithRecordImplementation()
+    {
+        var a = Newtonsoft.Json.JsonConvert.DeserializeObject<MyRecord>(serializeMRecord);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonDeserializerWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Deserialize<MyRecord>(serializeMRecord);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonDeserializerSourceGeneratorDefaultWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Deserialize(serializeMRecordWithDefaultSourceGenerator, MyRecordDefaultJsonContext.Default.MyRecord);
+        //Console.WriteLine(a);
+    }
+
+    [Benchmark]
+    public void SystemTextJsonDeserializerSourceGeneratorMetadataWithRecordImplementation()
+    {
+        var a = System.Text.Json.JsonSerializer.Deserialize(serializeMRecordWithMetadataSourceGenerator, MyRecordMetadatatJsonContext.Default.MyRecord);
+    }
+
 
     [Benchmark]
     public void ApiResponseWithChildDataWithSourceGenerator()

@@ -19,6 +19,6 @@ using Benchmark.StringBenchmarks;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<CastingObjectBenchmark>();
+BenchmarkRunner.Run<JsonSerializerBenchmark>();
 
 Console.WriteLine("Hello, World!");

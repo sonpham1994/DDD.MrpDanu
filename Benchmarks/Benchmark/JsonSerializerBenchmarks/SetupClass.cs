@@ -45,6 +45,13 @@ public interface IMyClass
     Guid Id { get; set; }
 }
 
+public record MyRecord(Guid Id, string Name, List<MyRecord2> MyClass2, MyRecord3 MyClass3, DateTime Time);
+
+public record MyRecord2(Guid Id, string Name);
+
+
+public record MyRecord3(Guid Id, string Name);
+
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     GenerationMode = JsonSourceGenerationMode.Default)]
@@ -66,6 +73,30 @@ public partial class MyClassMetadatatJsonContext : JsonSerializerContext
     GenerationMode = JsonSourceGenerationMode.Serialization)]
 [JsonSerializable(typeof(MyClass))]
 public partial class MyClassSerializationJsonContext : JsonSerializerContext
+{
+}
+
+[JsonSourceGenerationOptions(
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    GenerationMode = JsonSourceGenerationMode.Default)]
+[JsonSerializable(typeof(MyRecord))]
+public partial class MyRecordDefaultJsonContext : JsonSerializerContext
+{
+}
+
+[JsonSourceGenerationOptions(
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    GenerationMode = JsonSourceGenerationMode.Metadata)]
+[JsonSerializable(typeof(MyRecord))]
+public partial class MyRecordMetadatatJsonContext : JsonSerializerContext
+{
+}
+
+[JsonSourceGenerationOptions(
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    GenerationMode = JsonSourceGenerationMode.Serialization)]
+[JsonSerializable(typeof(MyRecord))]
+public partial class MyRecordSerializationJsonContext : JsonSerializerContext
 {
 }
 
