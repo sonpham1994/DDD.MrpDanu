@@ -31,9 +31,11 @@ namespace Api.SourceGenerators;
 // multi objects in JsonSerializerContext (please check "Then boolean and int have to be declared as [JsonSerializable]"): https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-7-0
 // or multi objects in JsonSerializerContext also show here (please check "Recommended action"): https://learn.microsoft.com/en-us/dotnet/core/compatibility/serialization/7.0/reflection-fallback
 //for Serialization GenerationMode with Record, it would be in .Net 8, please check: https://github.com/dotnet/runtime/issues/75139
+// .Net 8 and Json source generator: https://www.linkedin.com/posts/sina-riyahi_leaked-net-8-features-ugcPost-7127674450916859904-mvkZ?utm_source=share&utm_medium=member_ios
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
-    GenerationMode = JsonSourceGenerationMode.Default)]
+    //Serialization is just for Serializer, not Deserializer? If we just need Serialization, we use this mode instead Default mode which include both Serialization and Metadata, and as a result it reduces compile time
+    GenerationMode = JsonSourceGenerationMode.Serialization)] 
 [JsonSerializable(typeof(ApiResponse))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialsResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialTypeResponse>>))]
