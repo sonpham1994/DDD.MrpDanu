@@ -9,7 +9,11 @@ public class ContactInformation : ValueObject
     private static byte TelNoMaxLength => 20;
 
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
-    private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$", RegexOptions.Compiled);
+    //https://www.youtube.com/watch?v=RSFiiKUvzLI&ab_channel=NickChapsas
+    private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$", 
+        RegexOptions.Compiled,
+        //88.69 ns From Benchmark.RegexBenchmarks
+        TimeSpan.FromMilliseconds(1));
 
     public string TelNo { get; }
     public string Email { get; }

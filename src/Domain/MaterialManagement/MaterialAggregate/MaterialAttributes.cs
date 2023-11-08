@@ -7,7 +7,11 @@ namespace Domain.MaterialManagement.MaterialAggregate;
 public class MaterialAttributes : ValueObject
 {
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
-    private static readonly Regex UniqueCodePattern = new("[^A-Za-z0-9]", RegexOptions.Compiled);
+    //https://www.youtube.com/watch?v=RSFiiKUvzLI&ab_channel=NickChapsas
+    private static readonly Regex UniqueCodePattern = new("[^A-Za-z0-9]", 
+        RegexOptions.Compiled,
+        //3,732.86 ns From Benchmark.RegexBenchmarks
+        TimeSpan.FromMilliseconds(10));
     
     public string Name { get; }
     public string ColorCode { get; }

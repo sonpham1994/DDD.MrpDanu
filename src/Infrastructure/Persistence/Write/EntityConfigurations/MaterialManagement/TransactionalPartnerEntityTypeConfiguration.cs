@@ -31,7 +31,7 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
         });
 
         builder.Property(k => k.Website)
-            .HasColumnType("varchar(50)")
+            .HasColumnType("varchar(100)")
             .HasColumnName(nameof(TransactionalPartner.Website))
             .HasConversion(x => x.Value, x => Website.Create(x).Value)
             .IsRequired(false);

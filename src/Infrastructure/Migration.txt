@@ -1,20 +1,20 @@
 stand at DDD.MrpDanu folder and run the command lines below
 
 Install Microsoft.EntityFrameworkCore.Design
-dotnet ef migrations add Initial --project Infrastructure --startup-project Web --context AppDbContext -o Persistence/Migrations
-dotnet ef database update --project Infrastructure --startup-project Web --context AppDbContext
-dotnet ef migrations remove --project Infrastructure --startup-project Web --context AppDbContext
+dotnet ef migrations add Initial --project src/Infrastructure --startup-project src/Api --context AppDbContext -o Persistence/Migrations
+dotnet ef database update --project src/Infrastructure --startup-project src/Api --context AppDbContext
+dotnet ef migrations remove --project src/Infrastructure --startup-project src/Api --context AppDbContext
 
 externalDbContext:
-dotnet ef migrations add InititAuditTable --project Infrastructure --startup-project Web --context ExternalDbContext -o Persistence/Externals/Migrations
-dotnet ef database update --project Infrastructure --startup-project Web --context ExternalDbContext
-dotnet ef migrations remove --project Infrastructure --startup-project Web --context ExternalDbContext
+dotnet ef migrations add InititAuditTable --project src/Infrastructure --startup-project src/Api --context ExternalDbContext -o Persistence/Externals/Migrations
+dotnet ef database update --project src/Infrastructure --startup-project src/Api --context ExternalDbContext
+dotnet ef migrations remove --project src/Infrastructure --startup-project src/Api --context ExternalDbContext
 
 Install Microsoft.EntityFrameworkCore.Tools
-Add-Migration Initial -StartupProject Web -Context AppDbContext -Project Infrastructure -o Persistence/Migrations
-Remove-Migration -StartupProject Web -Context AppDbContext -Project Infrastructure
-Update-Database -project Infrastructure -startupProject Web -context AppDbContext
+Add-Migration Initial -StartupProject src/Api -Context AppDbContext -Project src/Infrastructure -o Persistence/Migrations
+Remove-Migration -StartupProject src/Api -Context AppDbContext -Project src/Infrastructure
+Update-Database -project src/Infrastructure -startupProject src/Api -context AppDbContext
 
-Add-Migration InititAuditTable -Project Infrastructure -StartupProject Web -Context ExternalDbContext -o Persistence/Externals/Migrations
-Update-Database -project Infrastructure -StartupProject Web -Context ExternalDbContext
-Remove-Migration -Project Infrastructure -StartupProject Web -Context ExternalDbContext
+Add-Migration InititAuditTable -Project src/Infrastructure -StartupProject src/Api -Context ExternalDbContext -o Persistence/Externals/Migrations
+Update-Database -project src/Infrastructure -StartupProject src/Api -Context ExternalDbContext
+Remove-Migration -Project src/Infrastructure -StartupProject src/Api -Context ExternalDbContext

@@ -19,6 +19,6 @@ using Benchmark.StringBenchmarks;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<JsonSerializerBenchmark>();
+BenchmarkRunner.Run<RegexBenchmark>();
 
 Console.WriteLine("Hello, World!");
