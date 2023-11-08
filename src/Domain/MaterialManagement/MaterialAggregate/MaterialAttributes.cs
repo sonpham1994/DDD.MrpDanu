@@ -11,7 +11,7 @@ public class MaterialAttributes : ValueObject
     private static readonly Regex UniqueCodePattern = new("[^A-Za-z0-9]", 
         RegexOptions.Compiled,
         //3,732.86 ns From Benchmark.RegexBenchmarks
-        TimeSpan.FromMilliseconds(10));
+        TimeSpan.FromMilliseconds(100));
     
     public string Name { get; }
     public string ColorCode { get; }

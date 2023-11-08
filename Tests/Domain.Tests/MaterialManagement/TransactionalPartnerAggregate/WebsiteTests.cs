@@ -35,7 +35,20 @@ public class WebsiteTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be((Website)null);
     }
+    [Fact]
+    public void Cannot_create_website_with_exceeding_100_length()
+    {
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var random = new Random();
+        string value = new string(Enumerable.Repeat(chars, 101)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+        var result = Website.Create(value);
 
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(100));
+    }
+    
+    
     [Fact]
     public void Create_website_with_value_successfully()
     {

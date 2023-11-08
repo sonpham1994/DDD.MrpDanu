@@ -10,7 +10,7 @@ public class Website : ValueObject
     private static readonly Regex WebsitePattern = new(@"^http:\/\/(.+)\.\w{2,}$|https:\/\/(.+)\.\w{2,}$", 
         RegexOptions.Compiled,
         //152.16 ns from Benchmark.RegexBenchmarks
-        TimeSpan.FromMilliseconds(2));
+        TimeSpan.FromMilliseconds(100));
     
     private static byte WebsiteLength => 100;
     
