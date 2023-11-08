@@ -1,21 +1,30 @@
-| Method                                                                      | Mean         | Error        | StdDev       | Median       | Gen0   | Allocated |
-|---------------------------------------------------------------------------- |-------------:|-------------:|-------------:|-------------:|-------:|----------:|
-| NewtonsoftJsonSerializerWithClassImplementation                             |   6,929.8 ns |    255.23 ns |    740.48 ns |   6,606.2 ns | 1.0452 |    3280 B |
-| SystemTextJsonSerializerWithClassImplementation                             |   3,216.8 ns |     65.95 ns |    184.94 ns |   3,191.6 ns | 0.3128 |     992 B |
-| SystemTextJsonSerializerSourceGeneratorDefaultWithClassImplementation       |   1,751.0 ns |     44.24 ns |    126.94 ns |   1,712.5 ns | 0.2155 |     680 B |
-| SystemTextJsonSerializerSourceGeneratorMetadataWithClassImplementation      |   3,029.6 ns |     60.86 ns |    174.61 ns |   2,944.1 ns | 0.3128 |     992 B |
-| SystemTextJsonSerializerSourceGeneratorSerializationWithClassImplementation |   1,254.5 ns |    144.79 ns |    426.91 ns |   1,546.1 ns | 0.2155 |     680 B |
-| NewtonsoftJsonSerializerWithInterface                                       |   6,449.1 ns |    135.07 ns |    380.96 ns |   6,321.0 ns | 1.0376 |    3280 B |
-| SystemTextJsonSerializerWithInterface                                       |     542.1 ns |     10.68 ns |      8.92 ns |     539.5 ns | 0.0353 |     112 B |
-| NewtonsoftJsonDeserializerWithClassImplementation                           |  11,684.7 ns |    258.31 ns |    741.14 ns |  11,625.3 ns | 1.1902 |    3760 B |
-| SystemTextJsonDeserializerWithClassImplementation                           |   5,736.6 ns |    181.35 ns |    520.33 ns |   5,577.8 ns | 0.2823 |     904 B |
-| SystemTextJsonDeserializerSourceGeneratorDefaultWithClassImplementation     |   5,221.7 ns |     66.58 ns |     55.60 ns |   5,208.2 ns | 0.2823 |     904 B |
-| SystemTextJsonDeserializerSourceGeneratorMetadataWithClassImplementation    |   5,328.7 ns |    103.56 ns |    127.19 ns |   5,284.0 ns | 0.2823 |     904 B |
-| ApiResponseWithChildDataWithSourceGenerator                                 |     833.1 ns |     54.70 ns |    146.01 ns |     773.4 ns | 0.2441 |     768 B |
-| ApiResponseWithChildDataWithoutSourceGenerator                              |   1,734.0 ns |      9.74 ns |      7.60 ns |   1,734.3 ns | 0.2441 |     768 B |
-| LoggingSystemTextJsonStructWithNoSourceGeneratorSerializer                  | 357,516.0 ns | 12,031.79 ns | 34,521.46 ns | 349,229.8 ns | 0.9766 |    3143 B |
-| LoggingSystemTextJsonStructSerializer                                       | 351,729.1 ns | 11,507.73 ns | 32,078.95 ns | 344,540.7 ns | 0.9766 |    3095 B |
-| LoggingSystemTextJsonStructCustomSerializer                                 | 308,784.5 ns | 10,031.40 ns | 28,781.96 ns | 306,016.5 ns |      - |    1520 B |
-| LoggingSystemTextJsonStructGenericWithNoSourceGeneratorSerializer           | 631,345.6 ns | 10,266.54 ns | 10,985.08 ns | 631,103.2 ns | 2.9297 |   10161 B |
-| LoggingSystemTextJsonStructGenericSerializer                                | 615,419.6 ns | 11,882.98 ns | 26,821.88 ns | 605,239.1 ns | 2.9297 |   10112 B |
-| LoggingSystemTextJsonStructGenericCustomSerializer                          | 548,396.8 ns | 10,481.35 ns | 15,688.00 ns | 545,550.9 ns | 0.9766 |    3465 B |
+| Method                                                                       | Mean         | Error        | StdDev        | Median       | Gen0   | Gen1   | Allocated |
+|----------------------------------------------------------------------------- |-------------:|-------------:|--------------:|-------------:|-------:|-------:|----------:|
+| NewtonsoftJsonSerializerWithClassImplementation                              |   4,065.2 ns |     80.31 ns |     221.19 ns |   3,969.4 ns | 0.7782 |      - |    3280 B |
+| SystemTextJsonSerializerWithClassImplementation                              |   2,036.2 ns |     33.83 ns |      33.22 ns |   2,025.8 ns | 0.2365 |      - |     992 B |
+| SystemTextJsonSerializerSourceGeneratorDefaultWithClassImplementation        |   1,111.3 ns |     21.99 ns |      57.92 ns |   1,087.6 ns | 0.1621 |      - |     680 B |
+| SystemTextJsonSerializerSourceGeneratorMetadataWithClassImplementation       |   1,988.7 ns |     11.26 ns |       9.98 ns |   1,986.3 ns | 0.2365 |      - |     992 B |
+| SystemTextJsonSerializerSourceGeneratorSerializationWithClassImplementation  |   1,075.5 ns |      8.44 ns |       7.05 ns |   1,073.0 ns | 0.1621 |      - |     680 B |
+| NewtonsoftJsonSerializerWithRecordImplementation                             |   4,045.6 ns |     28.88 ns |      22.55 ns |   4,052.3 ns | 0.7782 |      - |    3280 B |
+| SystemTextJsonSerializerWithRecordImplementation                             |   2,059.6 ns |     22.75 ns |      21.28 ns |   2,052.4 ns | 0.2365 |      - |     992 B |
+| SystemTextJsonSerializerSourceGeneratorDefaultWithRecordImplementation       |   1,119.2 ns |     20.90 ns |      21.46 ns |   1,112.6 ns | 0.1621 |      - |     680 B |
+| SystemTextJsonSerializerSourceGeneratorMetadataWithRecordImplementation      |   2,011.1 ns |     32.16 ns |      26.85 ns |   2,001.6 ns | 0.2365 |      - |     992 B |
+| SystemTextJsonSerializerSourceGeneratorSerializationWithRecordImplementation |   1,217.1 ns |     44.65 ns |     122.97 ns |   1,170.5 ns | 0.1621 |      - |     680 B |
+| NewtonsoftJsonSerializerWithInterface                                        |   3,975.7 ns |     36.72 ns |      30.66 ns |   3,967.8 ns | 0.7782 |      - |    3280 B |
+| SystemTextJsonSerializerWithInterface                                        |     379.3 ns |      2.47 ns |       2.06 ns |     378.5 ns | 0.0267 |      - |     112 B |
+| NewtonsoftJsonDeserializerWithClassImplementation                            |   7,000.1 ns |     76.14 ns |      63.58 ns |   6,978.8 ns | 0.8926 |      - |    3760 B |
+| SystemTextJsonDeserializerWithClassImplementation                            |   3,569.0 ns |     19.50 ns |      16.28 ns |   3,564.0 ns | 0.2136 |      - |     904 B |
+| SystemTextJsonDeserializerSourceGeneratorDefaultWithClassImplementation      |   3,420.5 ns |     33.06 ns |      27.61 ns |   3,404.5 ns | 0.2136 |      - |     904 B |
+| SystemTextJsonDeserializerSourceGeneratorMetadataWithClassImplementation     |   3,456.7 ns |     38.67 ns |      32.29 ns |   3,440.2 ns | 0.2136 |      - |     904 B |
+| NewtonsoftJsonDeserializerWithRecordImplementation                           |   7,544.9 ns |    124.22 ns |     110.11 ns |   7,497.7 ns | 1.2054 |      - |    5088 B |
+| SystemTextJsonDeserializerWithRecordImplementation                           |   4,558.7 ns |     45.83 ns |      40.62 ns |   4,547.9 ns | 0.3510 |      - |    1472 B |
+| SystemTextJsonDeserializerSourceGeneratorDefaultWithRecordImplementation     |   4,551.1 ns |     41.26 ns |      34.45 ns |   4,542.8 ns | 0.3281 |      - |    1400 B |
+| SystemTextJsonDeserializerSourceGeneratorMetadataWithRecordImplementation    |   4,845.1 ns |     95.77 ns |     193.46 ns |   4,820.7 ns | 0.3281 |      - |    1400 B |
+| ApiResponseWithChildDataWithSourceGenerator                                  |   1,185.1 ns |     14.84 ns |      13.15 ns |   1,180.8 ns | 0.1831 | 0.0019 |     768 B |
+| ApiResponseWithChildDataWithoutSourceGenerator                               |   1,165.9 ns |      8.11 ns |       6.33 ns |   1,165.9 ns | 0.1831 | 0.0019 |     768 B |
+| LoggingSystemTextJsonStructWithNoSourceGeneratorSerializer                   | 182,459.9 ns |  3,648.26 ns |   7,201.32 ns | 180,282.0 ns | 0.7324 |      - |    3137 B |
+| LoggingSystemTextJsonStructSerializer                                        | 166,917.6 ns |  5,316.59 ns |  14,908.30 ns | 167,023.8 ns | 0.7324 |      - |    3090 B |
+| LoggingSystemTextJsonStructCustomSerializer                                  | 126,622.6 ns |  5,454.86 ns |  14,654.13 ns | 125,858.5 ns | 0.3052 |      - |    1521 B |
+| LoggingSystemTextJsonStructGenericWithNoSourceGeneratorSerializer            | 674,410.5 ns | 52,719.00 ns | 148,694.87 ns | 658,165.5 ns | 1.9531 |      - |   10152 B |
+| LoggingSystemTextJsonStructGenericSerializer                                 | 666,969.4 ns | 47,085.65 ns | 131,255.97 ns | 654,047.1 ns | 1.9531 |      - |   10104 B |
+| LoggingSystemTextJsonStructGenericCustomSerializer                           | 502,177.8 ns | 22,254.97 ns |  63,853.69 ns | 499,705.4 ns | 0.7324 |      - |    3460 B |
