@@ -59,6 +59,7 @@ public static class LinqExtension
         return result;
     }
 
+    // O(n square) -> n bình phương 2
     private static TResult? LinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
     {
         TResult? result = default(TResult);
