@@ -96,9 +96,9 @@ public class TransactionalPartner : AggregateRoot
 
     public Result IsSupplier()
     {
-        var indexOfSupplierType = TransactionalPartnerType.GetSupplierTypes().IndexOf(TransactionalPartnerType);
+        var isSupplier = TransactionalPartnerType.IsSupplierType(TransactionalPartnerType);
 
-        if (indexOfSupplierType == -1)
+        if (!isSupplier)
             return DomainErrors.MaterialCostManagement.NotSupplier(Id);
 
         return Result.Success();

@@ -7,7 +7,8 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
     where T : Enumeration<T>
 {
     private int? cachedHashCode;
-    public static readonly IReadOnlyCollection<T> List = CreateEnumerations();
+    protected static readonly T[] list = CreateEnumerations();
+    public static IReadOnlyCollection<T> List => list;
 
     public byte Id { get; }
     public string Name { get; }
@@ -67,7 +68,7 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
 
     public int CompareTo(object? other) => Id.CompareTo(((Enumeration<T>)other!).Id);
 
-    private static IReadOnlyCollection<T> CreateEnumerations()
+    private static T[] CreateEnumerations()
     {
         var enumerationType = typeof(T);
 

@@ -2,7 +2,8 @@
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
-public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, IEquatable<TransactionalPartnerType>
+public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
+    , IEquatable<TransactionalPartnerType> // for span using IndexOf
 {
     public static readonly TransactionalPartnerType Customer = new(1, nameof(Customer));
     public static readonly TransactionalPartnerType Supplier = new(2, nameof(Supplier));
@@ -38,7 +39,19 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>, I
 
     public static Span<TransactionalPartnerType> GetSupplierTypes()
     {
-        Span<TransactionalPartnerType> result = ((TransactionalPartnerType[])List).AsSpan(1, 2);
+        //https://www.youtube.com/watch?v=FM5dpxJMULY&ab_channel=NickChapsas
+        Span<TransactionalPartnerType> result = list.AsSpan(1, 2);
         return result;
+    }
+    
+    public static bool IsSupplierType(TransactionalPartnerType value)
+    {
+        var suppliers = GetSupplierTypes();
+        var indexOfSupplierType = suppliers.IndexOf(value);
+
+        if (indexOfSupplierType == -1)
+            return false;
+
+        return true;
     }
 }
