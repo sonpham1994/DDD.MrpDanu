@@ -137,7 +137,7 @@ public class LinqExtensionTests
         result.Should().Be(material1);
     }
 
-    private IResult ExistElement(int id)
+    private Result ExistElement(int id)
     {
         var array = new List<int> { 1, 2, 3, 4, 6 };
         var exist = array.Any(x => x == id);

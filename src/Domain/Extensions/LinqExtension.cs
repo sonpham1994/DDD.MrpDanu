@@ -4,7 +4,7 @@ namespace Domain.Extensions;
 
 public static class LinqExtension
 {
-    public static IResult AnyFailure<T>(this IEnumerable<T> enumerable, Func<T, IResult> predicate)
+    public static Result AnyFailure<T>(this IEnumerable<T> enumerable, Func<T, Result> predicate)
     {
         foreach (var element in enumerable)
         {
