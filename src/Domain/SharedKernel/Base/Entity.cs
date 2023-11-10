@@ -21,6 +21,14 @@ public abstract class Entity<TId> where TId : struct
         if (obj is not Entity<TId> other)
             return false;
 
+        return Equals(other);
+    }
+
+    public bool Equals(Entity<TId>? other)
+    {
+        if (other is null)
+            return false;
+
         if (ReferenceEquals(this, other))
             return true;
 
@@ -38,7 +46,7 @@ public abstract class Entity<TId> where TId : struct
         return Id.Equals(default(TId));
     }
 
-    public static bool operator ==(Entity<TId> a, Entity<TId> b)
+    public static bool operator ==(Entity<TId>? a, Entity<TId>? b)
     {
         if (a is null && b is null)
             return true;
@@ -49,7 +57,7 @@ public abstract class Entity<TId> where TId : struct
         return a.Equals(b);
     }
 
-    public static bool operator !=(Entity<TId> a, Entity<TId> b)
+    public static bool operator !=(Entity<TId>? a, Entity<TId>? b)
     {
         return !(a == b);
     }
