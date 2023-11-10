@@ -51,7 +51,7 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
     {
         var result = List.FirstOrDefault(x => x.Id == id);
         if (result is null)
-            return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).GetUnproxiedType()} by id '{id}'");
+            return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).GetUnproxiedType().Name} by id '{id}'");
 
         return result;
     }
@@ -61,7 +61,7 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
         if (cachedHashCode.HasValue) 
             return cachedHashCode.Value;
 
-        cachedHashCode = (typeof(T).GetUnproxiedType().Name.GetHashCode() + Id).GetHashCode();
+        cachedHashCode = (this.GetUnproxiedType().Name.GetHashCode() + Id).GetHashCode();
 
         return cachedHashCode.Value;
     }

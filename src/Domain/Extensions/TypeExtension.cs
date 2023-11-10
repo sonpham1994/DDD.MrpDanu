@@ -39,7 +39,8 @@ public static class TypeExtension
         return GetUnproxiedType(type);
     }
     
-    public static Type GetUnproxiedType(this Entity obj)
+    public static Type GetUnproxiedType<TId>(this Entity<TId> obj)
+        where TId : struct
     {
         ArgumentNullException.ThrowIfNull(obj);
 
