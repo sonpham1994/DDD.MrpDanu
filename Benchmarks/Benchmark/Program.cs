@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Benchmark.BoxingCompareTo;
 using Benchmark.CastingObject;
 using BenchmarkDotNet.Running;
 using Benchmark.DynamicVsReflection;
@@ -19,6 +20,6 @@ using Benchmark.StringBenchmarks;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<RegexBenchmark>();
+BenchmarkRunner.Run<BoxingCompareToBenchmark>();
 
 Console.WriteLine("Hello, World!");

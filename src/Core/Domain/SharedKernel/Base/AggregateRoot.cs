@@ -7,10 +7,6 @@ public abstract class AggregateRoot : Entity
 
     protected AggregateRoot() { }
 
-    protected AggregateRoot(Guid id) : base(id)
-    {
-    }
-
     protected void RaiseDomainEvent(IDomainEvent newEvent)
     {
         _domainEvents.Add(newEvent);
@@ -28,10 +24,6 @@ public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct
     public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
 
     protected AggregateRoot() { }
-
-    protected AggregateRoot(TId id) : base(id)
-    {
-    }
 
     protected void RaiseDomainEvent(IDomainEvent newEvent)
     {

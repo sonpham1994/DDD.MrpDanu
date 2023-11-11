@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Attributes;
 
-namespace AlgorithmsAndDataStructures_Part2.Benchmarks.BinarySearchVsLinearSearch;
+namespace Benchmark.BinarySearchVsLinearSearch;
 
 [MemoryDiagnoser]
 public class BinarySearchVsLinearSearchBenchmark

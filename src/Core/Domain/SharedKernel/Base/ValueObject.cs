@@ -2,7 +2,7 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class ValueObject : IComparable, IComparable<ValueObject>, IEquatable<ValueObject>
+public abstract class ValueObject : IComparable<ValueObject>, IEquatable<ValueObject>
 {
     private int? _cachedHashCode;
 
@@ -101,11 +101,6 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>, IEqua
                 (left, right) =>
                     left?.CompareTo(right) ?? (right is null ? 0 : -1))
             .FirstOrDefault(cmp => cmp != 0);
-    }
-
-    public virtual int CompareTo(object? other)
-    {
-        return CompareTo(other as ValueObject);
     }
 
     public static bool operator ==(ValueObject? a, ValueObject? b)

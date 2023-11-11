@@ -2,7 +2,6 @@ namespace Domain.SharedKernel.Base;
 
 public class SequentialGuid
 {
-    private static byte SizeGuid => 16;
     // public static Guid New()
     // {
     //     //https://github.com/dotnet/efcore/blob/main/src/EFCore/ValueGeneration/SequentialGuidValueGenerator.cs
@@ -70,10 +69,12 @@ public class SequentialGuid
         // Comparison orders from SqlSever with using SqlGuid. It will compare 10, 11, 12, 13, 14, 15 index first,
         // and then 8, 9, and then 6, 7, ...
         // Please check "private static EComparison Compare(SqlGuid x, SqlGuid y)" in SqlGuid at "System.Data.SqlTypes" namespace
-        ReadOnlySpan<byte> sqlGuidOrder = stackalloc byte[16] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
+        // if application uses postgres, we may change the logic "compare to" here
+        const byte sizeGuid = 16;
+        ReadOnlySpan<byte> sqlGuidOrder = stackalloc byte[sizeGuid] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
         
-        Span<byte> leftGuids = stackalloc byte[SizeGuid];
-        Span<byte> rightGuids = stackalloc byte[SizeGuid];
+        Span<byte> leftGuids = stackalloc byte[sizeGuid];
+        Span<byte> rightGuids = stackalloc byte[sizeGuid];
         left.TryWriteBytes(leftGuids);
         right.TryWriteBytes(rightGuids);
 
@@ -83,7 +84,7 @@ public class SequentialGuid
         // and 9_000 to 9_009. We can see the data with the last item will be sorted first
         // Comparison orders from SqlSever with using SqlGuid. It will compare 10, 11, 12, 13, 14, 15 index first,
         // and then 8, 9, and then 6, 7, ...
-        for (int i = 0; i < SizeGuid; i++)
+        for (int i = 0; i < sizeGuid; i++)
         {
             if (leftGuids[sqlGuidOrder[i]] > rightGuids[sqlGuidOrder[i]])
                 return 1;
