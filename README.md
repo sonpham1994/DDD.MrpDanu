@@ -36,9 +36,9 @@ Framework and Libraries:
 ## Run project
 At the root of project run docker compose:
 ```
-dotnet run --project src/UI
-dotnet run --project src/Api
-# docker compose -p mrp_infra up -d
+docker compose -p mrp_infra up -d
+dotnet run --project src/External/UI
+dotnet run --project src/External/Api
 ```
 
 url:
