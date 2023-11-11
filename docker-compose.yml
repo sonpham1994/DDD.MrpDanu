@@ -18,9 +18,10 @@ services:
     image: datalust/seq:latest
     container_name: mrp_seq
     ports: 
-      - "8081:80"
+      - 5341:5341
+      - 8081:80
     volumes:
-      - seqdata:/Users/sonpham/Projects/SonPhamProjects/MrpDanu/MrpDanu.Logs
+      - mrpseqdata:/data
     environment:
       ACCEPT_EULA: "Y"
       
@@ -34,5 +35,5 @@ services:
       
 volumes:
   mongodbdata:
-  seqdata:
+  mrpseqdata:
   sqlvolume:

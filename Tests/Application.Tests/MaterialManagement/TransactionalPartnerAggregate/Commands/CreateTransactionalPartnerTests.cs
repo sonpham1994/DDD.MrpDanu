@@ -154,18 +154,18 @@ public class CreateTransactionalPartnerTests
             CountryId = Country.VietNam.Id
         };
         var command = new CreateTransactionalPartnerCommand
-        {
-            Name = "Name 1",
-            TaxNo = "1234567890",
-            Website = string.Empty,
-            ContactPersonName = "aabbcc ddd",
-            TelNo = string.Empty,
-            Email = "abcxxx@gmail.com",
-            Address = address,
-            TransactionalPartnerTypeId = TransactionalPartnerType.Supplier.Id,
-            CurrencyTypeId = CurrencyType.VND.Id,
-            LocationTypeId = LocationType.Domestic.Id
-        };
+        (
+            "Name 1",
+            "1234567890",
+            string.Empty,
+            "aabbcc ddd",
+            string.Empty,
+            "abcxxx@gmail.com",
+            address,
+            TransactionalPartnerType.Supplier.Id,
+            CurrencyType.VND.Id,
+            LocationType.Domestic.Id
+        );
 
         return command;
     }

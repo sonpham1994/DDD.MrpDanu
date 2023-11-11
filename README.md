@@ -5,8 +5,9 @@
 Architecture:
   - Clean Architecture
 
+Domain-driven design
+
 Design patterns:
- - Domain-driven design
  - Mediator design pattern
  - CQRS design pattern
  - Factory method design pattern
@@ -35,6 +36,8 @@ Framework and Libraries:
 ## Run project
 At the root of project run docker compose:
 ```
+dotnet run --project src/UI
+dotnet run --project src/Api
 # docker compose -p mrp_infra up -d
 ```
 

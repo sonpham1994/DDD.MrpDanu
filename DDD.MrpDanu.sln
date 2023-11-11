@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "src\UI\UI.csproj", "{6C61FB35-1C17-46DB-A57D-596430DA83C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "src\External\UI\UI.csproj", "{6C61FB35-1C17-46DB-A57D-596430DA83C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{8100FDA6-0FB4-40E0-B957-D2461ED88416}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Core\Domain\Domain.csproj", "{8100FDA6-0FB4-40E0-B957-D2461ED88416}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "Tests\Domain.Tests\Domain.Tests.csproj", "{5CE31A44-720A-4834-8023-093675FEC619}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5068746C-6AF2-4672-A0E4-AED67A787B15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{E1FBB8F6-5B3C-41E9-B5AD-303353478699}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Core\Application\Application.csproj", "{E1FBB8F6-5B3C-41E9-B5AD-303353478699}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{21873CEA-59E4-4BDC-A208-10576A6C9DC6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{93E02066-68A3-4D8A-9070-1644C107CA29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\External\Infrastructure\Infrastructure.csproj", "{93E02066-68A3-4D8A-9070-1644C107CA29}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EC4F5298-7694-46AF-8688-135CD42FE248}"
 EndProject
@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ED0F9C97-4DE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark.Application", "Benchmarks\Benchmark.Application\Benchmark.Application.csproj", "{465182BE-1B3C-4D42-A06E-E9083D5C2CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Api\Api.csproj", "{817074BB-BA6B-4F8A-B286-F6E93B8FFCDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\External\Api\Api.csproj", "{817074BB-BA6B-4F8A-B286-F6E93B8FFCDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
