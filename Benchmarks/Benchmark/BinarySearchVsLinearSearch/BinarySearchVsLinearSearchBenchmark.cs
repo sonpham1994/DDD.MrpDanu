@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Attributes;
 
-namespace Benchmark.BinarySearchVsLinearSearch;
+namespace AlgorithmsAndDataStructures_Part2.Benchmarks.BinarySearchVsLinearSearch;
 
 [MemoryDiagnoser]
 public class BinarySearchVsLinearSearchBenchmark
@@ -11,7 +11,10 @@ public class BinarySearchVsLinearSearchBenchmark
     private Guid _itemFindInGuid;
     private Guid _itemFindInSequentialGuid;
 
-    [Params(10_000, 100_000, 1_000_000)]
+    //public long ComparisonLinearSearch;
+    //public long ComparisonBinarySearch;
+
+    [Params(10_000, 100_000, 1_000_000)] 
     public int Length { get; set; }
 
     [GlobalSetup]
@@ -48,7 +51,6 @@ public class BinarySearchVsLinearSearchBenchmark
     public void CreateSequentialGuid()
     {
         var a = SequentialGuid.New();
-        a.ToByteArray();
     }
 
     [Benchmark]
@@ -61,6 +63,10 @@ public class BinarySearchVsLinearSearchBenchmark
     public void BinarySearch()
     {
         var a = binarySearch(_sequentialGuids, _itemFindInSequentialGuid);
+        // if (a == false)
+        // {
+        //     throw new InvalidOperationException("Binary Search not working");
+        // }
     }
 
     private bool linearSearch(Guid[] data, Guid value)
@@ -68,7 +74,12 @@ public class BinarySearchVsLinearSearchBenchmark
         for (int i = 0; i < data.Length; i++)
         {
             if (data[i] == value)
-                return true;
+            {
+                //ComparisonLinearSearch++;
+                    return true;
+            }
+                
+            //ComparisonLinearSearch++;
         }
 
         return false;
@@ -84,9 +95,16 @@ public class BinarySearchVsLinearSearchBenchmark
             int middle = (start + end) / 2;
 
             if (SequentialGuid.CompareTo(data[middle], value) == 0)
+            {
+                //ComparisonBinarySearch++;
                 return true;
+            }
+                
             else if (SequentialGuid.CompareTo(data[middle], value) < 0)
+            {
+                //ComparisonBinarySearch += 2;
                 start = middle + 1;
+            }
             else
                 end = middle - 1;
         }

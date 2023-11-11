@@ -1,17 +1,31 @@
-| Method                | Length  | Mean            | Error         | StdDev         | Median          | Gen0   | Allocated |
-|---------------------- |-------- |----------------:|--------------:|---------------:|----------------:|-------:|----------:|
-| CompareSequentialGuid | 10000   |       191.27 ns |      0.653 ns |       0.545 ns |       191.49 ns |      - |         - |
-| CreateGuid            | 10000   |       169.90 ns |      1.369 ns |       1.143 ns |       170.14 ns |      - |         - |
-| CreateSequentialGuid  | 10000   |       311.55 ns |      2.167 ns |       2.027 ns |       311.06 ns | 0.0429 |     136 B |
-| LinearSearch          | 10000   |    44,612.93 ns |    193.654 ns |     161.710 ns |    44,576.39 ns |      - |         - |
-| BinarySearch          | 10000   |       304.53 ns |      2.518 ns |       2.232 ns |       303.86 ns |      - |         - |
-| CompareSequentialGuid | 100000  |       190.99 ns |      3.900 ns |       6.728 ns |       187.51 ns |      - |         - |
-| CreateGuid            | 100000  |       172.26 ns |      2.956 ns |       2.904 ns |       171.58 ns |      - |         - |
-| CreateSequentialGuid  | 100000  |       313.05 ns |      2.666 ns |       2.226 ns |       312.54 ns | 0.0429 |     136 B |
-| LinearSearch          | 100000  |   408,464.64 ns |  2,522.370 ns |   2,106.293 ns |   409,326.46 ns |      - |         - |
-| BinarySearch          | 100000  |       304.57 ns |      3.621 ns |       3.024 ns |       305.22 ns |      - |         - |
-| CompareSequentialGuid | 1000000 |       190.76 ns |      3.828 ns |       5.846 ns |       187.97 ns |      - |         - |
-| CreateGuid            | 1000000 |        66.36 ns |      0.705 ns |       0.625 ns |        66.39 ns |      - |         - |
-| CreateSequentialGuid  | 1000000 |       344.26 ns |     19.254 ns |      56.165 ns |       350.65 ns | 0.0432 |     136 B |
-| LinearSearch          | 1000000 | 5,005,536.88 ns | 99,656.992 ns | 255,458.968 ns | 4,955,092.19 ns |      - |       4 B |
-| BinarySearch          | 1000000 |       446.06 ns |      8.897 ns |       6.946 ns |       446.09 ns |      - |         - |
+| Method                | Length  | Mean           | Error        | StdDev       | Gen0   | Gen1   | Allocated |
+|---------------------- |-------- |---------------:|-------------:|-------------:|-------:|-------:|----------:|
+| CompareSequentialGuid | 10000   |       108.9 ns |      0.79 ns |      0.62 ns |      - |      - |         - |
+| CreateGuid            | 10000   |       450.7 ns |      0.85 ns |      0.66 ns |      - |      - |         - |
+| CreateSequentialGuid  | 10000   |       553.3 ns |      0.88 ns |      0.74 ns | 0.0229 | 0.0010 |      96 B |
+| LinearSearch          | 10000   |    31,260.1 ns |    120.31 ns |    100.47 ns |      - |      - |         - |
+| BinarySearch          | 10000   |       608.3 ns |      0.60 ns |      0.47 ns |      - |      - |         - |
+| CompareSequentialGuid | 100000  |       109.2 ns |      1.76 ns |      1.64 ns |      - |      - |         - |
+| CreateGuid            | 100000  |       453.5 ns |      4.74 ns |      3.96 ns |      - |      - |         - |
+| CreateSequentialGuid  | 100000  |       552.8 ns |      1.54 ns |      1.29 ns | 0.0229 |      - |      96 B |
+| LinearSearch          | 100000  |   323,392.9 ns |  1,549.16 ns |  1,293.62 ns |      - |      - |         - |
+| BinarySearch          | 100000  |       704.3 ns |      2.49 ns |      2.08 ns |      - |      - |         - |
+| CompareSequentialGuid | 1000000 |       107.0 ns |      0.15 ns |      0.13 ns |      - |      - |         - |
+| CreateGuid            | 1000000 |       452.1 ns |      0.92 ns |      0.77 ns |      - |      - |         - |
+| CreateSequentialGuid  | 1000000 |       552.3 ns |      1.29 ns |      1.15 ns | 0.0229 |      - |      96 B |
+| LinearSearch          | 1000000 | 3,414,674.4 ns | 12,471.45 ns | 10,414.22 ns |      - |      - |       4 B |
+| BinarySearch          | 1000000 |       940.9 ns |     17.97 ns |     42.00 ns |      - |      - |         - |
+
+
+Length: 10_000 - Item found in 9900 index
+Comparison in LinearSearch: 9901
+Comparison in BinarySearch: 23
+
+Length: 100_000 - Item found in 99000 index
+Comparison in LinearSearch: 99901
+Comparison in BinarySearch: 29
+
+Length: 1_000_000 - Item found in 990000 index
+Comparison in LinearSearch: 999901
+Comparison in BinarySearch: 31
+

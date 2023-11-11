@@ -1,9 +1,11 @@
+using System.Data.SqlTypes;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Benchmark.BinarySearchVsLinearSearch;
 
-public class SequentialGuid 
+public class SequentialGuid
 {
+    private static byte SizeGuid => 16;
     public static Guid New()
     {
         //https://github.com/dotnet/efcore/blob/main/src/EFCore/ValueGeneration/SequentialGuidValueGenerator.cs
@@ -36,6 +38,29 @@ public class SequentialGuid
         return id;
     }
     
+    // // Comparison operators from SqlGuid
+    // https://stackoverflow.com/questions/29674395/how-to-sort-sequential-guids-in-c
+    // private static EComparison Compare(SqlGuid x, SqlGuid y)
+    // {
+    //     // Comparison orders.
+    //     ReadOnlySpan<byte> rgiGuidOrder = new byte[16] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
+    //
+    //     // Swap to the correct order to be compared
+    //     ReadOnlySpan<byte> xBytes = x.m_value;
+    //     ReadOnlySpan<byte> yBytes = y.m_value;
+    //     for (int i = 0; i < SizeOfGuid; i++)
+    //     {
+    //         byte b1 = xBytes[rgiGuidOrder[i]];
+    //         byte b2 = yBytes[rgiGuidOrder[i]];
+    //         if (b1 != b2)
+    //         {
+    //             return (b1 < b2) ? EComparison.LT : EComparison.GT;
+    //         }
+    //     }
+    //
+    //     return EComparison.EQ;
+    // }
+    
     public static int CompareTo(Guid left, Guid right)
     {
         //https://github.com/dotnet/efcore/blob/main/src/EFCore/ValueGeneration/SequentialGuidValueGenerator.cs
@@ -44,29 +69,27 @@ public class SequentialGuid
          * data from 8 to 15 of indexes. 
          * Please check AnalyzeStructureOfSequentialGuid.xlsx to visualize the array of Guid
          */
-
-        Span<byte> leftGuids = stackalloc byte[16];
-        Span<byte> rightGuids = stackalloc byte[16];
+        
+        // Comparison orders from SqlSever with using SqlGuid. It will compare 10, 11, 12, 13, 14, 15 index first,
+        // and then 8, 9, and then 6, 7, ...
+        // Please check "private static EComparison Compare(SqlGuid x, SqlGuid y)" in SqlGuid at "System.Data.SqlTypes" namespace
+        ReadOnlySpan<byte> sqlGuidOrder = stackalloc byte[16] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
+        Span<byte> leftGuids = stackalloc byte[SizeGuid];
+        Span<byte> rightGuids = stackalloc byte[SizeGuid];
         left.TryWriteBytes(leftGuids);
         right.TryWriteBytes(rightGuids);
 
         //Asymptotic analysis: Best case: Compare Guid with O(log n), if Guid is not equal
-        //Compare Sequential Guid implemented from EntityFramework Core
-        for (int i = 8; i < 16; i ++)
+        //Compare Sequential Guid implemented from EntityFramework Core by using technique from SqlGuid
+        // Please check AnalyzeStructureOfSequentialGuid.xlsx with array 10_000 items, and we have from 5_000 to 5_0009
+        // and 9_000 to 9_009. We can see the data with the last item will be sorted first
+        // Comparison orders from SqlSever with using SqlGuid. It will compare 10, 11, 12, 13, 14, 15 index first,
+        // and then 8, 9, and then 6, 7, ...
+        for (int i = 0; i < SizeGuid; i++)
         {
-            if (leftGuids[i] > rightGuids[i])
+            if (leftGuids[sqlGuidOrder[i]] > rightGuids[sqlGuidOrder[i]])
                 return 1;
-            else if (leftGuids[i] < rightGuids[i])
-                return -1;
-        }
-
-        //Asymptotic analysis: Worst and Average case: Compare Guid with O(n), if Guid is just Guid.NewGuid()
-        //if Sequential Guid from 8 to 15 indexes are equal, we compare the rest of array Guid
-        for (int i = 0; i < 8; i++)
-        {
-            if (leftGuids[i] > rightGuids[i])
-                return 1;
-            else if (leftGuids[i] < rightGuids[i])
+            else if (leftGuids[sqlGuidOrder[i]] < rightGuids[sqlGuidOrder[i]])
                 return -1;
         }
 
