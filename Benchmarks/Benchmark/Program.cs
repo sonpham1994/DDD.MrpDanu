@@ -21,7 +21,7 @@ using Benchmark.StringBenchmarks;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<ConvertGuidToStringAndViceVersaBenchmark>();
+BenchmarkRunner.Run<ReplaceCharacterVsStringBenchmark>();
 //var a = new ConvertGuidToStringAndViceVersaBenchmark();
 //a.Setup();
 // a.ToBase64StringFromGuid();

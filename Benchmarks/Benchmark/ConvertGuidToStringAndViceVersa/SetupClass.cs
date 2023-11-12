@@ -3,8 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace Benchmark.ConvertGuidToStringAndViceVersa;
 
-
-
 public static class Guider
 {
     //https://www.youtube.com/watch?v=B2yOjLyEZk0&ab_channel=NickChapsas
@@ -58,14 +56,16 @@ public static class Guider
         return new string(finalChars);
     }
     
+    //Replace with char is better than string, please check Benchmarks/Benchmark/StringBenchmarks
     public static string ToStringFromGuid(this Guid id)
     {
         return Convert.ToBase64String(id.ToByteArray())
-            .Replace(Slash, Dash)
+            .Replace(Slash, Dash) 
             .Replace(Plus, Underscore)
             .Replace("=", string.Empty);
     }
 
+    //Replace with char is better than string, please check Benchmarks/Benchmark/StringBenchmarks
     public static Guid ToGuidFromString(this string id)
     {
         var efficientBased64 = Convert.FromBase64String(

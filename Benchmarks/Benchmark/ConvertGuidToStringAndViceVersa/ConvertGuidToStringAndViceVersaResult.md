@@ -33,6 +33,8 @@ Guid: 7878b9fe-f3ed-4824-90bc-f6f52b754eef
 | ToGuidFromString                                                 | 151.40 ns | 0.470 ns | 0.440 ns | 0.0439 |     184 B |
 | ToGuidFromStringOp                                               | 106.45 ns | 0.193 ns | 0.171 ns |      - |         - |
 
-
-
-
+Base64 string can be collision: https://stackoverflow.com/questions/1032376/guid-to-base64-for-url
+var b1 = GuidToBase64(new Guid("c9d045f3-e21c-46d0-971d-b92ebc2ab83c"));
+var b2 = GuidToBase64(new Guid("c9d045f3-e21c-46d0-971d-b92ebc2ab8a4"));
+Console.WriteLine(b1);  // 80XQyRzi0EaXHbkuvCq4PA
+Console.WriteLine(b2);  // 80XQyRzi0EaXHbkuvCq4pA

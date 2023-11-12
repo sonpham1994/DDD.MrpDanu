@@ -12,14 +12,12 @@ internal static class ValidationExtension
         return failures.Select(x => new DomainError(x.ErrorCode, x.ErrorMessage)).ToList();
     }
 
-    public static ValidationFailure ToValidationFailure(this DomainError domainError)
-    {
-        return new ValidationFailure
+    public static ValidationFailure ToValidationFailure(this in DomainError domainError)
+        => new()
         {
             ErrorCode = domainError.Code,
             ErrorMessage = domainError.Message
         };
-    }
 
     public static IRuleBuilderOptions<T, TElement> MustBeValueObject<T, TElement, TValueObject>(
         this IRuleBuilder<T, TElement> ruleBuilder,

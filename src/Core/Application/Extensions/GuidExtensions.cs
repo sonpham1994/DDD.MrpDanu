@@ -21,6 +21,7 @@ public static class GuidExtensions
     /// </summary>
     /// <param name="id"></param>
     /// <returns>user friendly encode base64 string</returns>
+    /// Encode base64 string con be collision: https://stackoverflow.com/questions/1032376/guid-to-base64-for-url
     public static string ToEncodeBase64String(this Guid id)
     {
         Span<byte> idBytes = stackalloc byte[16];
