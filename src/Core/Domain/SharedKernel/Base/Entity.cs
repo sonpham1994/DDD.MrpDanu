@@ -207,6 +207,6 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity<Guid>>
         if (ReferenceEquals(this, other))
             return 0;
         
-        return SequentialGuid.CompareTo(this.Id, other.Id);
+        return Id.SequentialGuidCompareTo(other.Id);
     }
 }

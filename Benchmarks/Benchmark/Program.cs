@@ -2,6 +2,7 @@
 
 using Benchmark.BoxingCompareTo;
 using Benchmark.CastingObject;
+using Benchmark.ConvertGuidToStringAndViceVersa;
 using BenchmarkDotNet.Running;
 using Benchmark.DynamicVsReflection;
 using Benchmark.EmptyCollectionAndToList;
@@ -20,6 +21,16 @@ using Benchmark.StringBenchmarks;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<BoxingCompareToBenchmark>();
+BenchmarkRunner.Run<ConvertGuidToStringAndViceVersaBenchmark>();
+//var a = new ConvertGuidToStringAndViceVersaBenchmark();
+//a.Setup();
+// a.ToBase64StringFromGuid();
+// a.ToUrlFriendlyBase64StringFromGuid();
+// a.ToUrlFriendlyBase64StringFromGuidOp();
+//a.ToUrlFriendlyBase64StringFromGuidOpWithTryWriteBytes();
+// a.ToUrlFriendlyBase64StringFromGuidOp_SteveGordon();
+//a.ToUrlFriendlyBase64StringFromGuidOp_SteveGordonWithTryWriteBytes();
+// a.ToGuidFromString();
+// a.ToGuidFromStringOp();
 
 Console.WriteLine("Hello, World!");

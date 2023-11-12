@@ -1,6 +1,6 @@
 namespace Domain.SharedKernel.Base;
 
-public class SequentialGuid
+public static class GuidExtensions
 {
     // public static Guid New()
     // {
@@ -57,7 +57,7 @@ public class SequentialGuid
     //     return EComparison.EQ;
     // }
     
-    public static int CompareTo(Guid left, Guid right)
+    public static int SequentialGuidCompareTo(this Guid left, Guid right)
     {
         //https://github.com/dotnet/efcore/blob/main/src/EFCore/ValueGeneration/SequentialGuidValueGenerator.cs
         /*
