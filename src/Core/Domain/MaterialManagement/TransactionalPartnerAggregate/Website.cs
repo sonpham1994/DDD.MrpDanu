@@ -35,8 +35,18 @@ public class Website : ValueObject
         return new Website(value);
     }
     
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return Value;
+        yield return Value.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject valueObject)
+    {
+        if (valueObject is not Website other)
+            return false;
+        if (Value != other.Value)
+            return false;
+
+        return true;
     }
 }

@@ -29,9 +29,21 @@ public class Money : ValueObject
         return new Money(value, currencyType);
     }
 
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return Value;
-        yield return CurrencyType;
+        yield return Value.GetHashCode();
+        yield return CurrencyType.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject valueObject)
+    {
+        if (valueObject is not Money other)
+            return false;
+        if (Value != other.Value)
+            return false;
+        if (CurrencyType != other.CurrencyType)
+            return false;
+
+        return true;
     }
 }

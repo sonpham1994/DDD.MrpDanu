@@ -27,8 +27,18 @@ public class PersonName : ValueObject
         return new PersonName(name);
     }
 
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return Value;
+        yield return Value.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject valueObject)
+    {
+        if (valueObject is not PersonName other)
+            return false;
+        if (Value != other.Value)
+            return false;
+
+        return true;
     }
 }

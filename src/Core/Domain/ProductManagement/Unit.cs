@@ -4,7 +4,7 @@ namespace Domain.ProductManagement;
 
 public class Unit : ValueObject
 {
-    private static readonly IReadOnlyCollection<decimal> validUnitDecimals = new List<decimal>
+    private static readonly IReadOnlyCollection<decimal> validUnitDecimals = new decimal[7]
     {
         0.3m, 
         0.003m, 
@@ -30,8 +30,19 @@ public class Unit : ValueObject
         return new Unit(value);
     }
 
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    //decimal convert to IComparable -> value type convert to interface -> boxing? Please check Benchmarks\Benchmark\ValueObjectEqualsBoxing
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return Value;
+        yield return Value.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject valueObject)
+    {
+        if (valueObject is not Unit other)
+            return false;
+        if (Value != other.Value)
+            return false;
+
+        return true;
     }
 }

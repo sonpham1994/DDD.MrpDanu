@@ -17,20 +17,17 @@ using Benchmark.ValueTypeBoxingBenchmarks;
 using Benchmark.StructWithIEquatable;
 using Microsoft.Extensions.Logging;
 using Benchmark.StringBenchmarks;
+using Benchmark.BoxingEntityEquals;
+using Benchmark.ValueObjectEqualsBoxing;
 
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<ReplaceCharacterVsStringBenchmark>();
-//var a = new ConvertGuidToStringAndViceVersaBenchmark();
+BenchmarkRunner.Run<ValueObjectEqualsBoxingBenchmark>();
+//var a = new ValueObjectEqualsBoxingBenchmark();
 //a.Setup();
-// a.ToBase64StringFromGuid();
-// a.ToUrlFriendlyBase64StringFromGuid();
-// a.ToUrlFriendlyBase64StringFromGuidOp();
-//a.ToUrlFriendlyBase64StringFromGuidOpWithTryWriteBytes();
-// a.ToUrlFriendlyBase64StringFromGuidOp_SteveGordon();
-//a.ToUrlFriendlyBase64StringFromGuidOp_SteveGordonWithTryWriteBytes();
-// a.ToGuidFromString();
-// a.ToGuidFromStringOp();
+//a.ValueObjectEqualsWithAvoidBoxing();
+//a.ValueObjectEqualsBoxing();
+
 
 Console.WriteLine("Hello, World!");

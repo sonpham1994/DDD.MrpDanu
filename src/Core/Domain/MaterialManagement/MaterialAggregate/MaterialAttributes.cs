@@ -81,13 +81,34 @@ public class MaterialAttributes : ValueObject
         }
     }
     
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return Name;
-        yield return Varian;
-        yield return Width;
-        yield return Weight;
-        yield return Unit;
-        yield return ColorCode;
+        yield return Name.GetHashCode();
+        yield return Varian.GetHashCode();
+        yield return Width.GetHashCode();
+        yield return Weight.GetHashCode();
+        yield return Unit.GetHashCode();
+        yield return ColorCode.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject valueObject)
+    {
+        if (valueObject is not MaterialAttributes other)
+            return false;
+
+        if (Name != other.Name)
+            return false;
+        if (Varian != other.Varian)
+            return false;
+        if (Width != other.Width)
+            return false;
+        if (Weight != other.Weight)
+            return false;
+        if (Unit != other.Unit)
+            return false;
+        if (ColorCode != other.ColorCode)
+            return false;
+
+        return true;
     }
 }

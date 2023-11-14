@@ -1,5 +1,6 @@
 using System.Reflection;
 using Domain.SharedKernel.Base;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain.Tests;
 
@@ -23,10 +24,35 @@ public static class EntityHelper
         return entity;
     }
 
-    private static void SetId<TEntity, TDataType>(TEntity entity, TDataType id)
+    private static void SetId<TEntity, TDataType>(TEntity entity, TDataType id) where TEntity : class
     {
-        var idProperty = GetProperty(entity!.GetType(), "Id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) ?? throw new Exception("'Id' property cannot be found.");
-        idProperty.SetValue(entity, id);
+        var type = entity!.GetType();
+        var idProperty = type.GetProperty("Id", BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+        if (idProperty is not null)
+        {
+            idProperty.SetValue(entity, id);
+        }
+        else
+        {
+            var field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (field is null)
+            {
+                type = type.BaseType;
+                field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                if (field is null)
+                {
+                    type = type.BaseType.BaseType;
+                    field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                }
+                if (field is null)
+                {
+                    type = type.BaseType.BaseType.BaseType;
+                    field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                }
+            }
+
+            field.SetValue(entity, id);
+        }
     }
 
     private static PropertyInfo GetProperty(Type? type, string propertyName, BindingFlags bindibgAttr)
@@ -36,6 +62,18 @@ public static class EntityHelper
         if (type is not null)
         {
             result = type.GetProperty(propertyName, bindibgAttr);
+        }
+
+        return result;
+    }
+
+    private static FieldInfo GetField(Type? type, string propertyName, BindingFlags bindibgAttr)
+    {
+        FieldInfo? result = null;
+
+        if (type is not null)
+        {
+            result = type.GetField($"<{propertyName}>k__BackingField", bindibgAttr)!;
         }
 
         return result;

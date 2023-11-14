@@ -2,7 +2,8 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class Entity<TId> where TId : struct
+public abstract class Entity<TId> : IEquatable<Entity<TId>> 
+    where TId : struct, IEquatable<TId> //implement IEquatable<TId> to avoid boxing when using Id.Equals.(other.Id), please check Benchmarks\Benchmark\BoxingEntityEquals
 {
     private int? _cachedHashCode;
     public TId Id { get; }
@@ -188,7 +189,7 @@ public abstract class Entity<TId> where TId : struct
 // at client side, not database side. So you don't do anything because SequentialGuidValueGenerator() is
 // configured as a default of behaviour. You can test it when calling Attach or Add method from DbContext.
 
-public abstract class Entity : Entity<Guid>, IComparable<Entity<Guid>>
+public abstract class Entity : Entity<Guid>, IComparable<Entity>
 {
     //If your application use Guid.NewGuid() and set it here, it would be a problem. Because it will decrease
     // performance of sql server when inserting data.
@@ -200,7 +201,7 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity<Guid>>
 
     //we use SequentialGuid from EF Core, so we use Sequential Guid for this, and the SequentialGuid from EF Core
     // uses from SqlGuid. If your application uses Postgres, you may change the behaviour of SequentialGuid.CompareTo
-    public int CompareTo(Entity<Guid>? other)
+    public int CompareTo(Entity? other)
     {
         if (other is null)
             return 1;

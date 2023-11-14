@@ -60,9 +60,21 @@ public class ContactInformation : ValueObject
         return new ContactInformation(telNo, email);
     }
 
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return TelNo;
-        yield return Email;
+        yield return TelNo.GetHashCode();
+        yield return Email.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject valueObject)
+    {
+        if (valueObject is not ContactInformation other)
+            return false;
+        if (TelNo != other.TelNo)
+            return false;
+        if (Email != other.Email) 
+            return false;
+
+        return true;
     }
 }

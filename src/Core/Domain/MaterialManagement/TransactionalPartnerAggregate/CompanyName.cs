@@ -27,8 +27,18 @@ public class CompanyName : ValueObject
         return new CompanyName(name);
     }
 
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return Value;
+        yield return Value.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject obj)
+    {
+        if (obj is not CompanyName other)
+            return false;
+        if (Value != other.Value)
+            return false;
+
+        return true;
     }
 }

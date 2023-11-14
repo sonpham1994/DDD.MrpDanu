@@ -18,7 +18,7 @@ public abstract class AggregateRoot : Entity
     }
 }
 
-public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct
+public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct, IEquatable<TId>
 {
     private readonly List<IDomainEvent> _domainEvents = new();
     public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;

@@ -1,12 +1,20 @@
 using Domain.Extensions;
+using System;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class ValueObject : IComparable<ValueObject>, IEquatable<ValueObject>
+public abstract class ValueObject : IEquatable<ValueObject>
 {
     private int? _cachedHashCode;
 
-    protected abstract IEnumerable<IComparable> GetEqualityComponents();
+    // this will cause boxing when the property is value type and IComparable is interface and it returns value type as IComparable -> boxing
+    // so we don't use this approach from lib of Vladimir khorikov (https://github.com/vkhorikov/CSharpFunctionalExtensions/blob/master/CSharpFunctionalExtensions/ValueObject/ValueObject.cs#L13)
+    // please check Benchmarks\Benchmark\ValueObjectEqualsBoxing\ValueObjectEqualsBoxingResult.md to see the boxing
+    //protected abstract IEnumerable<IComparable> GetEqualityComponents();
+
+    protected abstract IEnumerable<int> GetHashCodeComponents();
+
+    protected abstract bool EqualComponents(ValueObject valueObject);
 
     /* don't know why .Net or EntityFramework calls this Equals(object? obj) a lot. It will cast from valueObject
      * to object and decrease your app performance.
@@ -61,46 +69,25 @@ public abstract class ValueObject : IComparable<ValueObject>, IEquatable<ValueOb
         if (this.GetUnproxiedType() != valueObject.GetUnproxiedType())
             return false;
 
-        return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
+        return EqualComponents(valueObject);
     }
 
     public override int GetHashCode()
     {
         if (!_cachedHashCode.HasValue)
         {
-            _cachedHashCode = GetEqualityComponents()
-                .Aggregate(1, (current, obj) =>
+            _cachedHashCode = GetHashCodeComponents()
+                // Dbj2 hash
+                .Aggregate(1, (currentHashCode, hashCodeComponent) =>
                 {
                     unchecked
                     {
-                        return current * 23 + (obj?.GetHashCode() ?? 0);
+                        return currentHashCode * 23 + hashCodeComponent;
                     }
                 });
         }
 
         return _cachedHashCode.Value;
-    }
-
-
-    public virtual int CompareTo(ValueObject? other)
-    {
-        if (other is null)
-            return 1;
-
-        if (ReferenceEquals(this, other))
-            return 0;
-
-        Type thisType = this.GetUnproxiedType();
-        Type otherType = other.GetUnproxiedType();
-        if (thisType != otherType)
-            return string.Compare(thisType.Name, otherType.Name, StringComparison.Ordinal);
-
-        return
-            GetEqualityComponents().Zip(
-                other.GetEqualityComponents(),
-                (left, right) =>
-                    left?.CompareTo(right) ?? (right is null ? 0 : -1))
-            .FirstOrDefault(cmp => cmp != 0);
     }
 
     public static bool operator ==(ValueObject? a, ValueObject? b)

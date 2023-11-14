@@ -44,13 +44,33 @@ public class Address : ValueObject
         return new Address(street.Trim(), city.Trim(), district.Trim(), ward.Trim(), zipCode, country);
     }
     
-    protected override IEnumerable<IComparable> GetEqualityComponents()
+    protected override IEnumerable<int> GetHashCodeComponents()
     {
-        yield return ZipCode;
-        yield return Ward;
-        yield return District;
-        yield return City;
-        yield return Street;
-        yield return Country;
+        yield return ZipCode.GetHashCode();
+        yield return Ward.GetHashCode();
+        yield return District.GetHashCode();
+        yield return City.GetHashCode();
+        yield return Street.GetHashCode();
+        yield return Country.GetHashCode();
+    }
+
+    protected override bool EqualComponents(ValueObject obj)
+    {
+        if (obj is not Address other)
+            return false;
+        if (ZipCode != other.ZipCode)
+            return false;
+        if (Ward != other.Ward)
+            return false;
+        if (District != other.District)
+            return false;
+        if (City != other.City)
+            return false;
+        if (Street != other.Street)
+            return false;
+        if (Country != other.Country)
+            return false;
+
+        return true;
     }
 }

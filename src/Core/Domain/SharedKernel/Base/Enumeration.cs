@@ -3,7 +3,7 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
+public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<Enumeration<T>>
     where T : Enumeration<T>
 {
     private int? cachedHashCode;
@@ -49,7 +49,7 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
 
     public static Result<T> FromId(byte id)
     {
-        var result = List.FirstOrDefault(x => x.Id == id);
+        var result = list.FirstOrDefault(x => x.Id == id);
         if (result is null)
             return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).GetUnproxiedType().Name} by id '{id}'");
 
@@ -66,7 +66,7 @@ public abstract class Enumeration<T> : IComparable, IEquatable<Enumeration<T>>
         return cachedHashCode.Value;
     }
 
-    public int CompareTo(object? other) => Id.CompareTo(((Enumeration<T>)other!).Id);
+    public int CompareTo(Enumeration<T>? other) => Id.CompareTo(other!.Id);
 
     private static T[] CreateEnumerations()
     {
