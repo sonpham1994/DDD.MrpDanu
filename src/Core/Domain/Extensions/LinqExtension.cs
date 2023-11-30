@@ -61,7 +61,7 @@ public static class LinqExtension
 
     // O(n square) -> n bình phương 2
     private static TResult? LinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
-        where TResult : IEquatable<TResult>
+        where TResult : Entity
     {
         TResult? result = default(TResult);
         for (int i = 0; i < count; i++)

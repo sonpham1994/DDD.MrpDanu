@@ -68,6 +68,42 @@ public class BinarySearchVsLinearSearchBenchmark
         //     throw new InvalidOperationException("Binary Search not working");
         // }
     }
+    
+    [Benchmark]
+    public void BinarySearchWithBitwiseRightShiftOperator()
+    {
+        var a = binarySearchWithBitWiseShiftingRight(_sequentialGuids, _itemFindInSequentialGuid);
+        if (a == false)
+        {
+            throw new InvalidOperationException("Binary Search not working");
+        }
+    }
+    
+    [Benchmark]
+    public void LinearSearchNotFound()
+    {
+        var a = linearSearch(_guids, Guid.NewGuid());
+    }
+
+    [Benchmark]
+    public void BinarySearchNotFound()
+    {
+        var a = binarySearch(_sequentialGuids, Guid.NewGuid());
+        // if (a == false)
+        // {
+        //     throw new InvalidOperationException("Binary Search not working");
+        // }
+    }
+    
+    [Benchmark]
+    public void BinarySearchWithBitwiseRightShiftOperatorNotFound()
+    {
+        var a = binarySearchWithBitWiseShiftingRight(_sequentialGuids, Guid.NewGuid());
+        // if (a == false)
+        // {
+        //     throw new InvalidOperationException("Binary Search not working");
+        // }
+    }
 
     private bool linearSearch(Guid[] data, Guid value)
     {
@@ -93,6 +129,33 @@ public class BinarySearchVsLinearSearchBenchmark
         while (start <= end)
         {
             int middle = (start + end) / 2;
+
+            if (SequentialGuid.CompareTo(data[middle], value) == 0)
+            {
+                //ComparisonBinarySearch++;
+                return true;
+            }
+                
+            else if (SequentialGuid.CompareTo(data[middle], value) < 0)
+            {
+                //ComparisonBinarySearch += 2;
+                start = middle + 1;
+            }
+            else
+                end = middle - 1;
+        }
+
+        return false;
+    }
+    
+    private bool binarySearchWithBitWiseShiftingRight(Guid[] data, Guid value)
+    {
+        int start = 0;
+        int end = data.Length - 1;
+
+        while (start <= end)
+        {
+            int middle = (start + end) >> 1;
 
             if (SequentialGuid.CompareTo(data[middle], value) == 0)
             {
