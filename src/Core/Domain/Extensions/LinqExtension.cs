@@ -19,8 +19,8 @@ public static class LinqExtension
     
     //https://www.youtube.com/watch?v=zYavFBwsJxE&ab_channel=MilanJovanovi%C4%87
     public static TResult? ItemDuplication<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
-        where T : Entity<Guid>
-        where TResult : Entity<Guid>
+        where T : Entity
+        where TResult : Entity
     {
         TResult? result = null;
         if (enumerable is List<T> lst)
@@ -40,8 +40,8 @@ public static class LinqExtension
     }
     
     public static TResult? ItemDuplication<T, TResult>(this List<T> list, Func<T, TResult> predicate)
-        where T : Entity<Guid>
-        where TResult : Entity<Guid>
+        where T : Entity
+        where TResult : Entity
     {
         int count = list.Count;
         TResult? result = LinearSearch(list, predicate, count);
@@ -50,8 +50,8 @@ public static class LinqExtension
     }
     
     public static TResult? ItemDuplication<T, TResult>(this T[] array, Func<T, TResult> predicate)
-        where T : Entity<Guid>
-        where TResult : Entity<Guid>
+        where T : Entity
+        where TResult : Entity
     {
         int count = array.Length;
         TResult? result = LinearSearch(array, predicate, count);
@@ -61,6 +61,7 @@ public static class LinqExtension
 
     // O(n square) -> n bình phương 2
     private static TResult? LinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
+        where TResult : IEquatable<TResult>
     {
         TResult? result = default(TResult);
         for (int i = 0; i < count; i++)
