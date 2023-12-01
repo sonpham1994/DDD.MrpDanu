@@ -79,7 +79,10 @@ public static class GuidExtensions
         left.TryWriteBytes(leftGuids);
         right.TryWriteBytes(rightGuids);
 
-        //Asymptotic analysis: Best case: Compare Guid with O(log n), if Guid is not equal
+        //Asymptotic analysis:
+        //  - Best case: Compare Guid with O(1) of time complexity, if Guid is not equal at the index 10
+        //  - Average case: time complexity of 0(log n)
+        //  - Worst case: time complexity of O(n), if Guid equals
         //Compare Sequential Guid implemented from EntityFramework Core by using technique from SqlGuid
         // Please check AnalyzeStructureOfSequentialGuid.xlsx with array 10_000 items, and we have from 5_000 to 5_0009
         // and 9_000 to 9_009. We can see the data with the last item will be sorted first
