@@ -5,7 +5,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.ProductManagement;
 
-public class BoMRevisionMaterial : Entity<Guid>
+public class BoMRevisionMaterial : Entity
 {
     public Unit Unit { get; }
     public Money Price { get; }
@@ -18,6 +18,15 @@ public class BoMRevisionMaterial : Entity<Guid>
      * If PurchaseOrder has data in BoMRevisionMaterial, if MaterialCostManagement change Price, Surcharge, MinQty, it
      * will make an adverse impact on PurchaseOrder. So when we perform purchase Order and status is done or inprogress.
      * we need to store Price, Surcharge, MinQty in PurchaseOrder
+     */
+    
+    /*
+     * Entity can belong to single aggregate, but value object can belong to multiple aggregate. So we need to
+     * replace TransactionalPartner and Material here because those entities belonged to Material aggregate.
+     * And also, the Material and TransactionalPartner are the aggregate root, we cannot nest the aggregate root
+     * inside another aggregate.
+     * And also, we need to define which properties in those entities this aggregate can use, and we just use
+     * those properties.
      */
     public virtual TransactionalPartner TransactionalPartner { get; }
     public virtual Material Material { get; }
