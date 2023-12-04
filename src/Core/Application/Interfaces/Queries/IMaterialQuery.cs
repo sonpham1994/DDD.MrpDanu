@@ -1,5 +1,5 @@
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 
 namespace Application.Interfaces.Queries;
 

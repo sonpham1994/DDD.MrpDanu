@@ -1,8 +1,8 @@
 using System.Data;
 using Dapper;
 using Application.Interfaces.Queries;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 using Infrastructure.Persistence.Read.Extensions;
 using Infrastructure.Persistence.Read.Models;
 

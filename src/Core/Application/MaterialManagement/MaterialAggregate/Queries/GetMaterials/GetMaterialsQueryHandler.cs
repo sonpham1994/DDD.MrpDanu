@@ -2,7 +2,7 @@ using Application.Interfaces.Queries;
 using Application.Interfaces.Messaging;
 using Domain.SharedKernel.Base;
 
-namespace Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
+namespace Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 
 internal sealed class GetMaterialsQueryHandler : IQueryHandler<GetMaterialsQuery, IReadOnlyList<MaterialsResponse>>
 {

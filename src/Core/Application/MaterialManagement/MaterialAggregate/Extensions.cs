@@ -1,4 +1,3 @@
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Domain.MaterialManagement.MaterialAggregate;
 
 namespace Application.MaterialManagement.MaterialAggregate;

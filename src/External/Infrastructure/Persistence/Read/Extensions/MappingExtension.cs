@@ -1,6 +1,6 @@
 using Application.MaterialManagement.MaterialAggregate;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;

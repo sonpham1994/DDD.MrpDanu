@@ -3,7 +3,7 @@ using Domain.SharedKernel.Base;
 using Application.Interfaces.Queries;
 using Domain.MaterialManagement;
 
-namespace Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
+namespace Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 
 internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByIdQuery, MaterialResponse>
 {

@@ -2,8 +2,8 @@
 using Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 using Application.MaterialManagement.MaterialAggregate.Commands.DeleteMaterial;
 using Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterials;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

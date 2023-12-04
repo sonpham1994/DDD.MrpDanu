@@ -1,6 +1,6 @@
 ﻿using Application.MaterialManagement.Shared;
 
-namespace Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
+namespace Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 
 public sealed record MaterialCostManagementResponse(
     decimal Price,
@@ -20,7 +20,3 @@ public sealed record MaterialResponse(
     MaterialTypeResponse MaterialType,
     RegionalMarketResponse RegionalMarket,
     IReadOnlyList<MaterialCostManagementResponse> MaterialCostManagements);
-
-public sealed record MaterialTypeResponse(byte Id, string Name);
-
-public sealed record RegionalMarketResponse(byte Id, string Name);

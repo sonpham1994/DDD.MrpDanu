@@ -27,6 +27,10 @@ public class BoMRevisionMaterial : Entity
      * inside another aggregate.
      * And also, we need to define which properties in those entities this aggregate can use, and we just use
      * those properties.
+     * Maybe we will build the Modular architecture, and in this Product bounded context, we don't use Material and
+     * TransactionalPartner from Material bounded context, Material bounded context will publish message and
+     * Product bounded context will consume message with properties needed, and then the Product bounded context
+     * will use data from this with Product's schema.
      */
     public virtual TransactionalPartner TransactionalPartner { get; }
     public virtual Material Material { get; }

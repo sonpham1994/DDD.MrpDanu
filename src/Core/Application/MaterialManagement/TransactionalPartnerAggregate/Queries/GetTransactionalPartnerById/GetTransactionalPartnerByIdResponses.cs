@@ -20,11 +20,3 @@ public sealed record AddressResponse(
     CountryResponse Country);
 
 public sealed record ContactPersonInformationResponse(string Name, string TelNo, string Email);
-
-public sealed record CountryResponse(byte Id, string Name);
-
-public sealed record CurrencyTypeResponse(byte Id, string Name);
-
-public sealed record LocationTypeResponse(byte Id, string Name);
-
-public sealed record TransactionalPartnerTypeResponse(byte Id, string Name);

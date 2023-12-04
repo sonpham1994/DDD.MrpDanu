@@ -1,11 +1,8 @@
 using Api.ApiResponses;
 using Application.MaterialManagement.MaterialAggregate;
-using Application.MaterialManagement.MaterialAggregate.Queries.MaterialQueries.GetMaterialById;
 using Application.MaterialManagement.TransactionalPartnerAggregate;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
 using Domain.SharedKernel.DomainClasses;
 
 namespace Api.Controllers.MaterialManagement;
