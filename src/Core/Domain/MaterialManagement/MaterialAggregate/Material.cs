@@ -71,7 +71,7 @@ public class Material : AggregateRoot
         foreach (var materialCost in materialCosts)
         {
             var materialCostManagement = _materialCostManagements
-                .FirstOrDefault(x => x.TransactionalPartner == materialCost.TransactionalPartner);
+                .Find(x => x.TransactionalPartner == materialCost.TransactionalPartner);
 
             if (materialCostManagement is not null)
             {
@@ -97,7 +97,7 @@ public class Material : AggregateRoot
 
     public Result<MaterialCostManagement?> GetMaterialCost(TransactionalPartner supplier)
     {
-        var materialCost = _materialCostManagements.FirstOrDefault(x => x.TransactionalPartner == supplier);
+        var materialCost = _materialCostManagements.Find(x => x.TransactionalPartner == supplier);
 
         if (materialCost is null)
             return DomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);
@@ -174,7 +174,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
     }
 
     //need to use ubiquitous language for this method
-    public Result UpdateCost(IEnumerable<MaterialCostManagement> materialCosts)
+    public Result UpdateCost(IReadOnlyList<MaterialCostManagement> materialCosts)
     {
         var supplierDuplication = materialCosts.ItemDuplication(x => x.TransactionalPartner);
         if (supplierDuplication is not null)
@@ -183,7 +183,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
         foreach (var materialCost in materialCosts)
         {
             var materialCostManagement = _materialCostManagements
-                .FirstOrDefault(x => x.TransactionalPartner == materialCost.TransactionalPartner);
+                .Find(x => x.TransactionalPartner == materialCost.TransactionalPartner);
 
             if (materialCostManagement is not null)
             {
@@ -206,7 +206,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
 
     public Result<MaterialCostManagement?> GetMaterialCost(TransactionalPartner supplier)
     {
-        var materialCost = _materialCostManagements.FirstOrDefault(x => x.TransactionalPartner == supplier);
+        var materialCost = _materialCostManagements.Find(x => x.TransactionalPartner == supplier);
 
         if (materialCost is null)
             return DomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);

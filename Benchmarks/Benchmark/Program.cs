@@ -19,11 +19,12 @@ using Microsoft.Extensions.Logging;
 using Benchmark.StringBenchmarks;
 using Benchmark.BoxingEntityEquals;
 using Benchmark.ValueObjectEqualsBoxing;
+using Benchmark.FirstOrDefaultVsFind;
 
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<ValueObjectEqualsBoxingBenchmark>();
+BenchmarkRunner.Run<FirstOrDefaultVsFindBenchmark>();
 //var a = new ValueObjectEqualsBoxingBenchmark();
 //a.Setup();
 //a.ValueObjectEqualsWithAvoidBoxing();

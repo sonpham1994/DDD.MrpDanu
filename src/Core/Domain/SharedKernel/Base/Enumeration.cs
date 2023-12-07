@@ -49,9 +49,11 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
 
     public static Result<T> FromId(byte id)
     {
-        var result = list.FirstOrDefault(x => x.Id == id);
-        if (result is null)
+        if (id == 0 || id >= list.Length)
             return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).GetUnproxiedType().Name} by id '{id}'");
+
+        //using index is much faster than FirstOrDefault or Find and optimize memory usage. Please check Benchmark/FirstOrDefaultVsFind
+        var result = list[id - 1];
 
         return result;
     }
@@ -76,6 +78,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .Where(fieldInfo => enumerationType.IsAssignableFrom(fieldInfo.FieldType))
             .Select(fieldInfo => (T)fieldInfo.GetValue(default)!)
+            .Order()
             .ToArray();
 
         return enumerationData;
