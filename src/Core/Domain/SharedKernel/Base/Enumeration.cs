@@ -49,11 +49,12 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
 
     public static Result<T> FromId(byte id)
     {
-        if (id == 0 || id >= list.Length)
-            return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).GetUnproxiedType().Name} by id '{id}'");
+        int index = id - 1;
+        if (index < 0 || index >= list.Length)
+            return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).Name} by id '{id}'");
 
         //using index is much faster than FirstOrDefault or Find and optimize memory usage. Please check Benchmark/FirstOrDefaultVsFind
-        var result = list[id - 1];
+        var result = list[index];
 
         return result;
     }
