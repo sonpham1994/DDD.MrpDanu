@@ -20,7 +20,7 @@ public static class MaterialManagementEndpoints
             IReadOnlyList<MaterialTypeResponse> result = MaterialType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return ApiResponse<IReadOnlyList<MaterialTypeResponse>>.Success(result);
+            return ApiResponseExtensions<IReadOnlyList<MaterialTypeResponse>>.Success(result);
         });
         
         group.MapGet("regional-markets", () =>
@@ -28,7 +28,7 @@ public static class MaterialManagementEndpoints
             IReadOnlyList<RegionalMarketResponse> result = RegionalMarket.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return ApiResponse<IReadOnlyList<RegionalMarketResponse>>.Success(result);
+            return ApiResponseExtensions<IReadOnlyList<RegionalMarketResponse>>.Success(result);
         });
         
         group.MapGet("countries", () =>
@@ -36,7 +36,7 @@ public static class MaterialManagementEndpoints
             IReadOnlyList<CountryResponse> countries = Country.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return ApiResponse<IReadOnlyList<CountryResponse>>.Success(countries);
+            return ApiResponseExtensions<IReadOnlyList<CountryResponse>>.Success(countries);
         });
         
         group.MapGet("location-types", () =>
@@ -44,7 +44,7 @@ public static class MaterialManagementEndpoints
             IReadOnlyList<LocationTypeResponse> result = LocationType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return ApiResponse<IReadOnlyList<LocationTypeResponse>>.Success(result);
+            return ApiResponseExtensions<IReadOnlyList<LocationTypeResponse>>.Success(result);
         });
         
         group.MapGet("transactional-partner-types", () =>
@@ -52,7 +52,7 @@ public static class MaterialManagementEndpoints
             IReadOnlyList<TransactionalPartnerTypeResponse> result = TransactionalPartnerType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return ApiResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>.Success(result);
+            return ApiResponseExtensions<IReadOnlyList<TransactionalPartnerTypeResponse>>.Success(result);
         });
         
         group.MapGet("currency-types", () =>
@@ -60,7 +60,7 @@ public static class MaterialManagementEndpoints
             IReadOnlyList<CurrencyTypeResponse> result = CurrencyType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            return ApiResponse<IReadOnlyList<CurrencyTypeResponse>>.Success(result);
+            return ApiResponseExtensions<IReadOnlyList<CurrencyTypeResponse>>.Success(result);
         });
     }
 }

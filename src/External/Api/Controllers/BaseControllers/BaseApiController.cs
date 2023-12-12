@@ -15,24 +15,24 @@ public abstract class BaseApiController : ControllerBase
     [NonAction]
     protected OkObjectResult Success()
     {
-        return Ok(ApiResponse.Success());
+        return Ok(ApiResponseExtensions.Success());
     }
 
     [NonAction]
     protected OkObjectResult Success<T>(T result)
     {
-        return Ok(ApiResponse<T>.Success(result));
+        return Ok(ApiResponseExtensions<T>.Success(result));
     }
 
     [NonAction]
     protected BadRequestObjectResult BadRequest(in DomainError domainError)
     {
-        return BadRequest(ApiResponse.Failure(domainError));
+        return BadRequest(ApiResponseExtensions.Failure(domainError));
     }
 
     [NonAction]
     protected NotFoundObjectResult NotFound(in DomainError domainError)
     {
-        return NotFound(ApiResponse.Failure(domainError));
+        return NotFound(ApiResponseExtensions.Failure(domainError));
     }
 }

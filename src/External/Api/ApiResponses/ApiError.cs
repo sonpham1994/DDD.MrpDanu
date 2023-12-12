@@ -1,11 +1,6 @@
-using Domain.SharedKernel.Base;
-
 namespace Api.ApiResponses;
 
-public sealed record ApiError(string Code, string Message)
-{
-    public static implicit operator ApiError(in DomainError domainError) => new(domainError.Code, domainError.Message);
-}
+public sealed record ApiError(string Code, string Message);
 
 public static class ApiErrors
 {
