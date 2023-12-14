@@ -99,7 +99,6 @@ public class MaterialCostManagement : Entity
             Surcharge = surcharge;
 
         MinQuantity = minQuantity;
-
         return Result.Success();
     }
 

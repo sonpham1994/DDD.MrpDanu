@@ -23,6 +23,7 @@ public class Website : ValueObject
     
     public static Result<Website?> Create(string value)
     {
+        //note: should remove this one, whether the website is null or not, it will be decided based on bounded context
         if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
             return Result.Success(default(Website));
 
