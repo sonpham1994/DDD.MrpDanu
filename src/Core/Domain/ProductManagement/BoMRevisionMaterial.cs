@@ -35,6 +35,11 @@ public class BoMRevisionMaterial : Entity
     public virtual TransactionalPartner TransactionalPartner { get; }
     public virtual Material Material { get; }
     
+    //Note: we will use this to achieve separate bounded context, bounded contexts don't depend on each other
+    // the Material and Transactional partner belong to a different bounded context, so this one would be better.
+    //public virtual Guid SupplierId { get; }
+    //public virtual Guid MaterialId { get; }
+    
     //required EF
     protected BoMRevisionMaterial() {}
 
@@ -44,6 +49,9 @@ public class BoMRevisionMaterial : Entity
         Price = price;
         TransactionalPartner = supplier;
         Material = material;
+        
+        // SupplierId = supplier;
+        // MaterialId = material;
     }
 
     public static Result<BoMRevisionMaterial> Create(Unit unit, Material material, TransactionalPartner supplier) 

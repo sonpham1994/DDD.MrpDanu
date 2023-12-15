@@ -36,15 +36,25 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             .WithMany()
             .HasForeignKey("TransactionalPartnerId")
             .IsRequired();
+        
+        // Note: we will use this to achieve separate bounded context, bounded contexts don't depend on each other
+        // the Material and Transactional partner belong to a different bounded context, so we will use this
+        //one would be better.
+        // builder.HasOne<TransactionalPartner>()
+        //     .WithMany()
+        //     .HasForeignKey("SupplierId")
+        //     .IsRequired();
+        
+        builder.HasOne(x => x.Material)
+            .WithMany()
+            .HasForeignKey("MaterialId")
+            .IsRequired();
 
         builder.HasOne<BoMRevision>()
             .WithMany(x => x.BoMRevisionMaterials)
             .HasForeignKey("BoMRevisionId")
             .IsRequired();
 
-        builder.HasOne(x => x.Material)
-            .WithMany()
-            .HasForeignKey("MaterialId")
-            .IsRequired();
+        
     }
 }
