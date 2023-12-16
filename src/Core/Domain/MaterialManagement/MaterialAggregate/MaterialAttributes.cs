@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
 
@@ -8,17 +7,10 @@ namespace Domain.MaterialManagement.MaterialAggregate;
 //varian. If all of these attributes are the same, we consider two materials to equal. Name maybe not need live
 // in this value object here. if we have two different code and name from different suppliers (each supplier define
 // name and code of their material differently) but share the same attributes of materials such as color, width,
-// weight, unit, varian, we can treat two materials as the same. So we remove Name from this value object
+// weight, unit, varian, we can treat two materials as the same. So we remove Name from this value object.
+//Other bounded contexts can use this value object to compare materials
 public class MaterialAttributes : ValueObject
 {
-    //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
-    //https://www.youtube.com/watch?v=RSFiiKUvzLI&ab_channel=NickChapsas
-    private static readonly Regex UniqueCodePattern = new("[^A-Za-z0-9]", 
-        RegexOptions.Compiled,
-        //3,732.86 ns From Benchmark.RegexBenchmarks
-        // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
-        TimeSpan.FromMilliseconds(250));
-    
     public string ColorCode { get; }
     public string Width { get; }
     public string Weight { get; }
@@ -61,7 +53,8 @@ public class MaterialAttributes : ValueObject
 
     //because we use value object to check whether two materials are the same, we may don't need to this UniCode function
     // but the problem is that, the other bounded contexts also need to check whether two materials are the same or not
-    // maybe we will put this material class in the sharedkernal
+    // maybe we will put this material attributes value object in the sharedkernal, and then Other bounded contexts can
+    //  use this value object to compare materials
     // public string ToUniqueCode()
     // {
     //     return $"{ReplaceSpecialCharacters(Name)}" +
