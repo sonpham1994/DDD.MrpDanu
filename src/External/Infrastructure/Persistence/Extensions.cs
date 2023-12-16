@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Persistence;
 
-public static class Extensions
+internal static class Extensions
 {
     //improve performance and reduce memory allocation instead of using .ToString() for enum
     //https://www.youtube.com/watch?v=BoE5Y6Xkm6w&t=449s&ab_channel=NickChapsas
