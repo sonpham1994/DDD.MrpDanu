@@ -26,8 +26,8 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
         var materialAttributes = MaterialAttributes
-            .Create(request.Name, request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
-        var material = Material.Create(request.Code, materialAttributes, materialType, regionalMarket);
+            .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
+        var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
 
         if (request.MaterialCosts.Any())
         {

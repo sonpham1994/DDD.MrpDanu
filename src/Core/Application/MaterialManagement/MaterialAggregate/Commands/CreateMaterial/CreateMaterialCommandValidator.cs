@@ -22,7 +22,7 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
         {
             var result = ResultCombine.Create
             (
-                MaterialAttributes.Create(x.Name, x.ColorCode, x.Width, x.Weight, x.Unit, x.Varian),
+                MaterialAttributes.Create(x.ColorCode, x.Width, x.Weight, x.Unit, x.Varian),
                 RegionalMarket.FromId(x.RegionalMarketId),
                 MaterialType.FromId(x.MaterialTypeId)
             );
@@ -33,6 +33,7 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
             var (materialAttributes, regionalMarket, materialType) = result.Value;
 
             return Material.Create(x.Code,
+                x.Name,
                 materialAttributes,
                 materialType,
                 regionalMarket);

@@ -32,10 +32,10 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
 
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
-        var materialAttributes = MaterialAttributes.Create(request.Name, request.ColorCode, request.Width,
+        var materialAttributes = MaterialAttributes.Create(request.ColorCode, request.Width,
             request.Weight, request.Unit, request.Varian).Value;
 
-        var materialResult = material.UpdateMaterial(request.Code, materialAttributes, materialType, regionalMarket);
+        var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
         if (materialResult.IsFailure)
             return materialResult;
 

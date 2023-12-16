@@ -32,13 +32,13 @@ public class LinqExtensionTests
         var materialId2 = Guid.NewGuid();
         var materialId3 = Guid.NewGuid();
         var materialId4 = Guid.NewGuid();
-        var material1 = Material.Create("code1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
+            Material.Create("code2", "name2",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
-            Material.Create("code4", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId4),
+            Material.Create("code3", "name3",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
+            Material.Create("code4", "name4",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId4),
             material1,
         };
 
@@ -55,13 +55,13 @@ public class LinqExtensionTests
         var materialId2 = Guid.NewGuid();
         var materialId3 = Guid.NewGuid();
         var materialId4 = Guid.NewGuid();
-        var material1 = Material.Create("code1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
+            Material.Create("code2", "name2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
-            Material.Create("code4", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId4),
+            Material.Create("code3", "name3",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
+            Material.Create("code4", "name4",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId4),
         };
 
         var result = items.ItemDuplication(x => x);
@@ -74,12 +74,10 @@ public class LinqExtensionTests
     {
         var materialId1 = Guid.NewGuid();
         var materialId2 = Guid.NewGuid();
-        var materialId3 = Guid.NewGuid();
-        var materialId4 = Guid.NewGuid();
-        var material1 = Material.Create("code1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
+            Material.Create("code2", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
             material1,
             null,
             null
@@ -96,13 +94,12 @@ public class LinqExtensionTests
         var materialId1 = Guid.NewGuid();
         var materialId2 = Guid.NewGuid();
         var materialId3 = Guid.NewGuid();
-        var materialId4 = Guid.NewGuid();
-        var material1 = Material.Create("code1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
+            Material.Create("code2", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
+            Material.Create("code3", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
             null,
             material1
         };
@@ -119,14 +116,13 @@ public class LinqExtensionTests
         var materialId1 = Guid.NewGuid();
         var materialId2 = Guid.NewGuid();
         var materialId3 = Guid.NewGuid();
-        var materialId4 = Guid.NewGuid();
-        var material1 = Material.Create("code1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId1);
         var items = new List<Material>
         {
             null,
-            Material.Create("code2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
+            Material.Create("code2", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
+            Material.Create("code3", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None).Value.WithId(materialId3),
             null,
             material1
         };

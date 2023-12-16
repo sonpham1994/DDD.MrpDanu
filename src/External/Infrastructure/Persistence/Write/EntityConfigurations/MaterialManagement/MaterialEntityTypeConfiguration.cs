@@ -12,14 +12,15 @@ namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManageme
             builder.ToTable(nameof(Material));
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Code).HasColumnType("nvarchar(200)").IsRequired();
-            builder.Property(x => x.CodeUnique).HasColumnType("varchar(2000)").IsRequired();
-            builder.Property(x => x.CodeUnique).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            builder.Property(x=>x.Name).HasColumnType("nvarchar(500)").IsRequired();
+            // builder.Property(x => x.CodeUnique).HasColumnType("varchar(2000)").IsRequired();
+            // builder.Property(x => x.CodeUnique).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
             builder.Ignore(x => x.DomainEvents);
 
             builder.OwnsOne(x => x.Attributes, j =>
             {
-                j.Property(l => l.Name).HasColumnName(nameof(MaterialAttributes.Name)).HasColumnType("nvarchar(500)").IsRequired();
+                //j.Property(l => l.Name).HasColumnName(nameof(MaterialAttributes.Name)).HasColumnType("nvarchar(500)").IsRequired();
                 j.Property(l => l.Varian).HasColumnName(nameof(MaterialAttributes.Varian)).HasColumnType("nvarchar(200)").IsRequired(false);
                 j.Property(l => l.Unit).HasColumnName(nameof(MaterialAttributes.Unit)).HasColumnType("nvarchar(200)").IsRequired(false);
                 j.Property(l => l.ColorCode).HasColumnName(nameof(MaterialAttributes.ColorCode)).HasColumnType("nvarchar(200)").IsRequired(false);

@@ -15,7 +15,7 @@ public class Material : AggregateRoot
     private readonly List<MaterialCostManagement> _materialCostManagements = new(MaxNumberOfMaterialCosts);
 
     public string Code { get; private set; }
-    public string CodeUnique { get; }
+    public string Name { get; private set; }
     public MaterialAttributes Attributes { get; private set; }
     public virtual MaterialType MaterialType { get; private set; }
     public virtual RegionalMarket RegionalMarket { get; private set; }
@@ -26,30 +26,35 @@ public class Material : AggregateRoot
     //required EF Proxies
     protected Material() { }
 
-    private Material(string code, MaterialAttributes attributes, MaterialType materialType, RegionalMarket regionalMarket)
+    private Material(string code, string name, MaterialAttributes attributes, MaterialType materialType, RegionalMarket regionalMarket)
         : this()
     {
         Code = code;
-        CodeUnique = attributes.ToUniqueCode();
+        Name = name;
         Attributes = attributes;
         MaterialType = materialType;
         RegionalMarket = regionalMarket;
     }
 
-    public static Result<Material> Create(string code, MaterialAttributes attributes, MaterialType materialType,
+    public static Result<Material> Create(string code, string name, MaterialAttributes attributes, MaterialType materialType,
         RegionalMarket regionalMarket)
     {
-        var result = CanCreateOrUpdateMaterial(code, materialType, regionalMarket);
+        var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
         if (result.IsFailure)
             return result.Error;
 
-        return new Material(code.Trim(), attributes, materialType, regionalMarket);
+        return new Material(code.Trim(), name.Trim(), attributes, materialType, regionalMarket);
     }
 
-    public Result UpdateMaterial(string code, MaterialAttributes attributes, MaterialType materialType,
+    public Result UpdateMaterial(string code, string name, MaterialAttributes attributes, MaterialType materialType,
         RegionalMarket regionalMarket)
     {
-        var result = CanCreateOrUpdateMaterial(code, materialType, regionalMarket);
+        code ??= string.Empty;
+        name ??= string.Empty;
+        code = code.Trim();
+        name = name.Trim();
+        
+        var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
         if (result.IsFailure)
             return result;
 
@@ -105,10 +110,12 @@ public class Material : AggregateRoot
         return materialCost;
     }
 
-    private static Result CanCreateOrUpdateMaterial(string code, MaterialType materialType, RegionalMarket regionalMarket)
+    private static Result CanCreateOrUpdateMaterial(string code, string name, MaterialType materialType, RegionalMarket regionalMarket)
     {
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
             return DomainErrors.Material.EmptyCode;
+        if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            return DomainErrors.Material.EmptyName;
 
         if (materialType == MaterialType.Material && regionalMarket != RegionalMarket.None)
             return DomainErrors.Material.InvalidMaterialType;
@@ -142,7 +149,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
     : this()
     {
         Code = code;
-        CodeUnique = attributes.ToUniqueCode();
+        //CodeUnique = attributes.ToUniqueCode();
         Attributes = attributes;
         MaterialType = materialType;
         RegionalMarket = regionalMarket;
@@ -236,7 +243,7 @@ public class MaterialForLutionAudit : AggregateRoot, IAuditTableForSolution1, IA
             Id = id,
             Code = Code,
             CodeUnique = CodeUnique,
-            Name = Attributes.Name,
+            //Name = Attributes.Name,
             ColorCode = Attributes.ColorCode,
             Width = Attributes.Width,
             Weight = Attributes.Weight,

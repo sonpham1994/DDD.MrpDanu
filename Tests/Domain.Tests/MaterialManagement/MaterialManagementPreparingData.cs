@@ -25,10 +25,10 @@ public static class MaterialManagementPreparingData
         , ContactInformation.Create("1234567890", string.Empty).Value);
 
     public static MaterialAttributes MaterialAttributes1 =>
-        MaterialAttributes.Create("name1", "colorCode1", "width1", "weight1", "unit1", "varian1").Value;
+        MaterialAttributes.Create("colorCode1", "width1", "weight1", "unit1", "varian1").Value;
     
     public static MaterialAttributes MaterialAttributes2 =>
-        MaterialAttributes.Create("name2", "colorCode2", "width2", "weight2", "unit2", "varian2").Value;
+        MaterialAttributes.Create("colorCode2", "width2", "weight2", "unit2", "varian2").Value;
 
     public static TransactionalPartner TransactionalPartnerWithCustomerType => TransactionalPartner.Create(
         CompanyName1,

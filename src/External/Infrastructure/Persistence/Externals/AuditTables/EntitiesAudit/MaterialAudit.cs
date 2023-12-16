@@ -22,8 +22,9 @@ internal sealed class MaterialAudit : EntityAudit
         {
             Id = id,
             material.Code,
-            material.CodeUnique,
-            material.Attributes.Name,
+            material.Name,
+            //material.CodeUnique,
+            //material.Attributes.Name,
             material.Attributes.ColorCode,
             material.Attributes.Width,
             material.Attributes.Weight,

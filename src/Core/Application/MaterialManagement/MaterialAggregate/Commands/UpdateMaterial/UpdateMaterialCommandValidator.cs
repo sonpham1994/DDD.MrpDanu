@@ -20,7 +20,7 @@ internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateM
         
         RuleFor(x => x)
             .MustBeValueObject(
-                x => MaterialAttributes.Create(x.Name, 
+                x => MaterialAttributes.Create( 
                     x.ColorCode, 
                     x.Width, 
                     x.Weight, 
