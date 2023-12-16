@@ -1,8 +1,9 @@
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
+using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
-using Domain.Services;
+using Domain.Services.UniqueMaterialCodeService;
 using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
@@ -12,14 +13,17 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
     private readonly IMaterialRepository _materialRepository;
+    private readonly IMaterialQuery _materialQuery;
 
     public CreateMaterialCommandHandler(IUnitOfWork unitOfWork,
         ITransactionalPartnerRepository transactionalPartnerRepository,
-        IMaterialRepository materialRepository)
+        IMaterialRepository materialRepository,
+        IMaterialQuery materialQuery)
     {
         _unitOfWork = unitOfWork;
         _transactionalPartnerRepository = transactionalPartnerRepository;
         _materialRepository = materialRepository;
+        _materialQuery = materialQuery;
     }
     
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
@@ -29,8 +33,13 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         var materialAttributes = MaterialAttributes
             .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
         var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket).Value;
-        var materialsByCode = await _materialRepository.GetByCodeAsync(request.Code, cancellationToken);
-        var uniqueCodeResult = UniqueMaterialCode.CheckUniqueMaterialCode(material, materialsByCode);
+        var uniqueCodeResult = await UniqueMaterialCode
+            .CheckUniqueMaterialCodeAsync
+            (
+                material, 
+                (code, cancelToken) => _materialQuery.GetByCodeAsync(code, cancelToken), 
+                cancellationToken
+            );
         if (uniqueCodeResult.IsFailure)
             return uniqueCodeResult;
         

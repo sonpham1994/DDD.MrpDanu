@@ -1,10 +1,9 @@
 using System.Data;
-using Dapper;
 using Application.Interfaces.Queries;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
+using Domain.Services.UniqueMaterialCodeService;
 using Infrastructure.Persistence.Read.Extensions;
-using Infrastructure.Persistence.Read.Models;
 
 namespace Infrastructure.Persistence.Read.Queries.Material;
 
@@ -36,5 +35,12 @@ internal sealed class MaterialDapperQuery : IMaterialQuery
         var material = await _dbConnection.GetListAsync(cancellationToken);
 
         return material.ToResponse();
+    }
+    
+    public async Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken)
+    {
+        var material = await _dbConnection.GetByCodeAsync(code, cancellationToken);
+
+        return material;
     }
 }

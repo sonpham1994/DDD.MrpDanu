@@ -1,5 +1,6 @@
 using System.Data;
 using Dapper;
+using Domain.Services.UniqueMaterialCodeService;
 using Infrastructure.Persistence.Read.Models;
 
 namespace Infrastructure.Persistence.Read.Queries.Material;
@@ -37,6 +38,18 @@ internal static class Extensions
         return materialReadModel;
     }
 
+    public static async Task<List<MaterialIdWithCode>> GetByCodeAsync(this IDbConnection dbConnection, string code, CancellationToken cancellationToken)
+    {
+        var material = await dbConnection
+            .QueryAsync<MaterialIdWithCode>(
+                @"SELECT material.Id, material.Code
+                    FROM Material
+                    WHERE Code = @Code;",
+                new { Code = code });
+
+        return material.ToList();
+    }
+    
     public static async Task<List<MaterialsReadModel>> GetListAsync(this IDbConnection dbConnection, CancellationToken cancellationToken)
     {
         var material = await dbConnection

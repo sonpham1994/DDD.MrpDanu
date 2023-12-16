@@ -1,8 +1,9 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
+using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
-using Domain.Services;
+using Domain.Services.UniqueMaterialCodeService;
 using Domain.SharedKernel.Base;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
@@ -13,14 +14,16 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
     private readonly IMaterialRepository _materialRepository;
+    private readonly IMaterialQuery _materialQuery;
 
     public UpdateMaterialCommandHandler(IUnitOfWork unitOfWork,
         ITransactionalPartnerRepository transactionalPartnerRepository,
-        IMaterialRepository materialRepository)
+        IMaterialRepository materialRepository, IMaterialQuery materialQuery)
     {
         _unitOfWork = unitOfWork;
         _transactionalPartnerRepository = transactionalPartnerRepository;
         _materialRepository = materialRepository;
+        _materialQuery = materialQuery;
     }
 
     public async Task<Result> Handle(UpdateMaterialCommand request, CancellationToken cancellationToken)
@@ -39,8 +42,13 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
         var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
         if (materialResult.IsFailure)
             return materialResult;
-        var materialsByCode = await _materialRepository.GetByCodeAsync(request.Code, cancellationToken);
-        var uniqueCodeResult = UniqueMaterialCode.CheckUniqueMaterialCode(material, materialsByCode);
+        var uniqueCodeResult = await UniqueMaterialCode
+            .CheckUniqueMaterialCodeAsync
+            (
+                material, 
+                (code, cancelToken) => _materialQuery.GetByCodeAsync(code, cancelToken), 
+                cancellationToken
+            );
         if (uniqueCodeResult.IsFailure)
             return uniqueCodeResult;
 
