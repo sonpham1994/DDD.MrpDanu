@@ -49,16 +49,12 @@ public class Material : AggregateRoot
     public Result UpdateMaterial(string code, string name, MaterialAttributes attributes, MaterialType materialType,
         RegionalMarket regionalMarket)
     {
-        code ??= string.Empty;
-        name ??= string.Empty;
-        code = code.Trim();
-        name = name.Trim();
-        
         var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
         if (result.IsFailure)
             return result;
 
         Code = code.Trim();
+        Name = name.Trim();
         Attributes = attributes;
         MaterialType = materialType;
         RegionalMarket = regionalMarket;
