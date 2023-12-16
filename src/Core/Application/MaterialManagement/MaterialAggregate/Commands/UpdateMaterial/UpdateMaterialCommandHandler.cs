@@ -3,7 +3,7 @@ using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
-using Domain.Services.UniqueMaterialCodeService;
+using Domain.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
@@ -42,7 +42,7 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
         var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
         if (materialResult.IsFailure)
             return materialResult;
-        var uniqueCodeResult = await UniqueMaterialCode
+        var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
                 material, 

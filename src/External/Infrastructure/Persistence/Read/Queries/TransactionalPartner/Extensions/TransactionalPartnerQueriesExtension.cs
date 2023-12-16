@@ -1,15 +1,15 @@
 using System.Data;
 using Dapper;
-using Infrastructure.Persistence.Read.Extensions;
+using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence.Read.Models;
 
-namespace Infrastructure.Persistence.Read.Queries.TransactionalPartner;
+namespace Infrastructure.Persistence.Read.Queries.TransactionalPartner.Extensions;
 
 // the reason why we put the query in extensions class is that, we can reuse the projection from another place,
 // reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
 // do their own business
 // please check https://www.youtube.com/watch?v=bnTxWV99qdE&t=562s&ab_channel=MilanJovanovi%C4%87
-internal static class Extensions
+internal static class TransactionalPartnerQueriesExtension
 {
     public static async Task<List<TransactionalPartnersReadModel>> GetTransactionalPartnersAsync(this IDbConnection dbConnection, CancellationToken cancellationToken)
     {
@@ -57,7 +57,7 @@ internal static class Extensions
          * if we use TransactionalPartnerType.GetSupplierTypes() to get suppliers, we reduce domain knowledge duplication
          *  , but have a highly coupling between read/write side, so we move it to MaterialManagementMapping
          */
-        var supplierTypeIds = MaterialManagementExtension.GetSupplierTypeIds();
+        var supplierTypeIds = GetSupplierTypeIds();
 
         var suppliers = await dbConnection
             .QueryAsync<SuppliersReadModel>(
@@ -69,5 +69,10 @@ internal static class Extensions
             );
 
         return suppliers.ToList();
+    }
+    
+    private static IReadOnlyList<byte> GetSupplierTypeIds()
+    {
+        return TransactionalPartnerType.GetSupplierTypes().ToArray().Select(x => x.Id).ToList();
     }
 }

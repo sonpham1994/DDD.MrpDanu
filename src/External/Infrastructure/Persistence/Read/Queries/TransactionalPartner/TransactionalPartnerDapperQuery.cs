@@ -4,7 +4,7 @@ using Application.Interfaces.Queries;
 using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using Infrastructure.Persistence.Read.Extensions;
+using Infrastructure.Persistence.Read.Queries.TransactionalPartner.Extensions;
 
 namespace Infrastructure.Persistence.Read.Queries.TransactionalPartner;
 

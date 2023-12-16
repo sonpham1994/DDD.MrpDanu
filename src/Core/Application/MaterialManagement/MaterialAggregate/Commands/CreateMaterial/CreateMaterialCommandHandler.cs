@@ -3,7 +3,7 @@ using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
-using Domain.Services.UniqueMaterialCodeService;
+using Domain.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
@@ -33,7 +33,7 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         var materialAttributes = MaterialAttributes
             .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
         var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket).Value;
-        var uniqueCodeResult = await UniqueMaterialCode
+        var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
                 material, 

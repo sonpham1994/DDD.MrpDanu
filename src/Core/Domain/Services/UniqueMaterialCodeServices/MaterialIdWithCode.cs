@@ -1,4 +1,4 @@
-namespace Domain.Services.UniqueMaterialCodeService;
+namespace Domain.Services.UniqueMaterialCodeServices;
 
 public sealed class MaterialIdWithCode
 {

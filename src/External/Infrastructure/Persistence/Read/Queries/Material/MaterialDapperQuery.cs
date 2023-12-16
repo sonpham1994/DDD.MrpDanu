@@ -2,8 +2,8 @@ using System.Data;
 using Application.Interfaces.Queries;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
-using Domain.Services.UniqueMaterialCodeService;
-using Infrastructure.Persistence.Read.Extensions;
+using Domain.Services.UniqueMaterialCodeServices;
+using Infrastructure.Persistence.Read.Queries.Material.Extensions;
 
 namespace Infrastructure.Persistence.Read.Queries.Material;
 

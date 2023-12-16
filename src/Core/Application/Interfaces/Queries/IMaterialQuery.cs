@@ -1,6 +1,6 @@
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
-using Domain.Services.UniqueMaterialCodeService;
+using Domain.Services.UniqueMaterialCodeServices;
 
 namespace Application.Interfaces.Queries;
 

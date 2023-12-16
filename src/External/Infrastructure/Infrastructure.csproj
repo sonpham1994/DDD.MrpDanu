@@ -31,9 +31,6 @@
     <Compile Update="Persistence\Read\Mappings\Mapping.cs">
       <DependentUpon>MaterialManagementExtension.cs</DependentUpon>
     </Compile>
-    <Compile Update="Persistence\Read\Extensions\MappingExtension.cs">
-      <DependentUpon>MaterialManagementExtension.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
