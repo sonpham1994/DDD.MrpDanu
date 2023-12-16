@@ -14,7 +14,7 @@ namespace Infrastructure.Persistence.Read.Extensions;
 
 internal static partial class MaterialManagementExtension
 {
-    public static MaterialResponse ToMaterialResponse(this MaterialReadModel materialReadModel, IReadOnlyList<MaterialCostManagementResponse> materialCosts)
+    public static MaterialResponse ToResponse(this MaterialReadModel materialReadModel)
     {
         var materialTypeResponse = MaterialType
             .FromId(materialReadModel.MaterialTypeId).Value
@@ -35,13 +35,13 @@ internal static partial class MaterialManagementExtension
             materialReadModel.Varian,
             materialTypeResponse,
             regionalMarketResponse,
-            materialCosts
+            materialReadModel.MaterialCosts.ToResponse()
         );
 
         return result;
     }
 
-    public static IReadOnlyList<MaterialCostManagementResponse> ToMaterialCostManagementResponse(
+    public static IReadOnlyList<MaterialCostManagementResponse> ToResponse(
         this IEnumerable<MaterialCostReadModel> materialCostReadModel)
         => materialCostReadModel.Select(x =>
         {
@@ -55,7 +55,7 @@ internal static partial class MaterialManagementExtension
                 supplierResponse);
         }).ToList();
 
-    public static IReadOnlyList<MaterialsResponse> ToMaterialsResponse(this IEnumerable<MaterialsReadModel> materialsReadModel)
+    public static IReadOnlyList<MaterialsResponse> ToResponse(this IEnumerable<MaterialsReadModel> materialsReadModel)
         => materialsReadModel.Select(x => new MaterialsResponse
         (
             x.Id,
@@ -70,7 +70,7 @@ internal static partial class MaterialManagementExtension
             MaterialType.FromId(x.MaterialTypeId).Value.Name
         )).ToList();
     
-    public static IReadOnlyList<SuppliersResponse> ToSuppliersResponse(this IEnumerable<SuppliersReadModel> suppliersReadModel)
+    public static IReadOnlyList<SuppliersResponse> ToResponse(this IEnumerable<SuppliersReadModel> suppliersReadModel)
         => suppliersReadModel.Select(x => new SuppliersResponse(x.Id, x.Name, CurrencyType.FromId(x.CurrencyTypeId).Value.Name)).ToList();
 
     public static IReadOnlyList<TransactionalPartnersResponse> AsTransactionalPartnersResponse(
@@ -85,7 +85,7 @@ internal static partial class MaterialManagementExtension
                     CurrencyType.FromId(x.CurrencyTypeId).Value.Name
                 )).ToList();
 
-    public static TransactionalPartnerResponse? ToTransactionalPartnerResponse(
+    public static TransactionalPartnerResponse? ToResponse(
         this TransactionalPartnerReadModel? transactionalPartnerReadModel)
     {
         TransactionalPartnerResponse? result = null;

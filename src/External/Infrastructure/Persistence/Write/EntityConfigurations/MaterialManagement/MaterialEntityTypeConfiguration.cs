@@ -12,6 +12,7 @@ namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManageme
             builder.ToTable(nameof(Material));
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Code).HasColumnType("nvarchar(200)").IsRequired();
+            builder.HasIndex(x => x.Code).IsUnique();
             builder.Property(x=>x.Name).HasColumnType("nvarchar(500)").IsRequired();
             // builder.Property(x => x.CodeUnique).HasColumnType("varchar(2000)").IsRequired();
             // builder.Property(x => x.CodeUnique).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);

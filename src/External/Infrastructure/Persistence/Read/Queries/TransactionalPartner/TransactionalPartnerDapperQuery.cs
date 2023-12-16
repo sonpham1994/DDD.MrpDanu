@@ -5,9 +5,8 @@ using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Infrastructure.Persistence.Read.Extensions;
-using Infrastructure.Persistence.Read.Models;
 
-namespace Infrastructure.Persistence.Read.Queries;
+namespace Infrastructure.Persistence.Read.Queries.TransactionalPartner;
 
 internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQuery
 {
@@ -17,40 +16,14 @@ internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQue
     
     public async Task<IReadOnlyList<SuppliersResponse>> GetSuppliersAsync(CancellationToken cancellationToken)
     {
-        /*
-         * https://enterprisecraftsmanship.com/posts/cqrs-vs-specification-pattern/
-         * ...
-         * The guideline here is this: loose coupling wins in the vast majority of cases.
-         * ...
-         * However, it large systems, you should almost always choose the loose coupling over preventing the domain
-         *  knowledge duplication between the reads and writes. The freedom to choose the most appropriate solution
-         *  for the problem at hand trumps the DRY principle.
-         *
-         * if we use TransactionalPartnerType.GetSupplierTypes() to get suppliers, we reduce domain knowledge duplication
-         *  , but have a highly coupling between read/write side, so we move it to MaterialManagementMapping
-         */
-        var supplierTypeIds = MaterialManagementExtension.GetSupplierTypeIds();
+        var suppliers = await _dbConnection.GetSuppliersAsync(cancellationToken);
 
-        var suppliers = await _dbConnection
-            .QueryAsync<SuppliersReadModel>(
-            @"SELECT transactionalPartner.Id, transactionalPartner.Name, transactionalPartner.CurrencyTypeId
-                FROM TransactionalPartner transactionalPartner
-                WHERE transactionalPartner.TransactionalPartnerTypeId IN @SupplierTypeIds
-                "
-            , new { supplierTypeIds }
-            );
-
-        return suppliers.ToSuppliersResponse();
+        return suppliers.ToResponse();
     }
     
     public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken)
     {
-        var transactionalPartners = await _dbConnection
-            .QueryAsync<TransactionalPartnersReadModel>(
-                @"SELECT Id, Name, TaxNo, Website, CurrencyTypeId, TransactionalPartnerTypeId
-                FROM TransactionalPartner transactionalPartner"
-                , cancellationToken
-            );
+        var transactionalPartners = await _dbConnection.GetTransactionalPartnersAsync(cancellationToken);
         
         return transactionalPartners.AsTransactionalPartnersResponse();
     }
@@ -58,21 +31,9 @@ internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQue
     public async Task<TransactionalPartnerResponse?> GetTransactionalPartnerByIdAsync(Guid id,
         CancellationToken cancellationToken)
     {
-        var transactionalPartner = await _dbConnection
-            .QueryFirstOrDefaultAsync<TransactionalPartnerReadModel>(
-                @"SELECT transactionalPartner.Id, transactionalPartner.Name, transactionalPartner.TaxNo, 
-                transactionalPartner.Website, transactionalPartner.LocationTypeId, transactionalPartner.TransactionalPartnerTypeId,
-                transactionalPartner.CurrencyTypeId, transactionalPartner.Address_City, transactionalPartner.Address_District,
-                transactionalPartner.Address_Street, transactionalPartner.Address_Ward, transactionalPartner.Address_ZipCode,
-                transactionalPartner.CountryId,
-                contactPersonInformation.Name as ContactPersonName, contactPersonInformation.Email, contactPersonInformation.TelNo
-                FROM TransactionalPartner transactionalPartner
-                JOIN ContactPersonInformation contactPersonInformation on contactPersonInformation.Id = transactionalPartner.Id
-                WHERE transactionalPartner.Id = @Id"
-                , new { id }
-            );
+        var transactionalPartner = await _dbConnection.GetTransactionalPartnerByIdAsync(id, cancellationToken);
 
-        return transactionalPartner.ToTransactionalPartnerResponse();
+        return transactionalPartner.ToResponse();
     }
 
     //We cant put Contact Info Value Object as parameter, but it is not necessarily. On query side, we don't need 

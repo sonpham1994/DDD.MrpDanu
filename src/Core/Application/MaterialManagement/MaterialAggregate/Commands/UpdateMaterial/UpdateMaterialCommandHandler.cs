@@ -1,9 +1,10 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
-using Domain.MaterialManagement;
 using Domain.MaterialManagement.MaterialAggregate;
+using Domain.Services;
 using Domain.SharedKernel.Base;
+using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
@@ -38,6 +39,10 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
         var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
         if (materialResult.IsFailure)
             return materialResult;
+        var materialsByCode = await _materialRepository.GetByCodeAsync(request.Code, cancellationToken);
+        var uniqueCodeResult = UniqueMaterialCode.CheckUniqueMaterialCode(material, materialsByCode);
+        if (uniqueCodeResult.IsFailure)
+            return uniqueCodeResult;
 
         var input = request.MaterialCosts
             .Where(x => x is not null)

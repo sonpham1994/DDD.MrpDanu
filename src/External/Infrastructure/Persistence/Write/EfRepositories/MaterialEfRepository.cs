@@ -50,6 +50,13 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
         return material;
     }
 
+    public async Task<List<Material>> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
+    {
+        var materials = await context.Materials.Where(x => x.Code == code).ToListAsync(cancellationToken);
+
+        return materials;
+    }
+    
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         if (id == Guid.Empty)

@@ -1,26 +1,19 @@
 using System.Data;
 using Dapper;
-using Application.Interfaces.Queries;
-using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
-using Infrastructure.Persistence.Read.Extensions;
 using Infrastructure.Persistence.Read.Models;
 
-namespace Infrastructure.Persistence.Read.Queries;
+namespace Infrastructure.Persistence.Read.Queries.Material;
 
-/*
- * Cqrs: we can use domain model to retrieve data by using Select extension method. But if we need to refactor
- *  Domain model (write side), the read side is also impacted. 
- */
-internal sealed class MaterialDapperQuery : IMaterialQuery
+// the reason why we put the query in extensions class is that, we can reuse the projection from another place,
+// reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
+// do their own business
+// please check https://www.youtube.com/watch?v=bnTxWV99qdE&t=562s&ab_channel=MilanJovanovi%C4%87
+internal static class Extensions
 {
-    private readonly IDbConnection _dbConnection;
-    public MaterialDapperQuery(IDbConnection dbConnection)
-        => _dbConnection = dbConnection;
-
-    public async Task<MaterialResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public static async Task<MaterialReadModel?> GetByIdAsync(this IDbConnection dbConnection,
+        Guid id,
+        CancellationToken cancellationToken)
     {
-        MaterialResponse? result = null;
         string sql = @"SELECT Id, Code, Name, ColorCode, Unit, 
                          Varian, Weight, Width, RegionalMarketId, MaterialTypeId
                          FROM Material
@@ -31,22 +24,22 @@ internal sealed class MaterialDapperQuery : IMaterialQuery
                          FROM MaterialCostManagement materialCost
                          JOIN TransactionalPartner supplier on supplier.Id = materialCost.TransactionalPartnerId
                          WHERE materialCost.MaterialId = @Id;";
-        
-        using var multiQuery = await _dbConnection.QueryMultipleAsync(sql, new { id });
+
+        using var multiQuery = await dbConnection.QueryMultipleAsync(sql, new { id });
         var materialReadModel = await multiQuery.ReadFirstOrDefaultAsync<MaterialReadModel>();
 
         if (materialReadModel is not null)
         {
             var materialCostReadModel = await multiQuery.ReadAsync<MaterialCostReadModel>();
-            result = materialReadModel.ToMaterialResponse(materialCostReadModel.ToMaterialCostManagementResponse());
+            materialReadModel.MaterialCosts = materialCostReadModel.ToList();
         }
 
-        return result;
+        return materialReadModel;
     }
 
-    public async Task<IReadOnlyList<MaterialsResponse>> GetListAsync(CancellationToken cancellationToken)
+    public static async Task<List<MaterialsReadModel>> GetListAsync(this IDbConnection dbConnection, CancellationToken cancellationToken)
     {
-        var material = await _dbConnection
+        var material = await dbConnection
             .QueryAsync<MaterialsReadModel>(
                 @"SELECT material.Id, material.Code, material.Name, material.ColorCode, material.Unit, 
                     material.Varian, material.Weight, material.Width,
@@ -54,6 +47,6 @@ internal sealed class MaterialDapperQuery : IMaterialQuery
                     FROM Material material", 
                 cancellationToken);
 
-        return material.ToMaterialsResponse();
+        return material.ToList();
     }
 }

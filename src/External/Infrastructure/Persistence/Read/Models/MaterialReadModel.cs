@@ -12,4 +12,5 @@ internal sealed record MaterialReadModel
     public string Varian { get; init; }
     public byte MaterialTypeId { get; init; }
     public byte RegionalMarketId { get; init; }
+    public List<MaterialCostReadModel> MaterialCosts { get; set; }
 }

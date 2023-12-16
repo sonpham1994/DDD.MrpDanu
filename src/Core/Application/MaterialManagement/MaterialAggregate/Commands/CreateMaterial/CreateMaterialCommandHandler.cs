@@ -2,6 +2,7 @@ using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Domain.MaterialManagement.MaterialAggregate;
+using Domain.Services;
 using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
@@ -27,8 +28,12 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
         var materialAttributes = MaterialAttributes
             .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
-        var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
-
+        var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket).Value;
+        var materialsByCode = await _materialRepository.GetByCodeAsync(request.Code, cancellationToken);
+        var uniqueCodeResult = UniqueMaterialCode.CheckUniqueMaterialCode(material, materialsByCode);
+        if (uniqueCodeResult.IsFailure)
+            return uniqueCodeResult;
+        
         if (request.MaterialCosts.Any())
         {
             var suppliers = await _transactionalPartnerRepository.GetByIdsAsync(request.MaterialCosts.Select(x => x.SupplierId).ToList(), cancellationToken);
@@ -41,12 +46,12 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
             if (materialCosts.IsFailure)
                 return materialCosts.Error;
 
-            var result = material.Value.UpdateCost(materialCosts.Value);
+            var result = material.UpdateCost(materialCosts.Value);
             if (result.IsFailure)
                 return result;
         }
         
-        _materialRepository.Save(material.Value);
+        _materialRepository.Save(material);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
