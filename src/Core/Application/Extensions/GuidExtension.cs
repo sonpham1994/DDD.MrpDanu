@@ -2,7 +2,7 @@ using System.Buffers.Text;
 
 namespace Application.Extensions;
 
-public static class GuidExtensions
+public static class GuidExtension
 {
     //https://www.youtube.com/watch?v=B2yOjLyEZk0&ab_channel=NickChapsas
     //https://www.stevejgordon.co.uk/using-high-performance-dotnetcore-csharp-techniques-to-base64-encode-a-guid
