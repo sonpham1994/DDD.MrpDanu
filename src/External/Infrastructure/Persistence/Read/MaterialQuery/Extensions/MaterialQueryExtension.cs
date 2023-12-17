@@ -15,6 +15,7 @@ internal static class MaterialQueryExtension
         Guid id,
         CancellationToken cancellationToken)
     {
+        //using multiple query to avoid cartesian explosion
         string sql = @"SELECT Id, Code, Name, ColorCode, Unit, 
                          Varian, Weight, Width, RegionalMarketId, MaterialTypeId
                          FROM Material
