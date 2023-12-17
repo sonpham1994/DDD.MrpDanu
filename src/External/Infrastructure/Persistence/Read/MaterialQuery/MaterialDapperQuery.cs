@@ -3,9 +3,9 @@ using Application.Interfaces.Queries;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 using Domain.Services.UniqueMaterialCodeServices;
-using Infrastructure.Persistence.Read.Queries.Material.Extensions;
+using Infrastructure.Persistence.Read.MaterialQuery.Extensions;
 
-namespace Infrastructure.Persistence.Read.Queries.Material;
+namespace Infrastructure.Persistence.Read.MaterialQuery;
 
 /*
  * Cqrs: we can use domain model to retrieve data by using Select extension method. But if we need to refactor

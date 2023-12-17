@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Persistence.Read.Models;
+﻿namespace Infrastructure.Persistence.Read.MaterialQuery.Models;
 
 internal sealed record MaterialsReadModel
 {

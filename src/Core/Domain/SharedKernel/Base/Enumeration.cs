@@ -37,7 +37,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
         if (ReferenceEquals(this, otherValue))
             return true;
         
-        var typeMatches = this.GetUnproxiedType().Equals(otherValue.GetUnproxiedType());
+        var typeMatches = this.GetUnproxiedType() == otherValue.GetUnproxiedType();
         var valueMatches = Id.Equals(otherValue.Id);
 
         return typeMatches && valueMatches;
@@ -47,7 +47,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
 
     public static bool operator !=(Enumeration<T> a, Enumeration<T> b) => !(a == b);
 
-    public static Result<T> FromId(byte id)
+    public static Result<T> FromId(in byte id)
     {
         int index = id - 1;
         if (index < 0 || index >= list.Length)

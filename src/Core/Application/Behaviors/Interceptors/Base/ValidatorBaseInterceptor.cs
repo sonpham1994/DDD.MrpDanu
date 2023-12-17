@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Behaviors.Interceptors.Base;
 
 internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
+    where TResponse : IResult
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ILogger<ValidatorBaseInterceptor<TRequest, TResponse>> _logger;
@@ -35,6 +36,7 @@ internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
         {
             _logger.ValidateFailure(requestTypeName, domainErrors);
             
+            //boxing: cast from value type to reference type (struct to interface)
             IResult result = Result.Failure(domainErrors[0]);
             
             return (TResponse)result;

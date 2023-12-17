@@ -1,4 +1,3 @@
-using Application.Extensions;
 using Application.LoggingDefinitions;
 using MediatR;
 using Microsoft.Extensions.Logging;

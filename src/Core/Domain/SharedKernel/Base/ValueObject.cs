@@ -1,5 +1,4 @@
 using Domain.Extensions;
-using System;
 
 namespace Domain.SharedKernel.Base;
 

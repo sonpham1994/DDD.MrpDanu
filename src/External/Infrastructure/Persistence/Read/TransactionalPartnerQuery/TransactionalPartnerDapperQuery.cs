@@ -4,9 +4,9 @@ using Application.Interfaces.Queries;
 using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using Infrastructure.Persistence.Read.Queries.TransactionalPartner.Extensions;
+using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
 
-namespace Infrastructure.Persistence.Read.Queries.TransactionalPartner;
+namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery;
 
 internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQuery
 {

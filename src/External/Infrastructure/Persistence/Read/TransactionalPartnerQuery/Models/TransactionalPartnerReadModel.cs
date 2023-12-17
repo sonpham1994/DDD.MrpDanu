@@ -1,4 +1,4 @@
-namespace Infrastructure.Persistence.Read.Models;
+namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
 
 internal sealed record TransactionalPartnerReadModel
 {

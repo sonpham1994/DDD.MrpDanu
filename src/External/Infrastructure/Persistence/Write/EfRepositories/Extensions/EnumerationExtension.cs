@@ -4,7 +4,7 @@ using Domain.SharedKernel.Base;
 
 namespace Infrastructure.Persistence.Write.EfRepositories.Extensions;
 
-internal static class EnumerationExtensions
+internal static class EnumerationExtension
 {
     public static void BindingEnumeration<TEnumeration>(
         this Entity entity,

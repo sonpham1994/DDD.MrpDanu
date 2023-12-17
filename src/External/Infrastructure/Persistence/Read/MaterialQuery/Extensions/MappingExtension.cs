@@ -4,9 +4,9 @@ using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 using Application.MaterialManagement.Shared;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel.DomainClasses;
-using Infrastructure.Persistence.Read.Models;
+using Infrastructure.Persistence.Read.MaterialQuery.Models;
 
-namespace Infrastructure.Persistence.Read.Queries.Material.Extensions;
+namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;
 
 //https://www.youtube.com/watch?v=xPMlz9c2xIU&list=PL9hNzBRaTninA0iIildslO4UmxHXSGrat&index=3&ab_channel=NickChapsas
 internal static class MappingExtension

@@ -13,8 +13,8 @@ using Infrastructure.Persistence.Write.EfRepositories;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.Extensions.Options;
 using Infrastructure.Persistence.Externals.AuditTables.Services;
-using Infrastructure.Persistence.Read.Queries.Material;
-using Infrastructure.Persistence.Read.Queries.TransactionalPartner;
+using Infrastructure.Persistence.Read.MaterialQuery;
+using Infrastructure.Persistence.Read.TransactionalPartnerQuery;
 
 namespace Infrastructure;
 

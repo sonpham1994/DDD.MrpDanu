@@ -4,9 +4,9 @@ using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTr
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.DomainClasses;
-using Infrastructure.Persistence.Read.Models;
+using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
 
-namespace Infrastructure.Persistence.Read.Queries.TransactionalPartner.Extensions;
+namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
 
 // the reason why we put the query in extensions class is that, we can reuse the projection from another place,
 // reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
