@@ -26,7 +26,7 @@ internal static class MaterialQueryExtension
                          JOIN TransactionalPartner supplier on supplier.Id = materialCost.TransactionalPartnerId
                          WHERE materialCost.MaterialId = @Id;";
 
-        using var multiQuery = await dbConnection.QueryMultipleAsync(sql, new { id });
+        await using var multiQuery = await dbConnection.QueryMultipleAsync(sql, new { id });
         var materialReadModel = await multiQuery.ReadFirstOrDefaultAsync<MaterialReadModel>();
 
         if (materialReadModel is not null)
