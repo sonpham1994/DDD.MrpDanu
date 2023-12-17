@@ -9,6 +9,11 @@ namespace Domain.Services.UniqueMaterialCodeServices;
 // static class
 public static class UniqueMaterialCodeService
 {
+    /*
+     * There are multiple ways to to check uniqueness data or some situations similar related to making a call to
+     * out-of-process dependencies like database
+     * please check here: https://github.com/ardalis/DDD-NoDuplicates?tab=readme-ov-file
+     */
     public static async Task<Result> CheckUniqueMaterialCodeAsync(
         Material material, 
         Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> handlerMaterialsByCode, 
