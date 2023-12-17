@@ -11,6 +11,7 @@ internal sealed class BoMRevisionEntityTypeConfiguration : IEntityTypeConfigurat
     {
         builder.ToTable(nameof(BoMRevision));
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasConversion<BoMRevisionIdConverter>();
         builder.Property(x => x.Id).HasColumnType("smallint").UseHiLo("bomrevisionseq");
 
         builder.Property(x => x.Code).HasColumnType("char(14)").IsRequired();
@@ -21,6 +22,8 @@ internal sealed class BoMRevisionEntityTypeConfiguration : IEntityTypeConfigurat
         
         builder.HasIndex(x => x.Code).IsUnique();
 
+        builder.Property(x => x.BoMId).HasConversion<BoMIdConverter>();
+        
         builder.HasMany(x => x.BoMRevisionMaterials)
             ?.WithOne()
             ?.Metadata?.PrincipalToDependent?.SetPropertyAccessMode(PropertyAccessMode.Field);

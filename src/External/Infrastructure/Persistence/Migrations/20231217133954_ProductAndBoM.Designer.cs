@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231217133954_ProductAndBoM")]
+    partial class ProductAndBoM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,7 +233,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("char(10)");
 
-                    b.Property<uint?>("ProductId")
+                    b.Property<uint>("ProductId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -239,21 +242,20 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.HasIndex("ProductId")
-                        .IsUnique()
-                        .HasFilter("[ProductId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("BoM", (string)null);
                 });
 
             modelBuilder.Entity("Domain.ProductManagement.BoMRevision", b =>
                 {
-                    b.Property<ushort>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<ushort>("Id"), "bomrevisionseq");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<short>("Id"), "bomrevisionseq");
 
-                    b.Property<uint>("BoMId")
+                    b.Property<uint?>("BoMId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Code")
@@ -277,15 +279,16 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.ProductManagement.BoMRevisionMaterial", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<ushort>("BoMRevisionId")
+                    b.Property<short>("BoMRevisionId")
                         .HasColumnType("smallint");
 
                     b.Property<Guid>("MaterialId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SupplierId")
+                    b.Property<Guid>("TransactionalPartnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Unit")
@@ -298,7 +301,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("TransactionalPartnerId");
 
                     b.ToTable("BoMRevisionMaterial", (string)null);
                 });
@@ -656,8 +659,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasOne("Domain.ProductManagement.BoM", null)
                         .WithMany("BoMRevisions")
                         .HasForeignKey("BoMId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.ProductManagement.BoMRevisionMaterial", b =>
@@ -668,15 +670,15 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.MaterialManagement.MaterialAggregate.Material", null)
+                    b.HasOne("Domain.MaterialManagement.MaterialAggregate.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
+                    b.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", "TransactionalPartner")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
+                        .HasForeignKey("TransactionalPartnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -711,8 +713,12 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Navigation("CurrencyType");
                         });
 
+                    b.Navigation("Material");
+
                     b.Navigation("Price")
                         .IsRequired();
+
+                    b.Navigation("TransactionalPartner");
                 });
 
             modelBuilder.Entity("Domain.ProductManagement.Product", b =>

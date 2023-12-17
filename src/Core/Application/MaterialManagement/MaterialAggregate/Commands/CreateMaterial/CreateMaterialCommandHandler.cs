@@ -3,7 +3,7 @@ using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
-using Domain.Services.UniqueMaterialCodeServices;
+using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;

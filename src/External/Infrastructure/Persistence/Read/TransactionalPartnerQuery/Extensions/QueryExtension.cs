@@ -9,7 +9,7 @@ namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
 // reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
 // do their own business
 // please check https://www.youtube.com/watch?v=bnTxWV99qdE&t=562s&ab_channel=MilanJovanovi%C4%87
-internal static class TransactionalPartnerQueryExtension
+internal static class QueryExtension
 {
     public static async Task<List<TransactionalPartnersReadModel>> GetTransactionalPartnersAsync(this IDbConnection dbConnection, CancellationToken cancellationToken)
     {

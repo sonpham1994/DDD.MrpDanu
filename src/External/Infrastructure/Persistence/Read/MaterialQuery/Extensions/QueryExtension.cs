@@ -1,6 +1,6 @@
 using System.Data;
 using Dapper;
-using Domain.Services.UniqueMaterialCodeServices;
+using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Infrastructure.Persistence.Read.MaterialQuery.Models;
 
 namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;
@@ -9,7 +9,7 @@ namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;
 // reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
 // do their own business
 // please check https://www.youtube.com/watch?v=bnTxWV99qdE&t=562s&ab_channel=MilanJovanovi%C4%87
-internal static class MaterialQueryExtension
+internal static class QueryExtension
 {
     public static async Task<MaterialReadModel?> GetByIdAsync(this IDbConnection dbConnection,
         Guid id,

@@ -2,11 +2,15 @@
 
 namespace Domain.ProductManagement
 {
-    public class BoM : Entity<uint>
+    public class BoM : AggregateRoot<BoMId>
     {
         private readonly List<BoMRevision> _boMRevisions = new();
 
         public string Code { get; }
+        
+        public ProductId? ProductId { get; private set; }
+        //public uint ProductId { get; private set; }
+        //public virtual Product Product { get; private set; }
         
         public virtual IReadOnlyCollection<BoMRevision> BoMRevisions => _boMRevisions.AsReadOnly();
         
@@ -15,7 +19,7 @@ namespace Domain.ProductManagement
         
         public BoM()
         {
-            Code = Id.ToString("BOM000000#");
+            //Code = Id.Value.ToString("BOM000000#");
         }
     }
 }

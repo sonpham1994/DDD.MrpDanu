@@ -11,9 +11,18 @@ internal sealed class BoMEntityTypeConfiguration : IEntityTypeConfiguration<BoM>
     {
         builder.ToTable(nameof(BoM));
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasConversion<BoMIdConverter>();
+        builder.Ignore(x => x.DomainEvents);
+        
         builder.Property(x => x.Code)
             .HasColumnType("char(10)")
             .IsRequired();
+        
+        builder.Property(x => x.ProductId).HasConversion<ProductIdConverter>();
+        builder.HasOne<Product>()
+            .WithOne()
+            .HasForeignKey<Product>(x => x.BoMId)
+            .IsRequired(false);
 
         builder.HasIndex(x => x.Code).IsUnique();
 
@@ -24,5 +33,6 @@ internal sealed class BoMEntityTypeConfiguration : IEntityTypeConfiguration<BoM>
             .WithOne()
             .OnDelete(DeleteBehavior.Cascade)
             .Metadata.PrincipalToDependent!.SetPropertyAccessMode(PropertyAccessMode.Field);
+        
     }
 }

@@ -1,3 +1,5 @@
+using Domain.MaterialManagement.MaterialAggregate;
+using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.ProductManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -10,6 +12,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
     {
         builder.ToTable(nameof(BoMRevisionMaterial));
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasConversion<BoMRevisionMaterialIdConverter>();
 
         builder.OwnsOne(x => x.Price, j =>
         {
@@ -32,29 +35,30 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             .IsRequired()
             .HasConversion(x => x.Value, x => Unit.Create(x).Value);
 
-        builder.HasOne(x => x.TransactionalPartner)
-            .WithMany()
-            .HasForeignKey("TransactionalPartnerId")
-            .IsRequired();
-        
-        // Note: we will use this to achieve separate bounded context, bounded contexts don't depend on each other
-        // the Material and Transactional partner belong to a different bounded context, so we will use this
-        //one would be better.
-        // builder.HasOne<TransactionalPartner>()
+        // builder.HasOne(x => x.TransactionalPartner)
         //     .WithMany()
-        //     .HasForeignKey("SupplierId")
+        //     .HasForeignKey("TransactionalPartnerId")
+        //     .IsRequired();
+        // builder.HasOne(x => x.Material)
+        //     .WithMany()
+        //     .HasForeignKey("MaterialId")
         //     .IsRequired();
         
-        builder.HasOne(x => x.Material)
+        // we will use this to achieve separate bounded context, bounded contexts don't depend on each other
+        // the Material and Transactional partner belong to a different bounded context, so we will use this
+        //one would be better.
+        builder.HasOne<TransactionalPartner>()
             .WithMany()
-            .HasForeignKey("MaterialId")
+            .HasForeignKey(nameof(BoMRevisionMaterial.SupplierId))
+            .IsRequired();
+        builder.HasOne<Material>()
+            .WithMany()
+            .HasForeignKey(nameof(BoMRevisionMaterial.MaterialId))
             .IsRequired();
 
         builder.HasOne<BoMRevision>()
             .WithMany(x => x.BoMRevisionMaterials)
-            .HasForeignKey("BoMRevisionId")
+            .HasForeignKey(nameof(BoMRevisionMaterial.BoMRevisionId))
             .IsRequired();
-
-        
     }
 }

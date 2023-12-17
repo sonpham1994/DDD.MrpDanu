@@ -1,7 +1,6 @@
-using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;
 
-namespace Domain.Services.UniqueMaterialCodeServices;
+namespace Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 //Because domain service is stateless, what this means is we should always be able to simply create a new instance
 // of a service to perform an operation, rather than having to rely on any previous history that might have occurred
@@ -16,16 +15,16 @@ public static class UniqueMaterialCodeService
      */
     public static async Task<Result> CheckUniqueMaterialCodeAsync(
         Material material, 
-        Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> handlerMaterialsByCode, 
+        Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> getMaterialByCode, 
         CancellationToken cancellationToken)
     {
-        var materialIdWithCodes = await handlerMaterialsByCode.Invoke(material.Code, cancellationToken);
+        var materialIdWithCodes = await getMaterialByCode.Invoke(material.Code, cancellationToken);
         var existsCodeInAnotherMaterial = materialIdWithCodes
             .FirstOrDefault(x => x.Id != material.Id && material.Code == x.Code);
         
         if (existsCodeInAnotherMaterial is not null)
         {
-            return DomainErrors.ExistsMaterialCode(material.Code, existsCodeInAnotherMaterial.Id);
+            return DomainErrors.Material.ExistsMaterialCode(material.Code, existsCodeInAnotherMaterial.Id);
         }
 
         return Result.Success();

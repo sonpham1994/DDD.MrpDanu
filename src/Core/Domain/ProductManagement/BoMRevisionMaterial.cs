@@ -1,11 +1,9 @@
 using Domain.SharedKernel.DomainClasses;
-using Domain.MaterialManagement.MaterialAggregate;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 
 namespace Domain.ProductManagement;
 
-public class BoMRevisionMaterial : Entity
+public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
 {
     public Unit Unit { get; }
     public Money Price { get; }
@@ -32,39 +30,41 @@ public class BoMRevisionMaterial : Entity
      * Product bounded context will consume message with properties needed, and then the Product bounded context
      * will use data from this with Product's schema.
      */
-    public virtual TransactionalPartner TransactionalPartner { get; }
-    public virtual Material Material { get; }
+    // public virtual TransactionalPartner TransactionalPartner { get; }
+    // public virtual Material Material { get; }
     
-    //Note: we will use this to achieve separate bounded context, bounded contexts don't depend on each other
+    //we will use this to achieve separate bounded context, bounded contexts don't depend on each other
     // the Material and Transactional partner belong to a different bounded context, so this one would be better.
-    //public virtual Guid SupplierId { get; }
-    //public virtual Guid MaterialId { get; }
+    public Guid SupplierId { get; private set; }
+    public Guid MaterialId { get; private set; }
+    
+    public BoMRevisionId BoMRevisionId { get; private set; }
     
     //required EF
     protected BoMRevisionMaterial() {}
 
-    private BoMRevisionMaterial(Unit unit, Money price, Material material, TransactionalPartner supplier)
+    private BoMRevisionMaterial(Unit unit, Money price, Guid materialId, Guid supplierId)
     {
         Unit = unit;
         Price = price;
-        TransactionalPartner = supplier;
-        Material = material;
+        // TransactionalPartner = supplier;
+        // Material = material;
         
-        // SupplierId = supplier;
-        // MaterialId = material;
+        SupplierId = supplierId;
+        MaterialId = materialId;
     }
 
-    public static Result<BoMRevisionMaterial> Create(Unit unit, Material material, TransactionalPartner supplier) 
-    {
-        var isSupplier = supplier.IsSupplier();
-        if (isSupplier.IsFailure)
-            return isSupplier.Error;
-
-        var materialCost = material.GetMaterialCost(supplier);
-        if (materialCost.IsFailure)
-            return materialCost.Error;
-
-        //maybe Price ValueObject need to GetCopy method due to shortcoming of EF Core ORM
-        return new BoMRevisionMaterial(unit, materialCost.Value!.Price, material, supplier);
-    }
+    // public static Result<BoMRevisionMaterial> Create(Unit unit, MaterialId materialId, SupplierId supplierId) 
+    // {
+    //     // //var isSupplier = supplier.IsSupplier();
+    //     // if (isSupplier.IsFailure)
+    //     //     return isSupplier.Error;
+    //     //
+    //     // //var materialCost = material.GetMaterialCost(supplier);
+    //     // if (materialCost.IsFailure)
+    //     //     return materialCost.Error;
+    //     //
+    //     // //maybe Price ValueObject need to GetCopy method due to shortcoming of EF Core ORM
+    //     // return new BoMRevisionMaterial(unit, materialCost.Value!.Price, material, supplier);
+    // }
 }

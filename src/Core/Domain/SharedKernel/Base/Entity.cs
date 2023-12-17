@@ -211,3 +211,26 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity>
         return Id.SequentialGuidCompareTo(other.Id);
     }
 }
+
+// public abstract class EntityGuidStronglyTypeId : Entity<Guid>, IComparable<EntityGuidStronglyTypeId>
+// {
+//     //If your application use Guid.NewGuid() and set it here, it would be a problem. Because it will decrease
+//     // performance of sql server when inserting data.
+//     // To avoid using Guid.NewGuid from client, we don't accept setting Id here
+//     
+//     protected EntityGuidStronglyTypeId()
+//     {
+//     }
+//
+//     //we use SequentialGuid from EF Core, so we use Sequential Guid for this, and the SequentialGuid from EF Core
+//     // uses from SqlGuid. If your application uses Postgres, you may change the behaviour of SequentialGuid.CompareTo
+//     public int CompareTo(EntityGuidStronglyTypeId? other)
+//     {
+//         if (other is null)
+//             return 1;
+//         if (ReferenceEquals(this, other))
+//             return 0;
+//         
+//         return Id.SequentialGuidCompareTo(other.Id);
+//     }
+// }
