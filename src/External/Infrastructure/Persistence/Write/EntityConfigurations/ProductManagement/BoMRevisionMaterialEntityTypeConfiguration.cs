@@ -56,7 +56,9 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             .HasColumnName(nameof(BoMRevisionMaterial.Unit))
             .HasColumnType("decimal(18,2)")
             .IsRequired()
-            .HasConversion(x => x.Value, x => Unit.Create(x).Value);
+            .HasConversion(x 
+                    => x.Value
+                , x => Unit.Create(x).Value);
 
         builder.HasOne<BoMRevision>()
             .WithMany(x => x.BoMRevisionMaterials)

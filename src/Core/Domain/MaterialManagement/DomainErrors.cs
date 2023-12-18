@@ -16,8 +16,8 @@ public sealed class DomainErrors
         public static DomainError EmptyUnit => new("Material.EmptyUnit", "Material unit should not be empty.");
         public static DomainError ExceedsMaxNumberOfMaterialCosts => new("Material.ExceedsMaxNumberOfQuantity", "Cannot exceed the max number of Material cost.");
 
-        public static DomainError ExistsMaterialCode(string code, in Guid anotherMaterialId) => new("Material.ExistCode",
-            $"The code '{code} exists in another material with id ${anotherMaterialId}'");
+        public static DomainError ExistedCode(string code, in Guid anotherMaterialId) => new("Material.ExistedCode",
+            $"The code '{code}' exists in another material with id '{anotherMaterialId}'");
         public static DomainError MaterialIdNotFound(in Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
     }
     

@@ -12,6 +12,8 @@ public sealed class DomainErrors
     public static class BoMRevision
     {
         public static DomainError InvalidId(in ushort bomRevisionId) => new("BoMRevision.InvalidId", $"BoM revision id '{bomRevisionId}' is invalid.");
+
+        public static DomainError EmptyConfirmation => new("BoMRevision.EmptyConfirmation", $"Confirmation should not be empty.");
     }
     
     public static class BoMRevisionMaterial

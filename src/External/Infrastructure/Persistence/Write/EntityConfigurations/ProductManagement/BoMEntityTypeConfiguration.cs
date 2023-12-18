@@ -14,11 +14,11 @@ internal sealed class BoMEntityTypeConfiguration : IEntityTypeConfiguration<BoM>
         builder.Property(x => x.Id).HasConversion<BoMIdConverter>();
         builder.Ignore(x => x.DomainEvents);
 
-        builder.OwnsOne(x => x.Code, j =>
+        builder.OwnsOne(x => x.Revision, j =>
         {
             j.Property(x => x.Value)
                 .HasColumnType("char(10)")
-                .HasColumnName(nameof(BoM.Code))
+                .HasColumnName(nameof(BoM.Revision))
                 .IsRequired();
             j.HasIndex(x => x.Value).IsUnique();
             j.Property(x => x.Value)

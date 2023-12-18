@@ -5,23 +5,29 @@ namespace Domain.ProductManagement;
 
 public class MaterialCost : ValueObject
 {
+    // we can use strongly typed ids for MaterialId and SupplierId, but the problem is that MaterialAggregate
+    //use another approach so we leave this Guid aside for the time being.
     public Guid MaterialId { get; }
     public Guid SupplierId { get; }
+    
     public Money Price { get; }
 
-    private MaterialCost(Guid materialId, Guid supplierId, Money price)
+    //required EF
+    protected MaterialCost() {}
+    
+    private MaterialCost(MaterialId materialId, SupplierId supplierId, Money price)
     {
-        MaterialId = materialId;
-        SupplierId = supplierId;
+        MaterialId = materialId.Value;
+        SupplierId = supplierId.Value;
         Price = price;
     }
 
-    public static Result<MaterialCost> Create(Guid materialId, Guid supplierId, Money price)
+    public static Result<MaterialCost> Create(MaterialId materialId, SupplierId supplierId, Money price)
     {
-        if (materialId == Guid.Empty)
-            return DomainErrors.BoMRevisionMaterial.InvalidMaterialId(materialId);
-        if (supplierId == Guid.Empty)
-            return DomainErrors.BoMRevisionMaterial.InvalidSupplierId(supplierId);
+        if (materialId.Value == Guid.Empty)
+            return DomainErrors.BoMRevisionMaterial.InvalidMaterialId(materialId.Value);
+        if (supplierId.Value == Guid.Empty)
+            return DomainErrors.BoMRevisionMaterial.InvalidSupplierId(supplierId.Value);
 
         return new MaterialCost(materialId, supplierId, price);
     }

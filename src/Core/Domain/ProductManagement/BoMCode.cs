@@ -6,14 +6,14 @@ public class BoMCode : ValueObject
 {
     public string Value { get; }
 
-    private BoMCode(string code)
+    //required EF
+    //protected BoMCode() {}
+    //or you can use constructor with the same parameter with the properties like this. For example property is
+    //'Value' so the parameter of the constructor would be 'value'. So in this case we don't need to introduce
+    // the 'protected BoMCode() {}' like this
+    private BoMCode(string value)
     {
-        Value = code;
-    }
-    
-    protected override IEnumerable<int> GetHashCodeComponents()
-    {
-        yield return Value.GetHashCode();
+        Value = value;
     }
 
     public Result<BoMCode> Create(BoMId bomId)
@@ -21,11 +21,16 @@ public class BoMCode : ValueObject
         if (bomId.Value == 0)
             return DomainErrors.BoM.InvalidId(bomId.Value);
         
-        string code = bomId.Value.ToString("BOM000000#");
+        string revision = bomId.Value.ToString("BOM000000#");
         
-        return new BoMCode(code);
+        return new BoMCode(revision);
     }
 
+    protected override IEnumerable<int> GetHashCodeComponents()
+    {
+        yield return Value.GetHashCode();
+    }
+    
     protected override bool EqualComponents(ValueObject valueObject)
     {
         if (valueObject is not BoMCode bomCode)

@@ -14,13 +14,18 @@ internal sealed class BoMRevisionEntityTypeConfiguration : IEntityTypeConfigurat
         builder.Property(x => x.Id).HasConversion<BoMRevisionIdConverter>();
         builder.Property(x => x.Id).HasColumnType("smallint").UseHiLo("bomrevisionseq");
 
-        builder.Property(x => x.Code).HasColumnType("char(14)").IsRequired();
         builder.Property(x => x.Confirmation).HasColumnType("nvarchar(500)").IsRequired();
 
-        builder.Property(x => x.Code)
-            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
-        
-        builder.HasIndex(x => x.Code).IsUnique();
+        builder.OwnsOne(x => x.Revision, j =>
+        {
+            j.Property(x => x.Value)
+                .HasColumnType("char(14)")
+                .HasColumnName(nameof(BoMRevision.Revision))
+                .IsRequired();
+            j.HasIndex(x => x.Value).IsUnique();
+            j.Property(x => x.Value)
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+        });
 
         builder.Property(x => x.BoMId).HasConversion<BoMIdConverter>();
         

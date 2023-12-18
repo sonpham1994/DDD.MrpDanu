@@ -24,7 +24,7 @@ public static class UniqueMaterialCodeService
         
         if (existsCodeInAnotherMaterial is not null)
         {
-            return DomainErrors.Material.ExistsMaterialCode(material.Code, existsCodeInAnotherMaterial.Id);
+            return DomainErrors.Material.ExistedCode(material.Code, existsCodeInAnotherMaterial.Id);
         }
 
         return Result.Success();

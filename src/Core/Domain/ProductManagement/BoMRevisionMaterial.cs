@@ -42,37 +42,48 @@ public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
     // these 3 properties as Value object. In MaterialManagement bounded context, we can use this MaterialCost value
     // object, but the problem is that the MaterialManagement bounded context is designed as different approach
     // we cannot do this, but if we implement the same approach, this MaterialCost value object can live in there.
-    public MaterialCost MaterialCost { get; }
+    public MaterialCost MaterialCost { get; private set; }
     
     public BoMRevisionId BoMRevisionId { get; private set; }
     
     //required EF
     protected BoMRevisionMaterial() {}
 
-    private BoMRevisionMaterial(Unit unit, MaterialCost materialCost, BoMRevisionId boMRevisionId)
+    public BoMRevisionMaterial(Unit unit, MaterialCost materialCost)
     {
         Unit = unit;
-        //Price = price;
-        // TransactionalPartner = supplier;
-        // Material = material;
-        
-        // SupplierId = supplierId;
-        // MaterialId = materialId;
         MaterialCost = materialCost;
-        BoMRevisionId = boMRevisionId;
     }
 
-    // public static Result<BoMRevisionMaterial> Create(Unit unit, MaterialId materialId, SupplierId supplierId) 
+    // public Result<IReadOnlyList<BoMRevisionMaterial>> Create(
+    //     IReadOnlyList<(decimal unit, MaterialId materialId, SupplierId supplierId)> input, 
+    //     IReadOnlyList<MaterialCost> materialCosts)
     // {
-    //     // //var isSupplier = supplier.IsSupplier();
-    //     // if (isSupplier.IsFailure)
-    //     //     return isSupplier.Error;
-    //     //
-    //     // //var materialCost = material.GetMaterialCost(supplier);
-    //     // if (materialCost.IsFailure)
-    //     //     return materialCost.Error;
-    //     //
-    //     // //maybe Price ValueObject need to GetCopy method due to shortcoming of EF Core ORM
-    //     // return new BoMRevisionMaterial(unit, materialCost.Value!.Price, material, supplier);
+    //     foreach (var (unit, materialId, supplierId) in input)
+    //     {
+    //         var unitResult = Unit.Create(unit);
+    //         if (unitResult.IsFailure)
+    //             return unitResult.Error;
+    //         
+    //         var existsMaterialId = materialIds.Any(x => x == materialId);
+    //         if (!existsMaterialId)
+    //             return DomainErrors.BoMRevisionMaterial.InvalidMaterialId(materialId.Value);
+    //
+    //         var existsSupplierId = supplierIds.Any(x => x == supplierId);
+    //         if (!existsSupplierId)
+    //             return DomainErrors.BoMRevisionMaterial.InvalidSupplierId(supplierId.Value);
+    //         
+    //         var materialCost = MaterialCost.Create(materialId, supplierId, )
+    //     }
     // }
+
+    public Result UpdateBoMRevisionId(BoMRevisionId boMRevisionId)
+    {
+        if (boMRevisionId.Value == 0)
+            return DomainErrors.BoMRevision.InvalidId(boMRevisionId.Value);
+        
+        BoMRevisionId = boMRevisionId;
+
+        return Result.Success();
+    }
 }

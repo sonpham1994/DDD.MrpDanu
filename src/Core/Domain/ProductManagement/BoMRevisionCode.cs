@@ -6,9 +6,14 @@ public class BoMRevisionCode : ValueObject
 {
     public string Value { get; }
 
-    private BoMRevisionCode(string code)
+    //required EF
+    //protected BoMRevisionCode() {}
+    //or you can use constructor with the same parameter with the properties like this. For example property is
+    //'Value' so the parameter of the constructor would be 'value'. So in this case we don't need to introduce
+    // the 'protected BoMRevisionCode() {}' like this
+    private BoMRevisionCode(string value)
     {
-        Value = code;
+        Value = value;
     }
 
     public Result<BoMRevisionCode> Create(BoMCode boMCode, BoMRevisionId boMRevisionId)

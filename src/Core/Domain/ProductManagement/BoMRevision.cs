@@ -8,7 +8,7 @@ public class BoMRevision : Entity<BoMRevisionId>
     
     // use BoMRevisionCode to make sure that the client code should pass BoMCode to create BoMRevisionCode
     // along with BoMId
-    public BoMRevisionCode Code { get; }
+    public BoMRevisionCode Revision { get; }
     public string Confirmation { get; private set; }
     
     public BoMId BoMId { get; private set; }
@@ -18,9 +18,31 @@ public class BoMRevision : Entity<BoMRevisionId>
     //required EF
     protected BoMRevision() {}
     
-    private BoMRevision(BoMId bomId, BoMCode bomCode, string confirmation)
+    private BoMRevision(string confirmation)
     {
-        //Code = Id.Value.ToString($"{bom.Code}-00#");
         Confirmation = confirmation;
+    }
+
+    public Result<BoMRevision> Create(string confirmation)
+    {
+        if (string.IsNullOrEmpty(confirmation) || string.IsNullOrWhiteSpace(confirmation))
+            return DomainErrors.BoMRevision.EmptyConfirmation;
+
+        return new BoMRevision(confirmation);
+    }
+
+    public Result UpdateBoMId(BoMId bomId)
+    {
+        if (bomId.Value == 0)
+            return DomainErrors.BoM.InvalidId(bomId.Value);
+
+        BoMId = bomId;
+
+        return Result.Success();
+    }
+
+    public void ReviseMaterials(BoMRevisionMaterial boMRevisionMaterial)
+    {
+        _boMRevisionMaterials.Add(boMRevisionMaterial);
     }
 }

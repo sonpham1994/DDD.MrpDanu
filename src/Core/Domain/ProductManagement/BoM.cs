@@ -8,7 +8,9 @@ public class BoM : AggregateRoot<BoMId>
 
     // use BoMCode to make sure that, the client code don't pass any invalid string to BoMRevision, and it has some
     // business to create a new BoMCode
-    public BoMCode Code { get; }
+    //from UI on original MRP Danu, this is what the system call Revision, not Code. Hence we need to follow this
+    //ubiquitous language
+    public BoMCode Revision { get; private set; }
     
     public ProductId? ProductId { get; private set; }
     //public uint ProductId { get; private set; }
@@ -17,10 +19,18 @@ public class BoM : AggregateRoot<BoMId>
     public virtual IReadOnlyCollection<BoMRevision> BoMRevisions => _boMRevisions.AsReadOnly();
     
     //required EF
-    //protected BoM() {}
+    protected BoM() {}
     
-    // public BoM(string confirmation, Guid materialId, Guid supplierId, ProductId? productId = null)
-    // {
-    //     ProductId = productId;
-    // }
+    public BoM(ProductId? productId = null)
+    {
+        ProductId = productId;
+    }
+
+    public Result ReviseBoM(BoMCode bomCode, BoMRevision boMRevision)
+    {
+        Revision = bomCode;
+        _boMRevisions.Add(boMRevision);
+
+        return Result.Success();
+    }
 }
