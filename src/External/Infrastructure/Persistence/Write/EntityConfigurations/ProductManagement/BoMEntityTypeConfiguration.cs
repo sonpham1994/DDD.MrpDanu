@@ -13,21 +13,24 @@ internal sealed class BoMEntityTypeConfiguration : IEntityTypeConfiguration<BoM>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasConversion<BoMIdConverter>();
         builder.Ignore(x => x.DomainEvents);
+
+        builder.OwnsOne(x => x.Code, j =>
+        {
+            j.Property(x => x.Value)
+                .HasColumnType("char(10)")
+                .HasColumnName(nameof(BoM.Code))
+                .IsRequired();
+            j.HasIndex(x => x.Value).IsUnique();
+            j.Property(x => x.Value)
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+        });
         
-        builder.Property(x => x.Code)
-            .HasColumnType("char(10)")
-            .IsRequired();
         
         builder.Property(x => x.ProductId).HasConversion<ProductIdConverter>();
         builder.HasOne<Product>()
             .WithOne()
             .HasForeignKey<Product>(x => x.BoMId)
             .IsRequired(false);
-
-        builder.HasIndex(x => x.Code).IsUnique();
-
-        builder.Property(x => x.Code)
-            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
         builder.HasMany(x => x.BoMRevisions)
             .WithOne()

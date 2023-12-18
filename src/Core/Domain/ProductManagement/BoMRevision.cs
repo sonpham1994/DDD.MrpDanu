@@ -6,7 +6,9 @@ public class BoMRevision : Entity<BoMRevisionId>
 {
     private readonly List<BoMRevisionMaterial> _boMRevisionMaterials = new();
     
-    public string Code { get; }
+    // use BoMRevisionCode to make sure that the client code should pass BoMCode to create BoMRevisionCode
+    // along with BoMId
+    public BoMRevisionCode Code { get; }
     public string Confirmation { get; private set; }
     
     public BoMId BoMId { get; private set; }
@@ -16,9 +18,9 @@ public class BoMRevision : Entity<BoMRevisionId>
     //required EF
     protected BoMRevision() {}
     
-    public BoMRevision(BoM bom, string confirmation)
+    private BoMRevision(BoMId bomId, BoMCode bomCode, string confirmation)
     {
-        Code = Id.Value.ToString($"{bom.Code}-00#");
+        //Code = Id.Value.ToString($"{bom.Code}-00#");
         Confirmation = confirmation;
     }
 }

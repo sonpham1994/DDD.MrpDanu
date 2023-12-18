@@ -5,8 +5,7 @@ namespace Domain.ProductManagement;
 
 public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
 {
-    public Unit Unit { get; }
-    public Money Price { get; }
+    public Unit Unit { get; private set; }
     
     /*these two lines may be a record of MaterialCostManagement, but the problem is that this entity reside in another
      * bounded context. So if we want to get it, we should get it through the Aggregate Root (Material). In addition,
@@ -35,23 +34,32 @@ public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
     
     //we will use this to achieve separate bounded context, bounded contexts don't depend on each other
     // the Material and Transactional partner belong to a different bounded context, so this one would be better.
-    public Guid SupplierId { get; private set; }
-    public Guid MaterialId { get; private set; }
+    // public Guid SupplierId { get; private set; }
+    // public Guid MaterialId { get; private set; }
+    
+    // we notice that when creating BoMRevisionMaterial, MaterialId, SupplierId, Price should go together. we cannot
+    // create BoMRevisionMaterial without MaterialId, or cannot create it without SupplierId pr Price. So we put
+    // these 3 properties as Value object. In MaterialManagement bounded context, we can use this MaterialCost value
+    // object, but the problem is that the MaterialManagement bounded context is designed as different approach
+    // we cannot do this, but if we implement the same approach, this MaterialCost value object can live in there.
+    public MaterialCost MaterialCost { get; }
     
     public BoMRevisionId BoMRevisionId { get; private set; }
     
     //required EF
     protected BoMRevisionMaterial() {}
 
-    private BoMRevisionMaterial(Unit unit, Money price, Guid materialId, Guid supplierId)
+    private BoMRevisionMaterial(Unit unit, MaterialCost materialCost, BoMRevisionId boMRevisionId)
     {
         Unit = unit;
-        Price = price;
+        //Price = price;
         // TransactionalPartner = supplier;
         // Material = material;
         
-        SupplierId = supplierId;
-        MaterialId = materialId;
+        // SupplierId = supplierId;
+        // MaterialId = materialId;
+        MaterialCost = materialCost;
+        BoMRevisionId = boMRevisionId;
     }
 
     // public static Result<BoMRevisionMaterial> Create(Unit unit, MaterialId materialId, SupplierId supplierId) 

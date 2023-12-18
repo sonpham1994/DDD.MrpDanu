@@ -6,7 +6,9 @@ public class BoM : AggregateRoot<BoMId>
 {
     private readonly List<BoMRevision> _boMRevisions = new();
 
-    public string Code { get; }
+    // use BoMCode to make sure that, the client code don't pass any invalid string to BoMRevision, and it has some
+    // business to create a new BoMCode
+    public BoMCode Code { get; }
     
     public ProductId? ProductId { get; private set; }
     //public uint ProductId { get; private set; }
@@ -17,8 +19,8 @@ public class BoM : AggregateRoot<BoMId>
     //required EF
     //protected BoM() {}
     
-    public BoM()
-    {
-        //Code = Id.Value.ToString("BOM000000#");
-    }
+    // public BoM(string confirmation, Guid materialId, Guid supplierId, ProductId? productId = null)
+    // {
+    //     ProductId = productId;
+    // }
 }
