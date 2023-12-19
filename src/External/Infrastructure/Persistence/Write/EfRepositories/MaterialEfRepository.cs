@@ -1,11 +1,12 @@
 using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Write.EfRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Write.EfRepositories;
 
-internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMaterialRepository
+internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository<Material, MaterialId>, IMaterialRepository
 {
     public MaterialEfRepository(AppDbContext context) : base(context)
     {
@@ -22,14 +23,14 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
         if (material is null)
             return material;
 
-        await dbSet.Entry(material).Collection(x => x.MaterialCostManagements).LoadAsync(cancellationToken);
+        await dbSet.Entry(material).Collection(x => x.MaterialSupplierCosts).LoadAsync(cancellationToken);
 
         //material = await dbSet
         //    .Include(x => x.MaterialType)
         //    .Include(x => x.RegionalMarket)
-        //    .Include(x => x.MaterialCostManagements)
+        //    .Include(x => x.MaterialSupplierCosts)
         //    .ThenInclude(x => x.TransactionalPartner).ThenInclude(x => x.TransactionalPartnerType)
-        //    .Include(x => x.MaterialCostManagements).ThenInclude(x => x.TransactionalPartner).ThenInclude(x => x.CurrencyType)
+        //    .Include(x => x.MaterialSupplierCosts).ThenInclude(x => x.TransactionalPartner).ThenInclude(x => x.CurrencyType)
         //    .FirstOrDefaultAsync(x => x.Id == id);
 
         /*
@@ -44,8 +45,11 @@ internal sealed class MaterialEfRepository : BaseEfRepository<Material>, IMateri
            we avoid binding those properties using reflection, but the binding MaterialType to Entity like Material remain intact. 
        Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
        */
-        material.BindingEnumeration<MaterialType>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context);
-        material.BindingEnumeration<RegionalMarket>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
+        //material.BindingEnumeration<MaterialType>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context);
+        //material.BindingEnumeration<RegionalMarket>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
+        
+        material.BindingEnumeration(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), material.MaterialType, context);
+        material.BindingEnumeration(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), material.RegionalMarket, context);
         
         return material;
     }

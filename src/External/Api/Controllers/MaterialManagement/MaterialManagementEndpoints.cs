@@ -3,7 +3,7 @@ using Application.MaterialManagement.MaterialAggregate;
 using Application.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 
 namespace Api.Controllers.MaterialManagement;
 

@@ -10,7 +10,10 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
     {
         builder.ToTable(nameof(TransactionalPartner));
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasConversion<TransactionalPartnerIdConverter>();
 
+        builder.Ignore(x => x.DomainEvents);
+        
         builder.Property(x => x.Name)
             .HasColumnName(nameof(TransactionalPartner.Name))
             .HasColumnType("nvarchar(300)")

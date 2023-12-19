@@ -105,8 +105,6 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         return Result.Success();
     }
     
-    public Result<>
-
     private static Result CanExecuteCreateOrUpdate(Address address, 
         CurrencyType currency, 
         LocationType location)

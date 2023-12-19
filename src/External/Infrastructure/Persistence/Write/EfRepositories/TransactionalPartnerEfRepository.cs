@@ -1,21 +1,22 @@
 using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Enumerations;
+using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Write.EfRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Write.EfRepositories;
 
-internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<TransactionalPartner>, ITransactionalPartnerRepository
+internal sealed class TransactionalPartnerEfRepository 
+    : BaseEfGuidStronglyTypedIdRepository<TransactionalPartner, TransactionalPartnerId>, ITransactionalPartnerRepository
 {
     public TransactionalPartnerEfRepository(AppDbContext context) : base(context)
     {
     }
 
-    public async ValueTask<TransactionalPartner?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async ValueTask<TransactionalPartner?> GetByIdAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
     {
         TransactionalPartner? transactionalPartner = null;
-        if (id == Guid.Empty)
+        if (id.Value == Guid.Empty)
             return transactionalPartner;
 
         transactionalPartner = await base.GetByIdAsync(id, cancellationToken);
@@ -24,16 +25,20 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
         
         return transactionalPartner;
     }
-    
-    public async ValueTask<IReadOnlyList<TransactionalPartner>> GetByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+
+    public async ValueTask<IReadOnlyList<TransactionalPartner>> GetByIdsAsync(IReadOnlyList<TransactionalPartnerId> ids, CancellationToken cancellationToken)
     {
         IReadOnlyList<TransactionalPartner> transactionalPartners = Array.Empty<TransactionalPartner>();
-        var transactionalPartnerIds = ids.Where(x => x != Guid.Empty).Distinct().ToList();
+        var transactionalPartnerIds = ids
+            .Where(x => x.Value != Guid.Empty)
+            .Distinct()
+            .ToList();
         
         if (transactionalPartnerIds.Count == 0)
             return transactionalPartners;
 
-        transactionalPartners = await dbSet.Where(x => transactionalPartnerIds.Contains(x.Id)).ToListAsync(cancellationToken);
+        transactionalPartners = await dbSet
+            .Where(x => transactionalPartnerIds.Contains(x.Id)).ToListAsync(cancellationToken);
 
         foreach(var transactionalPartner in transactionalPartners)
         {
@@ -43,10 +48,15 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
         
         return transactionalPartners;
     }
-    
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+
+    public ValueTask<IReadOnlyList<TransactionalPartner>> GetSuppliersByIdsAsync(IReadOnlyList<SupplierId> ids, CancellationToken cancellationToken)
     {
-        await context.Database.ExecuteSqlAsync($"DELETE TransactionalPartner WHERE Id = {id}", cancellationToken);
+        throw new NotImplementedException();
+    }
+
+    public async Task DeleteAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
+    {
+        await context.Database.ExecuteSqlAsync($"DELETE TransactionalPartner WHERE Id = {id.Value}", cancellationToken);
     }
 
     private void SetValueForEnumerationData(TransactionalPartner? transactionalPartner)
@@ -67,10 +77,19 @@ internal sealed class TransactionalPartnerEfRepository : BaseEfRepository<Transa
         Please check EnumerationLoadingBenchmark in Benchmark.Infrastructure
         */
 
-        transactionalPartner.BindingEnumeration<TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
-        transactionalPartner.BindingEnumeration<CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
-        transactionalPartner.BindingEnumeration<LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
+        // transactionalPartner.BindingEnumeration<TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
+        // transactionalPartner.BindingEnumeration<CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
+        // transactionalPartner.BindingEnumeration<LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
         transactionalPartner.TaxNo.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.TaxNo.Country), context);
         transactionalPartner.Address.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.Address.Country), context);
+        
+        transactionalPartner.BindingEnumeration(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), transactionalPartner.TransactionalPartnerType, context);
+        transactionalPartner.BindingEnumeration(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), transactionalPartner.CurrencyType, context);
+        transactionalPartner.BindingEnumeration(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), transactionalPartner.LocationType, context);
+    }
+    
+    public async Task BulkDeleteAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
+    {
+        await dbSet.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
     }
 }

@@ -24,8 +24,6 @@ public class MaterialCost : ValueObject
 
     public static Result<MaterialCost> Create(MaterialId materialId, SupplierId supplierId, Money price)
     {
-        if (materialId.Value == Guid.Empty)
-            return DomainErrors.MaterialCost.InvalidMaterialId(materialId.Value);
         if (supplierId.Value == Guid.Empty)
             return DomainErrors.MaterialCost.InvalidSupplierId(supplierId.Value);
 

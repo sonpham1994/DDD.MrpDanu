@@ -5,6 +5,7 @@ using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
@@ -45,13 +46,20 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         
         if (request.MaterialCosts.Any())
         {
-            var suppliers = await _transactionalPartnerRepository.GetByIdsAsync(request.MaterialCosts.Select(x => x.SupplierId).ToList(), cancellationToken);
+            var suppliers = await _transactionalPartnerRepository
+                .GetSuppliersByIdsAsync
+                    (request.MaterialCosts.Select(x => new SupplierId(x.SupplierId)).ToList(), cancellationToken);
 
+            var materialCosts = request.MaterialCosts
+                .Where(x => x is not null)
+                .Select(x => (x.Price, x.MinQuantity, x.Surcharge, MaterialCost.Create(material.Id, new SupplierId(x.SupplierId), Money.Create(x.Price).Value)))
+                .ToList();
+            
             var input = request.MaterialCosts
                 .Where(x => x is not null)
-                .Select(x => (x.Price, x.MinQuantity, x.Surcharge, x.SupplierId))
+                .Select(x => (x.Price, x.MinQuantity, x.Surcharge, MaterialCost.Create(material.Id, new SupplierId(x.SupplierId), Money.Create(x.Price).Value)))
                 .ToList();
-            var materialCosts = MaterialCostManagement.Create(input, suppliers);
+            var materialSupplierCosts = MaterialSupplierCost.Create(input, suppliers);
             if (materialCosts.IsFailure)
                 return materialCosts.Error;
 

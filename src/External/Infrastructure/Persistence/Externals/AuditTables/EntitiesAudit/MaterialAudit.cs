@@ -5,6 +5,7 @@ using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Domain.Extensions;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit;
 
@@ -32,18 +33,14 @@ internal sealed class MaterialAudit : EntityAudit
             material.Attributes.Varian,
             material.MaterialType,
             material.RegionalMarket,
-            MaterialCostManagements = material.MaterialCostManagements.Select(x => new
+            MaterialSupplierCosts = material.MaterialSupplierCosts.Select(x => new
             {
                 x.Id,
-                Price = x.Price.Value,
+                Price = x.MaterialCost.Price.Value,
                 x.MinQuantity,
                 Surcharge = x.Surcharge.Value,
-                x.Price.CurrencyType,
-                Supplier = new
-                {
-                    x.TransactionalPartner.Id, // this one will cause performance issue due to Lazy loading
-                    Name = x.TransactionalPartner.Name.Value
-                }
+                x.MaterialCost.Price.CurrencyType,
+                SupplierId = x.MaterialCost.SupplierId.Value
             }).ToList()
         };
         var json = JsonSerializer.Serialize(auditData);

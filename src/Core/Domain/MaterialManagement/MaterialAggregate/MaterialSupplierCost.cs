@@ -1,10 +1,9 @@
-﻿using Domain.Extensions;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
 
-public class MaterialCostManagement : EntityGuidStronglyTypedId<MaterialCostManagementId>
+public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCostId>
 {
     public Money Surcharge { get; private set; }
     public uint MinQuantity { get; private set; }
@@ -24,9 +23,9 @@ public class MaterialCostManagement : EntityGuidStronglyTypedId<MaterialCostMana
     public MaterialCost MaterialCost { get; private set; }
 
     //required EF Proxies
-    protected MaterialCostManagement() {}
+    protected MaterialSupplierCost() {}
     
-    private MaterialCostManagement(
+    private MaterialSupplierCost(
         MaterialCost materialCost, 
         in uint minQuantity, 
         Money surcharge)
@@ -36,9 +35,9 @@ public class MaterialCostManagement : EntityGuidStronglyTypedId<MaterialCostMana
         Surcharge = surcharge;
     }
     
-    public static Result<IReadOnlyList<MaterialCostManagement>> Create(
+    public static Result<IReadOnlyList<MaterialSupplierCost>> Create(
         IReadOnlyList<(uint minQuantity, decimal surcharge, MaterialCost materialCosts)> input
-        , IReadOnlyList<MaterialCost> materialCosts)
+        , IReadOnlyList<SupplierId> supplierIds)
     {
         // var existNullSupplier = materialCosts.Any(x => x is null);
         // if (existNullSupplier)
@@ -48,25 +47,22 @@ public class MaterialCostManagement : EntityGuidStronglyTypedId<MaterialCostMana
         // if (isNotSupplier.IsFailure)
         //     return isNotSupplier.Error;
 
-        var result = new List<MaterialCostManagement>(input.Count);
+        var result = new List<MaterialSupplierCost>(input.Count);
         
         foreach ((uint minQuantity, decimal surcharge, MaterialCost materialCost) in input)
         {
-            var materialCostOfSupplier = materialCosts.FirstOrDefault(x => x == materialCost);
-            // if (materialCostOfSupplier is null)
-            //     return DomainErrors.MaterialCostManagement.NotFoundSupplierId(supplierId);
+            var materialCostOfSupplier = supplierIds.FirstOrDefault(x => x == materialCost.SupplierId);
+            if (materialCostOfSupplier.Value == Guid.Empty)
+                return DomainErrors.MaterialCostManagement.NotFoundSupplierId(materialCost.SupplierId);
 
-            var surchargeResult = Money.Create(surcharge, materialCostOfSupplier.Price.CurrencyType);
+            var surchargeResult = Money.Create(surcharge, materialCost.Price.CurrencyType);
             if (surchargeResult.IsFailure)
                 return DomainErrors.MaterialCostManagement.InvalidSurcharge;
 
             if (minQuantity == 0)
                 return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
 
-            // var materialCost = Create(materialCostOfSupplier.Price, minQuantity, surchargeResult.Value, supplier);
-            // if (materialCost.IsFailure)
-            //     return materialCost.Error;
-            var materialCostManagement = new MaterialCostManagement(materialCost, minQuantity, surchargeResult.Value);
+            var materialCostManagement = new MaterialSupplierCost(materialCost, minQuantity, surchargeResult.Value);
             var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialCost.SupplierId == materialCost.SupplierId);
             if (duplicateSupplierId is not null)
                 return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialCost.SupplierId);

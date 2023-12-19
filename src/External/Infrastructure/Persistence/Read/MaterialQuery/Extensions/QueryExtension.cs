@@ -23,7 +23,7 @@ internal static class QueryExtension
                         
                          SELECT materialCost.Id, materialCost.Price, materialCost.Surcharge, materialCost.MinQuantity,
                          supplier.Id as SupplierId, supplier.Name as SupplierName, supplier.CurrencyTypeId
-                         FROM MaterialCostManagement materialCost
+                         FROM MaterialSupplierCost materialCost
                          JOIN TransactionalPartner supplier on supplier.Id = materialCost.TransactionalPartnerId
                          WHERE materialCost.MaterialId = @Id;";
 

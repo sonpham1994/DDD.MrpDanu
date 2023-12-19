@@ -36,7 +36,8 @@ public abstract class AggregateRoot : Entity
     }
 }
 
-public abstract class AggregateRootGuidStronglyTypedId<TId> : Entity<TId> where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+public abstract class AggregateRootGuidStronglyTypedId<TId> : EntityGuidStronglyTypedId<TId> 
+    where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
     private readonly List<IDomainEvent> _domainEvents = new();
     public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;

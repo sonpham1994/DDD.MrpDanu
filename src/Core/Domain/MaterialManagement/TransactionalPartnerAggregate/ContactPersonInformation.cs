@@ -2,7 +2,7 @@
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
-public class ContactPersonInformation : Entity
+public class ContactPersonInformation : EntityGuidStronglyTypedId<ContactPersonInformationId>
 {
     public PersonName Name { get; private set; }
     public ContactInformation ContactInformation { get; private set; }

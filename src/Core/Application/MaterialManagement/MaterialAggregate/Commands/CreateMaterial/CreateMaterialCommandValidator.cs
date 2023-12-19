@@ -18,7 +18,7 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
             .SetValidator(new MaterialCostsValidator())
             .When(x => x.MaterialCosts.Any());
 
-        RuleFor(x => x).MustBeEntity(x =>
+        RuleFor(x => x).MustBeEntityGuidStronglyTypedId<>(x =>
         {
             var result = ResultCombine.Create
             (

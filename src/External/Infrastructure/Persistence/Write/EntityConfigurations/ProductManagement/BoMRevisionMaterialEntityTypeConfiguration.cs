@@ -1,6 +1,7 @@
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.ProductManagement;
+using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,7 +19,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
         {
             j.OwnsOne(x => x.Price, k =>
             {
-                k.Property(k => k.Value)
+                k.Property(l => l.Value)
                     .HasColumnName(nameof(BoMRevisionMaterial.MaterialCost.Price))
                     .HasColumnType("decimal(18,2)").IsRequired();
 
@@ -41,13 +42,16 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             // we will use this to achieve separate bounded context, bounded contexts don't depend on each other
             // the Material and Transactional partner belong to a different bounded context, so we will use this
             //one would be better.
+            j.Property(k => k.SupplierId).HasConversion<SupplierIdConverter>();
             j.HasOne<TransactionalPartner>()
                 .WithMany()
-                .HasForeignKey(nameof(BoMRevisionMaterial.MaterialCost.SupplierId))
+                .HasForeignKey(x => x.SupplierId)
                 .IsRequired();
+
+            j.Property(k => k.MaterialId).HasConversion<MaterialIdConverter>();
             j.HasOne<Material>()
                 .WithMany()
-                .HasForeignKey(nameof(BoMRevisionMaterial.MaterialCost.MaterialId))
+                .HasForeignKey(x => x.MaterialId)
                 .IsRequired();
         });
 
