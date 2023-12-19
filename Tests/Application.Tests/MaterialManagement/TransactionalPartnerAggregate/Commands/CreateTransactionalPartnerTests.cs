@@ -4,7 +4,7 @@ using Application.Interfaces.Repositories;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Commands;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 using FluentAssertions;
 using Moq;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;

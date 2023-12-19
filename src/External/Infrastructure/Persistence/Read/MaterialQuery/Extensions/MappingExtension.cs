@@ -3,7 +3,7 @@ using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 using Application.MaterialManagement.Shared;
 using Domain.MaterialManagement.MaterialAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistence.Read.MaterialQuery.Models;
 
 namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;

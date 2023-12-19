@@ -1,4 +1,6 @@
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel;
+using Domain.SharedKernel.Enumerations;
+using Domain.SharedKernel.ValueObjects;
 using FluentAssertions;
 
 namespace Domain.Tests.ShraredKernel;

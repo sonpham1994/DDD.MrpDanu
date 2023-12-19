@@ -3,8 +3,8 @@ using Application.Interfaces.Messaging;
 using Application.Interfaces.Queries;
 using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.Enumerations;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;

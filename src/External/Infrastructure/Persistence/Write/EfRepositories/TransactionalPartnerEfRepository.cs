@@ -1,7 +1,6 @@
 using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistence.Write.EfRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 

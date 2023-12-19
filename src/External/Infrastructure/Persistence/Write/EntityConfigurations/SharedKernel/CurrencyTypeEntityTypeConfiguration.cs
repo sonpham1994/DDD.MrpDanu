@@ -1,5 +1,4 @@
-﻿using Domain.SharedKernel;
-using Domain.SharedKernel.DomainClasses;
+﻿using Domain.SharedKernel.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,14 +1,14 @@
 using Domain.SharedKernel.Base;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.ProductManagement;
+namespace Domain.SharedKernel.ValueObjects;
 
 public class MaterialCost : ValueObject
 {
     // we can use strongly typed ids for MaterialId and SupplierId, but the problem is that MaterialAggregate
     //use another approach so we leave this Guid aside for the time being.
-    public Guid MaterialId { get; }
-    public Guid SupplierId { get; }
+    public MaterialId MaterialId { get; }
+    public SupplierId SupplierId { get; }
     
     public Money Price { get; }
 
@@ -17,17 +17,17 @@ public class MaterialCost : ValueObject
     
     private MaterialCost(MaterialId materialId, SupplierId supplierId, Money price)
     {
-        MaterialId = materialId.Value;
-        SupplierId = supplierId.Value;
+        MaterialId = materialId;
+        SupplierId = supplierId;
         Price = price;
     }
 
     public static Result<MaterialCost> Create(MaterialId materialId, SupplierId supplierId, Money price)
     {
         if (materialId.Value == Guid.Empty)
-            return DomainErrors.BoMRevisionMaterial.InvalidMaterialId(materialId.Value);
+            return DomainErrors.MaterialCost.InvalidMaterialId(materialId.Value);
         if (supplierId.Value == Guid.Empty)
-            return DomainErrors.BoMRevisionMaterial.InvalidSupplierId(supplierId.Value);
+            return DomainErrors.MaterialCost.InvalidSupplierId(supplierId.Value);
 
         return new MaterialCost(materialId, supplierId, price);
     }

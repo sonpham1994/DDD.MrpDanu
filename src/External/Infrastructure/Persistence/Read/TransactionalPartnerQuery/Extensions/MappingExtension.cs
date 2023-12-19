@@ -3,7 +3,7 @@ using Application.MaterialManagement.TransactionalPartnerAggregate;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
 
 namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;

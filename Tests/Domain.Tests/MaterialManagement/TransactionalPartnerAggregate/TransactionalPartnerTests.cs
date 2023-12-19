@@ -1,5 +1,5 @@
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 using FluentAssertions;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 

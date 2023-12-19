@@ -1,5 +1,5 @@
-using Domain.SharedKernel.DomainClasses;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.ProductManagement;
 

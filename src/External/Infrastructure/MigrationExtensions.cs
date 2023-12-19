@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 
 namespace Infrastructure;
 

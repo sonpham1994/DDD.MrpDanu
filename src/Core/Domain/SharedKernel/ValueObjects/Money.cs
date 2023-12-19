@@ -1,6 +1,7 @@
 ﻿using Domain.SharedKernel.Base;
+using Domain.SharedKernel.Enumerations;
 
-namespace Domain.SharedKernel.DomainClasses;
+namespace Domain.SharedKernel.ValueObjects;
 
 public class Money : ValueObject
 {

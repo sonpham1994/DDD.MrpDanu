@@ -1,6 +1,7 @@
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
+using Domain.SharedKernel.ValueObjects;
 using FluentAssertions;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 

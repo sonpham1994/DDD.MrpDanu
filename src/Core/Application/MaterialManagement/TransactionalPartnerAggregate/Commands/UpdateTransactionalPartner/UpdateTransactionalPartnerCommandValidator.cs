@@ -1,8 +1,8 @@
 using Application.Extensions;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
 using FluentValidation;
-using DomainErrorsShared = Domain.SharedKernel.DomainClasses.DomainErrors;
+using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 

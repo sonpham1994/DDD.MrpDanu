@@ -2,10 +2,11 @@
 using Domain.SharedKernel.Base;
 using Domain.Extensions;
 using System.Text.Json;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
 
-public class Material : AggregateRoot
+public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
 {
     // this largest number of materials depends on domain, it doesn't make sense if we have the infinite number.
     // The number 20 is the number you should discuss with domain experts, if the domain experts say that 
@@ -65,10 +66,6 @@ public class Material : AggregateRoot
     //need to use ubiquitous language for this method
     public Result UpdateCost(IReadOnlyList<MaterialCostManagement> materialCosts)
     {
-        var supplierDuplication = materialCosts.ItemDuplication(x => x.TransactionalPartner);
-        if (supplierDuplication is not null)
-            return DomainErrors.MaterialCostManagement.DuplicationSupplierId(supplierDuplication.Id);
-
         foreach (var materialCost in materialCosts)
         {
             var materialCostManagement = _materialCostManagements
@@ -101,7 +98,7 @@ public class Material : AggregateRoot
         var materialCost = _materialCostManagements.Find(x => x.TransactionalPartner == supplier);
 
         if (materialCost is null)
-            return DomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id);
+            return DomainErrors.MaterialCostManagement.NotExistSupplier(supplier.Id, Id.Value);
 
         return materialCost;
     }

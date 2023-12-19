@@ -1,4 +1,6 @@
-﻿using Domain.SharedKernel.Base;
+﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement;
 
@@ -41,9 +43,10 @@ public sealed class DomainErrors
         public static DomainError NullSupplier => new("MaterialCostManagement.NullSupplier", "Supplier should not null");
         
         public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string currencyPrice, string currencySurcharge, string currencySupplier) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ({currencyPrice}, {currencySurcharge}) are different from supplier ({currencySupplier})");
-        public static DomainError DuplicationSupplierId(in Guid id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id}.");
-        public static DomainError NotSupplier(in Guid id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id}' is not a supplier");
-        public static DomainError NotExistSupplier(in Guid supplierId, in Guid materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId}' does not exist in material id '{materialId}'");
+        public static DomainError DuplicationSupplierId(in SupplierId id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id.Value}.");
+        public static DomainError NotSupplier(in SupplierId id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
+        public static DomainError NotExistSupplier(in SupplierId supplierId, in MaterialId materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId.Value}' does not exist in material id '{materialId.Value}'");
+        public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new("MaterialCostManagement.NotFoundSupplierId", $"Supplier id '{supplierId.Value}' is not found.");
     }
 
     public static class TransactionalPartner
@@ -66,7 +69,8 @@ public sealed class DomainErrors
         
         public static DomainError InvalidWebsite(string website) => new("TransactionalPartner.InvalidWebsite", $"The website '{website}' is invalid.");
         public static DomainError ExceedsMaxLengthWebsite(in byte maxLength) => new("TransactionalPartner.ExceedsMaxLengthWebsite", $"The website characters cannot exceeds '{maxLength}'.");
-        public static DomainError NotFoundId(in Guid id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id}' is not found");
+        public static DomainError NotFoundId(in TransactionalPartnerId id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id.Value}' is not found");
+        public static DomainError NotSupplier(in SupplierId id) => new("TransactionalPartner.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
     }
 
     public static class ContactPersonInformation

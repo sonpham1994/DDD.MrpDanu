@@ -1,7 +1,7 @@
 using Application.Extensions;
 using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SharedKernel;
 using Domain.SharedKernel.Base;
-using Domain.SharedKernel.DomainClasses;
 using FluentValidation;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;

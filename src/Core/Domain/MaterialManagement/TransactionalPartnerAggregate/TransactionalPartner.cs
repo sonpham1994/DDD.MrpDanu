@@ -1,9 +1,10 @@
 ﻿using Domain.SharedKernel.Base;
-using Domain.SharedKernel.DomainClasses;
+using Domain.SharedKernel.Enumerations;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
-public class TransactionalPartner : AggregateRoot
+public class TransactionalPartner : AggregateRootGuidStronglyTypedId<TransactionalPartnerId>
 {
     public CompanyName Name { get; private set; }
     
@@ -99,10 +100,12 @@ public class TransactionalPartner : AggregateRoot
         var isSupplier = TransactionalPartnerType.IsSupplierType(TransactionalPartnerType);
 
         if (!isSupplier)
-            return DomainErrors.MaterialCostManagement.NotSupplier(Id);
+            return DomainErrors.MaterialCostManagement.NotSupplier(new SupplierId(Id.Value));
 
         return Result.Success();
     }
+    
+    public Result<>
 
     private static Result CanExecuteCreateOrUpdate(Address address, 
         CurrencyType currency, 

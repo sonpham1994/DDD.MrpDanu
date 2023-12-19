@@ -39,6 +39,28 @@ public static class LinqExtension
         return result;
     }
     
+    public static TResult? ItemDuplication<T, TId, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
+        where T : EntityGuidStronglyTypedId<TId>
+        where TResult : EntityGuidStronglyTypedId<TId>
+        where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    {
+        TResult? result = null;
+        if (enumerable is List<T> lst)
+        {
+            result = ItemDuplication<T, TId, TResult>(lst, predicate);
+        }
+        else if (enumerable is T[] array)
+        {
+            result = ItemDuplication<T, TId, TResult>(array, predicate);
+        }
+        else
+        {
+            throw new ArgumentException($"DDD.MrpDanu.Fail: Does not support {enumerable.GetType()} yet.");
+        }
+        
+        return result;
+    }
+    
     public static TResult? ItemDuplication<T, TResult>(this List<T> list, Func<T, TResult> predicate)
         where T : Entity
         where TResult : Entity
@@ -58,10 +80,31 @@ public static class LinqExtension
         
         return result;
     }
+    
+    public static TResult? ItemDuplication<T, TId, TResult>(this List<T> list, Func<T, TResult> predicate)
+        where T : EntityGuidStronglyTypedId<TId>
+        where TResult : EntityGuidStronglyTypedId<TId>
+        where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    {
+        int count = list.Count;
+        TResult? result = LinearSearch(list, predicate, count);
+        
+        return result;
+    }
+    
+    public static TResult? ItemDuplication<T, TId, TResult>(this T[] array, Func<T, TResult> predicate)
+        where T : EntityGuidStronglyTypedId<TId>
+        where TResult : EntityGuidStronglyTypedId<TId>
+        where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    {
+        int count = array.Length;
+        TResult? result = LinearSearch(array, predicate, count);
+        
+        return result;
+    }
 
     // O(n square) -> n bình phương 2
     private static TResult? LinearSearch<T, TResult>(IReadOnlyList<T> array, Func<T, TResult> predicate, int count)
-        where TResult : Entity
     {
         TResult? result = default(TResult);
         for (int i = 0; i < count; i++)

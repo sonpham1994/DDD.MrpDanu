@@ -1,7 +1,7 @@
 using Application.Extensions;
 using Domain.MaterialManagement.MaterialAggregate;
 using FluentValidation;
-using DomainErrorsShared = Domain.SharedKernel.DomainClasses.DomainErrors;
+using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;

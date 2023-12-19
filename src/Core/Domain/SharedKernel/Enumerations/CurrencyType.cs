@@ -1,6 +1,6 @@
 ﻿using Domain.SharedKernel.Base;
 
-namespace Domain.SharedKernel.DomainClasses;
+namespace Domain.SharedKernel.Enumerations;
 
 public class CurrencyType : Enumeration<CurrencyType>
 {
