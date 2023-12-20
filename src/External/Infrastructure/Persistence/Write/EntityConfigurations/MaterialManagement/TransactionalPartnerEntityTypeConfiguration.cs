@@ -1,4 +1,5 @@
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

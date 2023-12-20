@@ -5,6 +5,7 @@ using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
+using Domain.SharedKernel.ValueObjects;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
@@ -26,10 +27,11 @@ internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler
     
     public async Task<Result> Handle(UpdateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
+        var transactionalPartnerId = new TransactionalPartnerId(request.Id);
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
-        var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(request.Id, cancellationToken);
+        var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(transactionalPartnerId, cancellationToken);
         if (transactionalPartner is null)
-            return DomainErrors.TransactionalPartner.NotFoundId(request.Id);
+            return DomainErrors.TransactionalPartner.NotFoundId(transactionalPartnerId);
         if (await _transactionalPartnerQuery.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         

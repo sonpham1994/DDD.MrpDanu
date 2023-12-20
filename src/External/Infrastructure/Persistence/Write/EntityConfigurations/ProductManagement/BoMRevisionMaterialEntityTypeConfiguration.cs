@@ -42,17 +42,22 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             // we will use this to achieve separate bounded context, bounded contexts don't depend on each other
             // the Material and Transactional partner belong to a different bounded context, so we will use this
             //one would be better.
-            j.Property(k => k.SupplierId).HasConversion<SupplierIdConverter>();
+            j.Property("_transactionalPartnerId")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName(nameof(BoMRevisionMaterial.MaterialCost.SupplierId))
+                .HasConversion<TransactionalPartnerIdConverter>()
+                .IsRequired();
             j.HasOne<TransactionalPartner>()
                 .WithMany()
-                .HasForeignKey(x => x.SupplierId)
-                .IsRequired();
+                .HasForeignKey("_transactionalPartnerId");
 
-            j.Property(k => k.MaterialId).HasConversion<MaterialIdConverter>();
+            j.Property(k => k.MaterialId)
+                .HasColumnName(nameof(BoMRevisionMaterial.MaterialCost.MaterialId))
+                .HasConversion<MaterialIdConverter>()
+                .IsRequired();
             j.HasOne<Material>()
                 .WithMany()
-                .HasForeignKey(x => x.MaterialId)
-                .IsRequired();
+                .HasForeignKey(x => x.MaterialId);
         });
 
         builder

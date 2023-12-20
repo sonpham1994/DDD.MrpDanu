@@ -21,6 +21,7 @@ public sealed class DomainErrors
         public static DomainError ExistedCode(string code, in MaterialId anotherMaterialId) => new("Material.ExistedCode",
             $"The code '{code}' exists in another material with id '{anotherMaterialId.Value}'");
         public static DomainError MaterialIdNotFound(in MaterialId id) => new("Material.NotFoundId", $"Material id '{id.Value}' is not found");
+        public static DomainError MaterialIdNotFound(in Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
         public static DomainError MaterialIdIsNotTheSame(in MaterialId id) => new("Material.MaterialIdIsNotTheSame", $"Material id '{id.Value}' is not the same.");
     }
     
@@ -71,6 +72,7 @@ public sealed class DomainErrors
         public static DomainError InvalidWebsite(string website) => new("TransactionalPartner.InvalidWebsite", $"The website '{website}' is invalid.");
         public static DomainError ExceedsMaxLengthWebsite(in byte maxLength) => new("TransactionalPartner.ExceedsMaxLengthWebsite", $"The website characters cannot exceeds '{maxLength}'.");
         public static DomainError NotFoundId(in TransactionalPartnerId id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id.Value}' is not found");
+        public static DomainError NotFoundId(in Guid id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id}' is not found");
         public static DomainError NotSupplier(in SupplierId id) => new("TransactionalPartner.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
     }
 

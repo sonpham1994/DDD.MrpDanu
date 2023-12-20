@@ -13,6 +13,16 @@ internal sealed class MaterialIdConverter : ValueConverter<MaterialId, Guid>
     }
 }
 
+internal sealed class TransactionalPartnerIdConverter : ValueConverter<TransactionalPartnerId, Guid>
+{
+    public TransactionalPartnerIdConverter()
+        : base(
+            v => v.Value,
+            v => new TransactionalPartnerId(v))
+    {
+    }
+}
+
 internal sealed class SupplierIdConverter : ValueConverter<SupplierId, Guid>
 {
     public SupplierIdConverter()

@@ -4,15 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement;
 
-internal sealed class TransactionalPartnerIdConverter : ValueConverter<TransactionalPartnerId, Guid>
-{
-    public TransactionalPartnerIdConverter()
-        : base(
-            v => v.Value,
-            v => new TransactionalPartnerId(v))
-    {
-    }
-}
+
 
 internal sealed class MaterialSupplierCostIdConverter : ValueConverter<MaterialSupplierCostId, Guid>
 {

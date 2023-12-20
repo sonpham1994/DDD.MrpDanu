@@ -50,11 +50,15 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
                     .OnDelete(DeleteBehavior.NoAction);
             });
             
-            j.Property(k => k.SupplierId).HasConversion<SupplierIdConverter>();
+            j.Property("_transactionalPartnerId")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName(nameof(MaterialSupplierCost.MaterialCost.SupplierId))
+                .HasConversion<TransactionalPartnerIdConverter>()
+                .IsRequired();
+            
             j.HasOne<TransactionalPartner>()
                 .WithMany()
-                .HasForeignKey(x => x.SupplierId)
-                .IsRequired();
+                .HasForeignKey("_transactionalPartnerId");
 
             j.Property(k => k.MaterialId).HasConversion<MaterialIdConverter>();
             j.HasOne<Material>()

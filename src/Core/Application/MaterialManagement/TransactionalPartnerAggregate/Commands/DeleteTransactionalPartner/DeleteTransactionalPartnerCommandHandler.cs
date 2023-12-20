@@ -1,6 +1,8 @@
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Repositories;
+using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.DeleteTransactionalPartner;
 
@@ -13,7 +15,7 @@ internal sealed class DeleteTransactionalPartnerCommandHandler : ICommandHandler
     
     public async Task<Result> Handle(DeleteTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
-        await _transactionalPartnerRepository.DeleteAsync(request.Id, cancellationToken);
+        await _transactionalPartnerRepository.DeleteAsync(new TransactionalPartnerId(request.Id), cancellationToken);
         return Result.Success();
     }
 }
