@@ -1,5 +1,4 @@
-﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.MaterialAggregate;

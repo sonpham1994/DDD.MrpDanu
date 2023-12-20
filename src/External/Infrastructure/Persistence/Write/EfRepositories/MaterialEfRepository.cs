@@ -1,3 +1,4 @@
+using System.Reflection;
 using Application.Interfaces.Repositories;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel.ValueObjects;
@@ -53,7 +54,34 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
         
         return material;
     }
-    
+
+    public override void Save(Material material)
+    {
+        // this way, we can use sequential guid from Sql server by using reflection. We can use .ValueGeneratorOnAdd
+        // from Configuration but it introduce a Guid data type, not Sequential Guid (for MS Sql server)
+        // need to somehow use a better approach instead of binding data as using reflection. This is from 
+        // .NET 7.0.403. Maybe it will be fixed on latest version
+        if (material.Id.Value == Guid.Empty)
+        {
+            var materialId = new MaterialId(SequentialGuidValueGenerator.Next(null));
+            material.WithId(materialId);
+            var materialSupplierCosts = material.MaterialSupplierCosts;
+            foreach (var materialSupplierCost in materialSupplierCosts)
+            {
+                if (materialSupplierCost.Id.Value == Guid.Empty)
+                {
+                    var materialSupplierCostId = new MaterialSupplierCostId(SequentialGuidValueGenerator.Next(null));
+                    materialSupplierCost.WithId(materialSupplierCostId);
+                }
+            }
+            dbSet.Add(material);
+        }
+        else
+        {
+            base.Save(material);
+        }
+    }
+
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         if (id == Guid.Empty)

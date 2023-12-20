@@ -1,3 +1,4 @@
+using System.Data.SqlTypes;
 using Domain.SharedKernel.Base;
 
 namespace Domain.SharedKernel.ValueObjects;

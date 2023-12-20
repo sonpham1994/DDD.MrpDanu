@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.SharedKernel.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Infrastructure.Persistence.Write.EfRepositories;
 
@@ -65,6 +66,7 @@ internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId> where T : Ag
 {
     protected readonly DbSet<T> dbSet;
     protected readonly AppDbContext context;
+    protected static readonly SequentialGuidValueGenerator SequentialGuidValueGenerator = new();
     protected BaseEfGuidStronglyTypedIdRepository(AppDbContext context)
     {
         this.context = context;
@@ -105,6 +107,9 @@ internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId> where T : Ag
          *      + Attached object: the internal entity will update the modified value of properties
          *  
          */
+        //dbSet.Add(entity);
+        //if (entity.Id.Value == Guid.Empty)
+            
         dbSet.Attach(entity);
     }
 
