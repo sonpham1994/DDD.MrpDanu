@@ -49,22 +49,23 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
                     .IsRequired()
                     .OnDelete(DeleteBehavior.NoAction);
             });
-            
+
             j.Property("_transactionalPartnerId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName(nameof(MaterialSupplierCost.MaterialCost.SupplierId))
                 .HasConversion<TransactionalPartnerIdConverter>()
                 .IsRequired();
-            
             j.HasOne<TransactionalPartner>()
                 .WithMany()
                 .HasForeignKey("_transactionalPartnerId");
 
-            j.Property(k => k.MaterialId).HasConversion<MaterialIdConverter>();
-            j.HasOne<Material>()
-                .WithMany()
-                .HasForeignKey(x => x.MaterialId)
-                .IsRequired();
+            //j.Property(k => k.MaterialId)
+                //.HasColumnName(nameof(MaterialSupplierCost.MaterialCost.MaterialId))
+                //.HasConversion<MaterialIdConverter>()
+                //.IsRequired();
+            //j.HasOne<Material>()
+            //    .WithMany()
+            //    .HasForeignKey(x => x.MaterialId);
         });
 
         // builder

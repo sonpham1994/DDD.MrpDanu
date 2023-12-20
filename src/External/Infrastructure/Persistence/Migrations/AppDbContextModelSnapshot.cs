@@ -391,26 +391,15 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<Guid>("MaterialId")
-                                .HasColumnType("uniqueidentifier");
-
                             b1.Property<Guid>("_transactionalPartnerId")
                                 .HasColumnType("uniqueidentifier")
                                 .HasColumnName("SupplierId");
 
                             b1.HasKey("MaterialSupplierCostId");
 
-                            b1.HasIndex("MaterialId");
-
                             b1.HasIndex("_transactionalPartnerId");
 
                             b1.ToTable("MaterialSupplierCost");
-
-                            b1.HasOne("Domain.MaterialManagement.MaterialAggregate.Material", null)
-                                .WithMany()
-                                .HasForeignKey("MaterialId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
 
                             b1.WithOwner()
                                 .HasForeignKey("MaterialSupplierCostId");

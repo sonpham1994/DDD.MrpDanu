@@ -53,7 +53,6 @@ namespace Infrastructure.Persistence.Migrations
                     Surcharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CurrencyTypeId = table.Column<byte>(type: "tinyint", nullable: false),
                     MinQuantity = table.Column<int>(type: "int", nullable: false),
-                    MaterialCost_MaterialId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MaterialId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -66,12 +65,6 @@ namespace Infrastructure.Persistence.Migrations
                         column: x => x.CurrencyTypeId,
                         principalTable: "CurrencyType",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_MaterialSupplierCost_Material_MaterialCost_MaterialId",
-                        column: x => x.MaterialCost_MaterialId,
-                        principalTable: "Material",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MaterialSupplierCost_Material_MaterialId",
                         column: x => x.MaterialId,
@@ -96,11 +89,6 @@ namespace Infrastructure.Persistence.Migrations
                 name: "IX_MaterialSupplierCost_CurrencyTypeId",
                 table: "MaterialSupplierCost",
                 column: "CurrencyTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MaterialSupplierCost_MaterialCost_MaterialId",
-                table: "MaterialSupplierCost",
-                column: "MaterialCost_MaterialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MaterialSupplierCost_MaterialId",

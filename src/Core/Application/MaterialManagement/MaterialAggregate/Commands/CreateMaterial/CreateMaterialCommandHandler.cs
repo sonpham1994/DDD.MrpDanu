@@ -70,8 +70,8 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         //         return result;
         // }
         
-        _materialRepository.Save(material);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        //_materialRepository.Save(material);
+        //await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

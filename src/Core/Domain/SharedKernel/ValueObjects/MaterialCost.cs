@@ -6,9 +6,9 @@ namespace Domain.SharedKernel.ValueObjects;
 
 public class MaterialCost : ValueObject
 {
-    private TransactionalPartnerId _transactionalPartnerId;
+    private readonly TransactionalPartnerId _transactionalPartnerId;
     public MaterialId MaterialId { get; }
-    public SupplierId SupplierId => new(_transactionalPartnerId.Value);
+    public SupplierId SupplierId { get; }
     
     public Money Price { get; }
 
@@ -18,6 +18,7 @@ public class MaterialCost : ValueObject
     private MaterialCost(MaterialId materialId, SupplierId supplierId, Money price)
     {
         MaterialId = materialId;
+        SupplierId = SupplierId;
         _transactionalPartnerId = new(supplierId.Value);
         Price = price;
     }

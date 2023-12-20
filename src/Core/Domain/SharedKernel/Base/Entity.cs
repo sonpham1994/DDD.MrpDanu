@@ -12,6 +12,12 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
     {
     }
 
+    //for strongly typed Id
+    protected Entity(TId id)
+    {
+        Id = id;
+    }
+
     public override bool Equals(object? obj)
     {
         if (obj is not Entity<TId> other)
@@ -215,10 +221,12 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity>
 public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<EntityGuidStronglyTypedId<TId>>
     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
-    //If your application use Guid.NewGuid() and set it here, it would be a problem. Because it will decrease
-    // performance of sql server when inserting data.
-    // To avoid using Guid.NewGuid from client, we don't accept setting Id here
-    
+    // for strongly typed Id, when we attach or add, EF cannot generate SqlGuid as expected, so we need to
+    // generate sequential guid through constructor
+    protected EntityGuidStronglyTypedId(TId id) : base(id)
+    {
+    }
+
     protected EntityGuidStronglyTypedId()
     {
     }

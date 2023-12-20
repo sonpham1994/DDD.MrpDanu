@@ -41,8 +41,8 @@ public abstract class AggregateRootGuidStronglyTypedId<TId> : EntityGuidStrongly
 {
     private readonly List<IDomainEvent> _domainEvents = new();
     public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
-
     protected AggregateRootGuidStronglyTypedId() { }
+    protected AggregateRootGuidStronglyTypedId(TId id) : base(id) { }
 
     protected void RaiseDomainEvent(IDomainEvent newEvent)
     {

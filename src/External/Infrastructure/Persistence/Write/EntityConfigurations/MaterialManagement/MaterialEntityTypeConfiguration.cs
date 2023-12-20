@@ -11,7 +11,16 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
     {
         builder.ToTable(nameof(Material));
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion<MaterialIdConverter>();
+        builder.Property(x => x.Id).HasConversion<MaterialIdConverter>()
+            /*
+             * {MaterialId { Value = 0eb5ae1e-efe2-484d-ad3b-3b4c1db4a69c }}
+                {MaterialId { Value = 9d309f77-7e81-4c1a-beba-a1eb241c397f }}
+                {MaterialId { Value = 6f994790-6207-4757-9faa-e81a1aa7796f }}
+                {MaterialId { Value = ffe6a145-001f-466c-849f-4c48cd9cb432 }}
+                with this, strongly typed id generate Guid.NewGuid, not Sequential Guid, need to research to how it generate Sequential Guid from
+                SqlGuid
+             */
+            .ValueGeneratedOnAdd();
         builder.Property(x => x.Code).HasColumnType("nvarchar(200)").IsRequired();
         builder.HasIndex(x => x.Code).IsUnique();
         builder.Property(x => x.Name).HasColumnType("nvarchar(500)").IsRequired();

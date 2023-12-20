@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231220010455_RefactorToStronglyTypedId")]
+    [Migration("20231220081943_RefactorToStronglyTypedId")]
     partial class RefactorToStronglyTypedId
     {
         /// <inheritdoc />
@@ -394,26 +394,15 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<Guid>("MaterialId")
-                                .HasColumnType("uniqueidentifier");
-
                             b1.Property<Guid>("_transactionalPartnerId")
                                 .HasColumnType("uniqueidentifier")
                                 .HasColumnName("SupplierId");
 
                             b1.HasKey("MaterialSupplierCostId");
 
-                            b1.HasIndex("MaterialId");
-
                             b1.HasIndex("_transactionalPartnerId");
 
                             b1.ToTable("MaterialSupplierCost");
-
-                            b1.HasOne("Domain.MaterialManagement.MaterialAggregate.Material", null)
-                                .WithMany()
-                                .HasForeignKey("MaterialId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
 
                             b1.WithOwner()
                                 .HasForeignKey("MaterialSupplierCostId");
