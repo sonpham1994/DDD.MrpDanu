@@ -1,4 +1,5 @@
 using Application.Interfaces.Repositories;
+using Domain.Extensions;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Write.EfRepositories.Extensions;
@@ -16,7 +17,7 @@ internal sealed class TransactionalPartnerEfRepository
     public async ValueTask<TransactionalPartner?> GetByIdAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
     {
         TransactionalPartner? transactionalPartner = null;
-        if (id.Value == Guid.Empty)
+        if (id.IsEmpty())
             return transactionalPartner;
 
         transactionalPartner = await base.GetByIdAsync(id, cancellationToken);
@@ -78,14 +79,16 @@ internal sealed class TransactionalPartnerEfRepository
         */
 
         // transactionalPartner.BindingEnumeration<TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
+        // transactionalPartner.BindingEnumeration<TransactionalPartnerType>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context);
         // transactionalPartner.BindingEnumeration<CurrencyType>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context);
         // transactionalPartner.BindingEnumeration<LocationType>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
         transactionalPartner.TaxNo.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.TaxNo.Country), context);
         transactionalPartner.Address.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.Address.Country), context);
-        
-        transactionalPartner.BindingEnumeration(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), transactionalPartner.TransactionalPartnerType, context);
-        transactionalPartner.BindingEnumeration(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), transactionalPartner.CurrencyType, context);
-        transactionalPartner.BindingEnumeration(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), transactionalPartner.LocationType, context);
+
+        transactionalPartner
+            .BindingEnumeration<TransactionalPartnerType, TransactionalPartnerId>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context)
+            .BindingEnumeration<TransactionalPartnerType, TransactionalPartnerId>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context)
+            .BindingEnumeration<TransactionalPartnerType, TransactionalPartnerId>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
     }
     
     public async Task BulkDeleteAsync(TransactionalPartnerId id, CancellationToken cancellationToken)

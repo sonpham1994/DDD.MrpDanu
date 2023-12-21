@@ -6,7 +6,7 @@ internal sealed class MaterialIdValueGenerator : GuidStronglyTypedIdValueGenerat
 {
     protected override MaterialId Next(Guid id)
     {
-        return new MaterialId(id);
+        return (MaterialId)id;
     }
 }
 
@@ -14,6 +14,6 @@ internal sealed class TransactionalPartnerIdValueGenerator : GuidStronglyTypedId
 {
     protected override TransactionalPartnerId Next(Guid id)
     {
-        return new TransactionalPartnerId(id);
+        return (TransactionalPartnerId)id;
     }
 }

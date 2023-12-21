@@ -1,3 +1,5 @@
+using Domain.SharedKernel.Base;
+
 namespace Domain.Extensions;
 
 public static class GuidExtensions
@@ -71,9 +73,9 @@ public static class GuidExtensions
         // and then 8, 9, and then 6, 7, ...
         // Please check source code: https://github.com/dotnet/runtime/blob/0dc5b590fa1fdf00bef65bb8c59b13f2dc601a0d/src/libraries/System.Data.Common/src/System/Data/SQLTypes/SQLGuid.cs#L113
         // if application uses postgres, we may change the logic "compare to" here
+
         const byte sizeGuid = 16;
         ReadOnlySpan<byte> sqlGuidOrder = stackalloc byte[sizeGuid] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
-
         Span<byte> leftGuids = stackalloc byte[sizeGuid];
         Span<byte> rightGuids = stackalloc byte[sizeGuid];
         left.TryWriteBytes(leftGuids);
@@ -88,6 +90,7 @@ public static class GuidExtensions
         // and 9_000 to 9_009. We can see the data with the last item will be sorted first
         // Comparison orders from SqlSever with using SqlGuid. It will compare 10, 11, 12, 13, 14, 15 index first,
         // and then 8, 9, and then 6, 7, ...
+
         for (int i = 0; i < sizeGuid; i++)
         {
             if (leftGuids[sqlGuidOrder[i]] > rightGuids[sqlGuidOrder[i]])
@@ -95,7 +98,20 @@ public static class GuidExtensions
             else if (leftGuids[sqlGuidOrder[i]] < rightGuids[sqlGuidOrder[i]])
                 return -1;
         }
-
         return 0;
+
+        //or you can just implement like this, but the problem is that the array sqlGuidOrder from SqlGuid allocate memory on heap (maybe, we need to benchmark it)
+        //if (SqlGuid.GreaterThan(left, right))
+        //    return 1;
+        //else if (SqlGuid.LessThan(left, right))
+        //    return -1;
+        //else
+        //    return 0;
+    }
+
+    public static bool IsEmpty<T>(this T stronglyTypedId)
+        where T : struct, IEquatable<T>, IGuidStronglyTypedId
+    {
+        return stronglyTypedId.Value == Guid.Empty;
     }
 }

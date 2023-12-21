@@ -1,6 +1,5 @@
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.Extensions;
 using Domain.SharedKernel.Base;
-using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.SharedKernel.ValueObjects;
 
@@ -25,8 +24,10 @@ public class MaterialCost : ValueObject
 
     public static Result<MaterialCost> Create(MaterialId materialId, SupplierId supplierId, Money price)
     {
-        if (supplierId.Value == Guid.Empty)
-            return DomainErrors.MaterialCost.InvalidSupplierId(supplierId.Value);
+        if (materialId.IsEmpty())
+            return DomainErrors.MaterialCost.InvalidMaterialId(materialId);
+        if (supplierId.IsEmpty())
+            return DomainErrors.MaterialCost.InvalidSupplierId(supplierId);
 
         return new MaterialCost(materialId, supplierId, price);
     }

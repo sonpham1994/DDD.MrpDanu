@@ -7,7 +7,7 @@ namespace Infrastructure.Persistence.Write.EfRepositories.Extensions;
 
 internal static class EnumerationExtension
 {
-    public static void BindingEnumeration<TEnumeration>(
+    public static Entity BindingEnumeration<TEnumeration>(
         this Entity entity,
         string shadowProperty,
         string propertyName,
@@ -17,24 +17,26 @@ internal static class EnumerationExtension
         var id = context.Entry(entity).Property<byte>(shadowProperty).CurrentValue;
         var value = Enumeration<TEnumeration>.FromId(id).Value;
         entity.GetUnproxiedType().GetProperty(propertyName)!.SetValue(entity, value, null);
+
+        return entity;
     }
     
-    public static void BindingEnumeration<TEnumeration, TId>(
+    public static EntityGuidStronglyTypedId<TId> BindingEnumeration<TEnumeration, TId>(
         this EntityGuidStronglyTypedId<TId> entity,
         string shadowProperty,
         string propertyName,
-        Enumeration<TEnumeration> enumeration,
         AppDbContext context)
         where TEnumeration : Enumeration<TEnumeration>
         where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
     {
         var id = context.Entry(entity).Property<byte>(shadowProperty).CurrentValue;
         var value = Enumeration<TEnumeration>.FromId(id).Value;
-        enumeration = value;
-        //entity.GetUnproxiedType().GetProperty(propertyName)!.SetValue(entity, value, null);
+        entity.GetUnproxiedType().GetProperty(propertyName)!.SetValue(entity, value, null);
+
+        return entity;
     }
 
-    public static void BindingEnumeration<TEnumeration>(
+    public static ValueObject BindingEnumeration<TEnumeration>(
         this ValueObject valueObject,
         string shadowProperty,
         string propertyName,
@@ -46,5 +48,7 @@ internal static class EnumerationExtension
 
         var field = valueObject.GetUnproxiedType().GetField($"<{propertyName}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
         field.SetValue(valueObject, value);
+
+        return valueObject;
     }
 }

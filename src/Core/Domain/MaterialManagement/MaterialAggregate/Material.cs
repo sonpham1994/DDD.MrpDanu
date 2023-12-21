@@ -24,10 +24,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     //required EF Proxies
     protected Material() { }
 
-    //protected Material(MaterialId id)  : base(id) { }
-
     private Material(string code, string name, MaterialAttributes attributes, MaterialType materialType, RegionalMarket regionalMarket)
-        //: this(new MaterialId(Guid.NewGuid()))
         : this()
     {
         Code = code;

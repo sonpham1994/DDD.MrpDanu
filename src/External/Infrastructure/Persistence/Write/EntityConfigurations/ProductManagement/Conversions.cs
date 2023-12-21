@@ -40,7 +40,7 @@ internal sealed class BoMRevisionMaterialIdConverter : ValueConverter<BoMRevisio
     public BoMRevisionMaterialIdConverter()
         : base(
             v => v.Value,
-            v => new BoMRevisionMaterialId(v))
+            v => (BoMRevisionMaterialId)v)
     {
     }
 }

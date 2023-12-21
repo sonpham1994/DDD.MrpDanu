@@ -15,7 +15,7 @@ internal sealed class DeleteTransactionalPartnerCommandHandler : ICommandHandler
     
     public async Task<Result> Handle(DeleteTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
-        await _transactionalPartnerRepository.DeleteAsync(new TransactionalPartnerId(request.Id), cancellationToken);
+        await _transactionalPartnerRepository.DeleteAsync((TransactionalPartnerId)request.Id, cancellationToken);
         return Result.Success();
     }
 }

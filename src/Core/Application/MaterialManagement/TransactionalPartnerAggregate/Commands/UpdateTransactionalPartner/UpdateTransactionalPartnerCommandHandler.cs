@@ -27,7 +27,7 @@ internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler
     
     public async Task<Result> Handle(UpdateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
-        var transactionalPartnerId = new TransactionalPartnerId(request.Id);
+        var transactionalPartnerId = (TransactionalPartnerId)request.Id;
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
         var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(transactionalPartnerId, cancellationToken);
         if (transactionalPartner is null)

@@ -1,4 +1,5 @@
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.SharedKernel;
 
@@ -17,8 +18,8 @@ public sealed class DomainErrors
 
     public static class MaterialCost
     {
-        public static DomainError InvalidMaterialId(in Guid materialId) => new("BoMRevisionMaterial.InvalidMaterialId", $"Material id '{materialId}' is invalid.");
-        public static DomainError InvalidSupplierId(in Guid supplierId) => new("BoMRevisionMaterial.InvalidSupplierId", $"Supplier id '{supplierId}' is invalid.");
+        public static DomainError InvalidMaterialId(in MaterialId materialId) => new("BoMRevisionMaterial.InvalidMaterialId", $"Material id '{materialId.Value}' is invalid.");
+        public static DomainError InvalidSupplierId(in SupplierId supplierId) => new("BoMRevisionMaterial.InvalidSupplierId", $"Supplier id '{supplierId.Value}' is invalid.");
     }
     
     public static DomainError NullRequestBodyParameter => new("General.NullRequestBodyParameter", "Request body parameter should not be null");

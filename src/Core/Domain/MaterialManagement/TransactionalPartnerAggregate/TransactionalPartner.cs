@@ -100,7 +100,7 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         var isSupplier = TransactionalPartnerType.IsSupplierType(TransactionalPartnerType);
 
         if (!isSupplier)
-            return DomainErrors.MaterialCostManagement.NotSupplier(new SupplierId(Id.Value));
+            return DomainErrors.MaterialCostManagement.NotSupplier((SupplierId)Id.Value);
 
         return Result.Success();
     }

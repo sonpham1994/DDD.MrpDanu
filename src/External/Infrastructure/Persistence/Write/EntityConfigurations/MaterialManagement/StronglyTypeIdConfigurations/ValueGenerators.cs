@@ -8,7 +8,7 @@ internal sealed class ContactPersonInformationIdValueGenerator : GuidStronglyTyp
 {
     protected override ContactPersonInformationId Next(Guid id)
     {
-        return new ContactPersonInformationId(id);
+        return (ContactPersonInformationId)id;
     }
 }
 
@@ -16,6 +16,6 @@ internal sealed class MaterialSupplierCostIdValueGenerator : GuidStronglyTypedId
 {
     protected override MaterialSupplierCostId Next(Guid id)
     {
-        return new MaterialSupplierCostId(id);
+        return (MaterialSupplierCostId)id;
     }
 }

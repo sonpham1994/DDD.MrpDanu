@@ -61,19 +61,19 @@ internal abstract class BaseEfRepository<T> where T : AggregateRoot
     }
 }
 
-internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId> where T : AggregateRootGuidStronglyTypedId<TId> 
+internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId> 
+    where T : AggregateRootGuidStronglyTypedId<TId> 
     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
     protected readonly DbSet<T> dbSet;
     protected readonly AppDbContext context;
-    protected static readonly SequentialGuidValueGenerator SequentialGuidValueGenerator = new();
     protected BaseEfGuidStronglyTypedIdRepository(AppDbContext context)
     {
         this.context = context;
         dbSet = context.Set<T>();
     }
 
-    protected virtual async ValueTask<T?> GetByIdAsync(object id, CancellationToken cancellationToken)
+    protected virtual async ValueTask<T?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
         return await dbSet.FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken);
     }
@@ -107,14 +107,11 @@ internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId> where T : Ag
          *      + Attached object: the internal entity will update the modified value of properties
          *  
          */
-        //dbSet.Add(entity);
-        //if (entity.Id.Value == Guid.Empty)
-            
         dbSet.Attach(entity);
     }
 
-    // protected async Task BulkDeleteAsync(TId id, CancellationToken cancellationToken)
-    // {
-    //     await dbSet.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
-    // }
+    //protected async Task BulkDeleteAsync(TId id, CancellationToken cancellationToken)
+    //{
+    //    await dbSet.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
+    //}
 }

@@ -12,12 +12,6 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
     {
     }
 
-    //for strongly typed Id
-    protected Entity(TId id)
-    {
-        Id = id;
-    }
-
     public override bool Equals(object? obj)
     {
         if (obj is not Entity<TId> other)
@@ -43,7 +37,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
         return Id.Equals(other.Id);
     }
 
-    public bool IsTransient()
+    public virtual bool IsTransient()
     {
         return Id.Equals(default(TId));
     }
@@ -221,16 +215,6 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity>
 public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<EntityGuidStronglyTypedId<TId>>
     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
-    // for strongly typed Id, when we attach or add, EF cannot generate SqlGuid as expected, so we need to
-    // generate sequential guid through constructor
-    protected EntityGuidStronglyTypedId(TId id) : base(id)
-    {
-    }
-
-    protected EntityGuidStronglyTypedId()
-    {
-    }
-
     //we use SequentialGuid from EF Core, so we use Sequential Guid for this, and the SequentialGuid from EF Core
     // uses from SqlGuid. If your application uses Postgres, you may change the behaviour of SequentialGuid.CompareTo
     public int CompareTo(EntityGuidStronglyTypedId<TId>? other)
@@ -241,5 +225,10 @@ public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<
             return 0;
         
         return Id.Value.SequentialGuidCompareTo(other.Id.Value);
+    }
+
+    public override bool IsTransient()
+    {
+        return Id.IsEmpty();
     }
 }

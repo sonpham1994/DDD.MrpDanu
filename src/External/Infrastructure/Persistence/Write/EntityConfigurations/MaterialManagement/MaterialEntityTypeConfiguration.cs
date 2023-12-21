@@ -44,21 +44,20 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
             j.Property(l => l.Width).HasColumnName(nameof(MaterialAttributes.Width)).HasColumnType("nvarchar(200)").IsRequired(false);
         });
 
+        //builder
+        //    .Property(x => x.MaterialType)
+        //    .HasColumnName(ShadowProperties.MaterialTypeId)
+        //    .HasConversion(x => x, x => MaterialType.FromId(x.Id).Value);
         builder.HasOne(x => x.MaterialType)
             .WithMany()
             .HasForeignKey(ShadowProperties.MaterialTypeId)
             .IsRequired();
-
 
         builder.HasOne(x => x.RegionalMarket)
             .WithMany()
             .HasForeignKey(ShadowProperties.RegionalMarketId)
             .IsRequired();
 
-        //builder
-        //    .Property(x => x.MaterialType).HasColumnName("MaterialTypeId")
-        //    .HasConversion(x => x.Id
-        //        , x => MaterialType.FromId(x).Value);
         //builder
         //   .Property(x => x.RegionalMarket).HasColumnName("RegionalMarketId")
         //   .HasConversion(x => x.Id

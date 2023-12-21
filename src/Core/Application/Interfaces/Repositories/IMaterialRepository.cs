@@ -7,5 +7,5 @@ public interface IMaterialRepository
 {
     Task<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default);
     void Save(Material material);
-    Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+    Task DeleteAsync(MaterialId id, CancellationToken cancellationToken);
 }

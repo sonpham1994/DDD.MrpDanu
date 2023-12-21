@@ -8,7 +8,7 @@ internal sealed class MaterialIdConverter : ValueConverter<MaterialId, Guid>
     public MaterialIdConverter()
         : base(
             v => v.Value,
-            v => new MaterialId(v))
+            v => (MaterialId)v)
     {
     }
 }
@@ -18,7 +18,7 @@ internal sealed class TransactionalPartnerIdConverter : ValueConverter<Transacti
     public TransactionalPartnerIdConverter()
         : base(
             v => v.Value,
-            v => new TransactionalPartnerId(v))
+            v => (TransactionalPartnerId)v)
     {
     }
 }
@@ -28,7 +28,7 @@ internal sealed class SupplierIdConverter : ValueConverter<SupplierId, Guid>
     public SupplierIdConverter()
         : base(
             v => v.Value,
-            v => new SupplierId(v))
+            v => (SupplierId)v)
     {
     }
 }

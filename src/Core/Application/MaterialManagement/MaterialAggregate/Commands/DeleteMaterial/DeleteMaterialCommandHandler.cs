@@ -2,6 +2,7 @@
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.DeleteMaterial;
 
@@ -18,7 +19,7 @@ internal sealed class DeleteMaterialCommandHandler : ICommandHandler<DeleteMater
 
     public async Task<Result> Handle(DeleteMaterialCommand request, CancellationToken cancellationToken)
     {
-        await _materialRepository.DeleteAsync(request.Id, cancellationToken);
+        await _materialRepository.DeleteAsync((MaterialId)request.Id, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

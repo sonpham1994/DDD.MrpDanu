@@ -9,7 +9,7 @@ internal sealed class MaterialSupplierCostIdConverter : ValueConverter<MaterialS
     public MaterialSupplierCostIdConverter()
         : base(
             v => v.Value,
-            v => new MaterialSupplierCostId(v))
+            v => (MaterialSupplierCostId)v)
     {
     }
 }
@@ -19,7 +19,7 @@ internal sealed class ContactPersonInformationIdConverter : ValueConverter<Conta
     public ContactPersonInformationIdConverter()
         : base(
             v => v.Value,
-            v => new ContactPersonInformationId(v))
+            v => (ContactPersonInformationId)v)
     {
     }
 }

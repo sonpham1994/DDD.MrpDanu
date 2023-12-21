@@ -1,4 +1,5 @@
-﻿using Domain.SharedKernel.Base;
+﻿using Domain.Extensions;
+using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
@@ -52,7 +53,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
         foreach ((uint minQuantity, decimal surcharge, MaterialCost materialCost) in input)
         {
             var materialCostOfSupplier = supplierIds.FirstOrDefault(x => x == materialCost.SupplierId);
-            if (materialCostOfSupplier.Value == Guid.Empty)
+            if (materialCostOfSupplier.IsEmpty())
                 return DomainErrors.MaterialCostManagement.NotFoundSupplierId(materialCost.SupplierId);
 
             var surchargeResult = Money.Create(surcharge, materialCost.Price.CurrencyType);
