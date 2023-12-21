@@ -100,7 +100,9 @@ public static class GuidExtensions
         }
         return 0;
 
-        //or you can just implement like this, but the problem is that the array sqlGuidOrder from SqlGuid allocate memory on heap (maybe, we need to benchmark it)
+        //or you can just implement like this, but the problem is that the array sqlGuidOrder from SqlGuid allocate memory on heap
+        // please check GuidBenchmark/SequentialGuidBenchmark (this benchmark is from .NET &). but the problem is that if SqlGuid
+        // change the algorithm to generate SequentialGuid, the custom method might fail
         //if (SqlGuid.GreaterThan(left, right))
         //    return 1;
         //else if (SqlGuid.LessThan(left, right))

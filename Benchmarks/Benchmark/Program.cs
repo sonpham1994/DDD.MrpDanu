@@ -24,10 +24,10 @@ using Benchmark.FirstOrDefaultVsFind;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<FirstOrDefaultVsFindBenchmark>();
-//var a = new ValueObjectEqualsBoxingBenchmark();
+BenchmarkRunner.Run<SequentialGuidBenchmark>();
+//var a = new SequentialGuidBenchmark();
 //a.Setup();
-//a.ValueObjectEqualsWithAvoidBoxing();
+//a.CompareSequentialGuidWithSqlGuidMethod();
 //a.ValueObjectEqualsBoxing();
 
 

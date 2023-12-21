@@ -59,15 +59,6 @@ public static class TypeExtension
         return GetUnproxiedType(type);
     }
 
-    public static Type GetUnproxiedType(this Entity obj)
-    {
-        ArgumentNullException.ThrowIfNull(obj);
-
-        Type type = obj.GetType();
-
-        return GetUnproxiedType(type);
-    }
-
     public static Type GetUnproxiedType(this ValueObject obj)
     {
         ArgumentNullException.ThrowIfNull(obj);
