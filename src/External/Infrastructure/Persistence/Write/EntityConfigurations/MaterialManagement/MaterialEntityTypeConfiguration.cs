@@ -1,7 +1,9 @@
 ﻿using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement;
 
@@ -11,12 +13,16 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
     {
         builder.ToTable(nameof(Material));
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion<MaterialIdConverter>();
-            /*
-            with this .ValueGeneratedOnAdd(), strongly typed id generate Guid.NewGuid, not Sequential Guid, need to research to how it 
-            generate Sequential Guid from SqlGuid. This is from .NET 7.0.403. May be it will be fixed on latest version
-             */
+        builder.Property(x => x.Id)
+            .HasConversion<MaterialIdConverter>()
+            .HasValueGenerator<MaterialIdValueGenerator>();
+            // we cannot use .HasValueGenerator(typeof(SequentialGuidValueGenerator)), because it will fail to convert
+            // guid to strongly typed id as MaterialId
+            //.HasValueGenerator(typeof(SequentialGuidValueGenerator));
+            
+            //with this .ValueGeneratedOnAdd(), strongly typed id generate Guid.NewGuid, not Sequential Guid
             //.ValueGeneratedOnAdd();
+            
             // this HasDefaultValueSql("newsequentialid()"); will generate data from database, not on the client side
             //.HasDefaultValueSql("newsequentialid()");
             

@@ -1,10 +1,11 @@
 using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Application.Interfaces.Repositories;
 
 public interface IMaterialRepository
 {
-    Task<Material?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default);
     void Save(Material material);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 }

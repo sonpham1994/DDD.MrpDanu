@@ -11,7 +11,18 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
     {
         builder.ToTable(nameof(TransactionalPartner));
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion<TransactionalPartnerIdConverter>();
+        builder.Property(x => x.Id)
+            .HasConversion<TransactionalPartnerIdConverter>()
+            .HasValueGenerator<TransactionalPartnerIdValueGenerator>();
+        // we cannot use .HasValueGenerator(typeof(SequentialGuidValueGenerator)), because it will fail to convert
+        // guid to strongly typed id as MaterialId
+        //.HasValueGenerator(typeof(SequentialGuidValueGenerator));
+            
+        //with this .ValueGeneratedOnAdd(), strongly typed id generate Guid.NewGuid, not Sequential Guid
+        //.ValueGeneratedOnAdd();
+            
+        // this HasDefaultValueSql("newsequentialid()"); will generate data from database, not on the client side
+        //.HasDefaultValueSql("newsequentialid()");
 
         builder.Ignore(x => x.DomainEvents);
         

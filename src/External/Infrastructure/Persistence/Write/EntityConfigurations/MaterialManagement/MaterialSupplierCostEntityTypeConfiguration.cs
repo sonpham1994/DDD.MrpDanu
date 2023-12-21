@@ -1,5 +1,6 @@
 ﻿using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
 using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,7 +13,10 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
     {
         builder.ToTable(nameof(MaterialSupplierCost));
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion<MaterialSupplierCostIdConverter>();
+        builder.Property(x => x.Id)
+            .HasConversion<MaterialSupplierCostIdConverter>()
+            .HasValueGenerator<MaterialSupplierCostIdValueGenerator>();
+        
         builder.Property(k => k.MinQuantity)
                .HasColumnType("int")
                .HasColumnName(nameof(MaterialSupplierCost.MinQuantity))

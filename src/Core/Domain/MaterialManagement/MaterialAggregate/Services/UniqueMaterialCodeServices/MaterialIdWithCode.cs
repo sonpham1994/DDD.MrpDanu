@@ -4,6 +4,6 @@ namespace Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCod
 
 public sealed class MaterialIdWithCode
 {
-    public MaterialId Id { get; init; }
+    public Guid Id { get; init; }
     public string Code { get; init; }
 }

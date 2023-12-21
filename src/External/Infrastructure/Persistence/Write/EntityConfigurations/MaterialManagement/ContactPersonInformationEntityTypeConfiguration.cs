@@ -1,4 +1,5 @@
 ﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,9 @@ internal sealed class ContactPersonInformationEntityTypeConfiguration : IEntityT
     {
         builder.ToTable(nameof(ContactPersonInformation));
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion<ContactPersonInformationIdConverter>();
+        builder.Property(x => x.Id)
+            .HasConversion<ContactPersonInformationIdConverter>()
+            .HasValueGenerator<ContactPersonInformationIdValueGenerator>();
 
         builder.Property(x => x.Name)
             .HasColumnName(nameof(ContactPersonInformation.Name))

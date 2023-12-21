@@ -43,7 +43,7 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
             );
         if (uniqueCodeResult.IsFailure)
             return uniqueCodeResult;
-        
+        var test = await _materialRepository.GetByIdAsync(new MaterialId(new Guid("522085fb-12ea-4f5f-7fbb-08dc01be833e")), cancellationToken);
         _materialRepository.Save(material);
         
         // if (request.MaterialCosts.Any())
@@ -71,7 +71,7 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         // }
         
         //_materialRepository.Save(material);
-        //await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }
