@@ -51,8 +51,7 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
             var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
                 .ToTuple();
 
-            var materialCostInputs = request.MaterialCosts
-                .ToTuple();
+            var materialCostInputs = request.MaterialCosts.ToTuple();
             
             var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
             if (materialSupplierCosts.IsFailure)

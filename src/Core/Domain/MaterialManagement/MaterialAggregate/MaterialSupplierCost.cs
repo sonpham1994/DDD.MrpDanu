@@ -1,5 +1,6 @@
 ﻿using Domain.Extensions;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.MaterialAggregate;
@@ -37,38 +38,48 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
     }
     
     public static Result<IReadOnlyList<MaterialSupplierCost>> Create(MaterialId materialId,
-        IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> inputs,
-        IReadOnlyList<(SupplierId supplierId, byte currencyTypeId)> supplierIds)
+        IReadOnlyList<(decimal Price, uint MinQuantity, decimal Surcharge, SupplierId SupplierId)> inputs,
+        IReadOnlyList<(SupplierId SupplierId, byte CurrencyTypeId)> supplierIdWithCurrencyTypeIds)
     {
-        // var existNullSupplier = materialCosts.Any(x => x is null);
-        // if (existNullSupplier)
-        //     return DomainErrors.MaterialCostManagement.NullSupplier;
-
-        // var isNotSupplier = suppliers.AnyFailure(x => x.IsSupplier());
-        // if (isNotSupplier.IsFailure)
-        //     return isNotSupplier.Error;
-
         var result = new List<MaterialSupplierCost>(inputs.Count);
         
         foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in inputs)
         {
-            //var materialCostOfSupplier = supplierIds.FirstOrDefault(x => x == materialCost.SupplierId);
-            //if (materialCostOfSupplier.IsEmpty())
-            //    return DomainErrors.MaterialCostManagement.NotFoundSupplierId(materialCost.SupplierId);
-
-            //var surchargeResult = Money.Create(surcharge, materialCost.Price.CurrencyType);
-            //if (surchargeResult.IsFailure)
-            //    return DomainErrors.MaterialCostManagement.InvalidSurcharge;
-
-            //if (minQuantity == 0)
-            //    return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
-
-            //var materialCostManagement = new MaterialSupplierCost(materialCost, minQuantity, surchargeResult.Value);
-            //var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialCost.SupplierId == materialCost.SupplierId);
-            //if (duplicateSupplierId is not null)
-            //    return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialCost.SupplierId);
+            // in this Aggregate Root (Material), the MaterialSupplierCost cannot duplicate by the same supplierId. So
+            // we put this invariant here instead of putting this in Material.
+            var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialCost.SupplierId == supplierId);
+            if (duplicateSupplierId is not null)
+                return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialCost.SupplierId);
             
-            //result.Add(materialCostManagement);
+            if (minQuantity == 0)
+                return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
+            if (price <= 0)
+                return DomainErrors.MaterialCostManagement.InvalidPrice;
+            
+            var (existSupplierId, currencyTypeId) = supplierIdWithCurrencyTypeIds.FirstOrDefault(x => x.SupplierId == supplierId);
+            if (existSupplierId.IsEmpty())
+                return DomainErrors.MaterialCostManagement.NotFoundSupplierId(supplierId);
+            
+            var currencyType = CurrencyType.FromId(currencyTypeId);
+            if (currencyType.IsFailure)
+                return currencyType.Error;
+            
+            var priceResult = Money.Create(price, currencyType.Value);
+            if (priceResult.IsFailure)
+                return priceResult.Error;
+            
+            var surchargeResult = Money.Create(surcharge, currencyType.Value);
+            if (surchargeResult.IsFailure)
+                return DomainErrors.MaterialCostManagement.InvalidSurcharge;
+            
+            var isValidPriceAndSurcharge = IsValidPriceAndSurcharge(priceResult.Value, surchargeResult.Value);
+            if (isValidPriceAndSurcharge.IsFailure)
+                return isValidPriceAndSurcharge.Error;
+            
+            var materialCost = MaterialCost.Create(materialId, supplierId, priceResult.Value);
+            var materialSupplierCost = new MaterialSupplierCost(materialCost.Value, minQuantity, surchargeResult.Value);
+
+            result.Add(materialSupplierCost);
         }
 
         return result;
@@ -78,10 +89,10 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
     {
         if (minQuantity == 0)
             return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
-        
-        // var validityResult = IsValidCurrency(price, surcharge, TransactionalPartner);
-        // if (validityResult.IsFailure)
-        //     return validityResult;
+
+        var validityPriceAndSurchargeResult = IsValidPriceAndSurcharge(price, surcharge);
+         if (validityPriceAndSurchargeResult.IsFailure)
+             return validityPriceAndSurchargeResult.Error;
         
         //if (Surcharge != surcharge)
             Surcharge = surcharge;
@@ -92,32 +103,13 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
         
         return Result.Success();
     }
-
-    // private static Result<MaterialCostManagement> Create( 
-    //     in uint minQuantity, 
-    //     Money surcharge, 
-    //     MaterialCost materialCost)
-    // {
-    //     // if (supplier is null)
-    //     //     return DomainErrors.TransactionalPartner.NotFound;
-    //     //
-    //     // var isSupplier = supplier.IsSupplier();
-    //     // if (isSupplier.IsFailure)
-    //     //     return isSupplier;
-    //
-    //     // var validityResult = IsValidCurrency(price, surcharge, supplier);
-    //     // if (validityResult.IsFailure)
-    //     //     return validityResult;
-    //     
-    //     return new MaterialCostManagement(price, minQuantity, surcharge, supplier);
-    // }
     
-    // private static Result IsValidCurrency(Money price, Money surcharge, TransactionalPartner supplier)
-    // {
-    //     if (price.CurrencyType != supplier.CurrencyType || surcharge.CurrencyType != supplier.CurrencyType)
-    //         return DomainErrors.MaterialCostManagement
-    //             .DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(price.CurrencyType.Name, surcharge.CurrencyType.Name, supplier.CurrencyType.Name);
-    //
-    //     return Result.Success();
-    // }
+    private static Result IsValidPriceAndSurcharge(Money price, Money surcharge)
+    {
+        if (price.CurrencyType !=  surcharge.CurrencyType)
+            return DomainErrors.MaterialCostManagement
+                .DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(price.CurrencyType, surcharge.CurrencyType);
+    
+        return Result.Success();
+    }
 }

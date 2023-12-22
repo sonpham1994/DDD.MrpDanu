@@ -1,6 +1,6 @@
 using Application.Interfaces.Write;
 
-namespace Infrastructure.Persistence.Write.EfRepositories;
+namespace Infrastructure.Persistence.Writes.ProductWrite;
 
 internal sealed class ProductEfRepository : IProductRepository
 {

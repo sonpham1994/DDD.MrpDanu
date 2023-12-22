@@ -1,5 +1,6 @@
 ﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement;
@@ -44,7 +45,7 @@ public sealed class DomainErrors
         public static DomainError NullMaterialCost => new("MaterialCostManagement.NullMaterialCost", "Material cost object should not be null.");
         public static DomainError NullSupplier => new("MaterialCostManagement.NullSupplier", "Supplier should not null");
         
-        public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string currencyPrice, string currencySurcharge, string currencySupplier) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ({currencyPrice}, {currencySurcharge}) are different from supplier ({currencySupplier})");
+        public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
         public static DomainError DuplicationSupplierId(in SupplierId id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id.Value}.");
         public static DomainError NotSupplier(in SupplierId id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
         public static DomainError NotExistSupplier(in SupplierId supplierId, in MaterialId materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId.Value}' does not exist in material id '{materialId.Value}'");
