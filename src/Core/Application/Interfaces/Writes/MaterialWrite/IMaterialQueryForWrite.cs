@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 namespace Application.Interfaces.Writes.MaterialWrite;
 
 public interface IMaterialQueryForWrite
 {
+    Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken);
 }

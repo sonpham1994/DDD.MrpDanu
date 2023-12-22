@@ -22,12 +22,7 @@ internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQue
         return suppliers.ToResponse();
     }
     
-    public async Task<IReadOnlyList<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
-    {
-        var suppliers = await _dbConnection.GetSupplierIdsWithCurrencyTypeIdByBySupplierIdsAsync(ids, cancellationToken);
-
-        return suppliers;
-    }
+    
     
     public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken)
     {

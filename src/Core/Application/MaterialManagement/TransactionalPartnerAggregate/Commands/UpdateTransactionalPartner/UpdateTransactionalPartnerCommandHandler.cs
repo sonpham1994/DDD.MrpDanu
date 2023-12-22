@@ -1,7 +1,7 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Reads;
-using Application.Interfaces.Write;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;

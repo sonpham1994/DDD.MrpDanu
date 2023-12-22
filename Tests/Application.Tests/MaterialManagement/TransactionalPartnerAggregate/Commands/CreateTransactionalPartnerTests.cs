@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Application.Interfaces.Reads;
-using Application.Interfaces.Write;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Commands;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;

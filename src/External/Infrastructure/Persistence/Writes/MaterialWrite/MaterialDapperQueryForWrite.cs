@@ -1,4 +1,7 @@
 ﻿
+using Application.Interfaces.Writes.MaterialWrite;
+using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using System.Data;
 
 namespace Infrastructure.Persistence.Writes.MaterialWrite;
 
@@ -9,6 +12,15 @@ namespace Infrastructure.Persistence.Writes.MaterialWrite;
 // If not, the sync data latency between write and read db would be a problem.
 // And another thing is that, by sperating this logic from query side, the write just use methods that need to 
 // perform write operation, we can say we achieve Interface Segregation principle and Single Responsibility principle
-internal sealed class MaterialDapperQueryForWrite
+internal sealed class MaterialDapperQueryForWrite : IMaterialQueryForWrite
 {
+    private readonly IDbConnection _dbConnection;
+    public MaterialDapperQueryForWrite(IDbConnection dbConnection)
+        => _dbConnection = dbConnection;
+    public async Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken)
+    {
+        var material = await _dbConnection.GetByCodeAsync(code, cancellationToken);
+
+        return material;
+    }
 }

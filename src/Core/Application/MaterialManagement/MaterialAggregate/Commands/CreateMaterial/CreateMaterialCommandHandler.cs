@@ -3,28 +3,27 @@ using Application.Interfaces.Messaging;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
-using Domain.SharedKernel.ValueObjects;
-using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.MaterialWrite;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
 internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
+    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
     private readonly IMaterialRepository _materialRepository;
-    private readonly IMaterialQuery _materialQuery;
+    private readonly IMaterialQueryForWrite _materialQueryForWrite;
 
     public CreateMaterialCommandHandler(IUnitOfWork unitOfWork,
-        ITransactionalPartnerQuery transactionalPartnerQuery,
+        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite,
         IMaterialRepository materialRepository,
-        IMaterialQuery materialQuery)
+        IMaterialQueryForWrite materialQueryForWrite)
     {
         _unitOfWork = unitOfWork;
-        _transactionalPartnerQuery = transactionalPartnerQuery;
+        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
         _materialRepository = materialRepository;
-        _materialQuery = materialQuery;
+        _materialQueryForWrite = materialQueryForWrite;
     }
     
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
@@ -38,7 +37,7 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
             .CheckUniqueMaterialCodeAsync
             (
                 material, 
-                (code, cancelToken) => _materialQuery.GetByCodeAsync(code, cancelToken), 
+                (code, cancelToken) => _materialQueryForWrite.GetByCodeAsync(code, cancelToken), 
                 cancellationToken
             );
         if (uniqueCodeResult.IsFailure)
@@ -49,13 +48,11 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
         if (request.MaterialCosts.Any())
         {
             var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
-            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQuery.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
-                .Select(x => x.ToTuple())
-                .ToList();
-            
+            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
+                .ToTuple();
+
             var materialCostInputs = request.MaterialCosts
-                .Select(x => x.ToTuple())
-                .ToList();
+                .ToTuple();
             
             var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
             if (materialSupplierCosts.IsFailure)

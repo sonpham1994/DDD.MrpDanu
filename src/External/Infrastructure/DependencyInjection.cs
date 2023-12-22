@@ -17,6 +17,8 @@ using Application.Interfaces.Write;
 using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.MaterialWrite;
 using Infrastructure.Persistence.Writes;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
+using Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
 
 namespace Infrastructure;
 
@@ -73,8 +75,12 @@ public static class DependencyInjection
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IMaterialRepository, MaterialEfRepository>();
-        
+        services.AddScoped<IMaterialQueryForWrite, MaterialDapperQueryForWrite>();
+
         services.AddScoped<ITransactionalPartnerRepository, TransactionalPartnerEfRepository>();
+        services.AddScoped<ITransactionalPartnerQueryForWrite, TransactionalPartnerDapperQueryForWrite>();
+
+
         services.AddScoped<IProductRepository, ProductEfRepository>();
         
         return services;

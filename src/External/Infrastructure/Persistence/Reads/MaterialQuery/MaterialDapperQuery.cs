@@ -36,11 +36,4 @@ internal sealed class MaterialDapperQuery : IMaterialQuery
 
         return material.ToResponse();
     }
-    
-    public async Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken)
-    {
-        var material = await _dbConnection.GetByCodeAsync(code, cancellationToken);
-
-        return material;
-    }
 }
