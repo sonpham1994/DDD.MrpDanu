@@ -1,4 +1,5 @@
 using System.Data;
+using Application.MaterialManagement.MaterialAggregate.Commands.Models;
 using Dapper;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
@@ -58,14 +59,28 @@ internal static class QueryExtension
          *  , but have a highly coupling between read/write side, so we move it to MaterialManagementMapping
          */
         var supplierTypeIds = GetSupplierTypeIds();
-
         var suppliers = await dbConnection
-            .QueryAsync<SuppliersReadModel>(
-                @"SELECT transactionalPartner.Id, transactionalPartner.Name, transactionalPartner.CurrencyTypeId
-                FROM TransactionalPartner transactionalPartner
-                WHERE transactionalPartner.TransactionalPartnerTypeId IN @SupplierTypeIds
-                "
+            .QueryAsync<SuppliersReadModel>("""
+                SELECT Id, Name, CurrencyTypeId
+                FROM TransactionalPartner
+                WHERE TransactionalPartnerTypeId IN @SupplierTypeIds
+                """
                 , new { supplierTypeIds }
+            );
+
+        return suppliers.ToList();
+    }
+    
+    public static async Task<List<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdByBySupplierIdsAsync(this IDbConnection dbConnection, IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+    {
+        var supplierTypeIds = GetSupplierTypeIds();
+        var suppliers = await dbConnection
+            .QueryAsync<SupplierIdWithCurrencyTypeId>("""
+                SELECT Id, CurrencyTypeId
+                FROM TransactionalPartner
+                WHERE Id IN @Ids AND TransactionalPartnerTypeId IN @SupplierTypeIds
+                """
+                , new { Ids = ids, SupplierTypeIds = supplierTypeIds }
             );
 
         return suppliers.ToList();

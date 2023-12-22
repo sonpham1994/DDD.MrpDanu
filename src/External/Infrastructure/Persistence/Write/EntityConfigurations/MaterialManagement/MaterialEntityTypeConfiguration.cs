@@ -17,7 +17,9 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
             .HasConversion<MaterialIdConverter>()
             .HasValueGenerator<MaterialIdValueGenerator>();
             // we cannot use .HasValueGenerator(typeof(SequentialGuidValueGenerator)), because it will fail to convert
-            // guid to strongly typed id as MaterialId
+            // guid to strongly typed id as MaterialId. But you can do this if database is ngpsql or if some database
+            // don't generate sequential guid by default (make sure that that database use the same sequential guid as
+            // SqlGuid)
             //.HasValueGenerator(typeof(SequentialGuidValueGenerator));
             
             //with this .ValueGeneratedOnAdd(), strongly typed id generate Guid.NewGuid, not Sequential Guid

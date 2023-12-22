@@ -1,6 +1,7 @@
 using System.Data;
 using Dapper;
 using Application.Interfaces.Queries;
+using Application.MaterialManagement.MaterialAggregate.Commands.Models;
 using Application.MaterialManagement.Shared;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
@@ -19,6 +20,13 @@ internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQue
         var suppliers = await _dbConnection.GetSuppliersAsync(cancellationToken);
 
         return suppliers.ToResponse();
+    }
+    
+    public async Task<IReadOnlyList<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
+    {
+        var suppliers = await _dbConnection.GetSupplierIdsWithCurrencyTypeIdByBySupplierIdsAsync(ids, cancellationToken);
+
+        return suppliers;
     }
     
     public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken)

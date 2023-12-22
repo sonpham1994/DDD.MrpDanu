@@ -36,9 +36,9 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
         Surcharge = surcharge;
     }
     
-    public static Result<IReadOnlyList<MaterialSupplierCost>> Create(
-        IReadOnlyList<(uint minQuantity, decimal surcharge, MaterialCost materialCosts)> input
-        , IReadOnlyList<SupplierId> supplierIds)
+    public static Result<IReadOnlyList<MaterialSupplierCost>> Create(MaterialId materialId,
+        IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> input,
+        IReadOnlyList<(SupplierId supplierId, byte currencyTypeId)> supplierIds)
     {
         // var existNullSupplier = materialCosts.Any(x => x is null);
         // if (existNullSupplier)
@@ -50,7 +50,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
 
         var result = new List<MaterialSupplierCost>(input.Count);
         
-        foreach ((uint minQuantity, decimal surcharge, MaterialCost materialCost) in input)
+        foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in input)
         {
             var materialCostOfSupplier = supplierIds.FirstOrDefault(x => x == materialCost.SupplierId);
             if (materialCostOfSupplier.IsEmpty())

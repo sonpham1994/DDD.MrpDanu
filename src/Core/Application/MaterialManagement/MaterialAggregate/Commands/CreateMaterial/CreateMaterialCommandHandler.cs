@@ -12,17 +12,17 @@ namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMateri
 internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
+    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
     private readonly IMaterialRepository _materialRepository;
     private readonly IMaterialQuery _materialQuery;
 
     public CreateMaterialCommandHandler(IUnitOfWork unitOfWork,
-        ITransactionalPartnerRepository transactionalPartnerRepository,
+        ITransactionalPartnerQuery transactionalPartnerQuery,
         IMaterialRepository materialRepository,
         IMaterialQuery materialQuery)
     {
         _unitOfWork = unitOfWork;
-        _transactionalPartnerRepository = transactionalPartnerRepository;
+        _transactionalPartnerQuery = transactionalPartnerQuery;
         _materialRepository = materialRepository;
         _materialQuery = materialQuery;
     }
@@ -46,29 +46,25 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
 
         _materialRepository.Save(material);
         
-        // if (request.MaterialCosts.Any())
-        // {
-        //     var suppliers = await _transactionalPartnerRepository
-        //         .GetSuppliersByIdsAsync
-        //             (request.MaterialCosts.Select(x => new SupplierId(x.SupplierId)).ToList(), cancellationToken);
-        //
-        //     var materialCosts = request.MaterialCosts
-        //         .Where(x => x is not null)
-        //         .Select(x => (x.Price, x.MinQuantity, x.Surcharge, MaterialCost.Create(material.Id, new SupplierId(x.SupplierId), Money.Create(x.Price).Value)))
-        //         .ToList();
-        //     
-        //     var input = request.MaterialCosts
-        //         .Where(x => x is not null)
-        //         .Select(x => (x.Price, x.MinQuantity, x.Surcharge, MaterialCost.Create(material.Id, new SupplierId(x.SupplierId), Money.Create(x.Price).Value)))
-        //         .ToList();
-        //     var materialSupplierCosts = MaterialSupplierCost.Create(input, suppliers);
-        //     if (materialCosts.IsFailure)
-        //         return materialCosts.Error;
-        //
-        //     var result = material.UpdateCost(materialCosts.Value);
-        //     if (result.IsFailure)
-        //         return result;
-        // }
+        if (request.MaterialCosts.Any())
+        {
+            var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
+            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQuery.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
+                .Select(x => x.ToTuple())
+                .ToList();
+            
+            var materialCostInputs = request.MaterialCosts
+                .Select(x => x.ToTuple())
+                .ToList();
+            
+            var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
+            if (materialSupplierCosts.IsFailure)
+                return materialSupplierCosts.Error;
+        
+            // var result = material.UpdateCost(materialCosts.Value);
+            // if (result.IsFailure)
+            //     return result;
+        }
         
         //_materialRepository.Save(material);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
