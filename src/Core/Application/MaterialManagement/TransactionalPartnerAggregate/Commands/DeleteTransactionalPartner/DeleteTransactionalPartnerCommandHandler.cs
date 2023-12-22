@@ -1,5 +1,5 @@
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Repositories;
+using Application.Interfaces.Write;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;

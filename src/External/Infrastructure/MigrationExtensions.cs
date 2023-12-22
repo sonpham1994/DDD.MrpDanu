@@ -3,7 +3,7 @@ using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Externals.AuditTables;
-using Infrastructure.Persistence.Write;
+using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;

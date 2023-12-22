@@ -1,0 +1,11 @@
+namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
+
+internal sealed record TransactionalPartnersReadModel
+{
+    public Guid Id { get; init; }
+    public string Name { get; init; }
+    public string TaxNo { get; init; }
+    public string Website { get; init; }
+    public byte TransactionalPartnerTypeId { get; init; }
+    public byte CurrencyTypeId { get; init; }
+}

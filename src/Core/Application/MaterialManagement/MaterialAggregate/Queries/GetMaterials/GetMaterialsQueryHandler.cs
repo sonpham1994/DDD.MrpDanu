@@ -1,6 +1,6 @@
-using Application.Interfaces.Queries;
 using Application.Interfaces.Messaging;
 using Domain.SharedKernel.Base;
+using Application.Interfaces.Reads;
 
 namespace Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
 

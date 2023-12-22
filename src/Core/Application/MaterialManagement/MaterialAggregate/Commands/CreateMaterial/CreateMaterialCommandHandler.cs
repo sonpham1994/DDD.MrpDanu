@@ -1,11 +1,11 @@
 using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
+using Application.Interfaces.Reads;
+using Application.Interfaces.Writes.MaterialWrite;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 

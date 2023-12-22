@@ -1,5 +1,5 @@
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Queries;
+using Application.Interfaces.Reads;
 using Application.MaterialManagement.Shared;
 using Domain.SharedKernel.Base;
 

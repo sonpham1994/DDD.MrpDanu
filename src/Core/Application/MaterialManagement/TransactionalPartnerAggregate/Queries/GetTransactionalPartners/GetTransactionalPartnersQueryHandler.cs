@@ -1,5 +1,5 @@
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Queries;
+using Application.Interfaces.Reads;
 using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;

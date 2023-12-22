@@ -1,8 +1,8 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
+using Application.Interfaces.Writes.MaterialWrite;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.DeleteMaterial;
 

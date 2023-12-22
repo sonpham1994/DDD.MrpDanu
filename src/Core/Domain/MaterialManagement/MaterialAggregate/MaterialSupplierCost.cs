@@ -52,23 +52,23 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
         
         foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in input)
         {
-            var materialCostOfSupplier = supplierIds.FirstOrDefault(x => x == materialCost.SupplierId);
-            if (materialCostOfSupplier.IsEmpty())
-                return DomainErrors.MaterialCostManagement.NotFoundSupplierId(materialCost.SupplierId);
+            //var materialCostOfSupplier = supplierIds.FirstOrDefault(x => x == materialCost.SupplierId);
+            //if (materialCostOfSupplier.IsEmpty())
+            //    return DomainErrors.MaterialCostManagement.NotFoundSupplierId(materialCost.SupplierId);
 
-            var surchargeResult = Money.Create(surcharge, materialCost.Price.CurrencyType);
-            if (surchargeResult.IsFailure)
-                return DomainErrors.MaterialCostManagement.InvalidSurcharge;
+            //var surchargeResult = Money.Create(surcharge, materialCost.Price.CurrencyType);
+            //if (surchargeResult.IsFailure)
+            //    return DomainErrors.MaterialCostManagement.InvalidSurcharge;
 
-            if (minQuantity == 0)
-                return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
+            //if (minQuantity == 0)
+            //    return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
 
-            var materialCostManagement = new MaterialSupplierCost(materialCost, minQuantity, surchargeResult.Value);
-            var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialCost.SupplierId == materialCost.SupplierId);
-            if (duplicateSupplierId is not null)
-                return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialCost.SupplierId);
+            //var materialCostManagement = new MaterialSupplierCost(materialCost, minQuantity, surchargeResult.Value);
+            //var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialCost.SupplierId == materialCost.SupplierId);
+            //if (duplicateSupplierId is not null)
+            //    return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialCost.SupplierId);
             
-            result.Add(materialCostManagement);
+            //result.Add(materialCostManagement);
         }
 
         return result;

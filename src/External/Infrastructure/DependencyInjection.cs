@@ -3,18 +3,20 @@ using Application.Interfaces;
 using Infrastructure.EventDispatchers;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using Application.Interfaces.Queries;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Externals;
-using Infrastructure.Persistence.Write;
 using Infrastructure.Persistence.Write.EfRepositories;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.Extensions.Options;
 using Infrastructure.Persistence.Externals.AuditTables.Services;
 using Infrastructure.Persistence.Read.MaterialQuery;
 using Infrastructure.Persistence.Read.TransactionalPartnerQuery;
+using Infrastructure.Persistence.Writes.MaterialWrite;
+using Application.Interfaces.Write;
+using Application.Interfaces.Reads;
+using Application.Interfaces.Writes.MaterialWrite;
+using Infrastructure.Persistence.Writes;
 
 namespace Infrastructure;
 

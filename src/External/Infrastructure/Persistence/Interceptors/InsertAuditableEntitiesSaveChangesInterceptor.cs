@@ -1,5 +1,5 @@
 using Infrastructure.Persistence.Externals;
-using Infrastructure.Persistence.Write;
+using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Infrastructure.Persistence.Interceptors;

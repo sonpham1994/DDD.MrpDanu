@@ -1,11 +1,11 @@
 using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
-using Application.Interfaces.Queries;
 using Domain.SharedKernel.Enumerations;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
+using Application.Interfaces.Write;
+using Application.Interfaces.Reads;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
