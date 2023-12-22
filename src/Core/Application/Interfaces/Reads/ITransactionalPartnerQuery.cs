@@ -8,7 +8,7 @@ namespace Application.Interfaces.Reads;
 public interface ITransactionalPartnerQuery
 {
     Task<IReadOnlyList<SuppliersResponse>> GetSuppliersAsync(CancellationToken cancellationToken);
-    Task<IReadOnlyList<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken);
+    
     Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken);
     Task<TransactionalPartnerResponse?> GetTransactionalPartnerByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<bool> ExistByContactInfoAsync(string email, string telNo, CancellationToken cancellationToken);
