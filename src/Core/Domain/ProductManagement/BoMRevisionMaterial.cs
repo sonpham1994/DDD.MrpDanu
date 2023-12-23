@@ -42,17 +42,19 @@ public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
     // these 3 properties as Value object. In MaterialManagement bounded context, we can use this MaterialCost value
     // object, but the problem is that the MaterialManagement bounded context is designed as different approach
     // we cannot do this, but if we implement the same approach, this MaterialCost value object can live in there.
-    public MaterialCost MaterialCost { get; private set; }
+    public MaterialSupplierIdentity MaterialSupplierIdentity { get; private set; }
+    public Money Price { get; private set; }
     
     public BoMRevisionId BoMRevisionId { get; private set; }
     
     //required EF
     protected BoMRevisionMaterial() {}
 
-    public BoMRevisionMaterial(Unit unit, MaterialCost materialCost)
+    public BoMRevisionMaterial(Unit unit, MaterialSupplierIdentity materialSupplierIdentity, Money price)
     {
         Unit = unit;
-        MaterialCost = materialCost;
+        MaterialSupplierIdentity = materialSupplierIdentity;
+        Price = price;
     }
 
     // public Result<IReadOnlyList<BoMRevisionMaterial>> Create(

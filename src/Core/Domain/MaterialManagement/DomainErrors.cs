@@ -23,7 +23,7 @@ public sealed class DomainErrors
             $"The code '{code}' exists in another material with id '{anotherMaterialId.Value}'");
         public static DomainError MaterialIdNotFound(in MaterialId id) => new("Material.NotFoundId", $"Material id '{id.Value}' is not found");
         public static DomainError MaterialIdNotFound(in Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
-        public static DomainError MaterialIdIsNotTheSame(in MaterialId id) => new("Material.MaterialIdIsNotTheSame", $"Material id '{id.Value}' is not the same.");
+        public static DomainError MaterialIdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new("MaterialSupplierCost.MaterialIdIsNotTheSame", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same.");
     }
     
     public static class RegionalMarket
@@ -50,6 +50,8 @@ public sealed class DomainErrors
         public static DomainError NotSupplier(in SupplierId id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
         public static DomainError NotExistSupplier(in SupplierId supplierId, in MaterialId materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId.Value}' does not exist in material id '{materialId.Value}'");
         public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new("MaterialCostManagement.NotFoundSupplierId", $"Supplier id '{supplierId.Value}' is not found.");
+        public static DomainError MaterialIdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new("MaterialSupplierCost.MaterialIdIsNotTheSame", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same.");
+        public static DomainError SupplierIdIsNotTheSame(in SupplierId id) => new("MaterialSupplierCost.SupplierIdIsNotTheSame", $"Supplier id '{id.Value}' is not the same.");
     }
 
     public static class TransactionalPartner

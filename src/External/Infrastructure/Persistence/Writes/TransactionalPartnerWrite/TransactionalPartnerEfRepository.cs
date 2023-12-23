@@ -28,34 +28,6 @@ internal sealed class TransactionalPartnerEfRepository
         return transactionalPartner;
     }
 
-    public async ValueTask<IReadOnlyList<TransactionalPartner>> GetByIdsAsync(IReadOnlyList<TransactionalPartnerId> ids, CancellationToken cancellationToken)
-    {
-        IReadOnlyList<TransactionalPartner> transactionalPartners = Array.Empty<TransactionalPartner>();
-        var transactionalPartnerIds = ids
-            .Where(x => x.Value != Guid.Empty)
-            .Distinct()
-            .ToList();
-
-        if (transactionalPartnerIds.Count == 0)
-            return transactionalPartners;
-
-        transactionalPartners = await dbSet
-            .Where(x => transactionalPartnerIds.Contains(x.Id)).ToListAsync(cancellationToken);
-
-        foreach (var transactionalPartner in transactionalPartners)
-        {
-            //reduce N+1 problem for enumeration data type
-            SetValueForEnumerationData(transactionalPartner);
-        }
-
-        return transactionalPartners;
-    }
-
-    public ValueTask<IReadOnlyList<TransactionalPartner>> GetSuppliersByIdsAsync(IReadOnlyList<SupplierId> ids, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task DeleteAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
     {
         await context.Database.ExecuteSqlAsync($"DELETE TransactionalPartner WHERE Id = {id.Value}", cancellationToken);

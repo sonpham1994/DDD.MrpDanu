@@ -31,6 +31,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     public DbSet<Material> Materials => Set<Material>();
     public DbSet<TransactionalPartner> TransactionalPartners => Set<TransactionalPartner>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<BoM> BoMs => Set<BoM>();
     
     internal AppDbContext(IOptions<DatabaseSettings> databaseSettings
         , bool isProduction
@@ -149,8 +150,8 @@ internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbCont
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        //string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
-        string connectionString = "Server=son-quang-pham-0131,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
+        string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
+        //string connectionString = "Server=son-quang-pham-0131,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
         ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
         {
         });

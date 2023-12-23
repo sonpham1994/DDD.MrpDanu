@@ -1,8 +1,8 @@
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
+using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
 
 internal sealed class ContactPersonInformationIdValueGenerator : GuidStronglyTypedIdValueGenerator<ContactPersonInformationId>
 {

@@ -16,16 +16,18 @@ internal static class QueryExtension
         CancellationToken cancellationToken)
     {
         //using multiple query to avoid cartesian explosion
-        string sql = @"SELECT Id, Code, Name, ColorCode, Unit, 
-                         Varian, Weight, Width, RegionalMarketId, MaterialTypeId
-                         FROM Material
-                         WHERE Id = @Id;
-                        
-                         SELECT materialCost.Id, materialCost.Price, materialCost.Surcharge, materialCost.MinQuantity,
-                         supplier.Id as SupplierId, supplier.Name as SupplierName, supplier.CurrencyTypeId
-                         FROM MaterialSupplierCost materialCost
-                         JOIN TransactionalPartner supplier on supplier.Id = materialCost.TransactionalPartnerId
-                         WHERE materialCost.MaterialId = @Id;";
+        string sql = """
+            SELECT Id, Code, Name, ColorCode, Unit, 
+            Varian, Weight, Width, RegionalMarketId, MaterialTypeId
+            FROM Material
+            WHERE Id = @Id;
+            
+            SELECT materialSupplierCost.Id, materialSupplierCost.Price, materialSupplierCost.Surcharge, materialSupplierCost.MinQuantity,
+            supplier.Id as SupplierId, supplier.Name as SupplierName, supplier.CurrencyTypeId
+            FROM MaterialSupplierCost materialSupplierCost
+            JOIN TransactionalPartner supplier on supplier.Id = materialSupplierCost.SupplierId
+            WHERE materialSupplierCost.MaterialId = @Id;
+            """;
 
         await using var multiQuery = await dbConnection.QueryMultipleAsync(sql, new { id });
         var materialReadModel = await multiQuery.ReadFirstOrDefaultAsync<MaterialReadModel>();
@@ -41,12 +43,13 @@ internal static class QueryExtension
     
     public static async Task<List<MaterialsReadModel>> GetListAsync(this IDbConnection dbConnection, CancellationToken cancellationToken)
     {
+        string sql = """
+                    SELECT Id, Code, Name, ColorCode, Unit, 
+                    Varian, Weight, Width, MaterialTypeId, RegionalMarketId
+                    FROM Material
+                    """;
         var material = await dbConnection
-            .QueryAsync<MaterialsReadModel>(
-                @"SELECT material.Id, material.Code, material.Name, material.ColorCode, material.Unit, 
-                    material.Varian, material.Weight, material.Width,
-                    material.MaterialTypeId, material.RegionalMarketId
-                    FROM Material material", 
+            .QueryAsync<MaterialsReadModel>(sql, 
                 cancellationToken);
 
         return material.ToList();

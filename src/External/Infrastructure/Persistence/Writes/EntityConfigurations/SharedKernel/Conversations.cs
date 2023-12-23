@@ -1,7 +1,7 @@
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 
 internal sealed class MaterialIdConverter : ValueConverter<MaterialId, Guid>
 {

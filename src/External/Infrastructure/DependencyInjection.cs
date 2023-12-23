@@ -19,6 +19,7 @@ using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Infrastructure.Persistence.Writes.ProductWrite;
 using Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure;
 
@@ -59,7 +60,7 @@ public static class DependencyInjection
             var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
             var insertAuditableEntitiesInterceptor = sp.GetRequiredService<InsertAuditableEntitiesSaveChangesInterceptor>();
             var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
-
+            
             return new AppDbContext(databaseSettings, 
                 isProduction, 
                 eventDispatcher, 
@@ -79,7 +80,6 @@ public static class DependencyInjection
 
         services.AddScoped<ITransactionalPartnerRepository, TransactionalPartnerEfRepository>();
         services.AddScoped<ITransactionalPartnerQueryForWrite, TransactionalPartnerDapperQueryForWrite>();
-
 
         services.AddScoped<IProductRepository, ProductEfRepository>();
         

@@ -36,11 +36,11 @@ internal sealed class MaterialAudit : EntityAudit
             MaterialSupplierCosts = material.MaterialSupplierCosts.Select(x => new
             {
                 x.Id,
-                Price = x.MaterialCost.Price.Value,
+                Price = x.Price.Value,
                 x.MinQuantity,
                 Surcharge = x.Surcharge.Value,
-                x.MaterialCost.Price.CurrencyType,
-                SupplierId = x.MaterialCost.SupplierId.Value
+                x.Price.CurrencyType,
+                SupplierId = x.MaterialSupplierIdentity.SupplierId.Value
             }).ToList()
         };
         var json = JsonSerializer.Serialize(auditData);

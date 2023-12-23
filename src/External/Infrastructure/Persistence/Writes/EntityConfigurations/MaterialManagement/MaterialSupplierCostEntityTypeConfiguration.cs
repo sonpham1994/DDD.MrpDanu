@@ -1,11 +1,11 @@
 ﻿using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
-using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
+using Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
+using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
 
 internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeConfiguration<MaterialSupplierCost>
 {
@@ -37,32 +37,18 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
                 .OnDelete(DeleteBehavior.NoAction);
         });
 
-        builder.OwnsOne(x => x.MaterialCost, j =>
+        builder.OwnsOne(x => x.MaterialSupplierIdentity, j =>
         {
-            j.OwnsOne(k => k.Price, l =>
-            {
-                l.Property(k => k.Value)
-                    .HasColumnType("decimal(18,2)")
-                    .HasColumnName(nameof(MaterialSupplierCost.MaterialCost.Price))
-                    .IsRequired();
-
-                l.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
-                l.HasOne(k => k.CurrencyType)
-                    .WithMany()
-                    .HasForeignKey("CurrencyTypeId")
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
-
             j.Property("_transactionalPartnerId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName(nameof(MaterialSupplierCost.MaterialCost.SupplierId))
+                .HasColumnName(nameof(MaterialSupplierCost.MaterialSupplierIdentity.SupplierId))
                 .HasConversion<TransactionalPartnerIdConverter>()
                 .IsRequired();
             j.HasOne<TransactionalPartner>()
                 .WithMany()
                 .HasForeignKey("_transactionalPartnerId");
 
+            // in Material, we define MaterialSupplierCost, so we don't need to specify here
             //j.Property(k => k.MaterialId)
                 //.HasColumnName(nameof(MaterialSupplierCost.MaterialCost.MaterialId))
                 //.HasConversion<MaterialIdConverter>()
@@ -72,6 +58,21 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
             //    .HasForeignKey(x => x.MaterialId);
         });
 
+        builder.OwnsOne(k => k.Price, j =>
+        {
+            j.Property(k => k.Value)
+                .HasColumnType("decimal(18,2)")
+                .HasColumnName(nameof(MaterialSupplierCost.Price))
+                .IsRequired();
+
+            j.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
+            j.HasOne(k => k.CurrencyType)
+                .WithMany()
+                .HasForeignKey("CurrencyTypeId")
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+        
         // builder
         //     .HasOne<Material>()
         //     .WithMany(x => x.MaterialSupplierCosts)

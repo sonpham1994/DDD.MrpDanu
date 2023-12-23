@@ -9,6 +9,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
 {
     public Money Surcharge { get; private set; }
     public uint MinQuantity { get; private set; }
+    public Money Price { get; private set; }
 
     /*
         * DDDAndEFCore_Myexercise/3.WorkingWithManyToOneRelationships/3.5.TypesOfRelationShipses
@@ -22,34 +23,41 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
     //public Material Material { get; }
     //public virtual TransactionalPartner TransactionalPartner { get; private set; }
     
-    public MaterialCost MaterialCost { get; private set; }
+    public MaterialSupplierIdentity MaterialSupplierIdentity { get; private set; }
 
     //required EF Proxies
     protected MaterialSupplierCost() {}
     
     private MaterialSupplierCost(
-        MaterialCost materialCost, 
+        MaterialSupplierIdentity materialSupplierIdentity,
+        Money price,
         in uint minQuantity, 
         Money surcharge)
     {
-        MaterialCost = materialCost;
+        MaterialSupplierIdentity = materialSupplierIdentity;
+        Price = price;
         MinQuantity = minQuantity;
         Surcharge = surcharge;
     }
     
     public static Result<IReadOnlyList<MaterialSupplierCost>> Create(MaterialId materialId,
-        IReadOnlyList<(decimal Price, uint MinQuantity, decimal Surcharge, SupplierId SupplierId)> inputs,
+        IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> inputs,
         IReadOnlyList<(SupplierId SupplierId, byte CurrencyTypeId)> supplierIdWithCurrencyTypeIds)
     {
         var result = new List<MaterialSupplierCost>(inputs.Count);
         
         foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in inputs)
         {
-            // in this Aggregate Root (Material), the MaterialSupplierCost cannot duplicate by the same supplierId. So
-            // we put this invariant here instead of putting this in Material.
-            var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialCost.SupplierId == supplierId);
+            // in this Aggregate Root (Material), the MaterialSupplierCost cannot duplicate by the same supplierId and this
+            // is an invariant in the Material aggregate root, the MaterialSupplierCost just exists in Material
+            // aggregate root, no other aggregates. So we put this invariant here instead of putting this in Material.
+            var materialSupplierIdentity = MaterialSupplierIdentity.Create(materialId, supplierId);
+            if (materialSupplierIdentity.IsFailure)
+                return materialSupplierIdentity.Error;
+            
+            var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialSupplierIdentity == materialSupplierIdentity.Value);
             if (duplicateSupplierId is not null)
-                return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialCost.SupplierId);
+                return DomainErrors.MaterialCostManagement.DuplicationSupplierId(duplicateSupplierId.MaterialSupplierIdentity.SupplierId);
             
             if (minQuantity == 0)
                 return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
@@ -76,20 +84,19 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             if (isValidPriceAndSurcharge.IsFailure)
                 return isValidPriceAndSurcharge.Error;
             
-            var materialCost = MaterialCost.Create(materialId, supplierId, priceResult.Value);
-            var materialSupplierCost = new MaterialSupplierCost(materialCost.Value, minQuantity, surchargeResult.Value);
+            var materialSupplierCost = new MaterialSupplierCost(materialSupplierIdentity.Value, priceResult.Value, minQuantity, surchargeResult.Value);
 
             result.Add(materialSupplierCost);
         }
 
         return result;
     }
-
+    
     internal Result SetMaterialCost(Money price, uint minQuantity, Money surcharge)
     {
         if (minQuantity == 0)
             return DomainErrors.MaterialCostManagement.InvalidMinQuantity;
-
+        
         var validityPriceAndSurchargeResult = IsValidPriceAndSurcharge(price, surcharge);
          if (validityPriceAndSurchargeResult.IsFailure)
              return validityPriceAndSurchargeResult.Error;
@@ -98,8 +105,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             Surcharge = surcharge;
 
         MinQuantity = minQuantity;
-
-        MaterialCost = MaterialCost.Create(MaterialCost.MaterialId, MaterialCost.SupplierId, price).Value;
+        Price = price;
         
         return Result.Success();
     }

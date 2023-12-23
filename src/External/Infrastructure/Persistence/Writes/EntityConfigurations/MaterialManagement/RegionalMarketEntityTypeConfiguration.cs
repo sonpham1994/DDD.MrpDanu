@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
 
 internal sealed class RegionalMarketEntityTypeConfiguration : IEntityTypeConfiguration<RegionalMarket>
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.ProductManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductManagement;
 
 internal sealed class BoMEntityTypeConfiguration : IEntityTypeConfiguration<BoM>
 {

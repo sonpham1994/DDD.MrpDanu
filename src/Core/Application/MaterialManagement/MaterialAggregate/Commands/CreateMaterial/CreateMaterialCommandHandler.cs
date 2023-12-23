@@ -57,12 +57,11 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
             if (materialSupplierCosts.IsFailure)
                 return materialSupplierCosts.Error;
         
-            // var result = material.UpdateCost(materialCosts.Value);
-            // if (result.IsFailure)
-            //     return result;
+            var result = material.UpdateCost(materialSupplierCosts.Value);
+            if (result.IsFailure)
+                return result;
         }
         
-        //_materialRepository.Save(material);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

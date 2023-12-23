@@ -1,6 +1,6 @@
 using Domain.SharedKernel.ValueObjects;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 
 internal sealed class MaterialIdValueGenerator : GuidStronglyTypedIdValueGenerator<MaterialId>
 {

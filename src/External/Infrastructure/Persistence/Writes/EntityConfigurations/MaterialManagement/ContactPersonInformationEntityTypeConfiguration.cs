@@ -1,9 +1,9 @@
 ﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
+using Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
 
 internal sealed class ContactPersonInformationEntityTypeConfiguration : IEntityTypeConfiguration<ContactPersonInformation>
 {

@@ -2,7 +2,7 @@ using Domain.ProductManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.ProductManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductManagement;
 
 internal sealed class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
 {

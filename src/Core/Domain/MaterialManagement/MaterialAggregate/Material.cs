@@ -63,18 +63,17 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     //need to use ubiquitous language for this method
     public Result UpdateCost(IReadOnlyList<MaterialSupplierCost> materialSupplierCosts)
     {
-        var notTheSameMaterialId = materialSupplierCosts.FirstOrDefault(x => x.MaterialCost.MaterialId != Id);
-        if (notTheSameMaterialId is not null)
-            return DomainErrors.Material.MaterialIdIsNotTheSame(notTheSameMaterialId.MaterialCost.MaterialId);
+        var existByAnotherMaterialId = materialSupplierCosts.FirstOrDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
+        if (existByAnotherMaterialId is not null)
+            return DomainErrors.Material.MaterialIdsAreNotTheSame(Id, existByAnotherMaterialId.MaterialSupplierIdentity.MaterialId);
         
         foreach (var materialSupplierCost in materialSupplierCosts)
         {
-            var materialSupplierCostExisted = _materialSupplierCosts
-                .Find(x => x.MaterialCost.SupplierId == materialSupplierCost.MaterialCost.SupplierId);
+            var materialSupplierCostExisted = GetMaterialSupplierCost(materialSupplierCost);
 
             if (materialSupplierCostExisted is not null)
             {
-                var setMaterialCostResult = materialSupplierCost.SetMaterialCost(materialSupplierCostExisted.MaterialCost.Price, materialSupplierCostExisted.MinQuantity, materialSupplierCostExisted.Surcharge);
+                var setMaterialCostResult = materialSupplierCostExisted.SetMaterialCost(materialSupplierCost.Price, materialSupplierCost.MinQuantity, materialSupplierCost.Surcharge);
                 if (setMaterialCostResult.IsFailure)
                     return setMaterialCostResult;
             }
@@ -89,20 +88,18 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
 
         _materialSupplierCosts
             .RemoveAll(x =>
-                !materialSupplierCosts.Any(j => j.MaterialCost.SupplierId == x.MaterialCost.SupplierId));
+                !materialSupplierCosts.Any(j => j.MaterialSupplierIdentity == x.MaterialSupplierIdentity));
 
         return Result.Success();
     }
 
-    public Result<MaterialCost?> GetMaterialCost(SupplierId supplierId)
+    
+    private MaterialSupplierCost? GetMaterialSupplierCost(MaterialSupplierCost materialSupplierCost)
     {
-        var materialSupplierCost = _materialSupplierCosts
-            .Find(x => x.MaterialCost.SupplierId == supplierId);
+        var result = _materialSupplierCosts
+            .Find(x => x.MaterialSupplierIdentity == materialSupplierCost.MaterialSupplierIdentity);
 
-        if (materialSupplierCost is null)
-            return DomainErrors.MaterialCostManagement.NotExistSupplier(supplierId, Id);
-
-        return materialSupplierCost.MaterialCost;
+        return result;
     }
 
     private static Result CanCreateOrUpdateMaterial(string code, string name, MaterialType materialType, RegionalMarket regionalMarket)

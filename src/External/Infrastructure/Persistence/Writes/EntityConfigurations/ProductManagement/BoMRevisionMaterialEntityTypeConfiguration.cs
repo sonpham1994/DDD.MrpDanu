@@ -1,11 +1,11 @@
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.ProductManagement;
-using Infrastructure.Persistence.Write.EntityConfigurations.SharedKernel;
+using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Write.EntityConfigurations.ProductManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductManagement;
 
 internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeConfiguration<BoMRevisionMaterial>
 {
@@ -15,22 +15,8 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasConversion<BoMRevisionMaterialIdConverter>();
         
-        builder.OwnsOne(x => x.MaterialCost, j =>
+        builder.OwnsOne(x => x.MaterialSupplierIdentity, j =>
         {
-            j.OwnsOne(x => x.Price, k =>
-            {
-                k.Property(l => l.Value)
-                    .HasColumnName(nameof(BoMRevisionMaterial.MaterialCost.Price))
-                    .HasColumnType("decimal(18,2)").IsRequired();
-
-                k.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
-                k.HasOne(x => x.CurrencyType)
-                    .WithMany()
-                    .HasForeignKey("CurrencyTypeId")
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
-            
             // builder.HasOne(x => x.TransactionalPartner)
             //     .WithMany()
             //     .HasForeignKey("TransactionalPartnerId")
@@ -44,7 +30,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             //one would be better.
             j.Property("_transactionalPartnerId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName(nameof(BoMRevisionMaterial.MaterialCost.SupplierId))
+                .HasColumnName(nameof(BoMRevisionMaterial.MaterialSupplierIdentity.SupplierId))
                 .HasConversion<TransactionalPartnerIdConverter>()
                 .IsRequired();
             j.HasOne<TransactionalPartner>()
@@ -52,7 +38,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
                 .HasForeignKey("_transactionalPartnerId");
 
             j.Property(k => k.MaterialId)
-                .HasColumnName(nameof(BoMRevisionMaterial.MaterialCost.MaterialId))
+                .HasColumnName(nameof(BoMRevisionMaterial.MaterialSupplierIdentity.MaterialId))
                 .HasConversion<MaterialIdConverter>()
                 .IsRequired();
             j.HasOne<Material>()
@@ -60,6 +46,20 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
                 .HasForeignKey(x => x.MaterialId);
         });
 
+        builder.OwnsOne(x => x.Price, k =>
+        {
+            k.Property(l => l.Value)
+                .HasColumnName(nameof(BoMRevisionMaterial.Price))
+                .HasColumnType("decimal(18,2)").IsRequired();
+
+            k.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
+            k.HasOne(x => x.CurrencyType)
+                .WithMany()
+                .HasForeignKey("CurrencyTypeId")
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+        
         builder
             .Property(x => x.Unit)
             .HasColumnName(nameof(BoMRevisionMaterial.Unit))

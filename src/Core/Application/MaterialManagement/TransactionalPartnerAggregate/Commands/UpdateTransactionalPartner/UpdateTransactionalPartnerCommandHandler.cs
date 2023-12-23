@@ -13,15 +13,15 @@ namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.
 internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler<UpdateTransactionalPartnerCommand>
 {
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
-    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
+    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
     private readonly IUnitOfWork _unitOfWork;
     
     public UpdateTransactionalPartnerCommandHandler(ITransactionalPartnerRepository transactionalPartnerRepository,
-        ITransactionalPartnerQuery transactionalPartnerQuery
+        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite
         , IUnitOfWork unitOfWork)
     {
         _transactionalPartnerRepository = transactionalPartnerRepository;
-        _transactionalPartnerQuery = transactionalPartnerQuery;
+        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
         _unitOfWork = unitOfWork;
     }
     
@@ -32,7 +32,7 @@ internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler
         var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(transactionalPartnerId, cancellationToken);
         if (transactionalPartner is null)
             return DomainErrors.TransactionalPartner.NotFoundId(transactionalPartnerId);
-        if (await _transactionalPartnerQuery.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
+        if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         
         var country = Country.FromId(request.Address.CountryId).Value;
