@@ -2,7 +2,7 @@ using Domain.Extensions;
 using Infrastructure.Persistence.Externals.AuditTables;
 using Infrastructure.Persistence.Externals.AuditTables.Factories;
 using Infrastructure.Persistence.Interceptors;
-using Infrastructure.Persistence.Write;
+using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;

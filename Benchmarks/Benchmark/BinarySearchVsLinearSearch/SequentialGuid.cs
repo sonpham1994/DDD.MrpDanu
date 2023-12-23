@@ -95,4 +95,14 @@ public class SequentialGuid
 
         return 0;
     }
+
+    public static int CompareToUsingSqlGuid(Guid left, Guid right)
+    {
+        if (SqlGuid.GreaterThan(left, right))
+            return 1;
+        else if (SqlGuid.LessThan(left, right))
+            return -1;
+
+        return 0;
+    }
 }

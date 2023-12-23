@@ -1,26 +1,26 @@
 using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
-using Application.Interfaces.Queries;
 using Domain.SharedKernel.Enumerations;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
+using Application.Interfaces.Reads;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
 internal sealed class CreateTransactionalPartnerCommandHandler : ICommandHandler<CreateTransactionalPartnerCommand>
 {
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
-    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
+    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
     private readonly IUnitOfWork _unitOfWork;
     
     public CreateTransactionalPartnerCommandHandler(ITransactionalPartnerRepository transactionalPartnerRepository,
-        ITransactionalPartnerQuery transactionalPartnerQuery
+        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite
         , IUnitOfWork unitOfWork)
     {
         _transactionalPartnerRepository = transactionalPartnerRepository;
-        _transactionalPartnerQuery = transactionalPartnerQuery;
+        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
         _unitOfWork = unitOfWork;
     }
     
@@ -46,7 +46,7 @@ internal sealed class CreateTransactionalPartnerCommandHandler : ICommandHandler
          *  We will put the existing contact info on query side, because this method don't need to return aggregate root, just
          *  checking contact info and return boolean data type. This approach will make your repositories clean 
          */
-        if (await _transactionalPartnerQuery.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
+        if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         
         var country = Country.FromId(request.Address.CountryId).Value;

@@ -1,7 +1,7 @@
 using Application.Interfaces.Messaging;
 using Domain.SharedKernel.Base;
-using Application.Interfaces.Queries;
 using Domain.MaterialManagement;
+using Application.Interfaces.Reads;
 
 namespace Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 

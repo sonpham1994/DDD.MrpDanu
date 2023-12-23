@@ -1,6 +1,6 @@
 namespace Application.MaterialManagement.MaterialAggregate.Commands;
 
-public sealed record MaterialCostCommand
+public sealed record MaterialSupplierCostCommand
 {
     public Guid SupplierId { get; init; }
     public decimal Surcharge { get; init; }

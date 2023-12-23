@@ -43,6 +43,8 @@
     &lt;Project Location="/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Tests/Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=5ce31a44_002D720a_002D4834_002D8023_002D093675fec619_0023Domain_002ETests/@EntryIndexedValue">True</s:Boolean>
+	
 	
 	
 	

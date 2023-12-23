@@ -1,4 +1,5 @@
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
@@ -20,11 +21,11 @@ public static class UniqueMaterialCodeService
     {
         var materialIdWithCodes = await getMaterialByCode.Invoke(material.Code, cancellationToken);
         var existsCodeInAnotherMaterial = materialIdWithCodes
-            .FirstOrDefault(x => x.Id != material.Id && material.Code == x.Code);
+            .FirstOrDefault(x => x.MaterialId != material.Id && material.Code == x.Code);
         
         if (existsCodeInAnotherMaterial is not null)
         {
-            return DomainErrors.Material.ExistedCode(material.Code, existsCodeInAnotherMaterial.Id);
+            return DomainErrors.Material.ExistedCode(material.Code, existsCodeInAnotherMaterial.MaterialId);
         }
 
         return Result.Success();

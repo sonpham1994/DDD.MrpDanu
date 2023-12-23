@@ -249,7 +249,7 @@ public class TransactionalPartnerTests
 
         var result = transactionalPartner.Value.IsSupplier();
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.MaterialCostManagement.NotSupplier(Guid.Empty));
+        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.NotSupplier(Guid.Empty));
     }
     
     [Fact]

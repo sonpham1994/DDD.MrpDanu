@@ -50,6 +50,23 @@ internal static class ValidationExtension
             }
         });
     }
+    
+    public static IRuleBuilderOptions<T, TElement> MustBeEntityGuidStronglyTypedId<T, TElement, TEntity, TId>(
+        this IRuleBuilder<T, TElement> ruleBuilder,
+        Func<TElement, Result<TEntity>> factoryMethod)
+        where TEntity : EntityGuidStronglyTypedId<TId>
+        where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    {
+        return (IRuleBuilderOptions<T, TElement>)ruleBuilder.Custom((value, context) =>
+        {
+            Result<TEntity> result = factoryMethod(value);
+
+            if (result.IsFailure)
+            {
+                context.AddFailure(result.Error.ToValidationFailure());
+            }
+        });
+    }
 
     public static IRuleBuilderOptions<T, TElement> MustBeEnumeration<T, TElement, TEnumeration>(
        this IRuleBuilder<T, TElement> ruleBuilder,

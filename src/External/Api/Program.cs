@@ -19,7 +19,6 @@ builder.Logging.ClearProviders();
 // Log.Logger = new LoggerConfiguration()  
 //     .ReadFrom.Configuration(builder.Configuration)  
 //     .CreateLogger();
-//builder.Host.UseSerilog();
 
 builder.Host.UseSerilog((context, services, configuration) =>
 {
@@ -100,6 +99,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var isProduction = builder.Environment.IsProduction();
+
+builder.Services.AddSerilog();
 
 builder.Services
     .AddApplication()

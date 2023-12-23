@@ -189,11 +189,11 @@ public class MaterialTests
             (1m, 1, 1m, randomSupplierId),
             (7m, 6, 9m, MaterialManagementPreparingData.TransactionalPartnerId1),
         };
-        var materialCosts = MaterialCostManagement.Create(input, suppliers).Value;
+        var materialCosts = MaterialSupplierCost.Create(input, suppliers).Value;
 
         var result = material.Value.UpdateCost(materialCosts);
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.MaterialCostManagement.DuplicationSupplierId(Guid.Empty));
+        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierId(Guid.Empty));
     }
     
     [Fact]
@@ -212,20 +212,20 @@ public class MaterialTests
             (6m, 5, 8m, MaterialManagementPreparingData.TransactionalPartnerId1),
             (7m, 6, 9m, MaterialManagementPreparingData.TransactionalPartnerId2),
         };
-        var materialCosts = MaterialCostManagement.Create(input, suppliers).Value;
+        var materialCosts = MaterialSupplierCost.Create(input, suppliers).Value;
 
         var result = material.Value.UpdateCost(materialCosts);
         
         result.IsSuccess.Should().Be(true);
-        material.Value.MaterialCostManagements[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[0].MinQuantity.Should().Be(5);
-        material.Value.MaterialCostManagements[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[0].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId1));
+        material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(5);
+        material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId1));
         
-        material.Value.MaterialCostManagements[1].Price.Should().Be(Money.Create(7m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[1].MinQuantity.Should().Be(6);
-        material.Value.MaterialCostManagements[1].Surcharge.Should().Be(Money.Create(9m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[1].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId2));
+        material.Value.MaterialSupplierCosts[1].Price.Should().Be(Money.Create(7m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].MinQuantity.Should().Be(6);
+        material.Value.MaterialSupplierCosts[1].Surcharge.Should().Be(Money.Create(9m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId2));
     }
     
     [Fact]
@@ -244,28 +244,28 @@ public class MaterialTests
             (6m, 5, 8m, MaterialManagementPreparingData.TransactionalPartnerId1),
             (7m, 6, 9m, MaterialManagementPreparingData.TransactionalPartnerId2),
         };
-        var materialCostsAdded = MaterialCostManagement.Create(inputAdded, suppliers).Value;
+        var materialCostsAdded = MaterialSupplierCost.Create(inputAdded, suppliers).Value;
 
         var inputUpdated = new List<(decimal, uint, decimal, Guid)>
         {
             (10m, 20, 30m, MaterialManagementPreparingData.TransactionalPartnerId1),
             (40m, 50, 60m, MaterialManagementPreparingData.TransactionalPartnerId2),
         };
-        var materialCostsUpdated = MaterialCostManagement.Create(inputUpdated, suppliers).Value;
+        var materialCostsUpdated = MaterialSupplierCost.Create(inputUpdated, suppliers).Value;
 
         material.Value.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsUpdated);
 
         result.IsSuccess.Should().Be(true);
-        material.Value.MaterialCostManagements[0].Price.Should().Be(Money.Create(10m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[0].MinQuantity.Should().Be(20);
-        material.Value.MaterialCostManagements[0].Surcharge.Should().Be(Money.Create(30m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[0].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId1));
+        material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(10m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(20);
+        material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(30m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId1));
 
-        material.Value.MaterialCostManagements[1].Price.Should().Be(Money.Create(40m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[1].MinQuantity.Should().Be(50);
-        material.Value.MaterialCostManagements[1].Surcharge.Should().Be(Money.Create(60m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[1].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId2));
+        material.Value.MaterialSupplierCosts[1].Price.Should().Be(Money.Create(40m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].MinQuantity.Should().Be(50);
+        material.Value.MaterialSupplierCosts[1].Surcharge.Should().Be(Money.Create(60m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId2));
     }
 
     [Fact]
@@ -296,10 +296,10 @@ public class MaterialTests
         var result = material.Value.UpdateCost(materialCostsDeleted);
 
         result.IsSuccess.Should().BeTrue();
-        material.Value.MaterialCostManagements.Should().HaveCount(1);
-        material.Value.MaterialCostManagements[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[0].MinQuantity.Should().Be(5);
-        material.Value.MaterialCostManagements[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
-        material.Value.MaterialCostManagements[0].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId1));
+        material.Value.MaterialSupplierCosts.Should().HaveCount(1);
+        material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(5);
+        material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].TransactionalPartner.Should().Be(MaterialManagementPreparingData.TransactionalPartnerWithSupplierType.WithId(MaterialManagementPreparingData.TransactionalPartnerId1));
     }
 }

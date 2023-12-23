@@ -2,6 +2,7 @@ using Application.Extensions;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 using FluentValidation;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
@@ -18,7 +19,12 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
             .SetValidator(new MaterialCostsValidator())
             .When(x => x.MaterialCosts.Any());
 
-        RuleFor(x => x).MustBeEntity(x =>
+        RuleFor(x => x)
+            .MustBeEntityGuidStronglyTypedId
+                <CreateMaterialCommand, 
+                    CreateMaterialCommand, 
+                    Material, 
+                    MaterialId>(x =>
         {
             var result = ResultCombine.Create
             (

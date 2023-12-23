@@ -37,7 +37,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
         return Id.Equals(other.Id);
     }
 
-    public bool IsTransient()
+    public virtual bool IsTransient()
     {
         return Id.Equals(default(TId));
     }
@@ -215,14 +215,6 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity>
 public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<EntityGuidStronglyTypedId<TId>>
     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
-    //If your application use Guid.NewGuid() and set it here, it would be a problem. Because it will decrease
-    // performance of sql server when inserting data.
-    // To avoid using Guid.NewGuid from client, we don't accept setting Id here
-    
-    protected EntityGuidStronglyTypedId()
-    {
-    }
-
     //we use SequentialGuid from EF Core, so we use Sequential Guid for this, and the SequentialGuid from EF Core
     // uses from SqlGuid. If your application uses Postgres, you may change the behaviour of SequentialGuid.CompareTo
     public int CompareTo(EntityGuidStronglyTypedId<TId>? other)
@@ -233,5 +225,10 @@ public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<
             return 0;
         
         return Id.Value.SequentialGuidCompareTo(other.Id.Value);
+    }
+
+    public override bool IsTransient()
+    {
+        return Id.IsEmpty();
     }
 }

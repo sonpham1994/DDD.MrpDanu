@@ -14,5 +14,5 @@ public sealed record UpdateMaterialCommand : ICommand, ITransactionalCommand
     public string Varian { get; init; }
     public byte MaterialTypeId { get; init; }
     public byte RegionalMarketId { get; init; }
-    public IReadOnlyList<MaterialCostCommand> MaterialCosts { get; init; } = new List<MaterialCostCommand>();
+    public IReadOnlyList<MaterialSupplierCostCommand> MaterialCosts { get; init; } = new List<MaterialSupplierCostCommand>();
 }

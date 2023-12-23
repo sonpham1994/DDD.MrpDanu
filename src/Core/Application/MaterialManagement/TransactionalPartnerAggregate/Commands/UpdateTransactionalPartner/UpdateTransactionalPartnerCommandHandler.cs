@@ -1,10 +1,11 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Queries;
-using Application.Interfaces.Repositories;
+using Application.Interfaces.Reads;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
+using Domain.SharedKernel.ValueObjects;
 using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
@@ -12,25 +13,26 @@ namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.
 internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler<UpdateTransactionalPartnerCommand>
 {
     private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
-    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
+    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
     private readonly IUnitOfWork _unitOfWork;
     
     public UpdateTransactionalPartnerCommandHandler(ITransactionalPartnerRepository transactionalPartnerRepository,
-        ITransactionalPartnerQuery transactionalPartnerQuery
+        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite
         , IUnitOfWork unitOfWork)
     {
         _transactionalPartnerRepository = transactionalPartnerRepository;
-        _transactionalPartnerQuery = transactionalPartnerQuery;
+        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
         _unitOfWork = unitOfWork;
     }
     
     public async Task<Result> Handle(UpdateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
+        var transactionalPartnerId = (TransactionalPartnerId)request.Id;
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
-        var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(request.Id, cancellationToken);
+        var transactionalPartner = await _transactionalPartnerRepository.GetByIdAsync(transactionalPartnerId, cancellationToken);
         if (transactionalPartner is null)
-            return DomainErrors.TransactionalPartner.NotFoundId(request.Id);
-        if (await _transactionalPartnerQuery.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
+            return DomainErrors.TransactionalPartner.NotFoundId(transactionalPartnerId);
+        if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
         
         var country = Country.FromId(request.Address.CountryId).Value;

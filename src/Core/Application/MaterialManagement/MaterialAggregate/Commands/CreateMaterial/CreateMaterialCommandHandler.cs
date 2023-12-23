@@ -1,29 +1,29 @@
 using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Queries;
 using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
+using Application.Interfaces.Writes.MaterialWrite;
+using Application.Interfaces.Writes.TransactionalPartnerWrite;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
 internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
+    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
     private readonly IMaterialRepository _materialRepository;
-    private readonly IMaterialQuery _materialQuery;
+    private readonly IMaterialQueryForWrite _materialQueryForWrite;
 
     public CreateMaterialCommandHandler(IUnitOfWork unitOfWork,
-        ITransactionalPartnerRepository transactionalPartnerRepository,
+        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite,
         IMaterialRepository materialRepository,
-        IMaterialQuery materialQuery)
+        IMaterialQueryForWrite materialQueryForWrite)
     {
         _unitOfWork = unitOfWork;
-        _transactionalPartnerRepository = transactionalPartnerRepository;
+        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
         _materialRepository = materialRepository;
-        _materialQuery = materialQuery;
+        _materialQueryForWrite = materialQueryForWrite;
     }
     
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
@@ -37,30 +37,31 @@ internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMater
             .CheckUniqueMaterialCodeAsync
             (
                 material, 
-                (code, cancelToken) => _materialQuery.GetByCodeAsync(code, cancelToken), 
+                (code, cancelToken) => _materialQueryForWrite.GetByCodeAsync(code, cancelToken), 
                 cancellationToken
             );
         if (uniqueCodeResult.IsFailure)
             return uniqueCodeResult;
+
+        _materialRepository.Save(material);
         
         if (request.MaterialCosts.Any())
         {
-            var suppliers = await _transactionalPartnerRepository.GetByIdsAsync(request.MaterialCosts.Select(x => x.SupplierId).ToList(), cancellationToken);
+            var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
+            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
+                .ToTuple();
 
-            var input = request.MaterialCosts
-                .Where(x => x is not null)
-                .Select(x => (x.Price, x.MinQuantity, x.Surcharge, x.SupplierId))
-                .ToList();
-            var materialCosts = MaterialCostManagement.Create(input, suppliers);
-            if (materialCosts.IsFailure)
-                return materialCosts.Error;
-
-            var result = material.UpdateCost(materialCosts.Value);
+            var materialCostInputs = request.MaterialCosts.ToTuple();
+            
+            var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
+            if (materialSupplierCosts.IsFailure)
+                return materialSupplierCosts.Error;
+        
+            var result = material.UpdateCost(materialSupplierCosts.Value);
             if (result.IsFailure)
                 return result;
         }
         
-        _materialRepository.Save(material);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

@@ -1,7 +1,7 @@
 using Application.Interfaces.Services;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.LoggingDefinitions;
-using Infrastructure.Persistence.Write;
+using Infrastructure.Persistence.Writes;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.Services;

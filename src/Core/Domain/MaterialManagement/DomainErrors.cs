@@ -1,5 +1,6 @@
 ﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement;
@@ -18,9 +19,11 @@ public sealed class DomainErrors
         public static DomainError EmptyUnit => new("Material.EmptyUnit", "Material unit should not be empty.");
         public static DomainError ExceedsMaxNumberOfMaterialCosts => new("Material.ExceedsMaxNumberOfQuantity", "Cannot exceed the max number of Material cost.");
 
-        public static DomainError ExistedCode(string code, in Guid anotherMaterialId) => new("Material.ExistedCode",
-            $"The code '{code}' exists in another material with id '{anotherMaterialId}'");
+        public static DomainError ExistedCode(string code, in MaterialId anotherMaterialId) => new("Material.ExistedCode",
+            $"The code '{code}' exists in another material with id '{anotherMaterialId.Value}'");
+        public static DomainError MaterialIdNotFound(in MaterialId id) => new("Material.NotFoundId", $"Material id '{id.Value}' is not found");
         public static DomainError MaterialIdNotFound(in Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
+        public static DomainError MaterialIdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new("MaterialSupplierCost.MaterialIdIsNotTheSame", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same.");
     }
     
     public static class RegionalMarket
@@ -42,11 +45,13 @@ public sealed class DomainErrors
         public static DomainError NullMaterialCost => new("MaterialCostManagement.NullMaterialCost", "Material cost object should not be null.");
         public static DomainError NullSupplier => new("MaterialCostManagement.NullSupplier", "Supplier should not null");
         
-        public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(string currencyPrice, string currencySurcharge, string currencySupplier) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ({currencyPrice}, {currencySurcharge}) are different from supplier ({currencySupplier})");
+        public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
         public static DomainError DuplicationSupplierId(in SupplierId id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id.Value}.");
         public static DomainError NotSupplier(in SupplierId id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
         public static DomainError NotExistSupplier(in SupplierId supplierId, in MaterialId materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId.Value}' does not exist in material id '{materialId.Value}'");
         public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new("MaterialCostManagement.NotFoundSupplierId", $"Supplier id '{supplierId.Value}' is not found.");
+        public static DomainError MaterialIdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new("MaterialSupplierCost.MaterialIdIsNotTheSame", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same.");
+        public static DomainError SupplierIdIsNotTheSame(in SupplierId id) => new("MaterialSupplierCost.SupplierIdIsNotTheSame", $"Supplier id '{id.Value}' is not the same.");
     }
 
     public static class TransactionalPartner
@@ -70,6 +75,7 @@ public sealed class DomainErrors
         public static DomainError InvalidWebsite(string website) => new("TransactionalPartner.InvalidWebsite", $"The website '{website}' is invalid.");
         public static DomainError ExceedsMaxLengthWebsite(in byte maxLength) => new("TransactionalPartner.ExceedsMaxLengthWebsite", $"The website characters cannot exceeds '{maxLength}'.");
         public static DomainError NotFoundId(in TransactionalPartnerId id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id.Value}' is not found");
+        public static DomainError NotFoundId(in Guid id) => new("TransactionalPartner.NotFoundId", $"Transactional partner id '{id}' is not found");
         public static DomainError NotSupplier(in SupplierId id) => new("TransactionalPartner.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
     }
 
