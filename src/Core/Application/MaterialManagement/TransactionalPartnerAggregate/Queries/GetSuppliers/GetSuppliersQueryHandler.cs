@@ -5,13 +5,9 @@ using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 
-internal sealed class GetSuppliersQueryHandler : IQueryHandler<GetSuppliersQuery, IReadOnlyList<SuppliersResponse>>
+internal sealed class GetSuppliersQueryHandler(
+    ITransactionalPartnerQuery _transactionalPartnerQuery) : IQueryHandler<GetSuppliersQuery, IReadOnlyList<SuppliersResponse>>
 {
-    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
-
-    public GetSuppliersQueryHandler(ITransactionalPartnerQuery transactionalPartnerQuery)
-       => _transactionalPartnerQuery = transactionalPartnerQuery;
-    
     public async Task<Result<IReadOnlyList<SuppliersResponse>>> Handle(GetSuppliersQuery _,
         CancellationToken cancellationToken)
     {

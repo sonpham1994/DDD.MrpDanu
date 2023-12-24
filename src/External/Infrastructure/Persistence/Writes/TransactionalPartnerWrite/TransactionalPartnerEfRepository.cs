@@ -16,7 +16,7 @@ internal sealed class TransactionalPartnerEfRepository
     {
     }
 
-    public async ValueTask<TransactionalPartner?> GetByIdAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
+    public override async ValueTask<TransactionalPartner?> GetByIdAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
     {
         TransactionalPartner? transactionalPartner = null;
         if (id.IsEmpty())

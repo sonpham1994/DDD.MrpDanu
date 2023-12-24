@@ -8,24 +8,12 @@ using Application.Interfaces.Writes.TransactionalPartnerWrite;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
 
-internal sealed class CreateMaterialCommandHandler : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
+internal sealed class CreateMaterialCommandHandler(
+    IUnitOfWork _unitOfWork, 
+    ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
+    IMaterialRepository _materialRepository,
+    IMaterialQueryForWrite _materialQueryForWrite): ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
-    private readonly IMaterialRepository _materialRepository;
-    private readonly IMaterialQueryForWrite _materialQueryForWrite;
-
-    public CreateMaterialCommandHandler(IUnitOfWork unitOfWork,
-        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite,
-        IMaterialRepository materialRepository,
-        IMaterialQueryForWrite materialQueryForWrite)
-    {
-        _unitOfWork = unitOfWork;
-        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
-        _materialRepository = materialRepository;
-        _materialQueryForWrite = materialQueryForWrite;
-    }
-    
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;

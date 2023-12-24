@@ -12,7 +12,7 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
     {
     }
 
-    public async Task<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default)
+    public override async ValueTask<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default)
     {
         Material? material = null;
 
@@ -59,14 +59,10 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
     {
         if (id.IsEmpty())
             return;
-        var material = await base.GetByIdAsync(id, cancellationToken);
+        var material = await GetByIdAsync(id, cancellationToken);
         if (material is null)
             return;
             
-        material
-            .BindingEnumeration<MaterialType, MaterialId>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context)
-            .BindingEnumeration<RegionalMarket, MaterialId>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
-
         context.Materials.Remove(material);
 
         //we use remove method instead of "context.Database.ExecuteSqlAsync" because it will go through db context,

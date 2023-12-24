@@ -6,13 +6,9 @@ using Domain.SharedKernel.ValueObjects;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.DeleteTransactionalPartner;
 
-internal sealed class DeleteTransactionalPartnerCommandHandler : ICommandHandler<DeleteTransactionalPartnerCommand>
+internal sealed class DeleteTransactionalPartnerCommandHandler(
+    ITransactionalPartnerRepository _transactionalPartnerRepository) : ICommandHandler<DeleteTransactionalPartnerCommand>
 {
-    private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
-
-    public DeleteTransactionalPartnerCommandHandler(ITransactionalPartnerRepository transactionalPartnerRepository)
-        => _transactionalPartnerRepository = transactionalPartnerRepository;
-    
     public async Task<Result> Handle(DeleteTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
         await _transactionalPartnerRepository.DeleteAsync((TransactionalPartnerId)request.Id, cancellationToken);

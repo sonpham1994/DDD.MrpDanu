@@ -4,13 +4,9 @@ using Domain.SharedKernel.Base;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 
-internal sealed class GetTransactionalPartnersQueryHandler : IQueryHandler<GetTransactionalPartnersQuery, IReadOnlyList<TransactionalPartnersResponse>>
+internal sealed class GetTransactionalPartnersQueryHandler(
+    ITransactionalPartnerQuery _transactionalPartnerQuery) : IQueryHandler<GetTransactionalPartnersQuery, IReadOnlyList<TransactionalPartnersResponse>>
 {
-    private readonly ITransactionalPartnerQuery _transactionalPartnerQuery;
-
-    public GetTransactionalPartnersQueryHandler(ITransactionalPartnerQuery transactionalPartnerQuery)
-        => _transactionalPartnerQuery = transactionalPartnerQuery;
-    
     public async Task<Result<IReadOnlyList<TransactionalPartnersResponse>>> Handle(GetTransactionalPartnersQuery _,
         CancellationToken cancellationToken)
     {

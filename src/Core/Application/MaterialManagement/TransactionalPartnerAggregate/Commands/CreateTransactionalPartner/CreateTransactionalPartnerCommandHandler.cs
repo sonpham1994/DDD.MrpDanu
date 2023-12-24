@@ -9,21 +9,11 @@ using Application.Interfaces.Writes.TransactionalPartnerWrite;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
-internal sealed class CreateTransactionalPartnerCommandHandler : ICommandHandler<CreateTransactionalPartnerCommand>
+internal sealed class CreateTransactionalPartnerCommandHandler(
+    ITransactionalPartnerRepository _transactionalPartnerRepository,
+    ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
+    IUnitOfWork _unitOfWork) : ICommandHandler<CreateTransactionalPartnerCommand>
 {
-    private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
-    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
-    private readonly IUnitOfWork _unitOfWork;
-    
-    public CreateTransactionalPartnerCommandHandler(ITransactionalPartnerRepository transactionalPartnerRepository,
-        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite
-        , IUnitOfWork unitOfWork)
-    {
-        _transactionalPartnerRepository = transactionalPartnerRepository;
-        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
-        _unitOfWork = unitOfWork;
-    }
-    
     public async Task<Result> Handle(CreateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
