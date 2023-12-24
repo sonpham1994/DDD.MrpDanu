@@ -1,5 +1,6 @@
 ﻿using Domain.MaterialManagement.MaterialAggregate;
 using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
@@ -37,9 +38,17 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
                 .OnDelete(DeleteBehavior.NoAction);
         });
 
+        // for MaterialId, due to Material will automatically define the relationships between Material and MaterialSupplierCost
+        // it will auto generate MaterialId even though we don't specify configuration in Material. But Material will map
+        // MaterialSupplierCost in MaterialSupplierCost entity, and we specify MaterialId in owned entity type. So it will
+        //generates an additional column like `MaterialSupplierCost_MaterialId`. By configuring this, we solve that problem
+        // by using shadow property.
+        builder.Property<MaterialId>(nameof(MaterialSupplierCost.MaterialSupplierIdentity.MaterialId))
+            .HasColumnName(nameof(MaterialSupplierCost.MaterialSupplierIdentity.MaterialId))
+            .HasConversion<MaterialIdConverter>();
         builder.OwnsOne(x => x.MaterialSupplierIdentity, j =>
         {
-            j.Property("_transactionalPartnerId")
+            j.Property<TransactionalPartnerId>("_transactionalPartnerId")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName(nameof(MaterialSupplierCost.MaterialSupplierIdentity.SupplierId))
                 .HasConversion<TransactionalPartnerIdConverter>()
@@ -47,17 +56,17 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
             j.HasOne<TransactionalPartner>()
                 .WithMany()
                 .HasForeignKey("_transactionalPartnerId");
-
-            // in Material, we define MaterialSupplierCost, so we don't need to specify here
-            //j.Property(k => k.MaterialId)
-                //.HasColumnName(nameof(MaterialSupplierCost.MaterialCost.MaterialId))
-                //.HasConversion<MaterialIdConverter>()
-                //.IsRequired();
-            //j.HasOne<Material>()
-            //    .WithMany()
-            //    .HasForeignKey(x => x.MaterialId);
+            
+            // for MaterialId, due to Material will automatically define the relationships between Material and MaterialSupplierCost
+            // it will auto generate MaterialId even though we don't specify configuration in Material. But Material will map
+            // MaterialSupplierCost in MaterialSupplierCost entity, and we specify MaterialId in owned entity type. So it will
+            //generates an additional column like `MaterialSupplierCost_MaterialId`. By configuring this, we solve that problem
+            // by using shadow property.
+            j.Property(k => k.MaterialId)
+                .HasColumnName(nameof(MaterialSupplierCost.MaterialSupplierIdentity.MaterialId))
+                .HasConversion<MaterialIdConverter>();
         });
-
+        
         builder.OwnsOne(k => k.Price, j =>
         {
             j.Property(k => k.Value)

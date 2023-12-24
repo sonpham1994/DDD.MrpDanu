@@ -50,10 +50,10 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
             .HasColumnName(nameof(TransactionalPartner.Website))
             .HasConversion(x => x.Value, x => Website.Create(x).Value)
             .IsRequired(false);
-        
+
         builder.HasOne(x => x.ContactPersonInformation)
             .WithOne()
-            .HasForeignKey<ContactPersonInformation>()
+            .HasForeignKey<ContactPersonInformation>(x => x.Id)
             .IsRequired();
         
         builder.OwnsOne(x => x.Address, y =>

@@ -1,4 +1,5 @@
 ﻿using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -63,6 +64,7 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
         //   .HasConversion(x => x.Id
         //       , x => RegionalMarket.FromId(x).Value);
 
+        
         builder
             .HasMany(x => x.MaterialSupplierCosts)
             .WithOne()

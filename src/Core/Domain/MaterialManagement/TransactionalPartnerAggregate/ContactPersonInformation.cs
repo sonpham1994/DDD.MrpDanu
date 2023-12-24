@@ -1,8 +1,9 @@
 ﻿using Domain.SharedKernel.Base;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.MaterialManagement.TransactionalPartnerAggregate;
 
-public class ContactPersonInformation : EntityGuidStronglyTypedId<ContactPersonInformationId>
+public class ContactPersonInformation : EntityGuidStronglyTypedId<TransactionalPartnerId>
 {
     public PersonName Name { get; private set; }
     public ContactInformation ContactInformation { get; private set; }

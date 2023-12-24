@@ -32,3 +32,13 @@ internal sealed class SupplierIdConverter : ValueConverter<SupplierId, Guid>
     {
     }
 }
+
+internal sealed class SupplierIdFromTransactionalPartnerIdConverter : ValueConverter<SupplierId, TransactionalPartnerId>
+{
+    public SupplierIdFromTransactionalPartnerIdConverter()
+        : base(
+            v => (TransactionalPartnerId)v,
+            v => new (v.Value))
+    {
+    }
+}

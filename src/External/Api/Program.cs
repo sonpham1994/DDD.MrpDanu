@@ -100,8 +100,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var isProduction = builder.Environment.IsProduction();
 
-builder.Services.AddSerilog();
-
 builder.Services
     .AddApplication()
     .AddInfrastructure(isProduction)

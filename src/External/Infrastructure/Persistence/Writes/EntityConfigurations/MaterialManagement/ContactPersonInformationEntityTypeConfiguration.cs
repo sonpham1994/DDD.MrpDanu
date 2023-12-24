@@ -1,5 +1,6 @@
 ﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
+using Domain.SharedKernel.ValueObjects;
+using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ internal sealed class ContactPersonInformationEntityTypeConfiguration : IEntityT
     {
         builder.ToTable(nameof(ContactPersonInformation));
         builder.HasKey(x => x.Id);
+        // builder.Property(x => x.Id)
+        //     .HasConversion<ContactPersonInformationIdConverter>()
+        //     .HasValueGenerator<ContactPersonInformationIdValueGenerator>();
         builder.Property(x => x.Id)
-            .HasConversion<ContactPersonInformationIdConverter>()
-            .HasValueGenerator<ContactPersonInformationIdValueGenerator>();
+            .HasConversion<TransactionalPartnerIdConverter>();
 
         builder.Property(x => x.Name)
             .HasColumnName(nameof(ContactPersonInformation.Name))

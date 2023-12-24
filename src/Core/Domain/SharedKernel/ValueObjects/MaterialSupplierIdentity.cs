@@ -10,7 +10,7 @@ public class MaterialSupplierIdentity : ValueObject
 {
     private readonly TransactionalPartnerId _transactionalPartnerId;
     public MaterialId MaterialId { get; }
-    public SupplierId SupplierId { get; }
+    public SupplierId SupplierId => new(_transactionalPartnerId.Value);
 
     //required EF
     protected MaterialSupplierIdentity() {}
@@ -18,7 +18,6 @@ public class MaterialSupplierIdentity : ValueObject
     private MaterialSupplierIdentity(MaterialId materialId, SupplierId supplierId)
     {
         MaterialId = materialId;
-        SupplierId = supplierId;
         _transactionalPartnerId = (TransactionalPartnerId)supplierId;
     }
 
