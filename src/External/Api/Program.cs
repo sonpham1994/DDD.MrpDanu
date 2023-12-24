@@ -8,6 +8,7 @@ using Api.Controllers.MaterialManagement;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization.Metadata;
+using Infrastructure.JsonSourceGenerators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +52,8 @@ builder.Services.Configure<HostOptions>(x =>
 // please check https://github.com/dotnet/aspnetcore/issues/38621
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
-    options.SerializerOptions.AddContext<MinimalApiJsonSourceGenerator>();
+    options.SerializerOptions.TypeInfoResolver = MinimalApiJsonSourceGenerator.Default;
+    //options.SerializerOptions.AddContext<MinimalApiJsonSourceGenerator>();
 });
 
 builder.Services.AddControllers(options =>
@@ -88,7 +90,7 @@ builder.Services.AddControllers(options =>
     * Please noticed that: when we fall back to reflection-based, we don't see the error of register source generator. So some
     * api use reflection-based but you expect it should be source generator.
     */
-    options.JsonSerializerOptions.TypeInfoResolver = JsonTypeInfoResolver.Combine(ApiJsonSourceGenerator.Default, new DefaultJsonTypeInfoResolver());
+    options.JsonSerializerOptions.TypeInfoResolver = JsonTypeInfoResolver.Combine(ApiRequestJsonSourceGenerator.Default, ApiResponseJsonSourceGenerator.Default, EntityAuditJsonSourceGenerator.Default);
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

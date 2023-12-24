@@ -62,6 +62,10 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
         var material = await base.GetByIdAsync(id, cancellationToken);
         if (material is null)
             return;
+            
+        material
+            .BindingEnumeration<MaterialType, MaterialId>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context)
+            .BindingEnumeration<RegionalMarket, MaterialId>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
 
         context.Materials.Remove(material);
 
