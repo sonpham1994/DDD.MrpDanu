@@ -6,7 +6,11 @@ using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTr
 using Api.ApiResponses;
 using Application.MaterialManagement.MaterialAggregate;
 using Application.MaterialManagement.TransactionalPartnerAggregate;
+using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
+using Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
+using Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 namespace Api.SourceGenerators;
 /*
@@ -62,24 +66,34 @@ namespace Api.SourceGenerators;
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     //Serialization is just for Serializer, not Deserializer? If we just need Serialization, we use this mode instead Default mode which include both Serialization and Metadata, and as a result it reduces compile time
-    GenerationMode = JsonSourceGenerationMode.Default)]
+    GenerationMode = JsonSourceGenerationMode.Metadata)]
 [JsonSerializable(typeof(ApiResponse))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialsResponse>>))]
 [JsonSerializable(typeof(ApiResponse<MaterialResponse>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<SuppliersResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<TransactionalPartnersResponse>>))]
 [JsonSerializable(typeof(ApiResponse<TransactionalPartnerResponse>))]
-
 // Cannot use request model due to "ValidationProblemDetails" issue, so in this case we use reflection-based deserialization. Please check at program
 //[JsonSerializable(typeof(CreateTransactionalPartnerCommand))]
-public partial class ApiJsonSourceGenerator : JsonSerializerContext
+public partial class ApiResponseJsonSourceGenerator : JsonSerializerContext
+{
+}
+
+[JsonSourceGenerationOptions(
+ PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+ GenerationMode = JsonSourceGenerationMode.Metadata)]
+[JsonSerializable(typeof(CreateTransactionalPartnerCommand))]
+[JsonSerializable(typeof(UpdateTransactionalPartnerCommand))]
+[JsonSerializable(typeof(CreateMaterialCommand))]
+[JsonSerializable(typeof(UpdateMaterialCommand))]
+public partial class ApiRequestJsonSourceGenerator : JsonSerializerContext
 {
 }
 
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     //Serialization is just for Serializer, not Deserializer? If we just need Serialization, we use this mode instead Default mode which include both Serialization and Metadata, and as a result it reduces compile time
-    GenerationMode = JsonSourceGenerationMode.Default)]
+    GenerationMode = JsonSourceGenerationMode.Metadata)]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialTypeResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<RegionalMarketResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<LocationTypeResponse>>))]
