@@ -11,7 +11,7 @@ using DomainErrors = Domain.MaterialManagement.DomainErrors;
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 internal sealed class UpdateMaterialCommandHandler(
-    IUnitOfWork _unitOfWork, 
+    IUnitOfWork _unitOfWork,
     ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
     IMaterialRepository _materialRepository,
     IMaterialQueryForWrite _materialQueryForWrite) : ICommandHandler<UpdateMaterialCommand>, ITransactionalCommandHandler
@@ -33,8 +33,8 @@ internal sealed class UpdateMaterialCommandHandler(
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
-                material, 
-                (code, cancelToken) => _materialQueryForWrite.GetByCodeAsync(code, cancelToken), 
+                material,
+                _materialQueryForWrite.GetByCodeAsync,
                 cancellationToken
             );
         if (uniqueCodeResult.IsFailure)
@@ -45,7 +45,7 @@ internal sealed class UpdateMaterialCommandHandler(
         var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
         var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
             .ToTuple();
-        
+
         var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
         if (materialSupplierCosts.IsFailure)
             return materialSupplierCosts.Error;
