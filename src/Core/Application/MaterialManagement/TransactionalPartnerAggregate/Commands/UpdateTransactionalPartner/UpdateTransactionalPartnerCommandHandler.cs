@@ -10,21 +10,11 @@ using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
 
-internal sealed class UpdateTransactionalPartnerCommandHandler : ICommandHandler<UpdateTransactionalPartnerCommand>
+internal sealed class UpdateTransactionalPartnerCommandHandler(
+    ITransactionalPartnerRepository _transactionalPartnerRepository,
+    ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
+    IUnitOfWork _unitOfWork) : ICommandHandler<UpdateTransactionalPartnerCommand>
 {
-    private readonly ITransactionalPartnerRepository _transactionalPartnerRepository;
-    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
-    private readonly IUnitOfWork _unitOfWork;
-    
-    public UpdateTransactionalPartnerCommandHandler(ITransactionalPartnerRepository transactionalPartnerRepository,
-        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite
-        , IUnitOfWork unitOfWork)
-    {
-        _transactionalPartnerRepository = transactionalPartnerRepository;
-        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
-        _unitOfWork = unitOfWork;
-    }
-    
     public async Task<Result> Handle(UpdateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
         var transactionalPartnerId = (TransactionalPartnerId)request.Id;

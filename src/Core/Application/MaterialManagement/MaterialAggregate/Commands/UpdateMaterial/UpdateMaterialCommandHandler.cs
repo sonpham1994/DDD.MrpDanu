@@ -10,24 +10,12 @@ using DomainErrors = Domain.MaterialManagement.DomainErrors;
 
 namespace Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
 
-internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMaterialCommand>, ITransactionalCommandHandler
+internal sealed class UpdateMaterialCommandHandler(
+    IUnitOfWork _unitOfWork, 
+    ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
+    IMaterialRepository _materialRepository,
+    IMaterialQueryForWrite _materialQueryForWrite) : ICommandHandler<UpdateMaterialCommand>, ITransactionalCommandHandler
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite;
-    private readonly IMaterialRepository _materialRepository;
-    private readonly IMaterialQueryForWrite _materialQueryForWrite;
-
-    public UpdateMaterialCommandHandler(IUnitOfWork unitOfWork,
-        ITransactionalPartnerQueryForWrite transactionalPartnerQueryForWrite,
-        IMaterialRepository materialRepository,
-        IMaterialQueryForWrite materialQueryForWrite)
-    {
-        _unitOfWork = unitOfWork;
-        _transactionalPartnerQueryForWrite = transactionalPartnerQueryForWrite;
-        _materialRepository = materialRepository;
-        _materialQueryForWrite = materialQueryForWrite;
-    }
-
     public async Task<Result> Handle(UpdateMaterialCommand request, CancellationToken cancellationToken)
     {
         var material = await _materialRepository.GetByIdAsync((MaterialId)request.Id, cancellationToken);

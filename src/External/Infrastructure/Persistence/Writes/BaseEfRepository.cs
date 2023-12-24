@@ -73,7 +73,7 @@ internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId>
         dbSet = context.Set<T>();
     }
 
-    protected virtual async ValueTask<T?> GetByIdAsync(TId id, CancellationToken cancellationToken)
+    public virtual async ValueTask<T?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
         return await dbSet.FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken);
     }

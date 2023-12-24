@@ -5,13 +5,8 @@ using Application.Interfaces.Reads;
 
 namespace Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
 
-internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByIdQuery, MaterialResponse>
+internal sealed class GetMaterialByIdQueryHandler(IMaterialQuery _materialQuery) : IQueryHandler<GetMaterialByIdQuery, MaterialResponse>
 {
-    private readonly IMaterialQuery _materialQuery;
-
-    public GetMaterialByIdQueryHandler(IMaterialQuery materialQuery)
-        => _materialQuery = materialQuery;
-
     public async Task<Result<MaterialResponse>> Handle(GetMaterialByIdQuery request, CancellationToken cancellationToken)
     {
         var material = await _materialQuery.GetByIdAsync(request.Id, cancellationToken);
