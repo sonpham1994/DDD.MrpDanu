@@ -26,9 +26,15 @@ public class BoM : AggregateRoot<BoMId>
         ProductId = productId;
     }
 
-    public Result ReviseBoM(BoMCode bomCode, BoMRevision boMRevision)
+    public Result IncreaseRevision()
     {
-        Revision = bomCode;
+        Revision = BoMCode.Create(Id).Value;
+
+        return Result.Success();
+    }
+
+    public Result ReviseBoM(BoMRevision boMRevision)
+    {
         _boMRevisions.Add(boMRevision);
 
         return Result.Success();

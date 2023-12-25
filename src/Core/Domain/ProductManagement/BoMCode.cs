@@ -16,7 +16,7 @@ public class BoMCode : ValueObject
         Value = value;
     }
 
-    public Result<BoMCode> Create(BoMId bomId)
+    public static Result<BoMCode> Create(BoMId bomId)
     {
         if (bomId.Value == 0)
             return DomainErrors.BoM.InvalidId(bomId.Value);
