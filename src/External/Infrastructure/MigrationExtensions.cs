@@ -17,8 +17,8 @@ public static class MigrationExtensions
     public static async Task ApplyMigrationsAsync(this IServiceScopeFactory services)
     {
         using var scope = services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var externalDbContext = scope.ServiceProvider.GetRequiredService<ExternalDbContext>();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await using var externalDbContext = scope.ServiceProvider.GetRequiredService<ExternalDbContext>();
 
         await dbContext.Database.MigrateAsync();
         await externalDbContext.Database.MigrateAsync();
