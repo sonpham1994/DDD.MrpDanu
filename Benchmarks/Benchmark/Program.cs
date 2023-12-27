@@ -20,15 +20,15 @@ using Benchmark.StringBenchmarks;
 using Benchmark.BoxingEntityEquals;
 using Benchmark.ValueObjectEqualsBoxing;
 using Benchmark.FirstOrDefaultVsFind;
+using Benchmark.RecordStructs;
 
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<SequentialGuidBenchmark>();
+BenchmarkRunner.Run<RecordStructBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();
 //a.ValueObjectEqualsBoxing();
-
 
 Console.WriteLine("Hello, World!");
