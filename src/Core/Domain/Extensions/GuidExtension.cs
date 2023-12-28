@@ -1,3 +1,4 @@
+using System.Data.SqlTypes;
 using Domain.SharedKernel.Base;
 
 namespace Domain.Extensions;
@@ -74,13 +75,21 @@ public static class GuidExtension
         // Please check source code: https://github.com/dotnet/runtime/blob/0dc5b590fa1fdf00bef65bb8c59b13f2dc601a0d/src/libraries/System.Data.Common/src/System/Data/SQLTypes/SQLGuid.cs#L113
         // if application uses postgres, we may change the logic "compare to" here
 
-        const byte sizeGuid = 16;
-        ReadOnlySpan<byte> sqlGuidOrder = stackalloc byte[sizeGuid] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
-        Span<byte> leftGuids = stackalloc byte[sizeGuid];
-        Span<byte> rightGuids = stackalloc byte[sizeGuid];
-        left.TryWriteBytes(leftGuids);
-        right.TryWriteBytes(rightGuids);
-
+        // const byte sizeGuid = 16;
+        // ReadOnlySpan<byte> sqlGuidOrder = stackalloc byte[sizeGuid] { 10, 11, 12, 13, 14, 15, 8, 9, 6, 7, 4, 5, 0, 1, 2, 3 };
+        // Span<byte> leftGuids = stackalloc byte[sizeGuid];
+        // Span<byte> rightGuids = stackalloc byte[sizeGuid];
+        // left.TryWriteBytes(leftGuids);
+        // right.TryWriteBytes(rightGuids);
+        //// Due to improvement in .Net 8, which not allocate any memory, we use SqlGuid. Please check Benchmark/GuidBenchmark/SequentialGuidResult.md
+        // for (int i = 0; i < sizeGuid; i++)
+        // {
+        //     if (leftGuids[sqlGuidOrder[i]] > rightGuids[sqlGuidOrder[i]])
+        //         return 1;
+        //     else if (leftGuids[sqlGuidOrder[i]] < rightGuids[sqlGuidOrder[i]])
+        //         return -1;
+        // }
+        // return 0;
         //Asymptotic analysis:
         //  - Best case: Compare Guid with O(1) of time complexity, if Guid is not equal at the index 10
         //  - Average case: time complexity of 0(log n)
@@ -91,24 +100,16 @@ public static class GuidExtension
         // Comparison orders from SqlSever with using SqlGuid. It will compare 10, 11, 12, 13, 14, 15 index first,
         // and then 8, 9, and then 6, 7, ...
 
-        for (int i = 0; i < sizeGuid; i++)
-        {
-            if (leftGuids[sqlGuidOrder[i]] > rightGuids[sqlGuidOrder[i]])
-                return 1;
-            else if (leftGuids[sqlGuidOrder[i]] < rightGuids[sqlGuidOrder[i]])
-                return -1;
-        }
-        return 0;
-
         //or you can just implement like this, but the problem is that the array sqlGuidOrder from SqlGuid allocate memory on heap
         // please check GuidBenchmark/SequentialGuidBenchmark (this benchmark is from .NET 7, it may change in .NET 8 or newer version).
         // But them problem is that if SqlGuid change the algorithm to generate SequentialGuid, the custom method might fail
-        //if (SqlGuid.GreaterThan(left, right))
-        //    return 1;
-        //else if (SqlGuid.LessThan(left, right))
-        //    return -1;
-        //else
-        //    return 0;
+        //=> .Net8 dont allocate any memory, so we use this one. Please check Benchmark/GuidBenchmark/SequentialGuidResult.md
+        if (SqlGuid.GreaterThan(left, right))
+            return 1;
+        else if (SqlGuid.LessThan(left, right))
+            return -1;
+        else
+            return 0;
     }
 
     public static bool IsEmpty<T>(this T stronglyTypedId)
