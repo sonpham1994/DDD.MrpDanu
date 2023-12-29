@@ -35,7 +35,7 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
 
         builder.Ignore(x => x.DomainEvents);
 
-        builder.OwnsOne(x => x.Attributes, j =>
+        builder.ComplexProperty(x => x.Attributes, j =>
         {
             //j.Property(l => l.Name).HasColumnName(nameof(MaterialAttributes.Name)).HasColumnType("nvarchar(500)").IsRequired();
             j.Property(l => l.Varian).HasColumnName(nameof(MaterialAttributes.Varian)).HasColumnType("nvarchar(200)").IsRequired(false);

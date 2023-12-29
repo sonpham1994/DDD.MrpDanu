@@ -111,7 +111,7 @@ internal abstract class BaseGenericEfRepository<T, TId> where T : AggregateRoot<
 
     protected async Task BulkDeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await dbSet.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
+        await dbSet.Where(x => x.Id.Equals(id)).ExecuteDeleteAsync(cancellationToken);
     }
 }
 

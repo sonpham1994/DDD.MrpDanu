@@ -217,10 +217,10 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.ProductManagement.BoM", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .HasColumnType("bigint");
 
-                    b.Property<uint?>("ProductId")
+                    b.Property<long?>("ProductId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -234,13 +234,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.ProductManagement.BoMRevision", b =>
                 {
-                    b.Property<ushort>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<ushort>("Id"), "bomrevisionseq");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<short>("Id"), "bomrevisionseq");
 
-                    b.Property<uint>("BoMId")
+                    b.Property<long>("BoMId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Confirmation")
@@ -259,7 +259,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<ushort>("BoMRevisionId")
+                    b.Property<short>("BoMRevisionId")
                         .HasColumnType("smallint");
 
                     b.Property<decimal>("Unit")
@@ -275,13 +275,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.ProductManagement.Product", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<uint>("Id"), "productseq");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<long>("Id"), "productseq");
 
-                    b.Property<uint?>("BoMId")
+                    b.Property<long?>("BoMId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Code")
@@ -334,7 +334,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.MaterialManagement.MaterialAggregate.MaterialAttributes", "Attributes", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.MaterialAggregate.Material.Attributes#Domain.MaterialManagement.MaterialAggregate.MaterialAttributes", "Attributes", b1 =>
                         {
                             b1.Property<Guid>("MaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -361,7 +361,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasKey("MaterialId");
 
-                            b1.ToTable("Material");
+                            b1.ToTable("Material", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MaterialId");
@@ -383,7 +383,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.MaterialAggregate.MaterialSupplierCost.MaterialSupplierIdentity#Domain.SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
                         {
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
@@ -401,7 +401,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("_transactionalPartnerId");
 
-                            b1.ToTable("MaterialSupplierCost");
+                            b1.ToTable("MaterialSupplierCost", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MaterialSupplierCostId");
@@ -413,7 +413,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.Money", "Price", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.MaterialAggregate.MaterialSupplierCost.Price#Domain.SharedKernel.ValueObjects.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
@@ -431,7 +431,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("CurrencyTypeId");
 
-                            b1.ToTable("MaterialSupplierCost");
+                            b1.ToTable("MaterialSupplierCost", (string)null);
 
                             b1.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                                 .WithMany()
@@ -445,7 +445,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Navigation("CurrencyType");
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.Money", "Surcharge", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.MaterialAggregate.MaterialSupplierCost.Surcharge#Domain.SharedKernel.ValueObjects.Money", "Surcharge", b1 =>
                         {
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
@@ -463,7 +463,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("CurrencyTypeId");
 
-                            b1.ToTable("MaterialSupplierCost");
+                            b1.ToTable("MaterialSupplierCost", (string)null);
 
                             b1.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                                 .WithMany()
@@ -495,7 +495,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.ContactInformation", "ContactInformation", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.ContactPersonInformation.ContactInformation#Domain.MaterialManagement.TransactionalPartnerAggregate.ContactInformation", "ContactInformation", b1 =>
                         {
                             b1.Property<Guid>("ContactPersonInformationId")
                                 .HasColumnType("uniqueidentifier");
@@ -510,7 +510,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasKey("ContactPersonInformationId");
 
-                            b1.ToTable("ContactPersonInformation");
+                            b1.ToTable("ContactPersonInformation", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ContactPersonInformationId");
@@ -540,7 +540,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.Address", "Address", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner.Address#Domain.MaterialManagement.TransactionalPartnerAggregate.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("TransactionalPartnerId")
                                 .HasColumnType("uniqueidentifier");
@@ -579,7 +579,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("CountryId");
 
-                            b1.ToTable("TransactionalPartner");
+                            b1.ToTable("TransactionalPartner", (string)null);
 
                             b1.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.Country", "Country")
                                 .WithMany()
@@ -593,7 +593,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Navigation("Country");
                         });
 
-                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TaxNo", "TaxNo", b1 =>
+                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner.TaxNo#Domain.MaterialManagement.TransactionalPartnerAggregate.TaxNo", "TaxNo", b1 =>
                         {
                             b1.Property<Guid>("TransactionalPartnerId")
                                 .HasColumnType("uniqueidentifier");
@@ -612,7 +612,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("CountryId");
 
-                            b1.ToTable("TransactionalPartner");
+                            b1.ToTable("TransactionalPartner", (string)null);
 
                             b1.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.Country", "Country")
                                 .WithMany()
@@ -645,9 +645,9 @@ namespace Infrastructure.Persistence.Migrations
                         .WithOne()
                         .HasForeignKey("Domain.ProductManagement.BoM", "ProductId");
 
-                    b.OwnsOne("Domain.ProductManagement.BoMCode", "Revision", b1 =>
+                    b.OwnsOne("Domain.ProductManagement.BoM.Revision#Domain.ProductManagement.BoMCode", "Revision", b1 =>
                         {
-                            b1.Property<uint>("BoMId")
+                            b1.Property<long>("BoMId")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("Value")
@@ -660,7 +660,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.HasIndex("Value")
                                 .IsUnique();
 
-                            b1.ToTable("BoM");
+                            b1.ToTable("BoM", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BoMId");
@@ -678,9 +678,9 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.ProductManagement.BoMRevisionCode", "Revision", b1 =>
+                    b.OwnsOne("Domain.ProductManagement.BoMRevision.Revision#Domain.ProductManagement.BoMRevisionCode", "Revision", b1 =>
                         {
-                            b1.Property<ushort>("BoMRevisionId")
+                            b1.Property<short>("BoMRevisionId")
                                 .HasColumnType("smallint");
 
                             b1.Property<string>("Value")
@@ -693,7 +693,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.HasIndex("Value")
                                 .IsUnique();
 
-                            b1.ToTable("BoMRevision");
+                            b1.ToTable("BoMRevision", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BoMRevisionId");
@@ -711,7 +711,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
+                    b.OwnsOne("Domain.ProductManagement.BoMRevisionMaterial.MaterialSupplierIdentity#Domain.SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
                         {
                             b1.Property<Guid>("BoMRevisionMaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -730,7 +730,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("_transactionalPartnerId");
 
-                            b1.ToTable("BoMRevisionMaterial");
+                            b1.ToTable("BoMRevisionMaterial", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BoMRevisionMaterialId");
@@ -748,7 +748,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.Money", "Price", b1 =>
+                    b.OwnsOne("Domain.ProductManagement.BoMRevisionMaterial.Price#Domain.SharedKernel.ValueObjects.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("BoMRevisionMaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -765,7 +765,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("CurrencyTypeId");
 
-                            b1.ToTable("BoMRevisionMaterial");
+                            b1.ToTable("BoMRevisionMaterial", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BoMRevisionMaterialId");
