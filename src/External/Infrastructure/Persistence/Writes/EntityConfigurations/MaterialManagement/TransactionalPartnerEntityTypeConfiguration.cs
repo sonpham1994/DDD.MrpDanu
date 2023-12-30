@@ -1,9 +1,9 @@
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement;
 
 internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeConfiguration<TransactionalPartner>
 {

@@ -1,6 +1,6 @@
-using Application.MaterialManagement.Shared;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+using Application.SupplyChainManagement.Shared;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 
 namespace Application.Interfaces.Reads;
 

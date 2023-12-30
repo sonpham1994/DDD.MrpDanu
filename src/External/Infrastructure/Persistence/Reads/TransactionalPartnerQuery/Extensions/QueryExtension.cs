@@ -1,7 +1,7 @@
 using System.Data;
-using Application.MaterialManagement.MaterialAggregate.Commands.Models;
+using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using Dapper;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
 
 namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
@@ -56,7 +56,7 @@ internal static class QueryExtension
          *  for the problem at hand trumps the DRY principle.
          *
          * if we use TransactionalPartnerType.GetSupplierTypes() to get suppliers, we reduce domain knowledge duplication
-         *  , but have a highly coupling between read/write side, so we move it to MaterialManagementMapping
+         *  , but have a highly coupling between read/write side, so we move it to SupplyChainManagementMapping
          */
         var supplierTypeIds = GetSupplierTypeIds();
         var suppliers = await dbConnection

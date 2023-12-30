@@ -1,7 +1,7 @@
 ﻿using System.Data;
-using Domain.MaterialManagement.MaterialAggregate;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
-using Domain.ProductManagement;
+using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.ProductionPlanning;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Infrastructure.EventDispatchers;

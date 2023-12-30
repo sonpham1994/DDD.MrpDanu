@@ -1,5 +1,5 @@
 ﻿using Domain.Exceptions;
-using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

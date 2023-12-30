@@ -1,6 +1,6 @@
-﻿using Application.MaterialManagement.MaterialAggregate.Commands.Models;
+﻿using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using Dapper;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using System.Data;
 
 namespace Infrastructure.Persistence.Writes.TransactionalPartnerWrite;

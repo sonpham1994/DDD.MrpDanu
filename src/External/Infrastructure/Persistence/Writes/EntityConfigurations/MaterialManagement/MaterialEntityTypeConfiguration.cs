@@ -1,10 +1,10 @@
-﻿using Domain.MaterialManagement.MaterialAggregate;
+﻿using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement;
 
 internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration<Material>
 {

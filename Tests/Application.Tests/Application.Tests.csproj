@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="MaterialManagement\MaterialAggregate\**" />
-      <EmbeddedResource Remove="MaterialManagement\MaterialAggregate\**" />
-      <None Remove="MaterialManagement\MaterialAggregate\**" />
+      <Compile Remove="SupplyChainManagement\MaterialAggregate\**" />
+      <EmbeddedResource Remove="SupplyChainManagement\MaterialAggregate\**" />
+      <None Remove="SupplyChainManagement\MaterialAggregate\**" />
     </ItemGroup>
 
     <ItemGroup>

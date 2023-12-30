@@ -1,7 +1,7 @@
-using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement.StronglyTypeIdConfigurations;
 
 internal sealed class MaterialSupplierCostIdValueGenerator : GuidStronglyTypedIdValueGenerator<MaterialSupplierCostId>
 {

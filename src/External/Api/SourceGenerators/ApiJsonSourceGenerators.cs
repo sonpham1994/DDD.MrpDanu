@@ -1,16 +1,16 @@
 using System.Text.Json.Serialization;
-using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
-using Application.MaterialManagement.Shared;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
+using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
+using Application.SupplyChainManagement.Shared;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Api.ApiResponses;
-using Application.MaterialManagement.MaterialAggregate;
-using Application.MaterialManagement.TransactionalPartnerAggregate;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
-using Application.MaterialManagement.MaterialAggregate.Commands.CreateMaterial;
-using Application.MaterialManagement.MaterialAggregate.Commands.UpdateMaterial;
+using Application.SupplyChainManagement.MaterialAggregate;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
+using Application.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
+using Application.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 namespace Api.SourceGenerators;
 /*

@@ -1,6 +1,6 @@
 ﻿
 using Application.Interfaces.Writes.MaterialWrite;
-using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using System.Data;
 
 namespace Infrastructure.Persistence.Writes.MaterialWrite;

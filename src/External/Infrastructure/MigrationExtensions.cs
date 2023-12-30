@@ -1,5 +1,5 @@
-﻿using Domain.MaterialManagement.MaterialAggregate;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+﻿using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Externals.AuditTables;

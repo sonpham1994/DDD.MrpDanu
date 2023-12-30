@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <Compile Update="Persistence\Read\Mappings\Mapping.cs">
-      <DependentUpon>MaterialManagementExtension.cs</DependentUpon>
+      <DependentUpon>SupplyChainManagementExtension.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 

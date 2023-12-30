@@ -1,8 +1,8 @@
-﻿using Domain.MaterialManagement.MaterialAggregate;
+﻿using Domain.SupplyChainManagement.MaterialAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement;
 
 internal sealed class RegionalMarketEntityTypeConfiguration : IEntityTypeConfiguration<RegionalMarket>
 {

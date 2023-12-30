@@ -1,9 +1,9 @@
-﻿using Domain.ProductManagement;
+﻿using Domain.ProductionPlanning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductionPlanning;
 
 internal sealed class BoMEntityTypeConfiguration : IEntityTypeConfiguration<BoM>
 {

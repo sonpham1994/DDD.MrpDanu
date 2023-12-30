@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Application.MaterialManagement.MaterialAggregate.Commands.Models;
+using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using System.Data;
 using Dapper;
 

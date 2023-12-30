@@ -1,8 +1,8 @@
-using Application.MaterialManagement.Shared;
-using Application.MaterialManagement.TransactionalPartnerAggregate;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Application.SupplyChainManagement.Shared;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
 

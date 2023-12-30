@@ -1,6 +1,6 @@
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.Extensions;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes;

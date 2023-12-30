@@ -1,8 +1,8 @@
 using System.Data;
 using Application.Interfaces.Reads;
-using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.MaterialManagement.MaterialAggregate.Queries.GetMaterials;
-using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
+using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Infrastructure.Persistence.Read.MaterialQuery.Extensions;
 
 namespace Infrastructure.Persistence.Read.MaterialQuery;

@@ -1,9 +1,9 @@
 using System.Data;
 using Dapper;
-using Application.MaterialManagement.MaterialAggregate.Commands.Models;
-using Application.MaterialManagement.Shared;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
+using Application.SupplyChainManagement.Shared;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
 using Application.Interfaces.Reads;
 

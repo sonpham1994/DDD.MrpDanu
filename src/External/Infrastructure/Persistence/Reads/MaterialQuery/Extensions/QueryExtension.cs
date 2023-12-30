@@ -1,6 +1,6 @@
 using System.Data;
 using Dapper;
-using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Infrastructure.Persistence.Read.MaterialQuery.Models;
 
 namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;

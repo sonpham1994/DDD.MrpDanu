@@ -2,12 +2,12 @@ namespace Domain.SharedKernel.Base;
 
 public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct, IEquatable<TId>
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
+    private readonly List<DomainEvent> _domainEvents = new();
+    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
 
     protected AggregateRoot() { }
 
-    protected void RaiseDomainEvent(IDomainEvent newEvent)
+    protected void RaiseDomainEvent(DomainEvent newEvent)
     {
         _domainEvents.Add(newEvent);
     }
@@ -20,12 +20,12 @@ public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct, IEqua
 
 public abstract class AggregateRoot : Entity
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
+    private readonly List<DomainEvent> _domainEvents = new();
+    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
 
     protected AggregateRoot() { }
 
-    protected void RaiseDomainEvent(IDomainEvent newEvent)
+    protected void RaiseDomainEvent(DomainEvent newEvent)
     {
         _domainEvents.Add(newEvent);
     }
@@ -39,11 +39,11 @@ public abstract class AggregateRoot : Entity
 public abstract class AggregateRootGuidStronglyTypedId<TId> : EntityGuidStronglyTypedId<TId> 
     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
+    private readonly List<DomainEvent> _domainEvents = new();
+    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
     protected AggregateRootGuidStronglyTypedId() { }
 
-    protected void RaiseDomainEvent(IDomainEvent newEvent)
+    protected void RaiseDomainEvent(DomainEvent newEvent)
     {
         _domainEvents.Add(newEvent);
     }

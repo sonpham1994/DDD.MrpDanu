@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;
 using Infrastructure.Errors;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

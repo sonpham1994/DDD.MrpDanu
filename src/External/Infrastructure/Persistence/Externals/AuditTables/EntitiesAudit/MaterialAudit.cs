@@ -1,4 +1,4 @@
-﻿using Domain.MaterialManagement.MaterialAggregate;
+﻿using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;
 using Infrastructure.Errors;
 using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;

@@ -34,7 +34,7 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.HasSequence("productseq")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.Material", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.Material", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -65,7 +65,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Material", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.MaterialSupplierCost", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.MaterialSupplierCost", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -84,7 +84,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("MaterialSupplierCost", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.MaterialType", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.MaterialType", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -99,7 +99,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("MaterialType", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.RegionalMarket", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.RegionalMarket", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -118,7 +118,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("RegionalMarket", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.ContactPersonInformation", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.ContactPersonInformation", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -139,7 +139,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("ContactPersonInformation", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.Country", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.Country", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -158,7 +158,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Country", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.LocationType", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.LocationType", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -173,7 +173,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("LocationType", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -207,7 +207,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("TransactionalPartner", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartnerType", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartnerType", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -222,7 +222,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("TransactionalPartnerType", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoM", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoM", b =>
                 {
                     b.Property<uint>("Id")
                         .HasColumnType("bigint");
@@ -239,7 +239,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("BoM", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoMRevision", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoMRevision", b =>
                 {
                     b.Property<ushort>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,7 +261,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("BoMRevision", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoMRevisionMaterial", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoMRevisionMaterial", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -280,7 +280,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("BoMRevisionMaterial", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.Product", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.Product", b =>
                 {
                     b.Property<uint>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,21 +327,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("CurrencyType", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.Material", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.Material", b =>
                 {
-                    b.HasOne("Domain.MaterialManagement.MaterialAggregate.MaterialType", "MaterialType")
+                    b.HasOne("Domain.SupplyChainManagement.MaterialAggregate.MaterialType", "MaterialType")
                         .WithMany()
                         .HasForeignKey("MaterialTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.MaterialManagement.MaterialAggregate.RegionalMarket", "RegionalMarket")
+                    b.HasOne("Domain.SupplyChainManagement.MaterialAggregate.RegionalMarket", "RegionalMarket")
                         .WithMany()
                         .HasForeignKey("RegionalMarketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.MaterialManagement.MaterialAggregate.MaterialAttributes", "Attributes", b1 =>
+                    b.OwnsOne("Domain.SupplyChainManagement.MaterialAggregate.MaterialAttributes", "Attributes", b1 =>
                         {
                             b1.Property<Guid>("MaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -382,9 +382,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("RegionalMarket");
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.MaterialSupplierCost", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.MaterialSupplierCost", b =>
                 {
-                    b.HasOne("Domain.MaterialManagement.MaterialAggregate.Material", null)
+                    b.HasOne("Domain.SupplyChainManagement.MaterialAggregate.Material", null)
                         .WithMany("MaterialSupplierCosts")
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -408,7 +408,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("MaterialSupplierCostId");
 
-                            b1.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
+                            b1.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
                                 .WithMany()
                                 .HasForeignKey("_transactionalPartnerId")
                                 .OnDelete(DeleteBehavior.Cascade)
@@ -489,15 +489,15 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.ContactPersonInformation", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.ContactPersonInformation", b =>
                 {
-                    b.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
+                    b.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
                         .WithOne("ContactPersonInformation")
-                        .HasForeignKey("Domain.MaterialManagement.TransactionalPartnerAggregate.ContactPersonInformation", "TransactionalPartnerId")
+                        .HasForeignKey("Domain.SupplyChainManagement.TransactionalPartnerAggregate.ContactPersonInformation", "TransactionalPartnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.ContactInformation", "ContactInformation", b1 =>
+                    b.OwnsOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.ContactInformation", "ContactInformation", b1 =>
                         {
                             b1.Property<Guid>("ContactPersonInformationId")
                                 .HasColumnType("uniqueidentifier");
@@ -522,7 +522,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
                 {
                     b.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                         .WithMany()
@@ -530,19 +530,19 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.LocationType", "LocationType")
+                    b.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.LocationType", "LocationType")
                         .WithMany()
                         .HasForeignKey("LocationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartnerType", "TransactionalPartnerType")
+                    b.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartnerType", "TransactionalPartnerType")
                         .WithMany()
                         .HasForeignKey("TransactionalPartnerTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.Address", "Address", b1 =>
+                    b.OwnsOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("TransactionalPartnerId")
                                 .HasColumnType("uniqueidentifier");
@@ -583,7 +583,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.ToTable("TransactionalPartner");
 
-                            b1.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.Country", "Country")
+                            b1.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.Country", "Country")
                                 .WithMany()
                                 .HasForeignKey("CountryId")
                                 .OnDelete(DeleteBehavior.Cascade)
@@ -595,7 +595,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Navigation("Country");
                         });
 
-                    b.OwnsOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TaxNo", "TaxNo", b1 =>
+                    b.OwnsOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TaxNo", "TaxNo", b1 =>
                         {
                             b1.Property<Guid>("TransactionalPartnerId")
                                 .HasColumnType("uniqueidentifier");
@@ -616,7 +616,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.ToTable("TransactionalPartner");
 
-                            b1.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.Country", "Country")
+                            b1.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.Country", "Country")
                                 .WithMany()
                                 .HasForeignKey("CountryId")
                                 .OnDelete(DeleteBehavior.Cascade)
@@ -641,13 +641,13 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("TransactionalPartnerType");
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoM", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoM", b =>
                 {
-                    b.HasOne("Domain.ProductManagement.Product", null)
+                    b.HasOne("Domain.ProductionPlanning.Product", null)
                         .WithOne()
-                        .HasForeignKey("Domain.ProductManagement.BoM", "ProductId");
+                        .HasForeignKey("Domain.ProductionPlanning.BoM", "ProductId");
 
-                    b.OwnsOne("Domain.ProductManagement.BoMCode", "Revision", b1 =>
+                    b.OwnsOne("Domain.ProductionPlanning.BoMCode", "Revision", b1 =>
                         {
                             b1.Property<uint>("BoMId")
                                 .HasColumnType("bigint");
@@ -672,15 +672,15 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoMRevision", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoMRevision", b =>
                 {
-                    b.HasOne("Domain.ProductManagement.BoM", null)
+                    b.HasOne("Domain.ProductionPlanning.BoM", null)
                         .WithMany("BoMRevisions")
                         .HasForeignKey("BoMId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.ProductManagement.BoMRevisionCode", "Revision", b1 =>
+                    b.OwnsOne("Domain.ProductionPlanning.BoMRevisionCode", "Revision", b1 =>
                         {
                             b1.Property<ushort>("BoMRevisionId")
                                 .HasColumnType("smallint");
@@ -705,9 +705,9 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoMRevisionMaterial", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoMRevisionMaterial", b =>
                 {
-                    b.HasOne("Domain.ProductManagement.BoMRevision", null)
+                    b.HasOne("Domain.ProductionPlanning.BoMRevision", null)
                         .WithMany("BoMRevisionMaterials")
                         .HasForeignKey("BoMRevisionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -737,13 +737,13 @@ namespace Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("BoMRevisionMaterialId");
 
-                            b1.HasOne("Domain.MaterialManagement.MaterialAggregate.Material", null)
+                            b1.HasOne("Domain.SupplyChainManagement.MaterialAggregate.Material", null)
                                 .WithMany()
                                 .HasForeignKey("MaterialId")
                                 .OnDelete(DeleteBehavior.Cascade)
                                 .IsRequired();
 
-                            b1.HasOne("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
+                            b1.HasOne("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", null)
                                 .WithMany()
                                 .HasForeignKey("_transactionalPartnerId")
                                 .OnDelete(DeleteBehavior.Cascade)
@@ -788,30 +788,30 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.Product", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.Product", b =>
                 {
-                    b.HasOne("Domain.ProductManagement.BoM", null)
+                    b.HasOne("Domain.ProductionPlanning.BoM", null)
                         .WithOne()
-                        .HasForeignKey("Domain.ProductManagement.Product", "BoMId");
+                        .HasForeignKey("Domain.ProductionPlanning.Product", "BoMId");
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.MaterialAggregate.Material", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.MaterialAggregate.Material", b =>
                 {
                     b.Navigation("MaterialSupplierCosts");
                 });
 
-            modelBuilder.Entity("Domain.MaterialManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
+            modelBuilder.Entity("Domain.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
                 {
                     b.Navigation("ContactPersonInformation")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoM", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoM", b =>
                 {
                     b.Navigation("BoMRevisions");
                 });
 
-            modelBuilder.Entity("Domain.ProductManagement.BoMRevision", b =>
+            modelBuilder.Entity("Domain.ProductionPlanning.BoMRevision", b =>
                 {
                     b.Navigation("BoMRevisionMaterials");
                 });

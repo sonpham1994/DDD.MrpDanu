@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class RefactorDomainModelForMaterialAndProductManagement : Migration
+    public partial class RefactorDomainModelForMaterialAndProductionPlanning : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

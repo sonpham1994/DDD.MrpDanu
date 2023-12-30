@@ -1,15 +1,15 @@
 using Application.Interfaces;
 using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Commands;
-using Application.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
+using Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using FluentAssertions;
 using Moq;
-using DomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
 
-namespace Application.Tests.MaterialManagement.TransactionalPartnerAggregate.Commands;
+namespace Application.Tests.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
 
 //https://www.youtube.com/watch?v=a6Qab5l-VLo&t=103s&ab_channel=MilanJovanovi%C4%87
 public class CreateTransactionalPartnerTests

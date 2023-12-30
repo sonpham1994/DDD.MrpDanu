@@ -1,10 +1,10 @@
-﻿using Domain.MaterialManagement.TransactionalPartnerAggregate;
+﻿using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement;
 
 internal sealed class ContactPersonInformationEntityTypeConfiguration : IEntityTypeConfiguration<ContactPersonInformation>
 {

@@ -1,4 +1,6 @@
 ﻿namespace Domain.SharedKernel.Base;
-public interface IDomainEvent
+
+public abstract record DomainEvent
 {
+    public DateTime DateOccured { get; set; } = DateTime.UtcNow;
 }

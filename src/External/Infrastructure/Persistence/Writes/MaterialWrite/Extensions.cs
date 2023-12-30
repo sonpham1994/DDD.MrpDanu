@@ -1,4 +1,4 @@
-﻿using Domain.MaterialManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+﻿using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using System.Data;
 using Dapper;
 

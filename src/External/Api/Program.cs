@@ -4,7 +4,7 @@ using Api;
 using Api.Middlewares;
 using Serilog;
 using Api.SourceGenerators;
-using Api.Controllers.MaterialManagement;
+using Api.Controllers.SupplyChainManagement;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization.Metadata;
@@ -133,6 +133,6 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
-app.MapMaterialManagementEndpoints();
+app.MapSupplyChainManagementEndpoints();
 
 app.Run();

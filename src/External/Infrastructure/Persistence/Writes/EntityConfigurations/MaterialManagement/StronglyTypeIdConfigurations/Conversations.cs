@@ -1,7 +1,7 @@
-using Domain.MaterialManagement.MaterialAggregate;
+using Domain.SupplyChainManagement.MaterialAggregate;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations.MaterialManagement.StronglyTypeIdConfigurations;
+namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement.StronglyTypeIdConfigurations;
 
 internal sealed class MaterialSupplierCostIdConverter : ValueConverter<MaterialSupplierCostId, Guid>
 {

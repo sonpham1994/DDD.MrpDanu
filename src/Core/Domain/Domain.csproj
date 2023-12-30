@@ -17,5 +17,10 @@
       <_Parameter1>Domain.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SupplyAndProductionManagement" />
+    <Folder Include="SupplyAndProductionManagement\SupplyChainManagement\TransactionalPartnerAggregate\Events" />
+  </ItemGroup>
   
 </Project>

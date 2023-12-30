@@ -21,7 +21,7 @@
     },
     "Production": {
       "commandName": "Project",
-      "launchUrl": "MaterialManagement/Materials",
+      "launchUrl": "SupplyChainManagement/Materials",
       "applicationUrl": "https://dddmrp.azurewebsites.net",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
