@@ -45,6 +45,8 @@ builder.Services.Configure<HostOptions>(x =>
 {
     //wait for .NET 8 to use HostedService as background task which is concurrently.
     //https://www.youtube.com/watch?v=XA_3CZmD9y0&ab_channel=NickChapsas
+    x.ServicesStartConcurrently = true;
+    x.ServicesStopConcurrently = true;
 });
 
 //we should use this approach for minimal api, because internally call WriteAsJsonAsync, so you can configure JsonOptions 

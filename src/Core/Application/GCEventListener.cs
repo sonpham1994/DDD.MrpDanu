@@ -24,7 +24,7 @@ internal sealed class GCEventListener : EventListener
         // Check if the event is related to GC
         if (!string.IsNullOrEmpty(eventData.EventName) && eventData.EventName.Contains("GC"))
         {
-            _logger.LogWarning("GC Event: {EventName}, Message: {Message}, Time: {@Time}, ", eventData.EventName, eventData.Message, eventData.TimeStamp);
+            _logger.LogWarning("GC Event: {GCEventName}, Message: {Message}, TimeStamp: {@TimeStamp}, Time generated: {@TimeGenerated}", eventData.EventName, eventData.Message, eventData.TimeStamp, DateTime.UtcNow);
         }
     }
 }

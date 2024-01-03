@@ -12,11 +12,12 @@ public static class DependencyInjection
     {
         services.AddCustomMiddlewares()
             .AddValidators()
-            .AddDatabaseSettings();
+            .AddDatabaseSettings()
+            .AddHostedService<FullGCEventBackgroundService>();
 
         if (!isProduction)
         {
-            services.AddCustomHostedService();
+            services.AddHostedService<MigrationsHostedService>();
         }
 
         return services;
@@ -98,12 +99,4 @@ public static class DependencyInjection
 
         return services;
     }
-
-    private static IServiceCollection AddCustomHostedService(this IServiceCollection services)
-    {
-        services.AddHostedService<MigrationsHostedService>();
-
-        return services;
-    }
-
 }
