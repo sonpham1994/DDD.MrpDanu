@@ -66,7 +66,7 @@ namespace Api.SourceGenerators;
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     //Serialization is just for Serializer, not Deserializer? If we just need Serialization, we use this mode instead Default mode which include both Serialization and Metadata, and as a result it reduces compile time
-    GenerationMode = JsonSourceGenerationMode.Metadata)]
+    GenerationMode = JsonSourceGenerationMode.Default)]
 [JsonSerializable(typeof(ApiResponse))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialsResponse>>))]
 [JsonSerializable(typeof(ApiResponse<MaterialResponse>))]
@@ -74,14 +74,13 @@ namespace Api.SourceGenerators;
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<TransactionalPartnersResponse>>))]
 [JsonSerializable(typeof(ApiResponse<TransactionalPartnerResponse>))]
 // Cannot use request model due to "ValidationProblemDetails" issue, so in this case we use reflection-based deserialization. Please check at program
-//[JsonSerializable(typeof(CreateTransactionalPartnerCommand))]
 public partial class ApiResponseJsonSourceGenerator : JsonSerializerContext
 {
 }
 
 [JsonSourceGenerationOptions(
  PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
- GenerationMode = JsonSourceGenerationMode.Metadata)]
+ GenerationMode = JsonSourceGenerationMode.Default)]
 [JsonSerializable(typeof(CreateTransactionalPartnerCommand))]
 [JsonSerializable(typeof(UpdateTransactionalPartnerCommand))]
 [JsonSerializable(typeof(CreateMaterialCommand))]
@@ -93,13 +92,13 @@ public partial class ApiRequestJsonSourceGenerator : JsonSerializerContext
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     //Serialization is just for Serializer, not Deserializer? If we just need Serialization, we use this mode instead Default mode which include both Serialization and Metadata, and as a result it reduces compile time
-    GenerationMode = JsonSourceGenerationMode.Metadata)]
+    GenerationMode = JsonSourceGenerationMode.Default)]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<MaterialTypeResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<RegionalMarketResponse>>))]
+[JsonSerializable(typeof(ApiResponse<IReadOnlyList<CountryResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<LocationTypeResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<CurrencyTypeResponse>>))]
-[JsonSerializable(typeof(ApiResponse<IReadOnlyList<CountryResponse>>))]
 public partial class MinimalApiJsonSourceGenerator : JsonSerializerContext
 {
 }

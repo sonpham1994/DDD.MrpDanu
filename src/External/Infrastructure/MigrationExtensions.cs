@@ -20,6 +20,10 @@ public static class MigrationExtensions
         await using var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await using var externalDbContext = scope.ServiceProvider.GetRequiredService<ExternalDbContext>();
 
+        //should be noticed with the code first approach. The ProductVersion in __EFMigrationsHistory talbe in the version of your EF
+        // for example if your EF currently uses the version 7.0.12, the ProductVersion would be 7.0.12. After you migrate EF version
+        // to 8.0, you should delete all records in __EFMigrationsHistory table and then initialize it from start, now the ProductVersion
+        // column would be 8.0. With different ProductVersions the migration may throws some exceptions
         await dbContext.Database.MigrateAsync();
         await externalDbContext.Database.MigrateAsync();
 

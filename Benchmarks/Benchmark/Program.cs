@@ -25,7 +25,7 @@ using Benchmark.RecordStructs;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<SequentialGuidBenchmark>();
+BenchmarkRunner.Run<JsonSerializerBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();

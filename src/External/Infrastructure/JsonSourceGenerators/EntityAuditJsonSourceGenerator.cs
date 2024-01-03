@@ -3,13 +3,10 @@ using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit;
 
 namespace Infrastructure.JsonSourceGenerators;
 
-
-
-
 [JsonSourceGenerationOptions(
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     GenerationMode = JsonSourceGenerationMode.Serialization)]
     [JsonSerializable(typeof(MaterialAudit))]
-public partial class EntityAuditJsonSourceGenerator : JsonSerializerContext
+internal partial class EntityAuditJsonSourceGenerator : JsonSerializerContext
 {
 }
