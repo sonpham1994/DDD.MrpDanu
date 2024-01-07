@@ -78,19 +78,19 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         //apply dbInterceptor to retrieve this domain events for the 3rd handler in TransactionalBehaviour.cs
-        List<AggregateRoot> entities = ChangeTracker
-            .Entries()
-            .Where(x => x.Entity is AggregateRoot aggregateRoot && aggregateRoot.DomainEvents.Count > 0)
-            .Select(x => (AggregateRoot)x.Entity)
-            .ToList();
+        // List<AggregateRoot> entities = ChangeTracker
+        //     .Entries()
+        //     .Where(x => x.Entity is AggregateRoot aggregateRoot && aggregateRoot.DomainEvents.Count > 0)
+        //     .Select(x => (AggregateRoot)x.Entity)
+        //     .ToList();
 
         int result = await base.SaveChangesAsync(cancellationToken);
 
-        foreach (AggregateRoot entity in entities)
-        {
-            _eventDispatcher.Dispatch(entity.DomainEvents);
-            entity.ClearDomainEvents();
-        }
+        // foreach (AggregateRoot entity in entities)
+        // {
+        //     _eventDispatcher.Dispatch(entity.DomainEvents);
+        //     entity.ClearDomainEvents();
+        // }
 
         return result;
     }

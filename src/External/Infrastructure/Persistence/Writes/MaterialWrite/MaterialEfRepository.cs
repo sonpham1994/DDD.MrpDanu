@@ -3,6 +3,7 @@ using Domain.SharedKernel.ValueObjects;
 using Domain.Extensions;
 using Infrastructure.Persistence.Writes.Extensions;
 using Application.Interfaces.Writes.MaterialWrite;
+using Domain.SharedKernel.Enumerations;
 
 namespace Infrastructure.Persistence.Writes.MaterialWrite;
 
@@ -52,6 +53,14 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
             .BindingEnumeration<MaterialType, MaterialId>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context)
             .BindingEnumeration<RegionalMarket, MaterialId>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
 
+        foreach (var materialSupplierCost in material.MaterialSupplierCosts)
+        {
+            materialSupplierCost.Price.BindingEnumeration<CurrencyType>(ShadowProperties.CurrencyTypeId,
+                nameof(MaterialSupplierCost.Price.CurrencyType), context);
+            materialSupplierCost.Surcharge.BindingEnumeration<CurrencyType>(ShadowProperties.CurrencyTypeId,
+                nameof(MaterialSupplierCost.Surcharge.CurrencyType), context);
+        }
+        
         return material;
     }
 

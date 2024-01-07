@@ -3,6 +3,8 @@ namespace Api.HostedServices;
 // to know when the Full GC event be triggered. When the Full GC is triggered, it will clean up memory across Generations
 // from Generation 0 to 2. If may be there are a lot of LOH so this is why the full GC is triggered frequently.
 // that's why we need this class to monitor the frequent full GC event.
+//may be we don't need FullGCEventBackgroundService, we use GC.CollectionCount in RequestLoggingHandler to know when the 
+// garbage collection generation 2 perform
 public class FullGCEventBackgroundService : BackgroundService
 {
     private readonly PeriodicTimer _timer;

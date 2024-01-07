@@ -8,8 +8,7 @@
             "name": "C#: Api Debug",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/src/Api/Api.csproj"
+            "projectPath": "${workspaceFolder}/src/external/Api/Api.csproj"
         }
-
     ]
 }

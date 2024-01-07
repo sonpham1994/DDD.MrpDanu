@@ -4,6 +4,7 @@ using Domain.SharedKernel.Base;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Application.EventListeners;
 
 namespace Application.Behaviors.Interceptors;
 
@@ -34,7 +35,16 @@ internal sealed class HandlerLoggingInterceptor<TRequest, TResponse> : IPipeline
         
         _logger.StartHandler(handlerName, requestTypeName);
         var start = Stopwatch.GetTimestamp();
+        
+        var previousGen0Count = GC.CollectionCount(0);
+        var previousGen1Count = GC.CollectionCount(1);
+        var previousGen2Count = GC.CollectionCount(2);
+        
         var response = await next();
+
+        _logger.GCGenerationLogging(handlerName, requestTypeName, previousGen0Count, previousGen1Count,
+            previousGen2Count);
+        
         var delta = Stopwatch.GetElapsedTime(start);
         if (response.IsFailure)
         {

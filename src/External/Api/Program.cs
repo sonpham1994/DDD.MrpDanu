@@ -8,7 +8,6 @@ using Api.Controllers.SupplyChainManagement;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization.Metadata;
-using Infrastructure.JsonSourceGenerators;
 
 var builder = WebApplication.CreateBuilder(args);
 
