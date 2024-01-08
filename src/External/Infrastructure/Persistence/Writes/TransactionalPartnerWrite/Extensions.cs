@@ -22,7 +22,7 @@ internal static class Extensions
         return suppliers.ToList();
     }
 
-    private static IReadOnlyList<byte> GetSupplierTypeIds()
+    public static IReadOnlyList<byte> GetSupplierTypeIds()
     {
         return TransactionalPartnerType.GetSupplierTypes().ToArray().Select(x => x.Id).ToList();
     }

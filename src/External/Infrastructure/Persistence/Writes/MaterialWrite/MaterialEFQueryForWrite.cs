@@ -1,6 +1,7 @@
 ﻿
 using Application.Interfaces.Writes.MaterialWrite;
 using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace Infrastructure.Persistence.Writes.MaterialWrite;
@@ -12,14 +13,20 @@ namespace Infrastructure.Persistence.Writes.MaterialWrite;
 // If not, the sync data latency between write and read db would be a problem.
 // And another thing is that, by sperating this logic from query side, the write just use methods that need to 
 // perform write operation, we can say we achieve Interface Segregation principle and Single Responsibility principle
-internal sealed class MaterialDapperQueryForWrite : IMaterialQueryForWrite
+// And because in Write side, we don't use dapper, so if we use dapper similiar to read side, one day if we separate
+// write and read sides on separate layers or assemblies, we need to install dapper nuger package on write side, which 
+// we really don't need. So instead of using dapper, we use built-in SqlQuery from EF Core.
+internal sealed class MaterialEFQueryForWrite(AppDbContext _context) : IMaterialQueryForWrite
 {
-    private readonly IDbConnection _dbConnection;
-    public MaterialDapperQueryForWrite(IDbConnection dbConnection)
-        => _dbConnection = dbConnection;
     public async Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken)
     {
-        var material = await _dbConnection.GetByCodeAsync(code, cancellationToken);
+        var material = await _context.Database
+               .SqlQuery<MaterialIdWithCode>($"""
+                    SELECT TOP 2 material.Id, material.Code 
+                    FROM Material 
+                    WHERE Code = {code}
+                    """)
+               .ToListAsync(cancellationToken);
 
         return material;
     }

@@ -2,18 +2,25 @@
 using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using System.Data;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
 
-internal sealed class TransactionalPartnerDapperQueryForWrite : ITransactionalPartnerQueryForWrite
+internal sealed class TransactionalPartnerEFQueryForWrite(AppDbContext _context, IDbConnection _dbConnection) : ITransactionalPartnerQueryForWrite
 {
-    private readonly IDbConnection _dbConnection;
-    public TransactionalPartnerDapperQueryForWrite(IDbConnection dbConnection)
-        => _dbConnection = dbConnection;
-
     public async Task<IReadOnlyList<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
     {
-        var suppliers = await _dbConnection.GetSupplierIdsWithCurrencyTypeIdByBySupplierIdsAsync(ids, cancellationToken);
+        var supplierTypeIds = Extensions.GetSupplierTypeIds();
+        var supplierIdsParam = "'" + string.Join(", '", ids) + "'";
+        var supplierTypeIdsParam = string.Join(", ", supplierTypeIds);
+        
+        var suppliers = await _context.Database.SqlQuery<SupplierIdWithCurrencyTypeId>(@$"
+                SELECT Id, CurrencyTypeId
+                FROM TransactionalPartner
+                WHERE Id IN ({supplierIdsParam}) AND TransactionalPartnerTypeId IN ({supplierTypeIdsParam})
+            ")
+        .ToListAsync(cancellationToken);
+        //var suppliers = await _dbConnection.GetSupplierIdsWithCurrencyTypeIdByBySupplierIdsAsync(ids, cancellationToken);
 
         return suppliers;
     }

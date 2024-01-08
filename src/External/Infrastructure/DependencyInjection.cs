@@ -76,10 +76,10 @@ public static class DependencyInjection
     private static IServiceCollection AddWritesDI(this IServiceCollection services)
     {
         services.AddScoped<IMaterialRepository, MaterialEfRepository>();
-        services.AddScoped<IMaterialQueryForWrite, MaterialDapperQueryForWrite>();
+        services.AddScoped<IMaterialQueryForWrite, MaterialEFQueryForWrite>();
 
         services.AddScoped<ITransactionalPartnerRepository, TransactionalPartnerEfRepository>();
-        services.AddScoped<ITransactionalPartnerQueryForWrite, TransactionalPartnerDapperQueryForWrite>();
+        services.AddScoped<ITransactionalPartnerQueryForWrite, TransactionalPartnerEFQueryForWrite>();
 
         services.AddScoped<IProductRepository, ProductEfRepository>();
         
