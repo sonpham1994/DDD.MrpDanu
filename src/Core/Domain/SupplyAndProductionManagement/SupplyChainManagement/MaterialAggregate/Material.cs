@@ -1,5 +1,6 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
+using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 namespace Domain.SupplyChainManagement.MaterialAggregate;
 
@@ -35,8 +36,10 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     }
 
     public static Result<Material> Create(string code, string name, MaterialAttributes attributes, MaterialType materialType,
-        RegionalMarket regionalMarket)
+        RegionalMarket regionalMarket, UniqueMaterialCodeResult uniqueCodeResult)
     {
+        if (!uniqueCodeResult.IsSuccess)
+            return uniqueCodeResult.Error;
         var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
         if (result.IsFailure)
             return result.Error;
@@ -45,8 +48,11 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     }
 
     public Result UpdateMaterial(string code, string name, MaterialAttributes attributes, MaterialType materialType,
-        RegionalMarket regionalMarket)
+        RegionalMarket regionalMarket, UniqueMaterialCodeResult uniqueCodeResult)
     {
+        if (!uniqueCodeResult.IsSuccess)
+            return uniqueCodeResult.Error;
+        
         var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
         if (result.IsFailure)
             return result;

@@ -20,18 +20,19 @@ internal sealed class CreateMaterialCommandHandler(
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
         var materialAttributes = MaterialAttributes
             .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
-        var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket).Value;
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
-                material,
+                request.Code,
                 _materialQueryForWrite.GetByCodeAsync,
                 cancellationToken
             );
-        if (uniqueCodeResult.IsFailure)
-            return uniqueCodeResult;
-
-        _materialRepository.Save(material);
+        var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket,
+            uniqueCodeResult);
+        if (material.IsFailure)
+            return material.Error;
+        
+        _materialRepository.Save(material.Value);
 
         if (request.MaterialCosts.Any())
         {
@@ -41,11 +42,11 @@ internal sealed class CreateMaterialCommandHandler(
 
             var materialCostInputs = request.MaterialCosts.ToTuple();
 
-            var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
+            var materialSupplierCosts = MaterialSupplierCost.Create(material.Value.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
             if (materialSupplierCosts.IsFailure)
                 return materialSupplierCosts.Error;
 
-            var result = material.UpdateCost(materialSupplierCosts.Value);
+            var result = material.Value.UpdateCost(materialSupplierCosts.Value);
             if (result.IsFailure)
                 return result;
         }

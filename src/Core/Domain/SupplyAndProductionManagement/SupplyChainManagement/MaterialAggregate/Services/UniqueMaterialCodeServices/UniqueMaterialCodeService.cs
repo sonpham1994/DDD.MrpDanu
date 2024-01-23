@@ -14,18 +14,42 @@ public static class UniqueMaterialCodeService
      * out-of-process dependencies like database
      * please check here: https://github.com/ardalis/DDD-NoDuplicates?tab=readme-ov-file
      */
-    public static async Task<Result> CheckUniqueMaterialCodeAsync(
-        Material material, 
+    public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
+        string code, 
         Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> getMaterialByCode, 
         CancellationToken cancellationToken)
     {
-        var materialIdWithCodes = await getMaterialByCode.Invoke(material.Code, cancellationToken);
+        code ??= string.Empty;
+        code = code.Trim();
+        
+        var materialIdWithCodes = await getMaterialByCode.Invoke(code, cancellationToken);
         var existsCodeInAnotherMaterial = materialIdWithCodes
-            .FirstOrDefault(x => x.MaterialId != material.Id && material.Code == x.Code);
+            .FirstOrDefault(x => code == x.Code);
         
         if (existsCodeInAnotherMaterial is not null)
         {
-            return DomainErrors.Material.ExistedCode(material.Code, existsCodeInAnotherMaterial.MaterialId);
+            return DomainErrors.Material.ExistedCode(code, existsCodeInAnotherMaterial.MaterialId);
+        }
+
+        return Result.Success();
+    }
+    
+    public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
+        MaterialId materialId,
+        string code, 
+        Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> getMaterialByCode, 
+        CancellationToken cancellationToken)
+    {
+        code ??= string.Empty;
+        code = code.Trim();
+        
+        var materialIdWithCodes = await getMaterialByCode.Invoke(code, cancellationToken);
+        var existsCodeInAnotherMaterial = materialIdWithCodes
+            .FirstOrDefault(x => x.MaterialId != materialId && code == x.Code);
+        
+        if (existsCodeInAnotherMaterial is not null)
+        {
+            return DomainErrors.Material.ExistedCode(code, existsCodeInAnotherMaterial.MaterialId);
         }
 
         return Result.Success();

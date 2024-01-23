@@ -9,7 +9,7 @@ public static class ApiResponseExtensions
     public static ApiResponse Failure(IReadOnlyList<ApiError> errors) => new(false, errors);
     public static ApiResponse Failure(ApiError error) => new(false, new List<ApiError>(1) { error });
     public static ApiResponse Failure(DomainError error) => new(false, new List<ApiError>(1) { error.ToApiError() });
-    
+
     public static ApiResponse Failure(IReadOnlyList<DomainError> errors)
     {
         var apiErrors = errors.Select(x => x.ToApiError()).ToList();

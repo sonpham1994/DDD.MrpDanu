@@ -27,19 +27,18 @@ internal sealed class UpdateMaterialCommandHandler(
         var materialAttributes = MaterialAttributes.Create(request.ColorCode, request.Width,
             request.Weight, request.Unit, request.Varian).Value;
 
-        var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket);
-        if (materialResult.IsFailure)
-            return materialResult;
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
-                material,
+                material.Id,
+                request.Code,
                 _materialQueryForWrite.GetByCodeAsync,
                 cancellationToken
             );
-        if (uniqueCodeResult.IsFailure)
-            return uniqueCodeResult;
-
+        var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket, uniqueCodeResult);
+        if (materialResult.IsFailure)
+            return materialResult;
+        
         var materialCostInputs = request.MaterialCosts
             .ToTuple();
         var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();

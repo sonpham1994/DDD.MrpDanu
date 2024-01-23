@@ -34,16 +34,16 @@ public class MaterialSupplierIdentity : ValueObject
     protected override IEnumerable<int> GetHashCodeComponents()
     {
         yield return MaterialId.GetHashCode();
-        yield return SupplierId.GetHashCode();
+        yield return _transactionalPartnerId.GetHashCode();
     }
 
     protected override bool EqualComponents(ValueObject valueObject)
     {
-        if (valueObject is not MaterialSupplierIdentity materialSupplierIdentity)
+        if (valueObject is not MaterialSupplierIdentity other)
             return false;
-        if (MaterialId != materialSupplierIdentity.MaterialId)
+        if (MaterialId != other.MaterialId)
             return false;
-        if (SupplierId != materialSupplierIdentity.SupplierId)
+        if (_transactionalPartnerId != other._transactionalPartnerId)
             return false;
 
         return true;
