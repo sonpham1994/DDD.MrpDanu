@@ -23,4 +23,10 @@ public sealed class DomainErrors
     }
     
     public static DomainError NullRequestBodyParameter => new("General.NullRequestBodyParameter", "Request body parameter should not be null");
+
+    public static DomainError SafeFail => new("SafeFail", "DomainError cannot null if process is fail");
+
+    public static DomainError SafeFailWithCode(string code) => new($"SafeFail.{code}", $"Should check failure for {code} before executing operation.");
+    
+    public static DomainError EnumerationNull(string typeName, in byte id) => new DomainError("Enumeration.Null", $"Cannot get {typeName} by id '{id}'");
 }

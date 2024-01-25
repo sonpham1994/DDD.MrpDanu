@@ -58,6 +58,6 @@ public readonly struct DomainError : IEquatable<DomainError>
 
     public override int GetHashCode()
     {
-        return (this.GetType().Name.GetHashCode() + Code.GetHashCode()).GetHashCode();
+        return (GetType().Name.GetHashCode() + Code.GetHashCode()).GetHashCode();
     }
 }

@@ -4,27 +4,48 @@ namespace Domain.SharedKernel.Base;
 
 public readonly struct Result<T> : IResult<T>
 {
-    public bool IsFailure { get; }
-    public bool IsSuccess => !IsFailure;
-
     private readonly DomainError _error;
-
-    public DomainError Error => _error;
-
+    private readonly bool _isSuccess;
     private readonly T _value;
-    public T Value => IsSuccess 
-        ? _value 
-        : throw new DomainException(new DomainError($"FailSafe.{_error.Code}"
-            , $"Should check failure for {_error.Code} before executing operation."));
 
-    internal Result(in bool isFailure, in DomainError error, T value)
+    public bool IsFailure => !IsSuccess;
+    
+    public bool IsSuccess
     {
-        if (isFailure && error.IsEmpty())
-            throw new DomainException(new DomainError("SafeFail", "DomainError cannot null if process is fail"));
-        
-        IsFailure = isFailure;
+        get
+        {
+            this.CheckSafeFailResult(_isSuccess, _error);
+            return _isSuccess;
+        }
+    }
+
+    public DomainError Error
+    {
+        get
+        {
+            this.CheckSafeFailResult(_isSuccess, _error);
+            return _error;
+        }
+    }
+
+    public T Value
+    {
+        get
+        {
+            if (!_isSuccess)
+                throw new DomainException(DomainErrors.SafeFailWithCode(_error.Code));
+
+            return _value;
+        }
+    }
+
+    internal Result(in bool isSuccess, in DomainError error, T value)
+    {
+        _isSuccess = isSuccess;
         _error = error;
         _value = value;
+        
+        this.CheckSafeFailResult(_isSuccess, _error);
     }
 
     public static implicit operator Result<T>(T value)
@@ -34,7 +55,7 @@ public readonly struct Result<T> : IResult<T>
     
     public static implicit operator Result(in Result<T> result)
     {
-        if (result.IsSuccess)
+        if (result._isSuccess)
             return Result.Success();
         else
             return Result.Failure(result.Error);
@@ -42,7 +63,7 @@ public readonly struct Result<T> : IResult<T>
 
     public static implicit operator Result<T>(in DomainError domainError)
     {
-        return new Result<T>(true, domainError, default);
+        return new Result<T>(false, domainError, default);
     }
 
     public static implicit operator Result<T?>(in Result result)

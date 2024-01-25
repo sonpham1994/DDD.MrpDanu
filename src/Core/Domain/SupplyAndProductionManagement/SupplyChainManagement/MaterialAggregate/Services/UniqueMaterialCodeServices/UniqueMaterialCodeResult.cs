@@ -2,15 +2,36 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
-public readonly struct UniqueMaterialCodeResult
+public readonly struct UniqueMaterialCodeResult : IResult
 {
+    private readonly bool _isSuccess;
+    private readonly DomainError _error;
     private UniqueMaterialCodeResult(bool isSuccess, in DomainError error)
     {
-        IsSuccess = isSuccess;
-        Error = error;
+        _isSuccess = isSuccess;
+        _error = error;
+        this.CheckSafeFailResult(_isSuccess, _error);
     }
-    public bool IsSuccess { get; }
-    public DomainError Error { get; }
+
+    public bool IsFailure => !IsSuccess;
+
+    public bool IsSuccess 
+    {
+        get
+        {
+            this.CheckSafeFailResult(_isSuccess, _error);
+            return _isSuccess;
+        }
+    }
+
+    public DomainError Error
+    {
+        get
+        {
+            this.CheckSafeFailResult(_isSuccess, _error);
+            return _error;
+        }
+    }
 
     public static implicit operator UniqueMaterialCodeResult(in DomainError error)
     {

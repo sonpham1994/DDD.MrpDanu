@@ -6,7 +6,7 @@ namespace Domain.SharedKernel.Base;
 public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<Enumeration<T>>
     where T : Enumeration<T>
 {
-    private int? cachedHashCode;
+    private int? _cachedHashCode;
     protected static readonly T[] list = CreateEnumerations();
     public static IReadOnlyCollection<T> List => list;
 
@@ -51,7 +51,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
     {
         int index = id - 1;
         if (index < 0 || index >= list.Length)
-            return new DomainError("Enumeration.Null", $"Cannot get {typeof(T).Name} by id '{id}'");
+            return DomainErrors.EnumerationNull(typeof(T).Name, id);
 
         //using index is much faster than FirstOrDefault or Find and optimize memory usage. Please check Benchmark/FirstOrDefaultVsFind
         var result = list[index];
@@ -61,12 +61,12 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
 
     public override int GetHashCode()
     {
-        if (cachedHashCode.HasValue) 
-            return cachedHashCode.Value;
+        if (_cachedHashCode.HasValue) 
+            return _cachedHashCode.Value;
 
-        cachedHashCode = (this.GetUnproxiedType().Name.GetHashCode() + Id).GetHashCode();
+        _cachedHashCode = (this.GetUnproxiedType().Name.GetHashCode() + Id).GetHashCode();
 
-        return cachedHashCode.Value;
+        return _cachedHashCode.Value;
     }
 
     public int CompareTo(Enumeration<T>? other) => Id.CompareTo(other!.Id);
