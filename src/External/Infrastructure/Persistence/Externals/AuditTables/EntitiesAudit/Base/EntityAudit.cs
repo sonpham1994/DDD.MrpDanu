@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Domain.Exceptions;
+using Domain.SharedKernel.Exceptions;
 using Domain.Extensions;
 using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;

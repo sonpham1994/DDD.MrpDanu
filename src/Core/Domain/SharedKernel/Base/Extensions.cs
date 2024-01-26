@@ -1,4 +1,4 @@
-using Domain.Exceptions;
+using Domain.SharedKernel.Exceptions;
 
 namespace Domain.SharedKernel.Base;
 

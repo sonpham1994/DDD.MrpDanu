@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using Application.Helpers;
-using Domain.Exceptions;
+using Domain.SharedKernel.Exceptions;
 using Api.ApiResponses;
 using Api.SourceGenerators;
 

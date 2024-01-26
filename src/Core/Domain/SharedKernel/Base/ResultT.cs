@@ -1,4 +1,4 @@
-﻿using Domain.Exceptions;
+﻿using Domain.SharedKernel.Exceptions;
 
 namespace Domain.SharedKernel.Base;
 
@@ -61,9 +61,9 @@ public readonly struct Result<T> : IResult<T>
             return Result.Failure(result.Error);
     }
 
-    public static implicit operator Result<T>(in DomainError domainError)
+    public static implicit operator Result<T?>(in DomainError domainError)
     {
-        return new Result<T>(false, domainError, default);
+        return new Result<T?>(false, domainError, default);
     }
 
     public static implicit operator Result<T?>(in Result result)

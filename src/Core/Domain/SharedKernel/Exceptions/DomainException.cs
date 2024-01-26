@@ -1,6 +1,6 @@
 using Domain.SharedKernel.Base;
 
-namespace Domain.Exceptions;
+namespace Domain.SharedKernel.Exceptions;
 
 public sealed class DomainException : Exception
 {

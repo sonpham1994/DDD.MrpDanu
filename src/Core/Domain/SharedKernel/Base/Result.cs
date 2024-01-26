@@ -1,5 +1,3 @@
-using Domain.Exceptions;
-
 namespace Domain.SharedKernel.Base;
 
 //https://github.com/vkhorikov/CSharpFunctionalExtensions
@@ -40,7 +38,7 @@ public readonly struct Result : IResult
         return new Result(true, DomainError.Empty);
     }
 
-    public static Result<T> Success<T>(T? value)
+    public static Result<T> Success<T>(T value)
     {
         return new Result<T>(true, DomainError.Empty, value);
     }
