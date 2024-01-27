@@ -3,6 +3,7 @@ using Application.Helpers;
 using Application.Interfaces;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Writes;
+using Infrastructure.Persistence.Writes.MaterialWrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -50,24 +51,41 @@ internal sealed class DatabaseTransaction : ITransaction
 
         return result;
     }
+}
 
-    //public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
-    //{
-    //    IResult result = null;
-    //    try
-    //    {
-    //        result = await transactionalHandler.HandleAsync();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        string traceId = Helper.GetTraceId();
-    //        _appDbContext.RollbackTransaction();
-    //        var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
-    //        _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
+//If want to use persist data in both SQL and NoSql
+internal sealed class DatabaseTransactionWithMemento : ITransaction
+{
+    private IEnumerable<IOriginator> _originators;
+    private readonly ILogger<DatabaseTransaction> _logger;
 
-    //        throw;
-    //    }
+    public DatabaseTransactionWithMemento(ILogger<DatabaseTransaction> logger, IEnumerable<IOriginator> originators)
+    {
+        _originators = originators;
+        _logger = logger;
+    }
 
-    //    return result;
-    //}
+    public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
+    {
+        IResult result = null;
+        try
+        {
+            result = await transactionalHandler.HandleAsync();
+        }
+        catch (Exception ex)
+        {
+            string traceId = Helper.GetTraceId();
+            foreach (var originator in _originators)
+            {
+                await originator.RestoreAsync();
+            }
+            
+            var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
+            _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
+
+            throw;
+        }
+
+        return result;
+    }
 }

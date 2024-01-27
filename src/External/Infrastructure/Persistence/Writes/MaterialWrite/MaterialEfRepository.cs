@@ -13,7 +13,7 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
     {
     }
 
-    public override async ValueTask<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default)
+    public async Task<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default)
     {
         Material? material = null;
 
