@@ -16,11 +16,11 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
 {
     private readonly ILogger<TransactionalBehavior<TRequest, TResponse>> _logger;
     private readonly ITransaction _transaction;
-    private readonly AuditTableHandler _auditTableHandler;
+    private readonly AuditTableHandler<TResponse> _auditTableHandler;
 
     public TransactionalBehavior(ILogger<TransactionalBehavior<TRequest, TResponse>> logger,
         ITransaction transaction,
-        AuditTableHandler auditTableHandler)
+        AuditTableHandler<TResponse> auditTableHandler)
     {
         _logger = logger;
         _transaction = transaction;
@@ -33,7 +33,7 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
         var requestName = request.GetGenericTypeName();
         _logger.StartTransactionalBehavior(requestName);
 
-        var transactionalHandler = new TransactionalHandler(
+        var transactionalHandler = new TransactionalHandler<TResponse>(
             new RequestHandler<TResponse>(next), 
             _auditTableHandler);
 

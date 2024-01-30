@@ -20,7 +20,8 @@ internal sealed class DatabaseTransaction : ITransaction
         _logger = logger;
     }
 
-    public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
+    public async Task<TResponse> HandleAsync<TResponse>(TransactionalHandler<TResponse> transactionalHandler)
+        where TResponse : IResult
     {
         IResult result = null;
         try
@@ -49,23 +50,24 @@ internal sealed class DatabaseTransaction : ITransaction
             throw;
         }
 
-        return result;
+        return (TResponse)result;
     }
 }
 
-//If want to use persist data in both SQL and NoSql
-internal sealed class DatabaseTransactionWithMemento : ITransaction
+//If want to use persist data in both SQL and NoSql, we apply Memento design pattern
+internal sealed class DistributedDatabaseTransaction : ITransaction
 {
     private IEnumerable<IOriginator> _originators;
     private readonly ILogger<DatabaseTransaction> _logger;
 
-    public DatabaseTransactionWithMemento(ILogger<DatabaseTransaction> logger, IEnumerable<IOriginator> originators)
+    public DistributedDatabaseTransaction(ILogger<DatabaseTransaction> logger, IEnumerable<IOriginator> originators)
     {
         _originators = originators;
         _logger = logger;
     }
 
-    public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
+    public async Task<TResponse> HandleAsync<TResponse>(TransactionalHandler<TResponse> transactionalHandler)
+        where TResponse : IResult
     {
         IResult result = null;
         try
@@ -86,6 +88,6 @@ internal sealed class DatabaseTransactionWithMemento : ITransaction
             throw;
         }
 
-        return result;
+        return (TResponse)result;
     }
 }

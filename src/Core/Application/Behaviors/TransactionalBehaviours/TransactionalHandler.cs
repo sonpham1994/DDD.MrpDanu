@@ -1,17 +1,20 @@
+using Application.Errors;
 using Domain.SharedKernel.Base;
+using Domain.SharedKernel.Exceptions;
 
 namespace Application.Behaviors.TransactionalBehaviours;
 
-public sealed class TransactionalHandler
+public sealed class TransactionalHandler<TResponse>
+    where TResponse : IResult
 {
-    private readonly ITransactionalReceiver[] _transactionalReceivers;
+    private readonly ITransactionalReceiver<TResponse>[] _transactionalReceivers;
 
-    internal TransactionalHandler(params ITransactionalReceiver[] transactionalReceivers)
+    internal TransactionalHandler(params ITransactionalReceiver<TResponse>[] transactionalReceivers)
     {
-        _transactionalReceivers = transactionalReceivers;
+        _transactionalReceivers = transactionalReceivers ?? throw new DomainException(DomainErrors.NullHandler);
     }
 
-    public async Task<IResult> HandleAsync()
+    public async Task<TResponse> HandleAsync()
     {
         foreach (var transactionalReceiver in _transactionalReceivers)
         {
@@ -20,6 +23,7 @@ public sealed class TransactionalHandler
                 return result;
         }
 
-        return Result.Success();
+        IResult successResult = Result.Success();
+        return (TResponse)successResult;
     }
 }
