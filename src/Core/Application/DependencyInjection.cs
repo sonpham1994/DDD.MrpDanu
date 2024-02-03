@@ -25,8 +25,7 @@ public static class DependencyInjection
                 .AddOpenBehavior(typeof(ValidatorInterceptor<,>))
                 .AddOpenBehavior(typeof(ValidatorResponseInterceptor<,>))
                 .AddOpenBehavior(typeof(TransactionalBehavior<,>))
-                .AddOpenBehavior(typeof(RequestLoggingInterceptor<,>))
-                .AddOpenBehavior(typeof(HandlerLoggingInterceptor<,>));
+                .AddOpenBehavior(typeof(GCHandlerLoggingInterceptor<,>));
         });
         
         return services;
@@ -34,7 +33,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        services.AddScoped<AuditTableHandler>();
+        services.AddScoped(typeof(AuditTableHandler<>));
 
         return services;
     }

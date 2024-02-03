@@ -5,6 +5,7 @@ using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCode
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
+using Domain.SharedKernel.ValueObjects;
 
 namespace Application.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 
@@ -14,6 +15,7 @@ internal sealed class CreateMaterialCommandHandler(
     IMaterialRepository _materialRepository,
     IMaterialQueryForWrite _materialQueryForWrite) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
+    // should return material id for processing roll back if applying Sql and NoSql
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;

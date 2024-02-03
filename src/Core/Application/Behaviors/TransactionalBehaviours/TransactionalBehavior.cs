@@ -43,6 +43,6 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
 
         _logger.CompletedTransactionalBehavior(requestName);
 
-        return (TResponse)response;
+        return response;
     }
 }

@@ -9,16 +9,16 @@ using Application.EventListeners;
 namespace Application.Behaviors.Interceptors;
 
 //https://www.youtube.com/watch?v=HRt7KIkdIaw
-internal sealed class HandlerLoggingInterceptor<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class GCHandlerLoggingInterceptor<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : IResult
 {
-    private readonly ILogger<HandlerLoggingInterceptor<TRequest, TResponse>> _logger;
+    private readonly ILogger<GCHandlerLoggingInterceptor<TRequest, TResponse>> _logger;
     private readonly ILogger<GCEventListener> _loggerGCEventListener;
     private readonly IRequestHandler<TRequest, TResponse> _requestHandler;
 
-    public HandlerLoggingInterceptor(IRequestHandler<TRequest, TResponse> requestHandler,
-        ILogger<HandlerLoggingInterceptor<TRequest, TResponse>> logger,
+    public GCHandlerLoggingInterceptor(IRequestHandler<TRequest, TResponse> requestHandler,
+        ILogger<GCHandlerLoggingInterceptor<TRequest, TResponse>> logger,
         ILogger<GCEventListener> loggerGCEventListener)
     {
         _requestHandler = requestHandler;
