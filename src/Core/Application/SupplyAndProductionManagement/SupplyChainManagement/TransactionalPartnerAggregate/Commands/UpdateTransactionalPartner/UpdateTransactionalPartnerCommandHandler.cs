@@ -1,6 +1,5 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;

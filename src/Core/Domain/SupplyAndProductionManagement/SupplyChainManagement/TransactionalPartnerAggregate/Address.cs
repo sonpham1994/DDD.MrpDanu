@@ -5,15 +5,15 @@ namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 public class Address : ValueObject
 {
     private static byte ZipCodeLength => 5;
-    
+
     public string Street { get; }
     public string City { get; }
     public string District { get; }
     public string Ward { get; }
     public string ZipCode { get; }
-    public virtual Country Country { get; }
+    public Country Country { get; }
 
-    protected Address() {}
+    protected Address() { }
 
     private Address(string street, string city, string district, string ward, string zipCode, Country country)
     {
@@ -43,7 +43,7 @@ public class Address : ValueObject
 
         return new Address(street.Trim(), city.Trim(), district.Trim(), ward.Trim(), zipCode, country);
     }
-    
+
     protected override IEnumerable<int> GetHashCodeComponents()
     {
         yield return ZipCode.GetHashCode();

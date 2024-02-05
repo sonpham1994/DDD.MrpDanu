@@ -1,9 +1,7 @@
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.Extensions;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
-using Infrastructure.Persistence.Writes;
 using Infrastructure.Persistence.Writes.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,9 +58,9 @@ internal sealed class TransactionalPartnerEfRepository
         transactionalPartner.Address.BindingEnumeration<Country>(ShadowProperties.CountryId, nameof(TransactionalPartner.Address.Country), context);
 
         transactionalPartner
-            .BindingEnumeration<TransactionalPartnerType, TransactionalPartnerId>(ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context)
-            .BindingEnumeration<CurrencyType, TransactionalPartnerId>(ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context)
-            .BindingEnumeration<LocationType, TransactionalPartnerId>(ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
+            .BindingEnumeration(transactionalPartner.TransactionalPartnerType, ShadowProperties.TransactionalPartnerTypeId, nameof(TransactionalPartner.TransactionalPartnerType), context)
+            .BindingEnumeration(transactionalPartner.CurrencyType, ShadowProperties.CurrencyTypeId, nameof(TransactionalPartner.CurrencyType), context)
+            .BindingEnumeration(transactionalPartner.LocationType, ShadowProperties.LocationTypeId, nameof(TransactionalPartner.LocationType), context);
     }
 
     public async Task BulkDeleteAsync(TransactionalPartnerId id, CancellationToken cancellationToken)

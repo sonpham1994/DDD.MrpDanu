@@ -49,9 +49,13 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
         //material.BindingEnumeration<MaterialType>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context);
         //material.BindingEnumeration<RegionalMarket>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
 
-        material
-            .BindingEnumeration<MaterialType, MaterialId>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context)
-            .BindingEnumeration<RegionalMarket, MaterialId>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
+        // material
+        //     .BindingEnumeration<MaterialType, MaterialId>(ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context)
+        //     .BindingEnumeration<RegionalMarket, MaterialId>(ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
+
+         material
+            .BindingEnumeration(material.MaterialType, ShadowProperties.MaterialTypeId, nameof(Material.MaterialType), context)
+            .BindingEnumeration(material.RegionalMarket, ShadowProperties.RegionalMarketId, nameof(Material.RegionalMarket), context);
 
         foreach (var materialSupplierCost in material.MaterialSupplierCosts)
         {

@@ -20,8 +20,27 @@ internal static class EnumerationExtension
         return entity;
     }
 
+    // EF 7
     public static EntityGuidStronglyTypedId<TId> BindingEnumeration<TEnumeration, TId>(
         this EntityGuidStronglyTypedId<TId> entity,
+        string shadowProperty,
+        string propertyName,
+        AppDbContext context)
+        where TEnumeration : Enumeration<TEnumeration>
+        where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    {
+        var id = context.Entry(entity).Property<byte>(shadowProperty).CurrentValue;
+        var value = Enumeration<TEnumeration>.FromId(id).Value;
+        entity.GetUnproxiedType().GetProperty(propertyName)!.SetValue(entity, value, null);
+
+        return entity;
+    }
+
+    // .NET 8 or later version with disable lazy loading for removing virtual entities or disable lazyloading for specific entities
+    // please check: https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - "This can be changed in EF8 to opt-in to the classic EF6 behavior such that a navigation can be made to not lazy-load simply by making the navigation non-virtual"
+    public static EntityGuidStronglyTypedId<TId> BindingEnumeration<TEnumeration, TId>(
+        this EntityGuidStronglyTypedId<TId> entity,
+        TEnumeration enumeration,
         string shadowProperty,
         string propertyName,
         AppDbContext context)

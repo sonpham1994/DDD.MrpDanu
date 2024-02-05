@@ -16,8 +16,8 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     public string Code { get; private set; }
     public string Name { get; private set; }
     public MaterialAttributes Attributes { get; private set; }
-    public virtual MaterialType MaterialType { get; private set; }
-    public virtual RegionalMarket RegionalMarket { get; private set; }
+    public MaterialType MaterialType { get; private set; }
+    public RegionalMarket RegionalMarket { get; private set; }
 
     public virtual IReadOnlyList<MaterialSupplierCost> MaterialSupplierCosts =>
         _materialSupplierCosts.ToList();
