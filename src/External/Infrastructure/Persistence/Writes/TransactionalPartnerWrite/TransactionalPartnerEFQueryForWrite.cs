@@ -1,78 +1,100 @@
 ﻿using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
-using System.Data;
-using Dapper;
 using Microsoft.EntityFrameworkCore;
+using PersistenceExtensions = Infrastructure.Persistence.Extensions;
 
 namespace Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
 
-internal sealed class TransactionalPartnerEFQueryForWrite(AppDbContext _context, IDbConnection _dbConnection) : ITransactionalPartnerQueryForWrite
+internal sealed class TransactionalPartnerEFQueryForWrite(AppDbContext _context) : ITransactionalPartnerQueryForWrite
 {
+    //We cant put Contact Info Value Object as parameter, but it is not necessarily. On query side, we don't need 
+    //to have any restrictions on write side (DDD). So we don't need to follow all the concepts of DDD on query side
     public async Task<IReadOnlyList<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
     {
-        var supplierTypeIds = Extensions.GetSupplierTypeIds();
-        var supplierIdsParam = "'" + string.Join(", '", ids) + "'";
-        var supplierTypeIdsParam = string.Join(", ", supplierTypeIds);
-        
-        var suppliers = await _context.Database.SqlQuery<SupplierIdWithCurrencyTypeId>(@$"
+        var supplierTypeIds = PersistenceExtensions.GetSupplierTypeIds();
+
+        //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ using OPENJSON for collection instead of IN for SQL 2019 or later version
+        //https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - "However, this strategy does not work well with database query caching"
+        // the reason why we want to use OPENJSON is to use cached execution plan. Please check SqlServerKnowledge/PerformanceBetweenEFCoreAndStoredProcedures or TestCompanyEntity.Benchmark/InVsExistsOpenJson
+
+        var suppliers = await _context
+            .Database
+            .SqlQuery<SupplierIdWithCurrencyTypeId>(@$"
                 SELECT Id, CurrencyTypeId
-                FROM TransactionalPartner
-                WHERE Id IN ({supplierIdsParam}) AND TransactionalPartnerTypeId IN ({supplierTypeIdsParam})
-            ")
-        .ToListAsync(cancellationToken);
-        //var suppliers = await _dbConnection.GetSupplierIdsWithCurrencyTypeIdByBySupplierIdsAsync(ids, cancellationToken);
+                FROM TransactionalPartner as transactionalPartner
+                WHERE EXISTS (
+                    SELECT 1
+                    FROM OPENJSON({ids}) WITH ([value] uniqueidentifier '$') AS [ids]
+                    WHERE [ids].[value] = transactionalPartner.Id
+                )
+                AND EXISTS (
+                    SELECT 1
+                    FROM OPENJSON({supplierTypeIds}) WITH ([value] tinyint '$') AS [supplierTypeIds]
+                    WHERE [supplierTypeIds].[value] = transactionalPartner.TransactionalPartnerTypeId
+                )
+                ")
+            .ToListAsync(cancellationToken);
 
         return suppliers;
     }
+
     
-    //We cant put Contact Info Value Object as parameter, but it is not necessarily. On query side, we don't need 
-    //to have any restrictions on write side (DDD). So we don't need to follow all the concepts of DDD on query side
+    // public async Task<bool> ExistByContactInfoAsync(string email, string telNo, CancellationToken cancellationToken)
+    // {
+    //     string whereClause = $"WHERE {GetExistingEmailOrTelNoWhereClause(email, telNo)}";
+
+    //     bool existEmailOrTelNo = await _dbConnection.QueryFirstAsync<bool>(@$"
+    //                 SELECT 1
+    //                 FROM ContactPersonInformation
+    //                 {whereClause}
+    //                 union select 0",
+    //         new { Email = email, TelNo = telNo });
+
+    //     return existEmailOrTelNo;
+    // }
+
     public async Task<bool> ExistByContactInfoAsync(string email, string telNo, CancellationToken cancellationToken)
     {
-        string whereClause = $"WHERE {GetExistingEmailOrTelNoWhereClause(email, telNo)}";
-
-        bool existEmailOrTelNo = await _dbConnection.QueryFirstAsync<bool>(@$"
-                    SELECT 1
+        // dont change sql query structure for the sake of cached execution plan
+        bool existContact = await _context
+                .Database
+                .SqlQuery<bool>(@$"
+                    SELECT 1 AS ExistsValue
                     FROM ContactPersonInformation
-                    {whereClause}
-                    union select 0",
-            new { Email = email, TelNo = telNo });
+                    WHERE (Email != '' AND Email = {email}) OR (TelNo != '' AND TelNo = {telNo})
+                    ")
+                .AnyAsync(cancellationToken);
 
-        return existEmailOrTelNo;
+        return existContact;
     }
 
     public async Task<bool> ExistByContactInfoAsync(Guid id, string email, string telNo, CancellationToken cancellationToken)
     {
-        string whereClause = $"WHERE Id != @Id AND ({GetExistingEmailOrTelNoWhereClause(email, telNo)})";
+        // dont change sql query structure for the sake of cached execution plan
+        /*
+        * SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM (
 
-        bool existEmailOrTelNo = await _dbConnection.QueryFirstAsync<bool>(@$"
-                    SELECT 1
+                                SELECT 1 AS ExistsValue
+                                FROM ContactPersonInformation
+                                WHERE Id != @p0 AND (Email = @p1 OR TelNo = @p2)
+                                UNION 
+                                SELECT 0 AS ExistsValue
+        ) AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END)
+        */
+        bool existContact = await _context
+                .Database
+                .SqlQuery<bool>(@$"
+                    SELECT 1 AS ExistsValue
                     FROM ContactPersonInformation
-                    {whereClause}
-                    union select 0",
-            new { Id = id, Email = email, TelNo = telNo });
-
-        return existEmailOrTelNo;
-    }
-
-    private static string GetExistingEmailOrTelNoWhereClause(string email, string telNo)
-    {
-        bool isEmailEmpty = true;
-        string query = string.Empty;
-        if (!string.IsNullOrEmpty(email))
-        {
-            isEmailEmpty = false;
-            query += $"Email = @Email";
-        }
-        if (!string.IsNullOrEmpty(telNo))
-        {
-            string telNoWhereClause = "TelNo = @TelNo";
-            if (!isEmailEmpty)
-                telNoWhereClause = $"OR {telNoWhereClause}";
-
-            query += $" {telNoWhereClause}";
-        }
-
-        return query;
+                    WHERE Id != {id} AND ((Email != '' AND Email = {email}) OR (TelNo != '' AND TelNo = {telNo}))
+                    ")
+                .AnyAsync(cancellationToken);
+       
+        return existContact;
     }
 }

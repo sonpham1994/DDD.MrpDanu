@@ -22,9 +22,9 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
     public Website? Website { get; private set; }
 
     public virtual ContactPersonInformation ContactPersonInformation { get; private set; }
-    public virtual TransactionalPartnerType TransactionalPartnerType { get; private set; }
-    public virtual CurrencyType CurrencyType { get; private set; }
-    public virtual LocationType LocationType { get; private set; }
+    public TransactionalPartnerType TransactionalPartnerType { get; private set; }
+    public CurrencyType CurrencyType { get; private set; }
+    public LocationType LocationType { get; private set; }
 
     //required EF Proxies
     protected TransactionalPartner() { }

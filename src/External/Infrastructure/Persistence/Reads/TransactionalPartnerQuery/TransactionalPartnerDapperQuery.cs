@@ -9,20 +9,14 @@ using Application.Interfaces.Reads;
 
 namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery;
 
-internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQuery
+internal sealed class TransactionalPartnerDapperQuery(IDbConnection _dbConnection) : ITransactionalPartnerQuery
 {
-    private readonly IDbConnection _dbConnection;
-    public TransactionalPartnerDapperQuery(IDbConnection dbConnection)
-        => _dbConnection = dbConnection;
-    
     public async Task<IReadOnlyList<SuppliersResponse>> GetSuppliersAsync(CancellationToken cancellationToken)
     {
         var suppliers = await _dbConnection.GetSuppliersAsync(cancellationToken);
 
         return suppliers.ToResponse();
     }
-    
-    
     
     public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken)
     {
@@ -38,6 +32,4 @@ internal sealed class TransactionalPartnerDapperQuery : ITransactionalPartnerQue
 
         return transactionalPartner.ToResponse();
     }
-
-    
 }

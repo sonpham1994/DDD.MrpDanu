@@ -1,4 +1,3 @@
-using Application.Extensions;
 using Application.LoggingDefinitions;
 using Domain.SharedKernel.Base;
 using MediatR;

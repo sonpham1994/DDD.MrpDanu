@@ -1,3 +1,4 @@
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -34,5 +35,10 @@ internal static class Extensions
         return entity.References.Any(j => j.IsModified)
                // for internal entities which are collections
                || entity.Collections.Any(j => j.IsModified);
+    }
+
+    public static IReadOnlyList<byte> GetSupplierTypeIds()
+    {
+        return TransactionalPartnerType.GetSupplierTypes().ToArray().Select(x => x.Id).ToList();
     }
 }

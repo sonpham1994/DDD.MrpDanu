@@ -4,7 +4,6 @@ using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
-using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 
 namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;

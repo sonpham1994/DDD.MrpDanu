@@ -53,8 +53,12 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
             {
                 msSqlOptions.EnableRetryOnFailure(maxRetryCount:_databaseSettings.MaxRetryCount, maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
                     errorNumbersToAdd: null);
+
+                //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ Older versions of SQL Server for OPENJSON function in SQL 2019 or later
+                msSqlOptions.UseCompatibilityLevel(160);
             })
-            .UseLazyLoadingProxies()
+            // Disable lazy-loading for entities are not virtual: https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - Opt-out of lazy-loading for specific navigations
+            .UseLazyLoadingProxies(b => b.IgnoreNonVirtualNavigations())
             .AddInterceptors(_interceptors);
 
         if (!_isProduction)

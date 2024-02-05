@@ -6,7 +6,7 @@ namespace Domain.SharedKernel.ValueObjects;
 public class Money : ValueObject
 {
     public decimal Value { get; }
-    public virtual CurrencyType CurrencyType { get; }
+    public CurrencyType CurrencyType { get; }
 
     private Money(in decimal value, CurrencyType currencyType)
     {
@@ -20,7 +20,7 @@ public class Money : ValueObject
     {
         if (value <= 0)
             return DomainErrors.Money.InvalidMoney;
-        
+
         if (currencyType == CurrencyType.VND)
         {
             if (!decimal.IsInteger(value)) //VND should be integer
