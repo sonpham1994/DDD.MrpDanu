@@ -14,6 +14,7 @@ public static class MaterialManagementPreparingData
     public static Address OverseaAddress => Address.Create("abc", "xyz", "aaa", "bbb", "12345", Country.US).Value;
     public static Website? Website => Website.Create("http://abcxyz.com").Value;
     public static MaterialId MaterialId1 => (MaterialId)Guid.Parse("579e2ec4-707b-4a70-d04f-08dc0f30d4b0");
+    public static MaterialId MaterialId2 => (MaterialId)Guid.Parse("42ed74e9-b341-495d-6b1d-08dc0f820746");
     public static readonly SupplierId SupplierId1 = (SupplierId)Guid.Parse("9c3fa05b-12a4-4927-c977-08dc24a71752");
     public static readonly SupplierId SupplierId2 = (SupplierId)Guid.Parse("ef384330-f467-4537-c978-08dc24a71752");
     public static PersonName PersonName1 => PersonName.Create("Name1").Value;
