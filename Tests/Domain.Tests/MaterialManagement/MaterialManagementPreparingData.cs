@@ -19,12 +19,7 @@ public static class MaterialManagementPreparingData
     public static readonly SupplierId SupplierId2 = (SupplierId)Guid.Parse("ef384330-f467-4537-c978-08dc24a71752");
     public static PersonName PersonName1 => PersonName.Create("Name1").Value;
     public static ContactInformation ContactInformation1 => ContactInformation.Create("1234567890", string.Empty).Value;
-    public static ContactPersonInformation ContactPersonInfo1 => new(PersonName.Create("Name1").Value
-        , ContactInformation.Create("0123456789", string.Empty).Value);
 
     public static MaterialAttributes MaterialAttributes1 =>
         MaterialAttributes.Create("colorCode1", "width1", "weight1", "unit1", "varian1").Value;
-
-    public static MaterialAttributes MaterialAttributes2 =>
-        MaterialAttributes.Create("colorCode2", "width2", "weight2", "unit2", "varian2").Value;
 }

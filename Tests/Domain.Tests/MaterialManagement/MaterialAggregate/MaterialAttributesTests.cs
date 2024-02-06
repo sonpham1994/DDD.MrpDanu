@@ -63,7 +63,6 @@ public class MaterialAttributesTests
     [Fact]
     public void Should_trim_all_properties()
     {
-        string name = "name 1";
         string colorCode = "color code 1";
         string width = "width 1";
         string weight = "weight 1";
