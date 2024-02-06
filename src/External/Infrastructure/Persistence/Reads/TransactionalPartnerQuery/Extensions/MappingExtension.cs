@@ -4,9 +4,9 @@ using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.Ge
 using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
-using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Models;
+using Infrastructure.Persistence.Reads.TransactionalPartnerQuery.Models;
 
-namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
+namespace Infrastructure.Persistence.Reads.TransactionalPartnerQuery.Extensions;
 
 // the reason why we put the query in extensions class is that, we can reuse the projection from another place,
 // reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
@@ -60,8 +60,8 @@ internal static class MappingExtension
             );
         var contactInfoResponse = new ContactPersonInformationResponse
             (
-                transactionalPartnerReadModel.ContactPersonName, 
-                transactionalPartnerReadModel.TelNo, 
+                transactionalPartnerReadModel.ContactPersonName,
+                transactionalPartnerReadModel.TelNo,
                 transactionalPartnerReadModel.Email
             );
 
@@ -80,6 +80,6 @@ internal static class MappingExtension
 
         return result;
     }
-    
-    
+
+
 }

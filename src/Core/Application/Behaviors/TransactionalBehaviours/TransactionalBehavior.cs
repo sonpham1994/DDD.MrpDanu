@@ -34,11 +34,11 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
         _logger.StartTransactionalBehavior(requestName);
 
         var transactionalHandler = new TransactionalHandler(
-            new RequestHandler<TResponse>(next), 
+            new RequestHandler<TResponse>(next),
             _auditTableHandler);
 
         //the next handler is DomainEvent or publish message to message broker
-        
+
         var response = await _transaction.HandleAsync(transactionalHandler);
 
         _logger.CompletedTransactionalBehavior(requestName);

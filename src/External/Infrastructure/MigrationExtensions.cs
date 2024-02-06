@@ -29,43 +29,43 @@ public static class MigrationExtensions
 
         //Due to ignoring all changes of Enumeration on DbInterceptor, we cannot use dbContext, we use sql raw instead.
         
-        if (!(await dbContext.Set<MaterialType>().AnyAsync()))
+        if (!await dbContext.Set<MaterialType>().AnyAsync())
         {
             var list = MaterialType.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsync(list, nameof(MaterialType) , dbContext);
         }
         
-        if (!(await dbContext.Set<RegionalMarket>().AnyAsync()))
+        if (!await dbContext.Set<RegionalMarket>().AnyAsync())
         {
             var list = RegionalMarket.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsyncWithCode(list, nameof(RegionalMarket), dbContext);
         }
 
-        if (!(await dbContext.Set<CurrencyType>().AnyAsync()))
+        if (!await dbContext.Set<CurrencyType>().AnyAsync())
         {
             var list = CurrencyType.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsync(list, nameof(CurrencyType), dbContext);
         }
 
-        if (!(await dbContext.Set<LocationType>().AnyAsync()))
+        if (!await dbContext.Set<LocationType>().AnyAsync())
         {
             var list = LocationType.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsync(list, nameof(LocationType), dbContext);
         }
 
-        if (!(await dbContext.Set<TransactionalPartnerType>().AnyAsync()))
+        if (!await dbContext.Set<TransactionalPartnerType>().AnyAsync())
         {
             var list = TransactionalPartnerType.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsync(list, nameof(TransactionalPartnerType), dbContext);
         }
 
-        if (!(await dbContext.Set<Country>().AnyAsync()))
+        if (!await dbContext.Set<Country>().AnyAsync())
         {
             var list = Country.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsyncWithCode(list, nameof(Country), dbContext);
         }
 
-        if (!(await externalDbContext.Set<StateAuditTable>().AnyAsync()))
+        if (!await externalDbContext.Set<StateAuditTable>().AnyAsync())
         {
             var list = StateAuditTable.List.Where(x => x.Id > 0).ToList();
             await InsertEnumerationAsync(list, nameof(StateAuditTable), externalDbContext);

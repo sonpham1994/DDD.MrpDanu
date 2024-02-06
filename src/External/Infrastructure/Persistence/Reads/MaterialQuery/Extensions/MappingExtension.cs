@@ -4,9 +4,9 @@ using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using Application.SupplyChainManagement.Shared;
 using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.Enumerations;
-using Infrastructure.Persistence.Read.MaterialQuery.Models;
+using Infrastructure.Persistence.Reads.MaterialQuery.Models;
 
-namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;
+namespace Infrastructure.Persistence.Reads.MaterialQuery.Extensions;
 
 //https://www.youtube.com/watch?v=xPMlz9c2xIU&list=PL9hNzBRaTninA0iIildslO4UmxHXSGrat&index=3&ab_channel=NickChapsas
 internal static class MappingExtension
@@ -66,6 +66,6 @@ internal static class MappingExtension
             RegionalMarket.FromId(x.RegionalMarketId).Value.Name,
             MaterialType.FromId(x.MaterialTypeId).Value.Name
         )).ToList();
-    
-    
+
+
 }

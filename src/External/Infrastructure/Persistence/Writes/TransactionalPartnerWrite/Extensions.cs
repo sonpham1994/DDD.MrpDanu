@@ -1,7 +1,4 @@
-﻿using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
-using System.Data;
-
-namespace Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
+﻿namespace Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
 
 internal static class Extensions
 {
