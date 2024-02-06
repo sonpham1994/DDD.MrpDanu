@@ -7,7 +7,6 @@ using System.Reflection;
 using Infrastructure.EventDispatchers;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Design;
-using Domain.SharedKernel.Base;
 using Application.Interfaces;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore.Storage;

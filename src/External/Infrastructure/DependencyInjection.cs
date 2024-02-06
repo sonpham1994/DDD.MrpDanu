@@ -9,8 +9,8 @@ using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.Extensions.Options;
 using Infrastructure.Persistence.Externals.AuditTables.Services;
-using Infrastructure.Persistence.Read.MaterialQuery;
-using Infrastructure.Persistence.Read.TransactionalPartnerQuery;
+using Infrastructure.Persistence.Reads.MaterialQuery;
+using Infrastructure.Persistence.Reads.TransactionalPartnerQuery;
 using Infrastructure.Persistence.Writes.MaterialWrite;
 using Application.Interfaces.Write;
 using Application.Interfaces.Reads;
@@ -38,7 +38,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     private static IServiceCollection AddDbContext(this IServiceCollection services, bool isProduction)
     {
         services.AddScoped(sp =>
@@ -47,12 +47,12 @@ public static class DependencyInjection
             var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
             var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
 
-            return new ExternalDbContext(databaseSettings, 
-                isProduction, 
-                loggingDbCommandInterceptor, 
+            return new ExternalDbContext(databaseSettings,
+                isProduction,
+                loggingDbCommandInterceptor,
                 enumerationSaveChangesInterceptor);
         });
-        
+
         services.AddScoped(sp =>
         {
             var databaseSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>();
@@ -60,10 +60,10 @@ public static class DependencyInjection
             var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
             var insertAuditableEntitiesInterceptor = sp.GetRequiredService<InsertAuditableEntitiesSaveChangesInterceptor>();
             var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
-            
-            return new AppDbContext(databaseSettings, 
-                isProduction, 
-                eventDispatcher, 
+
+            return new AppDbContext(databaseSettings,
+                isProduction,
+                eventDispatcher,
                 loggingDbCommandInterceptor,
                 enumerationSaveChangesInterceptor, insertAuditableEntitiesInterceptor);
         });
@@ -82,7 +82,7 @@ public static class DependencyInjection
         services.AddScoped<ITransactionalPartnerQueryForWrite, TransactionalPartnerEFQueryForWrite>();
 
         services.AddScoped<IProductRepository, ProductEfRepository>();
-        
+
         return services;
     }
 
@@ -117,7 +117,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     //private static IServiceCollection AddDatabaseSettings(this IServiceCollection services, IConfiguration configuration)
     //{
     //    //https://www.youtube.com/watch?v=qRruEdjNVNE

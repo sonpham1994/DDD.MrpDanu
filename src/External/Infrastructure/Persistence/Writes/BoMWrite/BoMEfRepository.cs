@@ -2,7 +2,7 @@ using Domain.ProductionPlanning;
 
 namespace Infrastructure.Persistence.Writes.BoMWrite;
 
-internal class BoMEfRepository : BaseGenericEfRepository<BoM, BoMId>
+internal sealed class BoMEfRepository : BaseGenericEfRepository<BoM, BoMId>
 {
     public BoMEfRepository(AppDbContext context) : base(context)
     {

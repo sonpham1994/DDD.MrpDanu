@@ -38,7 +38,7 @@ internal sealed class TransactionalBehavior<TRequest, TResponse> : IPipelineBeha
             _auditTableHandler);
 
         //the next handler is DomainEvent or publish message to message broker
-        
+
         var response = await _transaction.HandleAsync(transactionalHandler);
 
         _logger.CompletedTransactionalBehavior(requestName);

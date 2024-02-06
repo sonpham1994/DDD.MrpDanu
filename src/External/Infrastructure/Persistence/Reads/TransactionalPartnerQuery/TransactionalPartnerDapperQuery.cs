@@ -4,10 +4,10 @@ using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using Application.SupplyChainManagement.Shared;
 using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using Infrastructure.Persistence.Read.TransactionalPartnerQuery.Extensions;
+using Infrastructure.Persistence.Reads.TransactionalPartnerQuery.Extensions;
 using Application.Interfaces.Reads;
 
-namespace Infrastructure.Persistence.Read.TransactionalPartnerQuery;
+namespace Infrastructure.Persistence.Reads.TransactionalPartnerQuery;
 
 internal sealed class TransactionalPartnerDapperQuery(IDbConnection _dbConnection) : ITransactionalPartnerQuery
 {
@@ -17,11 +17,11 @@ internal sealed class TransactionalPartnerDapperQuery(IDbConnection _dbConnectio
 
         return suppliers.ToResponse();
     }
-    
+
     public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken)
     {
         var transactionalPartners = await _dbConnection.GetTransactionalPartnersAsync(cancellationToken);
-        
+
         return transactionalPartners.AsTransactionalPartnersResponse();
     }
 

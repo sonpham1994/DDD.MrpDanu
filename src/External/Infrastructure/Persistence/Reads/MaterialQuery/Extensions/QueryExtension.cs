@@ -1,9 +1,9 @@
 using System.Data;
 using Dapper;
 using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
-using Infrastructure.Persistence.Read.MaterialQuery.Models;
+using Infrastructure.Persistence.Reads.MaterialQuery.Models;
 
-namespace Infrastructure.Persistence.Read.MaterialQuery.Extensions;
+namespace Infrastructure.Persistence.Reads.MaterialQuery.Extensions;
 
 // the reason why we put the query in extensions class is that, we can reuse the projection from another place,
 // reduce duplication projection. So other methods in TransactionalPartnerQuery can reuse this projection to
@@ -40,7 +40,7 @@ internal static class QueryExtension
 
         return materialReadModel;
     }
-    
+
     public static async Task<List<MaterialsReadModel>> GetListAsync(this IDbConnection dbConnection, CancellationToken cancellationToken)
     {
         string sql = """
@@ -49,7 +49,7 @@ internal static class QueryExtension
                     FROM Material
                     """;
         var material = await dbConnection
-            .QueryAsync<MaterialsReadModel>(sql, 
+            .QueryAsync<MaterialsReadModel>(sql,
                 cancellationToken);
 
         return material.ToList();
