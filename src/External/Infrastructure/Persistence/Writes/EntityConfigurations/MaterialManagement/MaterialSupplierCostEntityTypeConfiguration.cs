@@ -1,4 +1,4 @@
-﻿using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement.StronglyTypeIdConfigurations;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;

@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Infrastructure.EventDispatchers;
@@ -31,7 +31,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     public DbSet<TransactionalPartner> TransactionalPartners => Set<TransactionalPartner>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<BoM> BoMs => Set<BoM>();
-    
+
     internal AppDbContext(IOptions<DatabaseSettings> databaseSettings
         , bool isProduction
         , EventDispatcher eventDispatcher
@@ -44,13 +44,13 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
         _loggingDbCommandInterceptor = loggingDbCommandInterceptor;
         _interceptors = interceptors;
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
             .UseSqlServer(_databaseSettings.ConnectionString, msSqlOptions =>
             {
-                msSqlOptions.EnableRetryOnFailure(maxRetryCount:_databaseSettings.MaxRetryCount, maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
+                msSqlOptions.EnableRetryOnFailure(maxRetryCount: _databaseSettings.MaxRetryCount, maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
                     errorNumbersToAdd: null);
 
                 //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ Older versions of SQL Server for OPENJSON function in SQL 2019 or later
@@ -68,16 +68,16 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
                 //Interceptor: https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
                 //https://devblogs.microsoft.com/dotnet/announcing-ef7-preview7-entity-framework/
                 .AddInterceptors(_loggingDbCommandInterceptor);
-            
+
         }
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-    
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         //apply dbInterceptor to retrieve this domain events for the 3rd handler in TransactionalBehaviour.cs
@@ -97,7 +97,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
 
         return result;
     }
-    
+
     public async Task<IDbContextTransaction?> BeginTransactionAsync()
     {
         if (_currentTransaction != null) return null;

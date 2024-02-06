@@ -1,6 +1,6 @@
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.Extensions;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.Extensions;
 using Microsoft.EntityFrameworkCore;

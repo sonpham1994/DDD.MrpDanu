@@ -1,5 +1,5 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
 namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
@@ -28,7 +28,7 @@ public class TaxNoTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidLengthTaxNo);
     }
-    
+
     [Theory]
     [InlineData("abcxyzbdrt")]
     [InlineData("1bcx4zb5rt")]
@@ -50,7 +50,7 @@ public class TaxNoTests
         result.Value.Value.Should().Be(taxNo);
         result.Value.Country.Should().Be(Country.VietNam);
     }
-    
+
     [Fact]
     public void Create_tax_no_successfully()
     {
@@ -61,7 +61,7 @@ public class TaxNoTests
         result.Value.Value.Should().Be(taxNo);
         result.Value.Country.Should().Be(Country.Korean);
     }
-    
+
     [Fact]
     public void Tax_no_should_trim()
     {

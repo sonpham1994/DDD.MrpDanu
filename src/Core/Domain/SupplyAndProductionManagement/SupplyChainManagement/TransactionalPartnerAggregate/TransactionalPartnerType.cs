@@ -1,7 +1,7 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
     , IEquatable<TransactionalPartnerType> // for span using IndexOf
@@ -20,7 +20,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
     {
         if (value is null)
             return false;
-        if (ReferenceEquals(this, value)) 
+        if (ReferenceEquals(this, value))
             return true;
         if (Id == value.Id)
             return true;
@@ -44,7 +44,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
         Span<TransactionalPartnerType> result = list.AsSpan(1, 2);
         return result;
     }
-    
+
     public static bool IsSupplierType(TransactionalPartnerType value)
     {
         var suppliers = GetSupplierTypes();

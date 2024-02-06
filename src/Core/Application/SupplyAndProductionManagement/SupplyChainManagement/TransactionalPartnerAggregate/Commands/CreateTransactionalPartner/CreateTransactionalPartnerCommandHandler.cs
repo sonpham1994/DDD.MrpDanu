@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;

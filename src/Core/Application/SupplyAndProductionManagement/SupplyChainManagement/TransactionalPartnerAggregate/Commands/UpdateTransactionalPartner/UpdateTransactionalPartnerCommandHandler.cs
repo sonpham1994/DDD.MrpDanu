@@ -1,7 +1,7 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;

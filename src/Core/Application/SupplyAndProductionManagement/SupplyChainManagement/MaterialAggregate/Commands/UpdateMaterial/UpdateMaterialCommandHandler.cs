@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
@@ -38,7 +38,7 @@ internal sealed class UpdateMaterialCommandHandler(
         var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket, uniqueCodeResult);
         if (materialResult.IsFailure)
             return materialResult;
-        
+
         var materialCostInputs = request.MaterialCosts
             .ToTuple();
         var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();

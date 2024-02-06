@@ -1,6 +1,6 @@
 ﻿
 using Application.Interfaces.Writes.MaterialWrite;
-using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 

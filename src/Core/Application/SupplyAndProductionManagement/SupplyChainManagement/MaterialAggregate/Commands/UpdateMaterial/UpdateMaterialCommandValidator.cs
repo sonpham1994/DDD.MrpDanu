@@ -1,5 +1,5 @@
 using Application.Extensions;
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentValidation;
 using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
@@ -18,21 +18,21 @@ internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateM
         RuleFor(x => x.Id).NotEmpty()
             .WithErrorCode(DomainErrors.Material.EmptyId.Code)
             .WithMessage(DomainErrors.Material.EmptyId.Message);
-        
+
         RuleFor(x => x)
             .MustBeValueObject(
-                x => MaterialAttributes.Create( 
-                    x.ColorCode, 
-                    x.Width, 
-                    x.Weight, 
-                    x.Unit, 
+                x => MaterialAttributes.Create(
+                    x.ColorCode,
+                    x.Width,
+                    x.Weight,
+                    x.Unit,
                     x.Varian));
-        
+
         RuleFor(x => x)
             .MustBeEnumeration(x => RegionalMarket.FromId(x.RegionalMarketId));
         RuleFor(x => x)
             .MustBeEnumeration(x => MaterialType.FromId(x.MaterialTypeId));
-        
+
         RuleFor(x => x.MaterialCosts)
             .SetValidator(new MaterialCostsValidator())
             .When(x => x.MaterialCosts.Any());

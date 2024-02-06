@@ -1,15 +1,15 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class ContactPersonInformation : EntityGuidStronglyTypedId<TransactionalPartnerId>
 {
     public PersonName Name { get; private set; }
     public ContactInformation ContactInformation { get; private set; }
 
-    protected ContactPersonInformation() {}
-    
+    protected ContactPersonInformation() { }
+
     internal ContactPersonInformation(PersonName name, ContactInformation contactInformation) : this()
     {
         Name = name;

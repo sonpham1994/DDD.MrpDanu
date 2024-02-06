@@ -1,4 +1,4 @@
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,15 +17,15 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
         // we cannot use .HasValueGenerator(typeof(SequentialGuidValueGenerator)), because it will fail to convert
         // guid to strongly typed id as MaterialId
         //.HasValueGenerator(typeof(SequentialGuidValueGenerator));
-            
+
         //with this .ValueGeneratedOnAdd(), strongly typed id generate Guid.NewGuid, not Sequential Guid
         //.ValueGeneratedOnAdd();
-            
+
         // this HasDefaultValueSql("newsequentialid()"); will generate data from database, not on the client side
         //.HasDefaultValueSql("newsequentialid()");
 
         builder.Ignore(x => x.DomainEvents);
-        
+
         builder.Property(x => x.Name)
             .HasColumnName(nameof(TransactionalPartner.Name))
             .HasColumnType("nvarchar(300)")
@@ -55,7 +55,7 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
             .WithOne()
             .HasForeignKey<ContactPersonInformation>(x => x.Id)
             .IsRequired();
-        
+
         builder.OwnsOne(x => x.Address, y =>
         {
             y.Property(j => j.City)
@@ -99,7 +99,7 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
             .HasOne(x => x.CurrencyType)
             .WithMany()
             .HasForeignKey(ShadowProperties.CurrencyTypeId).IsRequired();
-        
+
         builder
             .HasOne(x => x.LocationType)
             .WithMany()

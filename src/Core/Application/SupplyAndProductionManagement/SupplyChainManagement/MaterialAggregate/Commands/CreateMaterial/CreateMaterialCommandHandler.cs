@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
@@ -31,7 +31,7 @@ internal sealed class CreateMaterialCommandHandler(
             uniqueCodeResult);
         if (material.IsFailure)
             return material.Error;
-        
+
         _materialRepository.Save(material.Value);
 
         if (request.MaterialCosts.Any())

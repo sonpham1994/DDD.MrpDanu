@@ -2,7 +2,7 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAg
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistence.Reads.MaterialQuery.Models;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;

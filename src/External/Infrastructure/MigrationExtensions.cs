@@ -1,5 +1,5 @@
-﻿using Domain.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Externals.AuditTables;
@@ -29,13 +29,13 @@ public static class MigrationExtensions
         await externalDbContext.Database.MigrateAsync();
 
         //Due to ignoring all changes of Enumeration on DbInterceptor, we cannot use dbContext, we use sql raw instead.
-        
+
         if (!await dbContext.Set<MaterialType>().AnyAsync())
         {
             var list = MaterialType.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsync(list, nameof(MaterialType) , dbContext);
+            await InsertEnumerationAsync(list, nameof(MaterialType), dbContext);
         }
-        
+
         if (!await dbContext.Set<RegionalMarket>().AnyAsync())
         {
             var list = RegionalMarket.List.Where(x => x.Id > 0).ToList();

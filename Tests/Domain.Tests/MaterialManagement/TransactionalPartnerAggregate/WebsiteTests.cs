@@ -1,5 +1,5 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
 namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
@@ -47,8 +47,8 @@ public class WebsiteTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(100));
     }
-    
-    
+
+
     [Fact]
     public void Create_website_with_value_successfully()
     {

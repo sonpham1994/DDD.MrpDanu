@@ -1,13 +1,12 @@
 using Application.Interfaces;
-using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using FluentAssertions;
 using Moq;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Application.Tests.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
 

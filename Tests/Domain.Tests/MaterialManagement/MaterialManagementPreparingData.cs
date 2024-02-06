@@ -1,6 +1,6 @@
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 namespace Domain.Tests.MaterialManagement;
 
@@ -23,7 +23,7 @@ public static class MaterialManagementPreparingData
 
     public static MaterialAttributes MaterialAttributes1 =>
         MaterialAttributes.Create("colorCode1", "width1", "weight1", "unit1", "varian1").Value;
-    
+
     public static MaterialAttributes MaterialAttributes2 =>
         MaterialAttributes.Create("colorCode2", "width2", "weight2", "unit2", "varian2").Value;
 }
