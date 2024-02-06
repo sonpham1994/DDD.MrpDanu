@@ -1,9 +1,9 @@
 using Api.ApiResponses;
-using Application.SupplyChainManagement.MaterialAggregate;
-using Application.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Api.Controllers.SupplyChainManagement;
 
@@ -22,7 +22,7 @@ public static class SupplyChainManagementEndpoints
                 .ToList();
             return ApiResponseExtensions<IReadOnlyList<MaterialTypeResponse>>.Success(result);
         });
-        
+
         group.MapGet("regional-markets", () =>
         {
             IReadOnlyList<RegionalMarketResponse> result = RegionalMarket.List
@@ -30,7 +30,7 @@ public static class SupplyChainManagementEndpoints
                 .ToList();
             return ApiResponseExtensions<IReadOnlyList<RegionalMarketResponse>>.Success(result);
         });
-        
+
         group.MapGet("countries", () =>
         {
             IReadOnlyList<CountryResponse> countries = Country.List
@@ -38,7 +38,7 @@ public static class SupplyChainManagementEndpoints
                 .ToList();
             return ApiResponseExtensions<IReadOnlyList<CountryResponse>>.Success(countries);
         });
-        
+
         group.MapGet("location-types", () =>
         {
             IReadOnlyList<LocationTypeResponse> result = LocationType.List
@@ -46,7 +46,7 @@ public static class SupplyChainManagementEndpoints
                 .ToList();
             return ApiResponseExtensions<IReadOnlyList<LocationTypeResponse>>.Success(result);
         });
-        
+
         group.MapGet("transactional-partner-types", () =>
         {
             IReadOnlyList<TransactionalPartnerTypeResponse> result = TransactionalPartnerType.List
@@ -54,7 +54,7 @@ public static class SupplyChainManagementEndpoints
                 .ToList();
             return ApiResponseExtensions<IReadOnlyList<TransactionalPartnerTypeResponse>>.Success(result);
         });
-        
+
         group.MapGet("currency-types", () =>
         {
             IReadOnlyList<CurrencyTypeResponse> result = CurrencyType.List

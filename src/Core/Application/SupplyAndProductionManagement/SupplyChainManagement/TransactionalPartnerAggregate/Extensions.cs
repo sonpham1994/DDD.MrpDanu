@@ -1,7 +1,7 @@
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public static class Extensions
 {

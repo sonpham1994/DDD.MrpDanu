@@ -2,9 +2,10 @@ using Application.Extensions;
 using Domain.SupplyChainManagement.MaterialAggregate;
 using FluentValidation;
 using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateMaterialCommand>
 {

@@ -1,6 +1,6 @@
 ﻿using Domain.SharedKernel.Base;
 
-namespace Domain.SupplyChainManagement.MaterialAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public class RegionalMarket : Enumeration<RegionalMarket>
 {
@@ -22,7 +22,7 @@ public class RegionalMarket : Enumeration<RegionalMarket>
         Code = code;
     }
 
-    public new static Result<RegionalMarket> FromId(in byte id)
+    public new static Result<RegionalMarket?> FromId(in byte id)
     {
         var result = Enumeration<RegionalMarket>.FromId(id);
 

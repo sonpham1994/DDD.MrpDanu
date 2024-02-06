@@ -2,7 +2,7 @@
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
-namespace Domain.SupplyChainManagement.MaterialAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
 {
@@ -35,7 +35,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
         RegionalMarket = regionalMarket;
     }
 
-    public static Result<Material> Create(string code, string name, MaterialAttributes attributes, MaterialType materialType,
+    public static Result<Material?> Create(string code, string name, MaterialAttributes attributes, MaterialType materialType,
         RegionalMarket regionalMarket, UniqueMaterialCodeResult uniqueCodeResult)
     {
         if (!uniqueCodeResult.IsSuccess)

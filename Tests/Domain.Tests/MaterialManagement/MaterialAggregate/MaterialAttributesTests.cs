@@ -1,6 +1,6 @@
-using Domain.MaterialManagement;
-using Domain.MaterialManagement.MaterialAggregate;
 using Domain.SharedKernel.Base;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
 
 namespace Domain.Tests.MaterialManagement.MaterialAggregate;

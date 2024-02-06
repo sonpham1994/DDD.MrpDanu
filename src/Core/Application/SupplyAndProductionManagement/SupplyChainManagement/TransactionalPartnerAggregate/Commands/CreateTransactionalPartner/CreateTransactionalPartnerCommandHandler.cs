@@ -3,10 +3,11 @@ using Application.Interfaces.Messaging;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
 internal sealed class CreateTransactionalPartnerCommandHandler(
     ITransactionalPartnerRepository _transactionalPartnerRepository,
@@ -16,7 +17,7 @@ internal sealed class CreateTransactionalPartnerCommandHandler(
     public async Task<Result> Handle(CreateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
-        
+
         /*
          * for uniqueContact We delegate a part of invariant of Domain to Application layer. In DDD trilemma (CAP), we
          *  cannot achieve three properties of them, such as domain purity, completeness (AKA domain model
@@ -37,7 +38,7 @@ internal sealed class CreateTransactionalPartnerCommandHandler(
          */
         if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
-        
+
         var country = Country.FromId(request.Address.CountryId).Value;
         var taxNo = TaxNo.Create(request.TaxNo, country).Value;
         var companyName = CompanyName.Create(request.Name).Value;
@@ -49,7 +50,7 @@ internal sealed class CreateTransactionalPartnerCommandHandler(
         var transactionalPartnerType = TransactionalPartnerType.FromId(request.TransactionalPartnerTypeId).Value;
         var currencyType = CurrencyType.FromId(request.CurrencyTypeId).Value;
 
-        var transactionalPartner = TransactionalPartner.Create(companyName, taxNo, website, 
+        var transactionalPartner = TransactionalPartner.Create(companyName, taxNo, website,
             personName, contactInfo, address,
             transactionalPartnerType, currencyType, location).Value;
 

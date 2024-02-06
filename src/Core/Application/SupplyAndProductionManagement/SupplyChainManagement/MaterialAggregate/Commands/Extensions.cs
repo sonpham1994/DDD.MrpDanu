@@ -1,7 +1,8 @@
-using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
+
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands;
 
 internal static class Extensions
 {

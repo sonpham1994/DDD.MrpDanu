@@ -1,6 +1,6 @@
 using Application.Interfaces.Messaging;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
 
 public sealed record UpdateTransactionalPartnerCommand(
     Guid Id,

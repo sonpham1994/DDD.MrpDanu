@@ -1,9 +1,9 @@
 ﻿using Api.Controllers.BaseControllers;
-using Application.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
-using Application.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;
-using Application.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
-using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,15 +20,15 @@ public sealed class MaterialsController : BaseApiController
     public async Task<IActionResult> GetMaterialsAsync(CancellationToken cancellationToken)
     {
         var materials = await Sender.Send(new GetMaterialsQuery(), cancellationToken);
-        
+
         return Success(materials.Value);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetMaterialByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var materialResult = await Sender.Send(new GetMaterialByIdQuery(id), cancellationToken);
-        
+
         return materialResult.IsSuccess ? Success(materialResult.Value) : BadRequest(materialResult.Error);
     }
 

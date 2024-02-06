@@ -1,6 +1,6 @@
 ﻿using Domain.SharedKernel.Base;
 
-namespace Domain.SupplyChainManagement.MaterialAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public class MaterialType : Enumeration<MaterialType>
 {
@@ -13,7 +13,7 @@ public class MaterialType : Enumeration<MaterialType>
     {
     }
 
-    public new static Result<MaterialType> FromId(in byte id)
+    public new static Result<MaterialType?> FromId(in byte id)
     {
         var result = Enumeration<MaterialType>.FromId(id);
         if (result.IsFailure)

@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using Domain.ProductionPlanning.Handlers;
 using Domain.SharedKernel.Base;
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.ProductionPlanning.DomainEventHandlers;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.EventDispatchers;
 

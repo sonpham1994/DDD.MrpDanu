@@ -3,10 +3,10 @@ using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using FluentValidation;
 using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
 
 internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValidator<UpdateTransactionalPartnerCommand>
 {
@@ -20,31 +20,31 @@ internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValid
             .NotEmpty()
             .WithErrorCode(DomainErrors.TransactionalPartner.NotFound.Code)
             .WithMessage(DomainErrors.TransactionalPartner.NotFound.Message);
-        
+
         RuleFor(x => x.Address).SetValidator(new AddressCommandValidator());
 
         RuleFor(x => x)
-            .MustBeValueObject(x 
+            .MustBeValueObject(x
                 => TaxNo.Create(x.TaxNo, Country.FromId(x.Address.CountryId).Value));
 
         RuleFor(x => x.Name)
             .MustBeValueObject(CompanyName.Create);
-        
+
         RuleFor(x => x.ContactPersonName)
             .MustBeValueObject(PersonName.Create);
-        
+
         RuleFor(x => x)
             .MustBeValueObject(x
                 => ContactInformation.Create(x.TelNo, x.Email));
-        
+
         RuleFor(x => x.LocationTypeId)
-            .MustBeEnumeration(x=> LocationType.FromId(x));
-        
+            .MustBeEnumeration(x => LocationType.FromId(x));
+
         RuleFor(x => x.TransactionalPartnerTypeId)
-            .MustBeEnumeration(x=> TransactionalPartnerType.FromId(x));
-        
+            .MustBeEnumeration(x => TransactionalPartnerType.FromId(x));
+
         RuleFor(x => x)
-            .MustBeEnumeration(x 
+            .MustBeEnumeration(x
                 => CurrencyType.FromId(x.CurrencyTypeId));
 
         RuleFor(x => x.Website).MustBeValueObject(Website.Create);

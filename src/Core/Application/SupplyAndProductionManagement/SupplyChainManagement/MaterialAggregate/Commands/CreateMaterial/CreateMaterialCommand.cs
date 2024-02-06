@@ -1,6 +1,6 @@
 using Application.Interfaces.Messaging;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 
 public sealed record CreateMaterialCommand : ICommand, ITransactionalCommand
 {

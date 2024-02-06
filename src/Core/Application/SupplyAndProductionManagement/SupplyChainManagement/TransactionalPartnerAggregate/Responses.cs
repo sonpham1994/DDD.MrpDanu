@@ -1,4 +1,4 @@
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public sealed record CountryResponse(byte Id, string Name);
 

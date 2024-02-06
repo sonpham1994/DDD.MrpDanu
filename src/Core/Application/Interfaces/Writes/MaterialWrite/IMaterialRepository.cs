@@ -1,5 +1,5 @@
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.ValueObjects;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Application.Interfaces.Writes.MaterialWrite;
 

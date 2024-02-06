@@ -1,14 +1,14 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.SharedKernel.ValueObjects;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 internal sealed class UpdateMaterialCommandHandler(
     IUnitOfWork _unitOfWork,

@@ -1,6 +1,6 @@
 ﻿using Domain.SharedKernel.Base;
 
-namespace Domain.SupplyChainManagement.MaterialAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 //Should we consider whether this class should be a Value Object or not? - Yes, when we want to know that whether
 // two materials are the same or not, we should compare attributes of material from Color, width, weight, unit,
@@ -28,7 +28,7 @@ public class MaterialAttributes : ValueObject
         Varian = varian;
     }
 
-    public static Result<MaterialAttributes> Create(
+    public static Result<MaterialAttributes?> Create(
         string colorCode, 
         string width, 
         string weight, 

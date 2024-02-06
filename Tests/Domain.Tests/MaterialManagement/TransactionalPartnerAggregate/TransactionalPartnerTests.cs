@@ -1,7 +1,7 @@
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
-using DomainErrors = Domain.MaterialManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
 using static MaterialManagementPreparingData;
@@ -229,66 +229,5 @@ public class TransactionalPartnerTests
         transactionalPartner.Value.TransactionalPartnerType.Should().Be(TransactionalPartnerType.Supplier);
         transactionalPartner.Value.CurrencyType.Should().Be(CurrencyType.USD);
         transactionalPartner.Value.LocationType.Should().Be(LocationType.Oversea);
-    }
-    
-    [Fact]
-    public void Is_supplier_return_fail_if_transactional_partner_is_customer_type()
-    {
-        var transactionalPartner = TransactionalPartner.Create
-        (
-            CompanyName1,
-            TaxNo1,
-            Website,
-            PersonName1,
-            ContactInformation1,
-            Address1,
-            TransactionalPartnerType.Customer,
-            CurrencyType.VND,
-            LocationType.Domestic
-        );
-
-        var result = transactionalPartner.Value.IsSupplier();
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.NotSupplier(Guid.Empty));
-    }
-    
-    [Fact]
-    public void Is_supplier_return_success_if_transactional_partner_is_supplier_type()
-    {
-        var transactionalPartner = TransactionalPartner.Create
-        (
-            CompanyName1,
-            TaxNo1,
-            Website,
-            PersonName1,
-            ContactInformation1,
-            Address1,
-            TransactionalPartnerType.Supplier,
-            CurrencyType.VND,
-            LocationType.Domestic
-        );
-
-        var result = transactionalPartner.Value.IsSupplier();
-        result.IsSuccess.Should().BeTrue();
-    }
-    
-    [Fact]
-    public void Is_supplier_return_success_if_transactional_partner_is_both_type()
-    {
-        var transactionalPartner = TransactionalPartner.Create
-        (
-            CompanyName1,
-            TaxNo1,
-            Website,
-            PersonName1,
-            ContactInformation1,
-            Address1,
-            TransactionalPartnerType.Both,
-            CurrencyType.VND,
-            LocationType.Domestic
-        );
-
-        var result = transactionalPartner.Value.IsSupplier();
-        result.IsSuccess.Should().BeTrue();
     }
 }

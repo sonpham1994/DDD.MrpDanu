@@ -1,4 +1,4 @@
-using Domain.ProductionPlanning;
+using Domain.SupplyAndProductionManagement.ProductionPlanning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

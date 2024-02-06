@@ -1,9 +1,9 @@
 using Application.Extensions;
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentValidation;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 
 internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateMaterialCommand>
 {

@@ -1,9 +1,9 @@
 using Application.Extensions;
-using Domain.SupplyChainManagement;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentValidation;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
 
 internal sealed class AddressCommandValidator : AbstractValidator<AddressCommand>
 {

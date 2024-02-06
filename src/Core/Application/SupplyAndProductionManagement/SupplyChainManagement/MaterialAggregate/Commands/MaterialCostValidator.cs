@@ -1,7 +1,7 @@
-using Domain.SupplyChainManagement;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using FluentValidation;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands;
 
 internal sealed class MaterialCostsValidator : AbstractValidator<IEnumerable<MaterialSupplierCostCommand>>
 {
@@ -10,13 +10,13 @@ internal sealed class MaterialCostsValidator : AbstractValidator<IEnumerable<Mat
         RuleFor(x => x).ForEach(x =>
         {
             x.NotNull()
-            .WithErrorCode(DomainErrors.MaterialCostManagement.NullMaterialCost.Code)
-            .WithMessage(DomainErrors.MaterialCostManagement.NullMaterialCost.Message);
+            .WithErrorCode(DomainErrors.MaterialSupplierCost.NullMaterialCost.Code)
+            .WithMessage(DomainErrors.MaterialSupplierCost.NullMaterialCost.Message);
         });
 
         RuleFor(x => x).Must(ContainsSupplierId)
-            .WithErrorCode(DomainErrors.MaterialCostManagement.EmptySupplierId.Code)
-            .WithMessage(DomainErrors.MaterialCostManagement.EmptySupplierId.Message);
+            .WithErrorCode(DomainErrors.MaterialSupplierCost.EmptySupplierId.Code)
+            .WithMessage(DomainErrors.MaterialSupplierCost.EmptySupplierId.Message);
     }
 
     private bool ContainsSupplierId(IEnumerable<MaterialSupplierCostCommand> materialCost)

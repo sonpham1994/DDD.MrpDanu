@@ -1,4 +1,4 @@
-using Domain.ProductionPlanning;
+using Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 namespace Infrastructure.Persistence.Writes.BoMWrite;
 

@@ -1,8 +1,7 @@
-﻿using Domain.SupplyChainManagement.MaterialAggregate;
-using Domain.SharedKernel.ValueObjects;
-using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
+﻿using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement;
 

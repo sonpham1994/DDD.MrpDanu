@@ -1,4 +1,4 @@
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
 
 public sealed record AddressCommand
 {

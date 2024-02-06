@@ -1,6 +1,6 @@
 using Domain.SharedKernel.Base;
 
-namespace Domain.ProductionPlanning;
+namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 public record struct BoMId(uint Value);
 

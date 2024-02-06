@@ -1,7 +1,7 @@
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.ProductionPlanning;
+namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
 {

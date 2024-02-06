@@ -1,4 +1,4 @@
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands;
 
 public sealed record MaterialSupplierCostCommand
 {

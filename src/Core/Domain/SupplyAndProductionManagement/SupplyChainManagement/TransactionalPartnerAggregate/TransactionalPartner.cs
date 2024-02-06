@@ -1,22 +1,23 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class TransactionalPartner : AggregateRootGuidStronglyTypedId<TransactionalPartnerId>
 {
     public CompanyName Name { get; private set; }
-    
+
     //TaxNo and Address may should be exist in the same ValueObject. Because whenever we modify state, it may result
     //in modifying Country, which makes the TaxNo incorrect. So the problem is that, can we put the value object in 
     //another value object?
     public TaxNo TaxNo { get; private set; }
-    
+
     //if a company change address, it means the company move to another location. If two companies have the same
     //address, it means these two companies locate on the same building but they are different floors, for example
     public Address Address { get; private set; }
-    
+
     //should website is a ValueObject? Website is not required so if we introduce ValueObject for Website, it means WebsiteValueObject
     //can be empty? -> we can treat ValueObject as null and Value Conversion skill skip factory method if null data
     public Website? Website { get; private set; }
@@ -29,12 +30,12 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
     //required EF Proxies
     protected TransactionalPartner() { }
 
-    private TransactionalPartner(CompanyName name, 
-        TaxNo taxNo, 
+    private TransactionalPartner(CompanyName name,
+        TaxNo taxNo,
         Website? website,
         ContactPersonInformation contactPersonInfo,
-        Address address, 
-        TransactionalPartnerType type, 
+        Address address,
+        TransactionalPartnerType type,
         CurrencyType currency,
         LocationType location) : this()
     {
@@ -48,20 +49,20 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         LocationType = location;
     }
 
-    public static Result<TransactionalPartner> Create(CompanyName name, 
-        TaxNo taxNo, 
+    public static Result<TransactionalPartner> Create(CompanyName name,
+        TaxNo taxNo,
         Website? website,
-        PersonName personName, 
+        PersonName personName,
         ContactInformation contactInfo,
-        Address address, 
-        TransactionalPartnerType type, 
+        Address address,
+        TransactionalPartnerType type,
         CurrencyType currency,
         LocationType location)
     {
         var result = CanExecuteCreateOrUpdate(address, currency, location);
         if (result.IsFailure)
             return result.Error;
-        
+
         var contactPersonInfo = new ContactPersonInformation(personName, contactInfo);
         return new TransactionalPartner(name, taxNo, website, contactPersonInfo, address, type,
             currency, location);
@@ -95,31 +96,21 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         ContactPersonInformation.SetContactPersonInfo(personName, contactInfo);
     }
 
-    public Result IsSupplier()
-    {
-        var isSupplier = TransactionalPartnerType.IsSupplierType(TransactionalPartnerType);
-
-        if (!isSupplier)
-            return DomainErrors.MaterialCostManagement.NotSupplier((SupplierId)Id.Value);
-
-        return Result.Success();
-    }
-    
-    private static Result CanExecuteCreateOrUpdate(Address address, 
-        CurrencyType currency, 
+    private static Result CanExecuteCreateOrUpdate(Address address,
+        CurrencyType currency,
         LocationType location)
     {
         var locationTypeResult = IsValidLocationType(location, address);
         if (locationTypeResult.IsFailure)
             return locationTypeResult;
-        
+
         var currencyResult = IsValidCurrencyType(currency, address);
         if (currencyResult.IsFailure)
             return currencyResult;
 
         return Result.Success();
     }
-    
+
     private static Result IsValidCurrencyType(CurrencyType currency, Address address)
     {
         /* we cannot create a CurrencyCountry value object where currencyType and country reside in here. It will make
@@ -128,7 +119,7 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
          *  use USD currency to pay for materials, as long as two parties accept this currency. But if make sense if
          *  our country is vietnam and the client or supplier is Vietnam company
          */
-        if (address.Country == Country.VietNam 
+        if (address.Country == Country.VietNam
             && currency != CurrencyType.VND)
             return DomainErrors.TransactionalPartner.InvalidCurrencyType;
 

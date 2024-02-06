@@ -1,6 +1,6 @@
-﻿using Application.SupplyChainManagement.Shared;
+﻿using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 
 public sealed record MaterialCostManagementResponse(
     decimal Price,

@@ -5,9 +5,10 @@ using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using FluentValidation;
 using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
 internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValidator<CreateTransactionalPartnerCommand>
 {
@@ -17,9 +18,9 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
             .NotNull()
             .WithErrorCode(DomainErrorsShared.NullRequestBodyParameter.Code)
             .WithMessage(DomainErrorsShared.NullRequestBodyParameter.Message);
-        
+
         RuleFor(x => x)
-            .MustBeEntityGuidStronglyTypedId<CreateTransactionalPartnerCommand, 
+            .MustBeEntityGuidStronglyTypedId<CreateTransactionalPartnerCommand,
                 CreateTransactionalPartnerCommand,
                 TransactionalPartner, TransactionalPartnerId>(x =>
         {
@@ -41,7 +42,7 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
             if (result1.IsFailure)
                 return result1.Error;
             var (country, companyName, personName, contactInfo, locationType, transactionalPartnerType, currencyType, website) = result1.Value;
-            
+
             var result2 = ResultCombine.Create
             (
                 Address.Create(x.Address.Street, x.Address.City, x.Address.District, x.Address.Ward, x.Address.ZipCode, country),
@@ -50,15 +51,15 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
 
             if (result2.IsFailure)
                 return result2.Error;
-            
+
             var (address, taxNo) = result2.Value;
-            
-            return TransactionalPartner.Create(companyName, taxNo, website, 
+
+            return TransactionalPartner.Create(companyName, taxNo, website,
                 personName, contactInfo, address,
                 transactionalPartnerType, currencyType, locationType);
         });
     }
-    
+
     // public CreateTransactionalPartnerCommandValidator()
     // {
     //     RuleFor(x => x)

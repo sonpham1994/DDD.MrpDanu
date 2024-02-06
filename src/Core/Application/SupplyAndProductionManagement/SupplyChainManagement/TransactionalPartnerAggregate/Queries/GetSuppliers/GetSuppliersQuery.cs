@@ -1,6 +1,6 @@
 using Application.Interfaces.Messaging;
-using Application.SupplyChainManagement.Shared;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 
 public sealed record GetSuppliersQuery : IQuery<IReadOnlyList<SuppliersResponse>>;

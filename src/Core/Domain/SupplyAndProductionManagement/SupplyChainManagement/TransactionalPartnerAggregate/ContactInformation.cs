@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Domain.SharedKernel.Base;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 

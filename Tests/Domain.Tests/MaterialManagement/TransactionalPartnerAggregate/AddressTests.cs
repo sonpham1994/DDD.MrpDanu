@@ -1,6 +1,6 @@
-using Domain.MaterialManagement;
-using Domain.MaterialManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
+using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
 namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;

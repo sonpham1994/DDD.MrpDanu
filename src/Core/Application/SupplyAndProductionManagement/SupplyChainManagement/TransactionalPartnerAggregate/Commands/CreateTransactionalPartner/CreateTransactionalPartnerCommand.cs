@@ -1,6 +1,6 @@
 using Application.Interfaces.Messaging;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
 public sealed record CreateTransactionalPartnerCommand(
     string Name,

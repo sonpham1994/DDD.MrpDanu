@@ -1,6 +1,6 @@
 using Domain.SharedKernel.Base;
 
-namespace Domain.SupplyChainManagement.MaterialAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public record struct MaterialSupplierCostId(Guid Value) : IGuidStronglyTypedId
 {

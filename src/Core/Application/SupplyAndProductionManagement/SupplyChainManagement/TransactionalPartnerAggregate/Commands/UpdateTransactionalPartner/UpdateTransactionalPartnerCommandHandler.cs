@@ -5,9 +5,9 @@ using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
-using DomainErrors = Domain.SupplyChainManagement.DomainErrors;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
 
 internal sealed class UpdateTransactionalPartnerCommandHandler(
     ITransactionalPartnerRepository _transactionalPartnerRepository,
@@ -23,7 +23,7 @@ internal sealed class UpdateTransactionalPartnerCommandHandler(
             return DomainErrors.TransactionalPartner.NotFoundId(transactionalPartnerId);
         if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
-        
+
         var country = Country.FromId(request.Address.CountryId).Value;
         var taxNo = TaxNo.Create(request.TaxNo, country).Value;
         var companyName = CompanyName.Create(request.Name).Value;
@@ -32,25 +32,25 @@ internal sealed class UpdateTransactionalPartnerCommandHandler(
         var address = Address.Create(request.Address.Street, request.Address.City, request.Address.District,
             request.Address.Ward, request.Address.ZipCode, country).Value;
         var website = Website.Create(request.Website).Value;
-        
+
         var transactionalPartnerType = TransactionalPartnerType.FromId(request.TransactionalPartnerTypeId).Value;
         var currencyType = CurrencyType.FromId(request.CurrencyTypeId).Value;
-        
+
         var result = transactionalPartner.Update
         (
-            companyName, 
-            taxNo, 
-            website, 
+            companyName,
+            taxNo,
+            website,
             address,
-            transactionalPartnerType, 
-            currencyType, 
+            transactionalPartnerType,
+            currencyType,
             location
         );
         if (result.IsFailure)
             return result.Error;
-        
+
         transactionalPartner.UpdateContactPersonInfo(personName, contactInfo);
-        
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

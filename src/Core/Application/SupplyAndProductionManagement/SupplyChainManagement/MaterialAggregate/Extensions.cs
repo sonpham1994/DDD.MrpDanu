@@ -1,6 +1,6 @@
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-namespace Application.SupplyChainManagement.MaterialAggregate;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public static class Extensions
 {
