@@ -3,8 +3,8 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPa
 using FluentAssertions;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
-namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
-using static MaterialManagementPreparingData;
+namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
+using static SupplyChainManagementPreparingData;
 
 public class TransactionalPartnerTests
 {

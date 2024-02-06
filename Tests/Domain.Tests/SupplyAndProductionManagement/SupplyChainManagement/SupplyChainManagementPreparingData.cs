@@ -2,9 +2,9 @@ using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-namespace Domain.Tests.MaterialManagement;
+namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement;
 
-public static class MaterialManagementPreparingData
+public static class SupplyChainManagementPreparingData
 {
     public static CompanyName CompanyName1 => CompanyName.Create("CompanyName").Value;
     public static TaxNo TaxNo1 => TaxNo.Create("0123456789", Country.VietNam).Value;

@@ -1,5 +1,5 @@
 using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.ProductionPlanning.Handlers;
+using Domain.SupplyAndProductionManagement.ProductionPlanning.DomainEventHandlers;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.EventDispatchers;

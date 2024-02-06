@@ -2,7 +2,7 @@ using Domain.Extensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.Tests.MaterialManagement;
+using Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement;
 using FluentAssertions;
 namespace Domain.Tests.Extensions;
 
@@ -16,7 +16,7 @@ public class LinqExtensionTests
         isFail.IsFailure.Should().Be(true);
         isFail.Error.Code.Should().Be("Fail");
     }
-    
+
     [Fact]
     public void AnyFailure_NotExistFailure()
     {
@@ -33,13 +33,13 @@ public class LinqExtensionTests
         var materialId2 = (MaterialId)Guid.NewGuid();
         var materialId3 = (MaterialId)Guid.NewGuid();
         var materialId4 = (MaterialId)Guid.NewGuid();
-        var material1 = Material.Create("code1", "name1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", "name2",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
+            Material.Create("code2", "name2",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", "name3",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
-            Material.Create("code4", "name4",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId4),
+            Material.Create("code3", "name3",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
+            Material.Create("code4", "name4",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId4),
             material1,
         };
 
@@ -56,13 +56,13 @@ public class LinqExtensionTests
         var materialId2 = (MaterialId)Guid.NewGuid();
         var materialId3 = (MaterialId)Guid.NewGuid();
         var materialId4 = (MaterialId)Guid.NewGuid();
-        var material1 = Material.Create("code1", "name1", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", "name2", MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
+            Material.Create("code2", "name2", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", "name3",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
-            Material.Create("code4", "name4",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId4),
+            Material.Create("code3", "name3",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
+            Material.Create("code4", "name4",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId4),
         };
 
         var result = items.ItemDuplication<Material, MaterialId, Material>(x => x);
@@ -75,10 +75,10 @@ public class LinqExtensionTests
     {
         var materialId1 = (MaterialId)Guid.NewGuid();
         var materialId2 = (MaterialId)Guid.NewGuid();
-        var material1 = Material.Create("code1", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
+            Material.Create("code2", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
             material1,
             null,
             null
@@ -95,12 +95,12 @@ public class LinqExtensionTests
         var materialId1 = (MaterialId)Guid.NewGuid();
         var materialId2 = (MaterialId)Guid.NewGuid();
         var materialId3 = (MaterialId)Guid.NewGuid();
-        var material1 = Material.Create("code1", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
         var items = new List<Material>
         {
-            Material.Create("code2", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
+            Material.Create("code2", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
+            Material.Create("code3", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
             null,
             material1
         };
@@ -117,13 +117,13 @@ public class LinqExtensionTests
         var materialId1 = (MaterialId)Guid.NewGuid();
         var materialId2 = (MaterialId)Guid.NewGuid();
         var materialId3 = (MaterialId)Guid.NewGuid();
-        var material1 = Material.Create("code1", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId1);
         var items = new List<Material>
         {
             null,
-            Material.Create("code2", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
+            Material.Create("code2", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId2),
             material1,
-            Material.Create("code3", "name1",MaterialManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
+            Material.Create("code3", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, Result.Success()).Value.WithId(materialId3),
             null,
             material1
         };

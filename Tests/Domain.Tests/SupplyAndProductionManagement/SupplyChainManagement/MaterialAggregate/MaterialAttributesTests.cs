@@ -3,19 +3,19 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
 
-namespace Domain.Tests.MaterialManagement.MaterialAggregate;
+namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public class MaterialAttributesTests
 {
     [Theory]
     [MemberData(nameof(GetNullOrEmptyOfMandatoryProperties))]
-    public void Mandatory_parameters_should_not_null_or_empty( 
-        string colorCode, 
-        string width, 
-        string weight, 
-        string unit, 
-        string varian, 
-        bool isFailure, 
+    public void Mandatory_parameters_should_not_null_or_empty(
+        string colorCode,
+        string width,
+        string weight,
+        string unit,
+        string varian,
+        bool isFailure,
         DomainError error)
     {
         var materialAttributes = MaterialAttributes.Create(colorCode, width, weight, unit, varian);
@@ -68,7 +68,7 @@ public class MaterialAttributesTests
         string weight = "weight 1";
         string unit = "unit 1";
         string varian = "varian 1";
-        var materialAttributes = MaterialAttributes.Create( 
+        var materialAttributes = MaterialAttributes.Create(
             $" {colorCode} ",
             $" {width} ",
             $" {weight} ",
@@ -82,7 +82,7 @@ public class MaterialAttributesTests
         materialAttributes.Value.Unit.Should().Be(unit.ToUpper());
         materialAttributes.Value.Varian.Should().Be(varian);
     }
-    
+
     public static IEnumerable<object[]> GetNullOrEmptyOfMandatoryProperties()
     {
         yield return new object[] { "", "", "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };

@@ -2,7 +2,7 @@ using Domain.SharedKernel;
 using Domain.SharedKernel.ValueObjects;
 using FluentAssertions;
 
-namespace Domain.Tests.MaterialManagement.MaterialAggregate;
+namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 public class MaterialSupplierIdentityTests
 {
