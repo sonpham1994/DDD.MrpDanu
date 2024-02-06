@@ -21,12 +21,12 @@ public class MaterialSupplierIdentity : ValueObject
         _transactionalPartnerId = (TransactionalPartnerId)supplierId;
     }
 
-    public static Result<MaterialSupplierIdentity> Create(MaterialId materialId, SupplierId supplierId)
+    public static Result<MaterialSupplierIdentity?> Create(MaterialId materialId, SupplierId supplierId)
     {
         if (materialId.IsEmpty())
-            return DomainErrors.MaterialCost.InvalidMaterialId(materialId);
+            return DomainErrors.MaterialSupplierIdentity.InvalidMaterialId(materialId);
         if (supplierId.IsEmpty())
-            return DomainErrors.MaterialCost.InvalidSupplierId(supplierId);
+            return DomainErrors.MaterialSupplierIdentity.InvalidSupplierId(supplierId);
 
         return new MaterialSupplierIdentity(materialId, supplierId);
     }

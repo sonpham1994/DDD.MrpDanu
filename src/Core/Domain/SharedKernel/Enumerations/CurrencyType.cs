@@ -13,7 +13,7 @@ public class CurrencyType : Enumeration<CurrencyType>
 
     private CurrencyType(in byte id, string name) : base(id, name) { }
 
-    public new static Result<CurrencyType> FromId(in byte id)
+    public new static Result<CurrencyType?> FromId(in byte id)
     {
         var result = Enumeration<CurrencyType>.FromId(id);
         if (result.IsFailure)

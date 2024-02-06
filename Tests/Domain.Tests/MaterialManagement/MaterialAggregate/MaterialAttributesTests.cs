@@ -86,10 +86,6 @@ public class MaterialAttributesTests
     
     public static IEnumerable<object[]> GetNullOrEmptyOfMandatoryProperties()
     {
-        // yield return new object[] { "", "", "width1", "", "unit", "varian", true, DomainErrors.Material.EmptyName };
-        // yield return new object[] { null, "", "width1", "", "unit", "varian", true, DomainErrors.Material.EmptyName };
-        // yield return new object[] { " ", "", "width1", "", "unit", "varian", true, DomainErrors.Material.EmptyName };
-        
         yield return new object[] { "", "", "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };
         yield return new object[] { "", null, "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };
         yield return new object[] { "", " ", "", "unit", "varian", true, DomainErrors.Material.EmptyWidth };
