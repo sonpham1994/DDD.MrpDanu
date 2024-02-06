@@ -1,4 +1,4 @@
-﻿using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 namespace Application.Interfaces.Writes.MaterialWrite;
 

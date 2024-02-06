@@ -1,7 +1,7 @@
 using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class Address : ValueObject
 {

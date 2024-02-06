@@ -1,6 +1,6 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
-using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
@@ -52,7 +52,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     {
         if (!uniqueCodeResult.IsSuccess)
             return uniqueCodeResult.Error;
-        
+
         var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
         if (result.IsFailure)
             return result;
@@ -72,7 +72,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
         var existByAnotherMaterialId = materialSupplierCosts.FirstOrDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
         if (existByAnotherMaterialId is not null)
             return DomainErrors.Material.MaterialIdsAreNotTheSame(Id, existByAnotherMaterialId.MaterialSupplierIdentity.MaterialId);
-        
+
         foreach (var materialSupplierCost in materialSupplierCosts)
         {
             var materialSupplierCostExisted = GetMaterialSupplierCost(materialSupplierCost);
@@ -92,7 +92,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
             {
                 if (_materialSupplierCosts.Count + 1 > MaxNumberOfMaterialCosts)
                     return DomainErrors.Material.ExceedsMaxNumberOfMaterialCosts;
-                
+
                 _materialSupplierCosts.Add(materialSupplierCost);
             }
         }
@@ -104,7 +104,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
         return Result.Success();
     }
 
-    
+
     private MaterialSupplierCost? GetMaterialSupplierCost(MaterialSupplierCost materialSupplierCost)
     {
         var result = _materialSupplierCosts

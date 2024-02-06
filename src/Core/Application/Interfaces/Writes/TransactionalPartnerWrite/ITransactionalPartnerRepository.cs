@@ -1,4 +1,4 @@
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Application.Interfaces.Writes.TransactionalPartnerWrite;

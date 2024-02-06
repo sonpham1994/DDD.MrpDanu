@@ -1,6 +1,6 @@
 using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
 namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
@@ -9,10 +9,10 @@ public class AddressTests
 {
     [Theory]
     [MemberData(nameof(GetNullOrEmptyOfMandatoryProperties))]
-    public void Mandatory_parameters_should_not_be_null_or_empty(string street, 
-        string city, 
-        string district, 
-        string ward, 
+    public void Mandatory_parameters_should_not_be_null_or_empty(string street,
+        string city,
+        string district,
+        string ward,
         string zipCode,
         DomainError error)
     {
@@ -36,7 +36,7 @@ public class AddressTests
         address.IsFailure.Should().BeTrue();
         address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
-    
+
     [Fact]
     public void Create_address_successfully()
     {
@@ -46,11 +46,11 @@ public class AddressTests
         var ward = "ward";
         var zipCode = "12345";
         var address = Address.Create(
-            street, 
-            city, 
-            district, 
-            ward, 
-            zipCode, 
+            street,
+            city,
+            district,
+            ward,
+            zipCode,
             Country.VietNam);
         address.IsSuccess.Should().BeTrue();
         address.Value.Street.Should().Be(street);
@@ -60,7 +60,7 @@ public class AddressTests
         address.Value.ZipCode.Should().Be(zipCode);
         address.Value.Country.Should().Be(Country.VietNam);
     }
-    
+
     [Fact]
     public void Should_trim_all_properties()
     {
@@ -70,13 +70,13 @@ public class AddressTests
         var ward = "ward";
         var zipCode = "12345";
         var address = Address.Create(
-            $"  {street}  ", 
-            $"  {city}  ", 
-            $"  {district}  ", 
-            $"  {ward}  ", 
-            zipCode, 
+            $"  {street}  ",
+            $"  {city}  ",
+            $"  {district}  ",
+            $"  {ward}  ",
+            zipCode,
             Country.VietNam);
-        
+
         address.IsSuccess.Should().BeTrue();
         address.Value.Street.Should().Be(street);
         address.Value.City.Should().Be(city);

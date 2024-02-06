@@ -1,7 +1,7 @@
 using Api.ApiResponses;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

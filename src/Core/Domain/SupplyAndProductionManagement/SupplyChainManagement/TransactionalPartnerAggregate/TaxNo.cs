@@ -1,7 +1,7 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class TaxNo : ValueObject
 {
@@ -9,10 +9,10 @@ public class TaxNo : ValueObject
 
     public string Value { get; }
     public virtual Country Country { get; }
-    
+
     protected TaxNo() { }
 
-    private TaxNo(string value, Country country) 
+    private TaxNo(string value, Country country)
     {
         Value = value;
         Country = country;
@@ -32,7 +32,7 @@ public class TaxNo : ValueObject
             if (!value.All(char.IsDigit))
                 return DomainErrors.TransactionalPartner.InvalidTaxNo;
         }
-        
+
         return new TaxNo(value, country);
     }
 
@@ -48,7 +48,7 @@ public class TaxNo : ValueObject
             return false;
         if (Value != other.Value)
             return false;
-        if (Country != other.Country) 
+        if (Country != other.Country)
             return false;
 
         return true;

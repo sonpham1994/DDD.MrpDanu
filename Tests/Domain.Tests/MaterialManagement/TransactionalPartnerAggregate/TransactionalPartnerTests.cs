@@ -1,5 +1,5 @@
 using Domain.SharedKernel.Enumerations;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
@@ -27,7 +27,7 @@ public class TransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
-    
+
     [Fact]
     public void Cannot_create_transactional_partner_if_location_is_domestic_and_country_is_not_vietnam()
     {
@@ -47,7 +47,7 @@ public class TransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
-    
+
     [Fact]
     public void Cannot_create_transactional_partner_if_country_is_vietnam_and_currency_is_not_vnd()
     {
@@ -67,7 +67,7 @@ public class TransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
-    
+
     [Fact]
     public void Create_transactional_partner_successfully()
     {
@@ -95,7 +95,7 @@ public class TransactionalPartnerTests
         result.Value.CurrencyType.Should().Be(CurrencyType.VND);
         result.Value.LocationType.Should().Be(LocationType.Domestic);
     }
-    
+
     [Fact]
     public void Cannot_update_transactional_partner_if_location_is_oversea_and_country_is_vietnam()
     {
@@ -111,7 +111,7 @@ public class TransactionalPartnerTests
             CurrencyType.VND,
             LocationType.Domestic
         );
-        
+
         var result = transactionalPartner.Value.Update
         (
             CompanyName1,
@@ -126,7 +126,7 @@ public class TransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
-    
+
     [Fact]
     public void Cannot_update_transactional_partner_if_location_is_domestic_and_country_is_not_vietnam()
     {
@@ -142,7 +142,7 @@ public class TransactionalPartnerTests
             CurrencyType.VND,
             LocationType.Domestic
         );
-        
+
         var result = transactionalPartner.Value.Update
         (
             CompanyName1,
@@ -157,7 +157,7 @@ public class TransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
-    
+
     [Fact]
     public void Cannot_update_transactional_partner_if_country_is_vietnam_and_currency_is_not_vnd()
     {
@@ -173,7 +173,7 @@ public class TransactionalPartnerTests
             CurrencyType.VND,
             LocationType.Domestic
         );
-        
+
         var result = transactionalPartner.Value.Update
         (
             CompanyName1,
@@ -188,7 +188,7 @@ public class TransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
-    
+
     [Fact]
     public void Update_transactional_partner_successfully()
     {
@@ -204,7 +204,7 @@ public class TransactionalPartnerTests
             CurrencyType.VND,
             LocationType.Domestic
         );
-        
+
         var personName = PersonName.Create("Name2").Value;
         var contactInfo = ContactInformation.Create(string.Empty, "abcxyz@gmail.com").Value;
         var result = transactionalPartner.Value.Update

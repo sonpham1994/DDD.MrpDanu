@@ -4,7 +4,7 @@
 // using Microsoft.EntityFrameworkCore.ChangeTracking;
 // using Domain.Extensions;
 // using Domain.SharedKernel.Base;
-// using Domain.SupplyChainManagement.MaterialAggregate;
+// using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 // using System.Text.Json;
 // using Infrastructure.Persistence.Externals.AuditTables.Solutions.Entities;
 //

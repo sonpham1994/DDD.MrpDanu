@@ -3,7 +3,7 @@ using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class TransactionalPartner : AggregateRootGuidStronglyTypedId<TransactionalPartnerId>
 {

@@ -2,7 +2,7 @@
 // using System.Linq;
 // using Domain.SharedKernel.Exceptions;
 // using Domain.Extensions;
-// using Domain.SupplyChainManagement.MaterialAggregate;
+// using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 // using Domain.SharedKernel.Base;
 // using Infrastructure.Errors;
 // using Infrastructure.Persistence.Externals.AuditTables.Solutions.Entities;

@@ -2,7 +2,7 @@
 using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class ContactInformation : ValueObject
 {
@@ -11,7 +11,7 @@ public class ContactInformation : ValueObject
 
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
     //https://www.youtube.com/watch?v=RSFiiKUvzLI&ab_channel=NickChapsas
-    private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$", 
+    private static readonly Regex EmailPattern = new(@"^(.+)@(.+)\.\w{2,}$",
         RegexOptions.Compiled,
         //88.69 ns From Benchmark.RegexBenchmarks
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
@@ -73,7 +73,7 @@ public class ContactInformation : ValueObject
             return false;
         if (TelNo != other.TelNo)
             return false;
-        if (Email != other.Email) 
+        if (Email != other.Email)
             return false;
 
         return true;

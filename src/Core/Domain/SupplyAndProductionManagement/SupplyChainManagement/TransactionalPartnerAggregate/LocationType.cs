@@ -1,13 +1,13 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class LocationType : Enumeration<LocationType>
 {
     public static readonly LocationType Oversea = new(1, nameof(Oversea));
     public static readonly LocationType Domestic = new(2, nameof(Domestic));
-        
+
     protected LocationType() { }
 
     private LocationType(in byte id, string name) : base(id, name) { }

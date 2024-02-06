@@ -1,14 +1,14 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class PersonName : ValueObject
 {
     private static byte PersonNameMaxLength => 200;
     public string Value { get; }
 
-    private PersonName(string name) 
+    private PersonName(string name)
     {
         Value = name;
     }

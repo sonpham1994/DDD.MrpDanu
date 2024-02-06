@@ -1,5 +1,5 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
 namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
@@ -26,7 +26,7 @@ public class PersonNameTests
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);
     }
 
-    
+
     [Fact]
     public void Create_person_name_successfully()
     {
@@ -35,7 +35,7 @@ public class PersonNameTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Value.Should().Be(name);
     }
-    
+
     [Fact]
     public void Should_trim_name_property()
     {

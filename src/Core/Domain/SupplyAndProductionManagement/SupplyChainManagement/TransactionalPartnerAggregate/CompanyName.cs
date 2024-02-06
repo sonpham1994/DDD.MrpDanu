@@ -1,14 +1,14 @@
 using Domain.SharedKernel.Base;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-namespace Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class CompanyName : ValueObject
 {
     private static ushort CompanyNameMaxLength => 300;
     public string Value { get; }
 
-    private CompanyName(string name) 
+    private CompanyName(string name)
     {
         Value = name;
     }

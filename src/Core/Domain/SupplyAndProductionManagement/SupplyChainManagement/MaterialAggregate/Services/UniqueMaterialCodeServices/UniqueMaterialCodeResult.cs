@@ -1,6 +1,6 @@
 using Domain.SharedKernel.Base;
 
-namespace Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 public readonly struct UniqueMaterialCodeResult : IResult
 {
@@ -15,7 +15,7 @@ public readonly struct UniqueMaterialCodeResult : IResult
 
     public bool IsFailure => !IsSuccess;
 
-    public bool IsSuccess 
+    public bool IsSuccess
     {
         get
         {
@@ -41,7 +41,7 @@ public readonly struct UniqueMaterialCodeResult : IResult
             return new(false, error);
 
     }
-    
+
     public static implicit operator UniqueMaterialCodeResult(in Result result)
     {
         return new(result.IsSuccess, result.Error);

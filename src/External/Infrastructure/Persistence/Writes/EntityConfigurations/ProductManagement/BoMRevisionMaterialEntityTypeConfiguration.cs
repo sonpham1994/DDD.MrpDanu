@@ -1,4 +1,4 @@
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,7 +14,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
         builder.ToTable(nameof(BoMRevisionMaterial));
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasConversion<BoMRevisionMaterialIdConverter>();
-        
+
         builder.OwnsOne(x => x.MaterialSupplierIdentity, j =>
         {
             // builder.HasOne(x => x.TransactionalPartner)
@@ -59,13 +59,13 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
         });
-        
+
         builder
             .Property(x => x.Unit)
             .HasColumnName(nameof(BoMRevisionMaterial.Unit))
             .HasColumnType("decimal(18,2)")
             .IsRequired()
-            .HasConversion(x 
+            .HasConversion(x
                     => x.Value
                 , x => Unit.Create(x).Value);
 
