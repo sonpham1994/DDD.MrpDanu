@@ -2,7 +2,7 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 
-namespace Domain.Tests.MaterialManagement.TransactionalPartnerAggregate;
+namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class PersonNameTests
 {
