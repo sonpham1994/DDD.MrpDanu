@@ -21,7 +21,7 @@ public class Country : Enumeration<Country>
 
     protected Country() { }
 
-    public new static Result<Country> FromId(in byte id)
+    public new static Result<Country?> FromId(in byte id)
     {
         var result = Enumeration<Country>.FromId(id);
         if (result.IsFailure)

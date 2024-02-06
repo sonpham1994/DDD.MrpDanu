@@ -12,7 +12,7 @@ public class LocationType : Enumeration<LocationType>
 
     private LocationType(in byte id, string name) : base(id, name) { }
 
-    public new static Result<LocationType> FromId(in byte id)
+    public new static Result<LocationType?> FromId(in byte id)
     {
         var result = Enumeration<LocationType>.FromId(id);
         if (result.IsFailure)

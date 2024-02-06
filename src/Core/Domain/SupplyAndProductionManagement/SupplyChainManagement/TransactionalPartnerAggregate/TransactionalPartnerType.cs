@@ -28,7 +28,7 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
         return false;
     }
 
-    public new static Result<TransactionalPartnerType> FromId(in byte id)
+    public new static Result<TransactionalPartnerType?> FromId(in byte id)
     {
         var result = Enumeration<TransactionalPartnerType>.FromId(id);
 
