@@ -1,11 +1,10 @@
-﻿using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Domain.SupplyChainManagement;
+namespace Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
-public sealed class DomainErrors
+public static class DomainErrors
 {
     public static class Material
     {
@@ -36,20 +35,20 @@ public sealed class DomainErrors
         public static DomainError NotFoundId(in byte id) => new("MaterialType.NotFoundId", $"Material type id '{id}' is not found");
     }
 
-    public static class MaterialCostManagement
+    public static class MaterialSupplierCost
     {
-        public static DomainError InvalidSurcharge => new("MaterialCostManagement.InvalidSurcharge", "Surcharge should not be less than or equal to 0");
-        public static DomainError InvalidMinQuantity => new("MaterialCostManagement.InvalidMinQuantity", "Min quantity should not be less than or equal to 0");
-        public static DomainError InvalidPrice => new("MaterialCostManagement.InvalidPrice", "Price should not be less than or equal to 0");
-        public static DomainError EmptySupplierId = new("MaterialCostManagement.EmptySupplierId", "Supplier id should not be empty.");
-        public static DomainError NullMaterialCost => new("MaterialCostManagement.NullMaterialCost", "Material cost object should not be null.");
-        public static DomainError NullSupplier => new("MaterialCostManagement.NullSupplier", "Supplier should not null");
+        public static DomainError InvalidSurcharge => new("MaterialSupplierCost.InvalidSurcharge", "Surcharge should not be less than or equal to 0");
+        public static DomainError InvalidMinQuantity => new("MaterialSupplierCost.InvalidMinQuantity", "Min quantity should not be less than or equal to 0");
+        public static DomainError InvalidPrice => new("MaterialSupplierCost.InvalidPrice", "Price should not be less than or equal to 0");
+        public static DomainError EmptySupplierId = new("MaterialSupplierCost.EmptySupplierId", "Supplier id should not be empty.");
+        public static DomainError NullMaterialCost => new("MaterialSupplierCost.NullMaterialCost", "Material cost object should not be null.");
+        public static DomainError NullSupplier => new("MaterialSupplierCost.NullSupplier", "Supplier should not null");
         
-        public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new("MaterialCostManagement.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
-        public static DomainError DuplicationSupplierId(in SupplierId id) => new("MaterialCostManagement.DuplicationSupplierId", $"Duplicate Supplier id {id.Value}.");
-        public static DomainError NotSupplier(in SupplierId id) => new("MaterialCostManagement.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
-        public static DomainError NotExistSupplier(in SupplierId supplierId, in MaterialId materialId) => new("MaterialCostManagement.NotExistSupplier", $"Supplier id '{supplierId.Value}' does not exist in material id '{materialId.Value}'");
-        public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new("MaterialCostManagement.NotFoundSupplierId", $"Supplier id '{supplierId.Value}' is not found.");
+        public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new("MaterialSupplierCost.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
+        public static DomainError DuplicationSupplierId(in SupplierId id) => new("MaterialSupplierCost.DuplicationSupplierId", $"Duplicate Supplier id {id.Value}.");
+        public static DomainError NotSupplier(in SupplierId id) => new("MaterialSupplierCost.NotSupplier", $"Transactional partner id '{id.Value}' is not a supplier");
+        public static DomainError NotExistSupplier(in SupplierId supplierId, in MaterialId materialId) => new("MaterialSupplierCost.NotExistSupplier", $"Supplier id '{supplierId.Value}' does not exist in material id '{materialId.Value}'");
+        public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new("MaterialSupplierCost.NotFoundSupplierId", $"Supplier id '{supplierId.Value}' is not found.");
         public static DomainError MaterialIdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new("MaterialSupplierCost.MaterialIdIsNotTheSame", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same.");
         public static DomainError SupplierIdIsNotTheSame(in SupplierId id) => new("MaterialSupplierCost.SupplierIdIsNotTheSame", $"Supplier id '{id.Value}' is not the same.");
     }

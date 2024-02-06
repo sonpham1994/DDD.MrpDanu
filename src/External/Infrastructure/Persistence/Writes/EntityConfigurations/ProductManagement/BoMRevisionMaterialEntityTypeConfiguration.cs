@@ -1,9 +1,9 @@
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.ProductionPlanning;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Domain.SupplyAndProductionManagement.ProductionPlanning;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductionPlanning;
 

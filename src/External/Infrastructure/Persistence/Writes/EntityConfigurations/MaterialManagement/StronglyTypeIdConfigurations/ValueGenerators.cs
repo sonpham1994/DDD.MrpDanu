@@ -1,4 +1,4 @@
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 
 namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement.StronglyTypeIdConfigurations;

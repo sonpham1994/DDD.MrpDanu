@@ -1,4 +1,4 @@
-﻿namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
+﻿namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 
 public sealed record TransactionalPartnerResponse(
     Guid Id,

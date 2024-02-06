@@ -1,5 +1,5 @@
-using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 
 namespace Application.Interfaces.Reads;
 

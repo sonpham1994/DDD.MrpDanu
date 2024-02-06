@@ -1,4 +1,4 @@
-using Domain.ProductionPlanning;
+using Domain.SupplyAndProductionManagement.ProductionPlanning;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistence.Writes.EntityConfigurations.ProductionPlanning;

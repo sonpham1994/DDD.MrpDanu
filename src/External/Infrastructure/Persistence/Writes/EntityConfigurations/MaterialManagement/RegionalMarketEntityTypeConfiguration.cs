@@ -1,4 +1,4 @@
-﻿using Domain.SupplyChainManagement.MaterialAggregate;
+﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

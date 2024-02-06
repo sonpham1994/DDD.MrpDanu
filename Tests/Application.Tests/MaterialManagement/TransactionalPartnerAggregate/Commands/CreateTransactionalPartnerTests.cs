@@ -1,8 +1,8 @@
 using Application.Interfaces;
 using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
-using Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
 using FluentAssertions;
@@ -17,14 +17,14 @@ public class CreateTransactionalPartnerTests
     private readonly Mock<ITransactionalPartnerRepository> _transactionalPartnerRepositoryMock;
     private readonly Mock<ITransactionalPartnerQueryForWrite> _transactionalPartnerQueryForWriteMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-    
+
     public CreateTransactionalPartnerTests()
     {
         _transactionalPartnerRepositoryMock = new Mock<ITransactionalPartnerRepository>();
         _transactionalPartnerQueryForWriteMock = new Mock<ITransactionalPartnerQueryForWrite>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
     }
-    
+
     [Fact]
     public async Task Handle_should_return_failure_when_contact_info_existed()
     {
@@ -43,7 +43,7 @@ public class CreateTransactionalPartnerTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
     }
-    
+
     [Fact]
     public async Task Handle_should_not_call_Save_on_repository_when_contact_info_existed()
     {
@@ -60,10 +60,10 @@ public class CreateTransactionalPartnerTests
         var _ = await commandHandler.Handle(command, default);
 
         _transactionalPartnerRepositoryMock.Verify(
-            x => x.Save(It.IsAny<TransactionalPartner>()), 
+            x => x.Save(It.IsAny<TransactionalPartner>()),
             Times.Never);
     }
-    
+
     [Fact]
     public async Task Handle_should_not_call_SaveChangesAsync_on_UnitOfWork_when_contact_info_existed()
     {
@@ -80,10 +80,10 @@ public class CreateTransactionalPartnerTests
         var _ = await commandHandler.Handle(command, default);
 
         _unitOfWorkMock.Verify(
-            x => x.SaveChangesAsync(default), 
+            x => x.SaveChangesAsync(default),
             Times.Never);
     }
-    
+
     [Fact]
     public async Task Handle_should_return_success_when_contact_info_does_not_exist()
     {
@@ -101,7 +101,7 @@ public class CreateTransactionalPartnerTests
 
         result.IsSuccess.Should().BeTrue();
     }
-    
+
     [Fact]
     public async Task Handle_should_call_save_on_repository_when_contact_info_does_not_exist()
     {
@@ -118,10 +118,10 @@ public class CreateTransactionalPartnerTests
         var _ = await commandHandler.Handle(command, default);
 
         _transactionalPartnerRepositoryMock.Verify(
-            x => x.Save(It.IsAny<TransactionalPartner>()), 
+            x => x.Save(It.IsAny<TransactionalPartner>()),
             Times.Once);
     }
-    
+
     [Fact]
     public async Task Handle_should_call_SaveChangesAsync_on_UnitOfWork_when_contact_info_does_not_exist()
     {
@@ -138,7 +138,7 @@ public class CreateTransactionalPartnerTests
         var _ = await commandHandler.Handle(command, default);
 
         _unitOfWorkMock.Verify(
-            x => x.SaveChangesAsync(default), 
+            x => x.SaveChangesAsync(default),
             Times.Once);
     }
 

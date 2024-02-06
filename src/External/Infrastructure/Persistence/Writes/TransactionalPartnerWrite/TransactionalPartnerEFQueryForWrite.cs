@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using Microsoft.EntityFrameworkCore;
 using PersistenceExtensions = Infrastructure.Persistence.Extensions;
 

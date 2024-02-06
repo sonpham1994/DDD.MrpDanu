@@ -1,9 +1,9 @@
 using Application.Interfaces.Messaging;
 using Domain.SharedKernel.Base;
-using Domain.SupplyChainManagement;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Application.Interfaces.Reads;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 
 internal sealed class GetMaterialByIdQueryHandler(IMaterialQuery _materialQuery) : IQueryHandler<GetMaterialByIdQuery, MaterialResponse>
 {
@@ -13,7 +13,7 @@ internal sealed class GetMaterialByIdQueryHandler(IMaterialQuery _materialQuery)
 
         if (material is null)
             return DomainErrors.Material.MaterialIdNotFound(request.Id);
-        
+
         return material;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Domain.SupplyChainManagement.MaterialAggregate;
-using Domain.SharedKernel.Base;
+﻿using Domain.SharedKernel.Base;
 using Infrastructure.Errors;
 using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 using System.Text.Json;
@@ -7,6 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Domain.Extensions;
 using Domain.SharedKernel.Enumerations;
 using Infrastructure.JsonSourceGenerators;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit;
 

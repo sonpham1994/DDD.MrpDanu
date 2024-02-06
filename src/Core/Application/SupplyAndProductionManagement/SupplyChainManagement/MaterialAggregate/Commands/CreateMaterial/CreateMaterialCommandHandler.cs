@@ -1,13 +1,12 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.SharedKernel.Base;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Domain.SharedKernel.ValueObjects;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 
 internal sealed class CreateMaterialCommandHandler(
     IUnitOfWork _unitOfWork,

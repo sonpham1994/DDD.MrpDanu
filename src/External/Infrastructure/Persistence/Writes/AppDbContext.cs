@@ -1,7 +1,5 @@
 ﻿using System.Data;
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.ProductionPlanning;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Infrastructure.EventDispatchers;
@@ -13,6 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Infrastructure.Persistence.Externals;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 namespace Infrastructure.Persistence.Writes;
 

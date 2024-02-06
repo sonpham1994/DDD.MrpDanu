@@ -3,7 +3,7 @@ using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Commands.DeleteTransactionalPartner;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.DeleteTransactionalPartner;
 
 internal sealed class DeleteTransactionalPartnerCommandHandler(
     ITransactionalPartnerRepository _transactionalPartnerRepository) : ICommandHandler<DeleteTransactionalPartnerCommand>

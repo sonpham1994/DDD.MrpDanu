@@ -1,4 +1,4 @@
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
 
 public class SupplierIdWithCurrencyTypeId
 {

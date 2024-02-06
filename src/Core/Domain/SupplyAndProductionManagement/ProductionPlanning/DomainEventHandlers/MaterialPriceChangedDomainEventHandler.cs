@@ -1,6 +1,6 @@
-using Domain.SupplyChainManagement.MaterialAggregate;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-namespace Domain.ProductionPlanning.Handlers;
+namespace Domain.SupplyAndProductionManagement.ProductionPlanning.DomainEventHandlers;
 
 public class MaterialPriceChangedDomainEventHandler
 {

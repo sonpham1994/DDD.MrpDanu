@@ -1,4 +1,4 @@
-﻿using Application.SupplyChainManagement.MaterialAggregate.Commands.Models;
+﻿using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
 
 namespace Application.Interfaces.Writes.TransactionalPartnerWrite;
 

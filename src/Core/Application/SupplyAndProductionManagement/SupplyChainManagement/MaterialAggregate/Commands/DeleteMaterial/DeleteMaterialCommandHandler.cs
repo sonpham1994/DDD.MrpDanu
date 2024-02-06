@@ -4,7 +4,7 @@ using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 using Application.Interfaces.Writes.MaterialWrite;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;
 
 internal sealed class DeleteMaterialCommandHandler(
     IMaterialRepository _materialRepository,

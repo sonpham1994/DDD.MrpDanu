@@ -1,6 +1,6 @@
 using Application.Interfaces.Messaging;
 
-namespace Application.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 public sealed record UpdateMaterialCommand : ICommand, ITransactionalCommand
 {

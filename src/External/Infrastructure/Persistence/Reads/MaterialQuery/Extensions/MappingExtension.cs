@@ -1,10 +1,11 @@
-using Application.SupplyChainManagement.MaterialAggregate;
-using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
-using Application.SupplyChainManagement.Shared;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.Enumerations;
 using Infrastructure.Persistence.Reads.MaterialQuery.Models;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Reads.MaterialQuery.Extensions;
 

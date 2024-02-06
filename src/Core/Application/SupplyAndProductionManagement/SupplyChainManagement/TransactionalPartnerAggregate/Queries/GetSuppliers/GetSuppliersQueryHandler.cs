@@ -1,9 +1,9 @@
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Reads;
-using Application.SupplyChainManagement.Shared;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 using Domain.SharedKernel.Base;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 
 internal sealed class GetSuppliersQueryHandler(
     ITransactionalPartnerQuery _transactionalPartnerQuery) : IQueryHandler<GetSuppliersQuery, IReadOnlyList<SuppliersResponse>>

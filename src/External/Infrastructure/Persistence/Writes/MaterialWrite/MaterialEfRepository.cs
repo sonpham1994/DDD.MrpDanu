@@ -1,9 +1,9 @@
-using Domain.SupplyChainManagement.MaterialAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Domain.Extensions;
 using Infrastructure.Persistence.Writes.Extensions;
 using Application.Interfaces.Writes.MaterialWrite;
 using Domain.SharedKernel.Enumerations;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Writes.MaterialWrite;
 

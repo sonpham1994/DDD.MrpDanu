@@ -2,7 +2,7 @@ using Application.Interfaces.Messaging;
 using Application.Interfaces.Reads;
 using Domain.SharedKernel.Base;
 
-namespace Application.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
+namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 
 internal sealed class GetTransactionalPartnersQueryHandler(
     ITransactionalPartnerQuery _transactionalPartnerQuery) : IQueryHandler<GetTransactionalPartnersQuery, IReadOnlyList<TransactionalPartnersResponse>>

@@ -1,11 +1,10 @@
-﻿using Domain.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Enumerations;
+﻿using Domain.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement.StronglyTypeIdConfigurations;
 using Infrastructure.Persistence.Writes.EntityConfigurations.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Infrastructure.Persistence.Writes.EntityConfigurations.SupplyChainManagement;
 

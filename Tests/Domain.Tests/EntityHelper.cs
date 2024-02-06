@@ -16,6 +16,14 @@ public static class EntityHelper
         SetId(entity, id);
         return entity;
     }
+
+    public static TEntity WithId<TEntity, TId>(this TEntity entity, TId id)
+        where TEntity : EntityGuidStronglyTypedId<TId>
+        where TId : struct, IGuidStronglyTypedId, IEquatable<TId>
+    {
+        SetId(entity, id);
+        return entity;
+    }
     
     public static TEntity WithId<TEntity>(this TEntity entity, long id)
         where TEntity : Entity<long>
