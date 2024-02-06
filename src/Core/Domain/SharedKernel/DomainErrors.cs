@@ -16,10 +16,10 @@ public sealed class DomainErrors
         public static DomainError InvalidVNDCurrencyMoney => new("Money.InvalidVNDCurrencyMoney", "Money should be integer for VND currency");
     }
 
-    public static class MaterialCost
+    public static class MaterialSupplierIdentity
     {
-        public static DomainError InvalidMaterialId(in MaterialId materialId) => new("BoMRevisionMaterial.InvalidMaterialId", $"Material id '{materialId.Value}' is invalid.");
-        public static DomainError InvalidSupplierId(in SupplierId supplierId) => new("BoMRevisionMaterial.InvalidSupplierId", $"Supplier id '{supplierId.Value}' is invalid.");
+        public static DomainError InvalidMaterialId(in MaterialId materialId) => new("MaterialSupplierIdentity.InvalidMaterialId", $"Material id '{materialId.Value}' is invalid.");
+        public static DomainError InvalidSupplierId(in SupplierId supplierId) => new("MaterialSupplierIdentity.InvalidSupplierId", $"Supplier id '{supplierId.Value}' is invalid.");
     }
     
     public static DomainError NullRequestBodyParameter => new("General.NullRequestBodyParameter", "Request body parameter should not be null");

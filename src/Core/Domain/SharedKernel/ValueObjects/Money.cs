@@ -16,7 +16,7 @@ public class Money : ValueObject
 
     protected Money() { }
 
-    public static Result<Money> Create(in decimal value, CurrencyType currencyType)
+    public static Result<Money?> Create(in decimal value, CurrencyType currencyType)
     {
         if (value <= 0)
             return DomainErrors.Money.InvalidMoney;

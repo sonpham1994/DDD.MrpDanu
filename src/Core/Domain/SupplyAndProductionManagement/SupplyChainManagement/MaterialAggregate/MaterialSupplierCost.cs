@@ -72,19 +72,19 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             if (currencyType.IsFailure)
                 return currencyType.Error;
 
-            var priceResult = Money.Create(price, currencyType.Value);
+            var priceResult = Money.Create(price, currencyType.Value!);
             if (priceResult.IsFailure)
                 return priceResult.Error;
 
-            var surchargeResult = Money.Create(surcharge, currencyType.Value);
+            var surchargeResult = Money.Create(surcharge, currencyType.Value!);
             if (surchargeResult.IsFailure)
                 return DomainErrors.MaterialSupplierCost.InvalidSurcharge;
 
-            var isValidPriceAndSurcharge = IsValidPriceAndSurcharge(priceResult.Value, surchargeResult.Value);
+            var isValidPriceAndSurcharge = IsValidPriceAndSurcharge(priceResult.Value!, surchargeResult.Value!);
             if (isValidPriceAndSurcharge.IsFailure)
                 return isValidPriceAndSurcharge.Error;
 
-            var materialSupplierCost = new MaterialSupplierCost(materialSupplierIdentity.Value, priceResult.Value, minQuantity, surchargeResult.Value);
+            var materialSupplierCost = new MaterialSupplierCost(materialSupplierIdentity.Value!, priceResult.Value!, minQuantity, surchargeResult.Value!);
 
             result.Add(materialSupplierCost);
         }

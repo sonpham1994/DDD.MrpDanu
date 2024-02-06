@@ -23,6 +23,8 @@
       &lt;TestId&gt;xUnit::F53BD83D-1319-4567-9E0B-D5021BFC7DEC::net7.0::DDD.MrpDanu.Application.Tests.MaterialManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartnerTests.Handle_should_return_success_when_contact_info_does_not_exist&lt;/TestId&gt;
       &lt;TestId&gt;xUnit::5CE31A44-720A-4834-8023-093675FEC619::net7.0::DDD.MrpDanu.Domain.Tests.MaterialManagement.TransactionalPartnerAggregate.AddressTests.Mandatory_properties_should_not_be_null_or_empty&lt;/TestId&gt;
       &lt;TestId&gt;xUnit::5CE31A44-720A-4834-8023-093675FEC619::net7.0::DDD.MrpDanu.Domain.Tests.MaterialManagement.TransactionalPartnerAggregate.ContactInformationTests.Cannot_create_contact_info_with_empty_contact_info&lt;/TestId&gt;
+      &lt;TestId&gt;xUnit::5CE31A44-720A-4834-8023-093675FEC619::net8.0::Domain.Tests.MaterialManagement.MaterialAggregate.MaterialSupplierCostTests.Cannot_create_material_cost_with_invalid_currency_type&lt;/TestId&gt;
+      &lt;TestId&gt;xUnit::5CE31A44-720A-4834-8023-093675FEC619::net8.0::Domain.Tests.MaterialManagement.MaterialAggregate.MaterialSupplierCostTests.Cannot_create_material_cost_with_duplication_supplier&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:MaterialAggregate/f:MaterialAttributesTests.cs&lt;/ProjectFile&gt;
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:ShraredKernel/f:MoneyTests.cs&lt;/ProjectFile&gt;
@@ -41,9 +43,10 @@
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:TransactionalPartnerAggregate/f:WebsiteTests.cs&lt;/ProjectFile&gt;
     &lt;ProjectFile&gt;D0F5E602-1E46-47B6-A65D-4DD1FE6177CA/f:ApplicationArchitectureTests.cs&lt;/ProjectFile&gt;
     &lt;Project Location="/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Tests/Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;
+    &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:MaterialAggregate/f:MaterialSupplierCostTests.cs&lt;/ProjectFile&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=5ce31a44_002D720a_002D4834_002D8023_002D093675fec619_0023Domain_002ETests/@EntryIndexedValue">True</s:Boolean>
+	
 	
 	
 	

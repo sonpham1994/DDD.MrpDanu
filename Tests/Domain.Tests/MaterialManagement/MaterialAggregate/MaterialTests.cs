@@ -173,35 +173,11 @@ public class MaterialTests
     }
     
     [Fact]
-    public void Cannot_add_material_cost_with_supplier_duplication()
-    {
-        var materialAttributes = MaterialManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($"code1", "name1",materialAttributes, MaterialType.Material, RegionalMarket.None, Result.Success());
-        var randomSupplierId = (SupplierId)Guid.NewGuid();
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (MaterialManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
-            (randomSupplierId, CurrencyType.VND.Id)
-        };
-        var input = new List<(decimal, uint, decimal, SupplierId)>
-        {
-            (6m, 5, 8m, MaterialManagementPreparingData.SupplierId1),
-            (1m, 1, 1m, randomSupplierId),
-            (7m, 6, 9m, MaterialManagementPreparingData.SupplierId1),
-        };
-        var materialCosts = MaterialSupplierCost.Create(MaterialManagementPreparingData.MaterialId1, input, suppliers).Value;
-
-        var result = material.Value.UpdateCost(materialCosts);
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierId(MaterialManagementPreparingData.SupplierId1));
-    }
-    
-    [Fact]
     public void Add_material_cost_successfully()
     {
         var materialAttributes = MaterialManagementPreparingData.MaterialAttributes1;
         var material = Material.Create($"code1", "name1",materialAttributes, MaterialType.Material, RegionalMarket.None, Result.Success());
-        
+        material.Value.WithId(MaterialManagementPreparingData.MaterialId1);
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
             (MaterialManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
@@ -233,7 +209,8 @@ public class MaterialTests
     {
         var materialAttributes = MaterialManagementPreparingData.MaterialAttributes1;
         var material = Material.Create($"code1", "name1",materialAttributes, MaterialType.Material, RegionalMarket.None, Result.Success());
-
+        material.Value.WithId(MaterialManagementPreparingData.MaterialId1);
+        
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
             (MaterialManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
@@ -273,7 +250,7 @@ public class MaterialTests
     {
         var materialAttributes = MaterialManagementPreparingData.MaterialAttributes1;
         var material = Material.Create($"code1", "name1",materialAttributes, MaterialType.Material, RegionalMarket.None, Result.Success());
-
+        material.Value.WithId(MaterialManagementPreparingData.MaterialId1);
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
             (MaterialManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
