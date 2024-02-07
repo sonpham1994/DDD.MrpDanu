@@ -16,7 +16,7 @@ internal sealed class TransactionalPartnerEFQueryForWrite(AppDbContext _context)
         //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ using OPENJSON for collection instead of IN for SQL 2019 or later version
         //https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - "However, this strategy does not work well with database query caching"
         // the reason why we want to use OPENJSON is to use cached execution plan. Please check SqlServerKnowledge/PerformanceBetweenEFCoreAndStoredProcedures or TestCompanyEntity.Benchmark/InVsExistsOpenJson
-
+        // this issue was desribed here: https://github.com/dotnet/efcore/issues/13617
         var suppliers = await _context
             .Database
             .SqlQuery<SupplierIdWithCurrencyTypeId>(@$"
