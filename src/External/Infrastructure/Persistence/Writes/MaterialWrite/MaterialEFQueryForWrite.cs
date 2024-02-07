@@ -18,15 +18,15 @@ namespace Infrastructure.Persistence.Writes.MaterialWrite;
 // we really don't need. So instead of using dapper, we use built-in SqlQuery from EF Core.
 internal sealed class MaterialEFQueryForWrite(AppDbContext _context) : IMaterialQueryForWrite
 {
-    public async Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken)
+    public async Task<MaterialIdWithCode> GetByCodeAsync(string code, CancellationToken cancellationToken)
     {
         var material = await _context.Database
                .SqlQuery<MaterialIdWithCode>($"""
-                    SELECT TOP 2 material.Id, material.Code 
+                    SELECT material.Id, material.Code 
                     FROM Material 
                     WHERE Code = {code}
                     """)
-               .ToListAsync(cancellationToken);
+               .FirstOrDefaultAsync(cancellationToken);
 
         return material;
     }

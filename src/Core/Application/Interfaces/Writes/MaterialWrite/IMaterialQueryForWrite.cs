@@ -4,5 +4,5 @@ namespace Application.Interfaces.Writes.MaterialWrite;
 
 public interface IMaterialQueryForWrite
 {
-    Task<IReadOnlyList<MaterialIdWithCode>> GetByCodeAsync(string code, CancellationToken cancellationToken);
+    Task<MaterialIdWithCode> GetByCodeAsync(string code, CancellationToken cancellationToken);
 }

@@ -2,13 +2,13 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
-public record struct BoMId(uint Value);
+public readonly record struct BoMId(uint Value) : IStronglyTypedId<uint>;
 
-public record struct ProductId(uint Value);
+public readonly record struct ProductId(uint Value) : IStronglyTypedId<uint>;
 
-public record struct BoMRevisionId(ushort Value);
+public readonly record struct BoMRevisionId(ushort Value) : IStronglyTypedId<ushort>;
 
-public record struct BoMRevisionMaterialId(Guid Value) : IGuidStronglyTypedId
+public readonly record struct BoMRevisionMaterialId(Guid Value) : IGuidStronglyTypedId
 {
     public static explicit operator BoMRevisionMaterialId(Guid value)
         => new(value);
