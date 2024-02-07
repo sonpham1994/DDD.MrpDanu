@@ -1,4 +1,3 @@
-using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -14,7 +13,7 @@ public class MaterialTests
     public void Cannot_create_material_with_material_type_and_not_none_regional_market()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         material.IsFailure.Should().Be(true);
         material.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
@@ -24,7 +23,7 @@ public class MaterialTests
     public void Cannot_create_material_with_subassemblies_type_and_none_regional_market()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         material.IsFailure.Should().Be(true);
         material.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
@@ -37,7 +36,7 @@ public class MaterialTests
     public void Cannot_create_material_with_null_or_empty_code(string code)
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create(code, "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create(code, "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         material.IsFailure.Should().Be(true);
         material.Error.Should().Be(DomainErrors.Material.EmptyCode);
@@ -50,7 +49,7 @@ public class MaterialTests
     public void Cannot_create_material_with_null_or_empty_name(string name)
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", name, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", name, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         material.IsFailure.Should().Be(true);
         material.Error.Should().Be(DomainErrors.Material.EmptyName);
@@ -116,7 +115,7 @@ public class MaterialTests
     {
         string code = "code1";
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($" {code} ", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($" {code} ", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         material.IsSuccess.Should().Be(true);
         material.Value.Attributes.Should().Be(materialAttributes);
@@ -130,7 +129,7 @@ public class MaterialTests
     {
         string code = "code1";
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($" {code} ", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($" {code} ", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         material.IsSuccess.Should().BeTrue();
         material.Value.Attributes.Should().Be(materialAttributes);
@@ -143,9 +142,9 @@ public class MaterialTests
     public void Cannot_update_material_with_material_type_and_not_none_regional_market()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial("code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var result = material.Value.UpdateMaterial("code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
@@ -155,9 +154,9 @@ public class MaterialTests
     public void Cannot_update_material_with_subassemblies_type_and_none_regional_market()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var result = material.Value.UpdateMaterial("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
@@ -170,9 +169,9 @@ public class MaterialTests
     public void Cannot_update_material_with_null_or_empty_code(string code)
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial(code, "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var result = material.Value.UpdateMaterial(code, "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.Material.EmptyCode);
@@ -183,7 +182,7 @@ public class MaterialTests
     {
         string code = "code2";
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
         Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
         {
@@ -208,7 +207,7 @@ public class MaterialTests
     {
         string code = "code2";
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
         Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
         {
@@ -232,7 +231,7 @@ public class MaterialTests
     {
         string code = "code2";
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create("code1", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
         Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
         {
@@ -251,9 +250,9 @@ public class MaterialTests
         string code1 = "code1";
         string code2 = "code2";
         var materialAttributes1 = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($"    {code1}    ", "name1", materialAttributes1, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($"    {code1}    ", "name1", materialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial($"    {code2}    ", "name1", materialAttributes1, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var result = material.Value.UpdateMaterial($"    {code2}    ", "name1", materialAttributes1, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         result.IsSuccess.Should().Be(true);
         material.Value.Attributes.Should().Be(materialAttributes1);
@@ -269,9 +268,9 @@ public class MaterialTests
         string code2 = "code2";
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
 
-        var material = Material.Create($"    {code1}    ", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($"    {code1}    ", "name1", materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial($"    {code2}    ", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var result = material.Value.UpdateMaterial($"    {code2}    ", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         result.IsSuccess.Should().Be(true);
         material.Value.Attributes.Should().Be(materialAttributes);
@@ -284,7 +283,7 @@ public class MaterialTests
     public void Add_material_cost_successfully()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($"code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($"code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
@@ -316,7 +315,7 @@ public class MaterialTests
     public void Update_material_cost_successfully()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($"code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($"code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
 
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
@@ -357,7 +356,7 @@ public class MaterialTests
     public void Remove_cost_successfully()
     {
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        var material = Material.Create($"code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, (UniqueMaterialCodeResult)Result.Success());
+        var material = Material.Create($"code1", "name1", materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {

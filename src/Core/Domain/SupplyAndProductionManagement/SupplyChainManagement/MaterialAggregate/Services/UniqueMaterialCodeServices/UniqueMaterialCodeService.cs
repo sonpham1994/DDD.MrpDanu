@@ -1,4 +1,3 @@
-using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
@@ -29,7 +28,7 @@ public static class UniqueMaterialCodeService
             return UniqueMaterialCodeResult.Failure(code, materialIdWithCode.MaterialId);
         }
 
-        return (UniqueMaterialCodeResult)Result.Success();
+        return UniqueMaterialCodeResult.Success();
     }
 
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
@@ -49,6 +48,6 @@ public static class UniqueMaterialCodeService
             return UniqueMaterialCodeResult.Failure(code, materialIdWithCode.MaterialId);
         }
 
-        return (UniqueMaterialCodeResult)Result.Success();
+        return UniqueMaterialCodeResult.Success();
     }
 }
