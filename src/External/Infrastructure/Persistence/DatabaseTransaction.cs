@@ -3,6 +3,7 @@ using Application.Helpers;
 using Application.Interfaces;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Writes;
+using Infrastructure.Persistence.Writes.MaterialWrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +20,8 @@ internal sealed class DatabaseTransaction : ITransaction
         _logger = logger;
     }
 
-    public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
+    public async Task<TResponse> HandleAsync<TResponse>(TransactionalHandler<TResponse> transactionalHandler)
+        where TResponse : IResult
     {
         IResult result = null;
         try
@@ -48,26 +50,44 @@ internal sealed class DatabaseTransaction : ITransaction
             throw;
         }
 
-        return result;
+        return (TResponse)result;
+    }
+}
+
+//If want to use persist data in both SQL and NoSql, we apply Memento design pattern
+internal sealed class DistributedDatabaseTransaction : ITransaction
+{
+    private IEnumerable<IOriginator> _originators;
+    private readonly ILogger<DatabaseTransaction> _logger;
+
+    public DistributedDatabaseTransaction(ILogger<DatabaseTransaction> logger, IEnumerable<IOriginator> originators)
+    {
+        _originators = originators;
+        _logger = logger;
     }
 
-    //public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
-    //{
-    //    IResult result = null;
-    //    try
-    //    {
-    //        result = await transactionalHandler.HandleAsync();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        string traceId = Helper.GetTraceId();
-    //        _appDbContext.RollbackTransaction();
-    //        var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
-    //        _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
+    public async Task<TResponse> HandleAsync<TResponse>(TransactionalHandler<TResponse> transactionalHandler)
+        where TResponse : IResult
+    {
+        IResult result = null;
+        try
+        {
+            result = await transactionalHandler.HandleAsync();
+        }
+        catch (Exception ex)
+        {
+            string traceId = Helper.GetTraceId();
+            foreach (var originator in _originators)
+            {
+                await originator.RestoreAsync();
+            }
+            
+            var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
+            _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
 
-    //        throw;
-    //    }
+            throw;
+        }
 
-    //    return result;
-    //}
+        return (TResponse)result;
+    }
 }

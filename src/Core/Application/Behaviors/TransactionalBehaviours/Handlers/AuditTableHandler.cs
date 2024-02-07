@@ -6,27 +6,28 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Behaviors.TransactionalBehaviours.Handlers;
 
-internal sealed class AuditTableHandler : ITransactionalReceiver
+internal sealed class AuditTableHandler<TResponse> : ITransactionalReceiver<TResponse>
+    where TResponse : IResult
 {
     private readonly IAuditTableService _auditTableService;
-    private readonly ILogger<AuditTableHandler> _logger;
+    private readonly ILogger<AuditTableHandler<TResponse>> _logger;
 
-    public AuditTableHandler(IAuditTableService auditTableService, ILogger<AuditTableHandler> logger)
+    public AuditTableHandler(IAuditTableService auditTableService, ILogger<AuditTableHandler<TResponse>> logger)
     {
         _auditTableService = auditTableService;
         _logger = logger;
     }
 
-    public async Task<IResult> HandleAsync()
+    public async Task<TResponse> HandleAsync()
     {
         _logger.StartLogAuditTable();
         var start = Stopwatch.GetTimestamp();
 
-        var result = await _auditTableService.LogChangesAsync();
+        IResult result = await _auditTableService.LogChangesAsync();
 
         var delta = Stopwatch.GetElapsedTime(start);
         _logger.CompletedLogAuditTable(delta.TotalMicroseconds);
 
-        return result;
+        return (TResponse)result;
     }
 }

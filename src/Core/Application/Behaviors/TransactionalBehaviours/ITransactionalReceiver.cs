@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Application.Behaviors.TransactionalBehaviours;
 
-internal interface ITransactionalReceiver
+internal interface ITransactionalReceiver<TResponse> where TResponse : IResult
 { 
-    Task<IResult> HandleAsync();
+    Task<TResponse> HandleAsync();
 }

@@ -33,7 +33,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        services.AddScoped<AuditTableHandler>();
+        services.AddScoped(typeof(AuditTableHandler<>));
 
         return services;
     }
