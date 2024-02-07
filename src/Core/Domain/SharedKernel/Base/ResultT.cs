@@ -49,9 +49,7 @@ public readonly struct Result<T> : IResult<T>
     }
 
     public static implicit operator Result<T>(T value)
-    {
-        return Result.Success(value);
-    }
+        => Result.Success(value);
     
     public static implicit operator Result(in Result<T> result)
     {
@@ -62,12 +60,8 @@ public readonly struct Result<T> : IResult<T>
     }
 
     public static implicit operator Result<T?>(in DomainError domainError)
-    {
-        return new Result<T?>(false, domainError, default);
-    }
+        => new(false, domainError, default);
 
     public static implicit operator Result<T?>(in Result result)
-    {
-        return new Result<T?>(result.IsFailure, result.Error, default);
-    }
+        => new(result.IsFailure, result.Error, default);
 }

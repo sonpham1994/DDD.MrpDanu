@@ -34,22 +34,14 @@ public readonly struct Result : IResult
     }
 
     public static Result Success()
-    {
-        return new Result(true, DomainError.Empty);
-    }
+        => new(true, DomainError.Empty);
 
     public static Result<T> Success<T>(T value)
-    {
-        return new Result<T>(true, DomainError.Empty, value);
-    }
+        => new(true, DomainError.Empty, value);
 
     public static Result Failure(in DomainError error)
-    {
-        return new Result(false, error);
-    }
+        => new(false, error);
 
     public static implicit operator Result(in DomainError domainError)
-    {
-        return Failure(domainError);
-    }
+        => Failure(domainError);
 }

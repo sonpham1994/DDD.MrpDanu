@@ -16,42 +16,39 @@ public static class UniqueMaterialCodeService
      */
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
         string code,
-        Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> getMaterialByCode,
+        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode,
         CancellationToken cancellationToken)
     {
         code ??= string.Empty;
         code = code.Trim();
 
-        var materialIdWithCodes = await getMaterialByCode.Invoke(code, cancellationToken);
-        var existsCodeInAnotherMaterial = materialIdWithCodes
-            .FirstOrDefault(x => code == x.Code);
+        var materialIdWithCode = await getMaterialByCode.Invoke(code, cancellationToken);
 
-        if (existsCodeInAnotherMaterial is not null)
+        if (materialIdWithCode is not null)
         {
-            return DomainErrors.Material.ExistedCode(code, existsCodeInAnotherMaterial.MaterialId);
+            return UniqueMaterialCodeResult.Failure(code, materialIdWithCode.MaterialId);
         }
 
-        return Result.Success();
+        return (UniqueMaterialCodeResult)Result.Success();
     }
 
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
         MaterialId materialId,
         string code,
-        Func<string, CancellationToken, Task<IReadOnlyList<MaterialIdWithCode>>> getMaterialByCode,
+        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode,
         CancellationToken cancellationToken)
     {
         code ??= string.Empty;
         code = code.Trim();
 
-        var materialIdWithCodes = await getMaterialByCode.Invoke(code, cancellationToken);
-        var existsCodeInAnotherMaterial = materialIdWithCodes
-            .FirstOrDefault(x => x.MaterialId != materialId && code == x.Code);
-
-        if (existsCodeInAnotherMaterial is not null)
+        var materialIdWithCode = await getMaterialByCode.Invoke(code, cancellationToken);
+        if (materialIdWithCode is not null
+            && materialId != materialIdWithCode.MaterialId
+            && code == materialIdWithCode.Code)
         {
-            return DomainErrors.Material.ExistedCode(code, existsCodeInAnotherMaterial.MaterialId);
+            return UniqueMaterialCodeResult.Failure(code, materialIdWithCode.MaterialId);
         }
 
-        return Result.Success();
+        return (UniqueMaterialCodeResult)Result.Success();
     }
 }

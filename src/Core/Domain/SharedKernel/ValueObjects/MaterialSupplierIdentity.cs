@@ -13,8 +13,8 @@ public class MaterialSupplierIdentity : ValueObject
     public SupplierId SupplierId => new(_transactionalPartnerId.Value);
 
     //required EF
-    protected MaterialSupplierIdentity() {}
-    
+    protected MaterialSupplierIdentity() { }
+
     private MaterialSupplierIdentity(MaterialId materialId, SupplierId supplierId)
     {
         MaterialId = materialId;
@@ -30,7 +30,7 @@ public class MaterialSupplierIdentity : ValueObject
 
         return new MaterialSupplierIdentity(materialId, supplierId);
     }
-    
+
     protected override IEnumerable<int> GetHashCodeComponents()
     {
         yield return MaterialId.GetHashCode();
