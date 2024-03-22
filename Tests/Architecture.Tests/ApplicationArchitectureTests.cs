@@ -13,7 +13,6 @@ public class ApplicationArchitectureTests
 {
     private const string InterfaceQueriesNamespace = $"{ApplicationNamespace}.Interfaces.Reads";
     private const string InterfaceWritesNamespace = $"{ApplicationNamespace}.Interfaces.Writes";
-    private const string QueryHandlerClass = "QueryHandler";
     private const string ResponseClass = "Response";
     private const string InterceptorClass = "Interceptor`2";
     private const string BehaviorClass = "Behavior`2";
