@@ -14,8 +14,6 @@ public class ApplicationArchitectureTests
     private const string InterfaceQueriesNamespace = $"{ApplicationNamespace}.Interfaces.Reads";
     private const string InterfaceWritesNamespace = $"{ApplicationNamespace}.Interfaces.Writes";
     private const string QueryHandlerClass = "QueryHandler";
-    private const string CommandHandlerClass = "CommandHandler";
-    private const string CommandClass = "Command";
     private const string ResponseClass = "Response";
     private const string InterceptorClass = "Interceptor`2";
     private const string BehaviorClass = "Behavior`2";
@@ -43,9 +41,9 @@ public class ApplicationArchitectureTests
 
         var result = Types.InAssembly(applicationAssembly)
             .That()
-            .HaveNameEndingWith(CommandHandlerClass)
-            .And()
-            .AreClasses()
+            .ImplementInterface(typeof(ICommandHandler<>))
+            .Or()
+            .ImplementInterface(typeof(ICommandHandler<,>))
             .Should()
             .HaveDependencyOn(DomainNamespace)
             .GetResult();
@@ -58,9 +56,9 @@ public class ApplicationArchitectureTests
     {
         var result = Types.InAssembly(ApplicationAssembly.Instance)
         .That()
-        .HaveNameEndingWith(CommandHandlerClass)
-        .And()
-        .AreClasses()
+        .ImplementInterface(typeof(ICommandHandler<>))
+        .Or()
+        .ImplementInterface(typeof(ICommandHandler<,>))
         .ShouldNot()
         .BePublic()
         .GetResult();
@@ -73,9 +71,9 @@ public class ApplicationArchitectureTests
     {
         var result = Types.InAssembly(ApplicationAssembly.Instance)
         .That()
-        .HaveNameEndingWith(CommandHandlerClass)
-        .And()
-        .AreClasses()
+        .ImplementInterface(typeof(ICommandHandler<>))
+        .Or()
+        .ImplementInterface(typeof(ICommandHandler<,>))
         .Should()
         .BeSealed()
         .GetResult();
@@ -88,7 +86,9 @@ public class ApplicationArchitectureTests
     {
         var result = Types.InAssembly(ApplicationAssembly.Instance)
         .That()
-        .HaveNameEndingWith(CommandHandlerClass)
+        .ImplementInterface(typeof(ICommandHandler<>))
+        .Or()
+        .ImplementInterface(typeof(ICommandHandler<,>))
         .ShouldNot()
         .HaveDependencyOn(InterfaceQueriesNamespace)
         .GetResult();
@@ -118,9 +118,9 @@ public class ApplicationArchitectureTests
     {
         var result = Types.InAssembly(ApplicationAssembly.Instance)
         .That()
-        .HaveNameEndingWith(CommandClass)
-        .And()
-        .AreClasses()
+        .ImplementInterface(typeof(ICommand))
+        .Or()
+        .ImplementInterface(typeof(ICommand<>))
         .Should()
         .BeSealed()
         .GetResult();
@@ -135,7 +135,7 @@ public class ApplicationArchitectureTests
 
         var result = Types.InAssembly(applicationAssembly)
             .That()
-            .HaveNameEndingWith(QueryHandlerClass)
+            .ImplementInterface(typeof(IQueryHandler<,>))
             .Should()
             .HaveDependencyOn(InterfaceQueriesNamespace)
             .GetResult();
@@ -150,7 +150,7 @@ public class ApplicationArchitectureTests
 
         var result = Types.InAssembly(applicationAssembly)
             .That()
-            .HaveNameEndingWith(QueryHandlerClass)
+            .ImplementInterface(typeof(IQueryHandler<,>))
             .ShouldNot()
             .HaveDependencyOn(InterfaceWritesNamespace)
             .GetResult();
@@ -163,7 +163,7 @@ public class ApplicationArchitectureTests
     {
         var result = Types.InAssembly(ApplicationAssembly.Instance)
         .That()
-        .ImplementInterface(typeof(ICommandHandler<>))
+        .ImplementInterface(typeof(IQueryHandler<,>))
         .ShouldNot()
         .BePublic()
         .GetResult();
@@ -176,7 +176,7 @@ public class ApplicationArchitectureTests
     {
         var result = Types.InAssembly(ApplicationAssembly.Instance)
         .That()
-        .ImplementInterface(typeof(ICommandHandler<>))
+        .ImplementInterface(typeof(IQueryHandler<,>))
         .Should()
         .BeSealed()
         .GetResult();
