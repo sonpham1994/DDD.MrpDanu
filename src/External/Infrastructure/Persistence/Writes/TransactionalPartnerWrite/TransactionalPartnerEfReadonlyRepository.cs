@@ -5,7 +5,7 @@ using PersistenceExtensions = Infrastructure.Persistence.Extensions;
 
 namespace Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
 
-internal sealed class TransactionalPartnerEFQueryForWrite(AppDbContext _context) : ITransactionalPartnerQueryForWrite
+internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _context) : ITransactionalPartnerReadonlyRepository
 {
     //We cant put Contact Info Value Object as parameter, but it is not necessarily. On query side, we don't need 
     //to have any restrictions on write side (DDD). So we don't need to follow all the concepts of DDD on query side

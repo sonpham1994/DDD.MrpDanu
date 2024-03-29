@@ -2,7 +2,7 @@
 
 namespace Application.Interfaces.Writes.MaterialWrite;
 
-public interface IMaterialQueryForWrite
+public interface IMaterialReadonlyRepository : IReadonlyRepository
 {
     Task<MaterialIdWithCode> GetByCodeAsync(string code, CancellationToken cancellationToken);
 }

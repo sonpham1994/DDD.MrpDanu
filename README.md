@@ -22,7 +22,7 @@ Patterns:
   - Options pattern
 
 Framework and Libraries:
-  - Entity Framework 7
+  - Entity Framework 8
   - EntityFrameworkCore.SqlServer
   - EntityFrameworkCore.Proxies
   - Serilog

@@ -3,6 +3,7 @@ using Infrastructure;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NetArchTest.Rules;
+using Infrastructure.Persistence.Reads;
 
 namespace Architecture.Tests;
 using static ArchitecturePreparingData;
@@ -99,7 +100,7 @@ public class InfrastructureArchitectureTests
     {
         var result = Types.InAssembly(InfrastructureAssembly.Instance)
         .That()
-        .HaveNameEndingWith(ReadModelClass)
+        .ImplementInterface(typeof(IReadModel))
         .ShouldNot()
         .BePublic()
         .GetResult();
@@ -112,9 +113,37 @@ public class InfrastructureArchitectureTests
     {
         var result = Types.InAssembly(InfrastructureAssembly.Instance)
         .That()
-        .HaveNameEndingWith(ReadModelClass)
+        .ImplementInterface(typeof(IReadModel))
         .Should()
         .BeSealed()
+        .GetResult();
+
+        result.IsSuccessful.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Read_model_classes_should_have_end_name_ReadModel()
+    {
+        var result = Types.InAssembly(InfrastructureAssembly.Instance)
+        .That()
+        .ImplementInterface(typeof(IReadModel))
+        .Should()
+        .HaveNameEndingWith(ReadModelClass)
+        .GetResult();
+
+        result.IsSuccessful.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Read_model_classes_should_implement_interface_IReadModel()
+    {
+        var result = Types.InAssembly(InfrastructureAssembly.Instance)
+        .That()
+        .HaveNameEndingWith(ReadModelClass)
+        .And()
+        .AreClasses()
+        .Should()
+        .ImplementInterface(typeof(IReadModel))
         .GetResult();
 
         result.IsSuccessful.Should().BeTrue();

@@ -14,13 +14,13 @@ namespace Application.Tests.SupplyChainManagement.TransactionalPartnerAggregate.
 public class CreateTransactionalPartnerTests
 {
     private readonly Mock<ITransactionalPartnerRepository> _transactionalPartnerRepositoryMock;
-    private readonly Mock<ITransactionalPartnerQueryForWrite> _transactionalPartnerQueryForWriteMock;
+    private readonly Mock<ITransactionalPartnerReadonlyRepository> _transactionalPartnerQueryForWriteMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
 
     public CreateTransactionalPartnerTests()
     {
         _transactionalPartnerRepositoryMock = new Mock<ITransactionalPartnerRepository>();
-        _transactionalPartnerQueryForWriteMock = new Mock<ITransactionalPartnerQueryForWrite>();
+        _transactionalPartnerQueryForWriteMock = new Mock<ITransactionalPartnerReadonlyRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
     }
 

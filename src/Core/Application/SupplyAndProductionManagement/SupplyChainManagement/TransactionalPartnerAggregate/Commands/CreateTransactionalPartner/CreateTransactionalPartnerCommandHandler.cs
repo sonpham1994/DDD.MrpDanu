@@ -11,7 +11,7 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Transa
 
 internal sealed class CreateTransactionalPartnerCommandHandler(
     ITransactionalPartnerRepository _transactionalPartnerRepository,
-    ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
+    ITransactionalPartnerReadonlyRepository _transactionalPartnerQueryForWrite,
     IUnitOfWork _unitOfWork) : ICommandHandler<CreateTransactionalPartnerCommand>
 {
     public async Task<Result> Handle(CreateTransactionalPartnerCommand request, CancellationToken cancellationToken)

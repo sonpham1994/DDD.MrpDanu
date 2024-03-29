@@ -1,8 +1,11 @@
 using Application;
+using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Architecture.Tests.Helpers;
+using Domain.SharedKernel.Base;
 using FluentAssertions;
 using FluentValidation;
+using Mono.Cecil;
 using NetArchTest.Rules;
 
 //https://www.youtube.com/watch?v=_D6Kai4RdGY&t=536s

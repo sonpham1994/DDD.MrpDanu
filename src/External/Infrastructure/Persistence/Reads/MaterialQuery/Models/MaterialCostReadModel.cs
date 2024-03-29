@@ -1,6 +1,6 @@
 namespace Infrastructure.Persistence.Reads.MaterialQuery.Models;
 
-internal sealed record MaterialCostReadModel
+internal sealed record MaterialCostReadModel : IReadModel
 {
     public Guid Id { get; init; }
     public decimal Surcharge { get; init; }

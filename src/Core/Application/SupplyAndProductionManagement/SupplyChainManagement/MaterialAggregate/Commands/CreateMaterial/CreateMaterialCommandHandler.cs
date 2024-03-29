@@ -10,9 +10,9 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Materi
 
 internal sealed class CreateMaterialCommandHandler(
     IUnitOfWork _unitOfWork,
-    ITransactionalPartnerQueryForWrite _transactionalPartnerQueryForWrite,
+    ITransactionalPartnerReadonlyRepository _transactionalPartnerQueryForWrite,
     IMaterialRepository _materialRepository,
-    IMaterialQueryForWrite _materialQueryForWrite) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
+    IMaterialReadonlyRepository _materialQueryForWrite) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {

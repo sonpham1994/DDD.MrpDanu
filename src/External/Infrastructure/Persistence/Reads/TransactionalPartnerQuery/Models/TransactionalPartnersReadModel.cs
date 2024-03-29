@@ -1,6 +1,6 @@
 namespace Infrastructure.Persistence.Reads.TransactionalPartnerQuery.Models;
 
-internal sealed record TransactionalPartnersReadModel
+internal sealed record TransactionalPartnersReadModel : IReadModel
 {
     public Guid Id { get; init; }
     public string Name { get; init; }

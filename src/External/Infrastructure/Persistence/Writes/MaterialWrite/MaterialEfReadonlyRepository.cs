@@ -2,7 +2,6 @@
 using Application.Interfaces.Writes.MaterialWrite;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace Infrastructure.Persistence.Writes.MaterialWrite;
 
@@ -16,7 +15,7 @@ namespace Infrastructure.Persistence.Writes.MaterialWrite;
 // And because in Write side, we don't use dapper, so if we use dapper similiar to read side, one day if we separate
 // write and read sides on separate layers or assemblies, we need to install dapper nuger package on write side, which 
 // we really don't need. So instead of using dapper, we use built-in SqlQuery from EF Core.
-internal sealed class MaterialEFQueryForWrite(AppDbContext _context) : IMaterialQueryForWrite
+internal sealed class MaterialEfReadonlyRepository(AppDbContext _context) : IMaterialReadonlyRepository
 {
     public async Task<MaterialIdWithCode> GetByCodeAsync(string code, CancellationToken cancellationToken)
     {

@@ -1,6 +1,6 @@
 namespace Infrastructure.Persistence.Reads.MaterialQuery.Models;
 
-internal sealed record MaterialReadModel
+internal sealed record MaterialReadModel : IReadModel
 {
     public Guid Id { get; init; }
     public string Code { get; init; }
