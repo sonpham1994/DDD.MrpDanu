@@ -3,7 +3,7 @@ using Domain.SharedKernel.ValueObjects;
 
 namespace Application.Interfaces.Writes.TransactionalPartnerWrite;
 
-public interface ITransactionalPartnerRepository
+public interface ITransactionalPartnerRepository : IRepository
 {
     ValueTask<TransactionalPartner?> GetByIdAsync(TransactionalPartnerId id, CancellationToken cancellationToken);
     void Save(TransactionalPartner transactionalPartner);

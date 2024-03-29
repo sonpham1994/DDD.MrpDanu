@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Benchmark.StructRecords;
+namespace Benchmark.RecordStructs;
 
 [MemoryDiagnoser()]
 public class StrucRecordBenchmark
@@ -13,8 +13,8 @@ public class StrucRecordBenchmark
     [Benchmark]
     public void NotEqualsTheFirstItem()
     {
-        var a = new RecordStruct(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
-        var b = new RecordStruct(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
+        var a = new RecordStruct2(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
+        var b = new RecordStruct2(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
         var result = a == b;
     }
 
@@ -22,8 +22,8 @@ public class StrucRecordBenchmark
     public void NotEqualsTheSecondItem()
     {
         var id1 = Guid.NewGuid();
-        var a = new RecordStruct(id1, Guid.NewGuid(), Guid.NewGuid());
-        var b = new RecordStruct(id1, Guid.NewGuid(), Guid.NewGuid());
+        var a = new RecordStruct2(id1, Guid.NewGuid(), Guid.NewGuid());
+        var b = new RecordStruct2(id1, Guid.NewGuid(), Guid.NewGuid());
         var result = a == b;
     }
 
@@ -32,8 +32,8 @@ public class StrucRecordBenchmark
     {
         var id1 = Guid.NewGuid();
         var id2 = Guid.NewGuid();
-        var a = new RecordStruct(id1, id2, Guid.NewGuid());
-        var b = new RecordStruct(id1, id2, Guid.NewGuid());
+        var a = new RecordStruct2(id1, id2, Guid.NewGuid());
+        var b = new RecordStruct2(id1, id2, Guid.NewGuid());
         var result = a == b;
     }
 
@@ -43,8 +43,8 @@ public class StrucRecordBenchmark
         var id1 = Guid.NewGuid();
         var id2 = Guid.NewGuid();
         var id3 = Guid.NewGuid();
-        var a = new RecordStruct(id1, id2, id3);
-        var b = new RecordStruct(id1, id2, id3);
+        var a = new RecordStruct2(id1, id2, id3);
+        var b = new RecordStruct2(id1, id2, id3);
         var result = a == b;
     }
 }
