@@ -68,27 +68,27 @@ internal sealed class GCEventListener : EventListener
         // this would be track whenever the GC performs, it means not only your handlers from your code, but also the
         // operations from the .NET. When a request comes in, .NET will do many tasks before reach your Controller or
         // your code. If you want to track the .NET operations whether they perform GC collection or not, uncomment this
-        // else
-        // {
-        //     var currentGen0Count = GC.CollectionCount(0);
-        //     var currentGen1Count = GC.CollectionCount(1);
-        //     var currentGen2Count = GC.CollectionCount(2);
-        //     
-        //     if (currentGen0Count > PreviousGen0Count)
-        //     {
-        //         PreviousGen0Count = currentGen0Count;
-        //         _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 0, currentGen0Count, eventData.TimeStamp);
-        //     }
-        //     if (currentGen1Count > PreviousGen1Count)
-        //     {
-        //         PreviousGen1Count = currentGen1Count;
-        //         _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 1, currentGen1Count, eventData.TimeStamp);
-        //     }
-        //     if (currentGen2Count > PreviousGen2Count)
-        //     {
-        //         PreviousGen2Count = currentGen2Count;
-        //         _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 2, currentGen2Count, eventData.TimeStamp);
-        //     }
-        // }
+        else
+        {
+            var currentGen0Count = GC.CollectionCount(0);
+            var currentGen1Count = GC.CollectionCount(1);
+            var currentGen2Count = GC.CollectionCount(2);
+            
+            if (currentGen0Count > PreviousGen0Count)
+            {
+                PreviousGen0Count = currentGen0Count;
+                _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 0, currentGen0Count, eventData.TimeStamp);
+            }
+            if (currentGen1Count > PreviousGen1Count)
+            {
+                PreviousGen1Count = currentGen1Count;
+                _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 1, currentGen1Count, eventData.TimeStamp);
+            }
+            if (currentGen2Count > PreviousGen2Count)
+            {
+                PreviousGen2Count = currentGen2Count;
+                _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 2, currentGen2Count, eventData.TimeStamp);
+            }
+        }
     }
 }
