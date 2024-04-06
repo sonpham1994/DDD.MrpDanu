@@ -2,7 +2,7 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class Entity<TId> : IEquatable<Entity<TId>> 
+public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>> 
     where TId : struct, IEquatable<TId> //implement IEquatable<TId> to avoid boxing when using Id.Equals.(other.Id), please check Benchmarks\Benchmark\BoxingEntityEquals
 {
     private int? _cachedHashCode;
@@ -232,3 +232,5 @@ public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<
         return Id.IsEmpty();
     }
 }
+
+public interface IEntity;

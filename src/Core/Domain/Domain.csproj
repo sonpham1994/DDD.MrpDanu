@@ -10,6 +10,9 @@
     <Compile Remove="Errors\**" />
     <EmbeddedResource Remove="Errors\**" />
     <None Remove="Errors\**" />
+    <Compile Update="Extensions\LinqExtensions\ItemDuplication.Entity.cs">
+      <DependentUpon>ItemDuplication.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

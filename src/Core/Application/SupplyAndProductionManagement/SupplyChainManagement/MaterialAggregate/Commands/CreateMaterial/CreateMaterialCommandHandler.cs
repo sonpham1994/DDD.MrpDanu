@@ -9,11 +9,12 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 
 internal sealed class CreateMaterialCommandHandler(
-    IUnitOfWork _unitOfWork,
-    ITransactionalPartnerReadonlyRepository _transactionalPartnerQueryForWrite,
+    IUnitOfWork unitOfWork,
+    ITransactionalPartnerReadonlyRepository _transactionalPartnerReadonlyRepository,
     IMaterialRepository _materialRepository,
-    IMaterialReadonlyRepository _materialQueryForWrite) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
+    IMaterialReadonlyRepository _materialReadonlyRepository) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
@@ -24,7 +25,7 @@ internal sealed class CreateMaterialCommandHandler(
             .CheckUniqueMaterialCodeAsync
             (
                 request.Code,
-                _materialQueryForWrite.GetByCodeAsync,
+                _materialReadonlyRepository.GetByCodeAsync,
                 cancellationToken
             );
         var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket,
@@ -37,7 +38,7 @@ internal sealed class CreateMaterialCommandHandler(
         if (request.MaterialCosts.Any())
         {
             var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
-            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
+            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerReadonlyRepository.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
                 .ToTuple();
 
             var materialCostInputs = request.MaterialCosts.ToTuple();

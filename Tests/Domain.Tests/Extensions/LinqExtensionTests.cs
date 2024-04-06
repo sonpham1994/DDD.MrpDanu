@@ -1,4 +1,5 @@
 using Domain.Extensions;
+using Domain.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -44,7 +45,7 @@ public class LinqExtensionTests
             material1,
         };
 
-        var result = items.ItemDuplication<Material, MaterialId, Material>(x => x);
+        var result = items.GetEntityDuplication();
 
         result.Should().NotBeNull();
         result.Should().Be(material1);
@@ -66,7 +67,7 @@ public class LinqExtensionTests
             Material.Create("code4", "name4",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId4),
         };
 
-        var result = items.ItemDuplication<Material, MaterialId, Material>(x => x);
+        var result = items.GetEntityDuplication();
 
         result.Should().BeNull();
     }
@@ -85,7 +86,7 @@ public class LinqExtensionTests
             null
         };
 
-        var result = items.ItemDuplication<Material, MaterialId, Material>(x => x);
+        var result = items.GetEntityDuplication();
 
         result.Should().BeNull();
     }
@@ -106,7 +107,7 @@ public class LinqExtensionTests
             material1
         };
 
-        var result = items.ItemDuplication<Material, MaterialId, Material>(x => x);
+        var result = items.GetEntityDuplication();
 
         result.Should().NotBeNull();
         result.Should().Be(material1);
@@ -129,7 +130,7 @@ public class LinqExtensionTests
             material1
         };
 
-        var result = items.ItemDuplication<Material, MaterialId, Material>(x => x);
+        var result = items.GetEntityDuplication();
 
         result.Should().NotBeNull();
         result.Should().Be(material1);

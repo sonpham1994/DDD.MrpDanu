@@ -1,4 +1,5 @@
 ﻿using Domain.Extensions;
+using Domain.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
@@ -44,6 +45,15 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
         IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> inputs,
         IReadOnlyList<(SupplierId SupplierId, byte CurrencyTypeId)> supplierIdWithCurrencyTypeIds)
     {
+        var dupSupplierId = supplierIdWithCurrencyTypeIds.GetItemDuplication(x => x.SupplierId);
+        if (!dupSupplierId.IsEmpty())
+        {
+            return DomainErrors.MaterialSupplierCost.DuplicationSupplierId(dupSupplierId);
+        }
+        dupSupplierId = inputs.GetItemDuplication(x => x.supplierId);
+        if (!dupSupplierId.IsEmpty())
+            return DomainErrors.MaterialSupplierCost.DuplicationSupplierId(dupSupplierId);
+        
         var result = new List<MaterialSupplierCost>(inputs.Count);
 
         foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in inputs)
@@ -54,10 +64,6 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             var materialSupplierIdentity = MaterialSupplierIdentity.Create(materialId, supplierId);
             if (materialSupplierIdentity.IsFailure)
                 return materialSupplierIdentity.Error;
-
-            var duplicateSupplierId = result.FirstOrDefault(x => x.MaterialSupplierIdentity == materialSupplierIdentity.Value);
-            if (duplicateSupplierId is not null)
-                return DomainErrors.MaterialSupplierCost.DuplicationSupplierId(duplicateSupplierId.MaterialSupplierIdentity.SupplierId);
 
             if (minQuantity == 0)
                 return DomainErrors.MaterialSupplierCost.InvalidMinQuantity;
