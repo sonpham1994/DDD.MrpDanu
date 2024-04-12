@@ -1,6 +1,6 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Infrastructure.Persistence;
-using Infrastructure.Persistence.Writes.EntityConfigurations;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

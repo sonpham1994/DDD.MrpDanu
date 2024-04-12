@@ -2,7 +2,7 @@
 using Domain.SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Persistence.Writes.EntityConfigurations;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes.EntityConfigurations;
 

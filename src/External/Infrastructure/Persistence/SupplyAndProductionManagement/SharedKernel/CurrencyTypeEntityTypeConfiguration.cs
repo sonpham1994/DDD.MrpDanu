@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Writes.EntityConfigurations;
+namespace Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
 
 internal sealed class CurrencyTypeEntityTypeConfiguration : IEntityTypeConfiguration<CurrencyType>
 {

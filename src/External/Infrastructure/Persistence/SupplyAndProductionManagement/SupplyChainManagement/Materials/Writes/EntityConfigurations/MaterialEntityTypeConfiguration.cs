@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence;
-using Infrastructure.Persistence.Writes.EntityConfigurations;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Writes.EntityConfigurations;
 
