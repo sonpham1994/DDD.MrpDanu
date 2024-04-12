@@ -9,12 +9,21 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization.Metadata;
 
-var builder = WebApplication.CreateBuilder(args);
 
+
+//var logger = Log.Logger = new LoggerConfiguration()
+//    .Enrich.FromLogContext()
+//    .WriteTo.Console()
+//    .CreateLogger();
+
+var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
-// Serilog.ILogger logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
-// builder.Logging.AddSerilog(logger);
-// builder.Services.AddSingleton(logger);
+
+//Serilog.ILogger logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+//builder.Logging.AddSerilog(logger);
+//builder.Services.AddSingleton(logger);
+
+//logger.Information("Starting web host.");
 
 // Log.Logger = new LoggerConfiguration()  
 //     .ReadFrom.Configuration(builder.Configuration)  
