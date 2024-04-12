@@ -9,17 +9,17 @@ using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.Extensions.Options;
 using Infrastructure.Persistence.Externals.AuditTables.Services;
-using Infrastructure.Persistence.Reads.MaterialQuery;
-using Infrastructure.Persistence.Reads.TransactionalPartnerQuery;
-using Infrastructure.Persistence.Writes.MaterialWrite;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Writes;
 using Application.Interfaces.Write;
 using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.MaterialWrite;
 using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Infrastructure.Persistence.Writes.ProductWrite;
-using Infrastructure.Persistence.Writes.TransactionalPartnerWrite;
 using Microsoft.Extensions.Logging;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
+using Infrastructure.Persistence.SupplyAndProductionManagement.ProductPlanning.Writes;
 
 namespace Infrastructure;
 
