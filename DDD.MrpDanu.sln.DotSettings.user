@@ -45,6 +45,7 @@
     &lt;Project Location="/Users/sonpham/Projects/SonPhamProjects/MrpDanu/DDD.MrpDanu/Tests/Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;
     &lt;ProjectFile&gt;5CE31A44-720A-4834-8023-093675FEC619/d:MaterialManagement/d:MaterialAggregate/f:MaterialSupplierCostTests.cs&lt;/ProjectFile&gt;
     &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP/DDD.MrpDanu/Tests/Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	

@@ -135,7 +135,102 @@ public class LinqExtensionTests
         result.Should().NotBeNull();
         result.Should().Be(material1);
     }
+    
+    [Fact]
+    public void PropertyValueObjectDuplication_ExistItemDuplication_ReturnItemDuplication()
+    {
+        var items = new List<Material>
+        {
+            Material.Create("code2", "name2",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value,
+            Material.Create("code3", "name3",SupplyChainManagementPreparingData.MaterialAttributes2, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value,
+            Material.Create("code4", "name4",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value,
+        };
 
+        var result = items.GetValueObjectDuplication(x=>x.Attributes);
+
+        result.Should().NotBeNull();
+        result.Should().Be(items[0].Attributes);
+    }
+
+    [Fact]
+    public void PropertyValueObjectDuplication_NotExistItemDuplication_ReturnNull()
+    {
+        var materialId1 = (MaterialId)Guid.NewGuid();
+        var materialId2 = (MaterialId)Guid.NewGuid();
+        var materialId3 = (MaterialId)Guid.NewGuid();
+        var materialId4 = (MaterialId)Guid.NewGuid();
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId1);
+        var items = new List<Material>
+        {
+            Material.Create("code2", "name2", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId2),
+            Material.Create("code4", "name4",SupplyChainManagementPreparingData.MaterialAttributes2, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId4),
+        };
+    
+        var result = items.GetValueObjectDuplication(x=>x.Attributes);
+    
+        result.Should().BeNull();
+    }
+    
+    [Fact]
+    public void PropertyValueObjectDuplication_NullItemAndNoneItemDuplication_ReturnNull()
+    {
+        var materialId1 = (MaterialId)Guid.NewGuid();
+        var materialId2 = (MaterialId)Guid.NewGuid();
+        var items = new List<Material>
+        {
+            Material.Create("code2", "name1",SupplyChainManagementPreparingData.MaterialAttributes2, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId2),
+            Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId1),
+            null,
+            null
+        };
+
+        var result = items.GetValueObjectDuplication(x => x.Attributes);
+    
+        result.Should().BeNull();
+    }
+    
+    [Fact]
+    public void PropertyValueObjectDuplication_NullItemAndItemDuplication_ReturnItemDuplication()
+    {
+        var materialId2 = (MaterialId)Guid.NewGuid();
+        var materialId3 = (MaterialId)Guid.NewGuid();
+        var items = new List<Material>
+        {
+            Material.Create("code3", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId3),
+            Material.Create("code2", "name1",SupplyChainManagementPreparingData.MaterialAttributes2, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId2),
+            null,
+            Material.Create("code3", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId3),
+        };
+
+        var result = items.GetValueObjectDuplication(x => x.Attributes);
+    
+        result.Should().NotBeNull();
+        result.Should().Be(items[0].Attributes);
+    }
+    
+    [Fact]
+    public void PropertyValueObjectDuplication_NullItemDuplicationAndItemDuplication_ReturnItemDuplication()
+    {
+        var materialId1 = (MaterialId)Guid.NewGuid();
+        var materialId2 = (MaterialId)Guid.NewGuid();
+        var materialId3 = (MaterialId)Guid.NewGuid();
+        var material1 = Material.Create("code1", "name1", SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId1);
+        var items = new List<Material>
+        {
+            null,
+            Material.Create("code2", "name1",SupplyChainManagementPreparingData.MaterialAttributes2, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId2),
+            null,
+            material1,
+            null,
+            Material.Create("code3", "name1",SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value.WithId(materialId3),
+        };
+
+        var result = items.GetValueObjectDuplication(x => x.Attributes);
+    
+        result.Should().NotBeNull();
+        result.Should().Be(material1.Attributes);
+    }
+    
     private Result ExistElement(int id)
     {
         var array = new List<int> { 1, 2, 3, 4, 6 };

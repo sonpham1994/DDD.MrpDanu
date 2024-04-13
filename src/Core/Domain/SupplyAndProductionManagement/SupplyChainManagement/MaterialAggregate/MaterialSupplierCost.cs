@@ -42,21 +42,20 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
     }
 
     public static Result<IReadOnlyList<MaterialSupplierCost>?> Create(MaterialId materialId,
-        IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> inputs,
+        IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> request,
         IReadOnlyList<(SupplierId SupplierId, byte CurrencyTypeId)> supplierIdWithCurrencyTypeIds)
     {
         var dupSupplierId = supplierIdWithCurrencyTypeIds.GetItemDuplication(x => x.SupplierId);
         if (!dupSupplierId.IsEmpty())
-        {
-            return DomainErrors.MaterialSupplierCost.DuplicationSupplierId(dupSupplierId);
-        }
-        dupSupplierId = inputs.GetItemDuplication(x => x.supplierId);
-        if (!dupSupplierId.IsEmpty())
-            return DomainErrors.MaterialSupplierCost.DuplicationSupplierId(dupSupplierId);
+            return DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromDataStorage(dupSupplierId);
         
-        var result = new List<MaterialSupplierCost>(inputs.Count);
+        dupSupplierId = request.GetItemDuplication(x => x.supplierId);
+        if (!dupSupplierId.IsEmpty())
+            return DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromRequest(dupSupplierId);
+        
+        var result = new List<MaterialSupplierCost>(request.Count);
 
-        foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in inputs)
+        foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in request)
         {
             // in this Aggregate Root (Material), the MaterialSupplierCost cannot duplicate by the same supplierId and this
             // is an invariant in the Material aggregate root, the MaterialSupplierCost just exists in Material

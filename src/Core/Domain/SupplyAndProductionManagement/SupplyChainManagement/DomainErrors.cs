@@ -43,7 +43,8 @@ public static class DomainErrors
         public static DomainError NullMaterialCost => new("MaterialSupplierCost.NullMaterialCost", "Material cost object should not be null.");
         
         public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new("MaterialSupplierCost.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
-        public static DomainError DuplicationSupplierId(in SupplierId id) => new("MaterialSupplierCost.DuplicationSupplierId", $"Duplicate Supplier id {id.Value}.");
+        public static DomainError DuplicationSupplierIdFromRequest(in SupplierId id) => new("DuplicationSupplierIdFromRequest.DuplicationSupplierId", $"Duplicate Supplier id {id.Value} from request.");
+        public static DomainError DuplicationSupplierIdFromDataStorage(in SupplierId id) => new("DuplicationSupplierIdFromDataStorage.DuplicationSupplierId", $"Duplicate Supplier id {id.Value} from data storage.");
         public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new("MaterialSupplierCost.NotFoundSupplierId", $"Supplier id '{supplierId.Value}' is not found.");
     }
 

@@ -145,12 +145,12 @@ public class MaterialSupplierCostTests
     }
 
     [Fact]
-    public void Cannot_create_material_cost_with_duplication_supplier()
+    public void Cannot_create_material_cost_with_duplication_supplier_from_request()
     {
         var input = new List<(decimal, uint, decimal, SupplierId)>
         {
             (5m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
-            (5m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
+            (6m, 1, 3m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
@@ -161,7 +161,27 @@ public class MaterialSupplierCostTests
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
 
         materialCosts.IsFailure.Should().BeTrue();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierId(SupplyChainManagementPreparingData.SupplierId1));
+        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromRequest(SupplyChainManagementPreparingData.SupplierId1));
+    }
+    
+    [Fact]
+    public void Cannot_create_material_cost_with_duplication_supplier_from_data_storage()
+    {
+        var input = new List<(decimal, uint, decimal, SupplierId)>
+        {
+            (5m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
+        };
+
+        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
+        {
+            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
+            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.SGD.Id)
+        };
+
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+
+        materialCosts.IsFailure.Should().BeTrue();
+        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromDataStorage(SupplyChainManagementPreparingData.SupplierId1));
     }
 
     [Fact]

@@ -8,8 +8,8 @@ public static partial class ItemDuplication
     public static TProperty GetEntityDuplication<T, TProperty>(
         this IEnumerable<T> enumerable, 
         Func<T, TProperty> predicate)
-        where T : IEntity, IEquatable<T>
-        where TProperty : IEquatable<TProperty>
+        where T : class, IEntity
+        where TProperty : IEntity
     {
         TProperty result = default;
         if (enumerable is List<T> lst)
@@ -31,11 +31,10 @@ public static partial class ItemDuplication
     public static TProperty GetEntityDuplication<T, TProperty>(
         this List<T> list, 
         Func<T, TProperty> predicate)
-        where T : IEntity, IEquatable<T>
-        where TProperty : IEquatable<TProperty>
+        where T : IEntity
+        where TProperty : class, IEntity
     {
-        int count = list.Count;
-        var result = LinearSearchEntity(list, predicate, count);
+        var result = LinearSearchEntity(list, predicate);
         
         return result;
     }
@@ -43,44 +42,29 @@ public static partial class ItemDuplication
     public static TProperty GetEntityDuplication<T, TProperty>(
         this T[] array, 
         Func<T, TProperty> predicate)
-        where T : IEntity, IEquatable<T>
-        where TProperty : IEquatable<TProperty>
+        where T : IEntity
+        where TProperty : class, IEntity
     {
-        int count = array.Length;
-        var result = LinearSearchEntity(array, predicate, count);
+        var result = LinearSearchEntity(array, predicate);
         
         return result;
     }
     
-    // O(n square) -> n bình phương 2
     private static TProperty LinearSearchEntity<T, TProperty>(
         IReadOnlyList<T> array, 
-        Func<T, TProperty> predicate, 
-        int count)
-        where T : IEntity, IEquatable<T>
+        Func<T, TProperty> func)
+        where T : IEntity
+        where TProperty : class, IEntity
     {
-        TProperty result = default;
-        for (int i = 0; i < count; i++)
+        var count = array.Count;
+        var result = LinearSearchEntity( index =>
         {
-            var tResult1 = predicate(array[i]);
-            if (tResult1 is null) continue;
-
-            for (int j = i + 1; j < count; j++)
-            {
-                var tResult2 = predicate(array[j]);
-                if (tResult2 is null) continue;
-
-                int hashCode1 = tResult1.GetHashCode();
-                int hashCode2 = tResult2.GetHashCode();
-                if (hashCode1 != hashCode2)
-                    continue;
-
-                if (tResult1.Equals(tResult2))
-                {
-                    return tResult1;
-                }
-            }
-        }
+            if (array[index] is null)
+                return null;
+            
+            return func(array[index]);
+        }, 
+        count);
 
         return result;
     }
@@ -89,7 +73,6 @@ public static partial class ItemDuplication
         where T : IEntity
     {
         T result = default;
-        Func<T, T> func = x => x;
         if (enumerable is List<T> lst)
         {
             result = GetEntityDuplication(lst);
@@ -116,7 +99,7 @@ public static partial class ItemDuplication
     }
     
     public static T GetEntityDuplication<T>(this T[] array)
-        where T : IEntity, IEquatable<T>
+        where T : IEntity
     {
         int count = array.Length;
         var result = LinearSearchEntity(array, count);
@@ -124,21 +107,78 @@ public static partial class ItemDuplication
         return result;
     }
     
-    // O(n square) -> n bình phương 2
+    #region ValueObject
+    public static TProperty GetValueObjectDuplication<T, TProperty>(
+        this IEnumerable<T> enumerable, 
+        Func<T, TProperty> predicate)
+        where T : IEntity
+        where TProperty : ValueObject
+    {
+        TProperty result = default;
+        if (enumerable is List<T> lst)
+        {
+            result = GetValueObjectDuplication(lst, predicate);
+        }
+        else if (enumerable is T[] array)
+        {
+            result = GetValueObjectDuplication(array, predicate);
+        }
+        else
+        {
+            throw new DomainException(DomainErrors.ItemDuplication.NotSupportType(enumerable.GetType().Name));
+        }
+        
+        return result;
+    }
+
+    public static TProperty GetValueObjectDuplication<T, TProperty>(
+        this List<T> list, 
+        Func<T, TProperty> predicate)
+        where T : IEntity
+        where TProperty : ValueObject
+    {
+        var result = LinearSearchValueObject(list, predicate);
+        
+        return result;
+    }
+    
+    public static TProperty GetValueObjectDuplication<T, TProperty>(
+        this T[] array, 
+        Func<T, TProperty> predicate)
+        where T : IEntity
+        where TProperty : ValueObject
+    {
+        var result = LinearSearchValueObject(array, predicate);
+        
+        return result;
+    }
+    #endregion ValueObject
+    
     private static T LinearSearchEntity<T>(
         IReadOnlyList<T> array, 
         int count)
         where T : IEntity
     {
-        T result = default;
+        var result = LinearSearchEntity(index => array[index], count);
+    
+        return result;
+    }
+    
+    // O(n square) -> n bình phương 2
+    private static TResult LinearSearchEntity<TResult>(
+        Func<int, TResult> tResult,
+        int count)
+        where TResult: IEntity
+    {
+        TResult result = default;
         for (int i = 0; i < count; i++)
         {
-            var tResult1 = array[i];
+            var tResult1 = tResult(i);
             if (tResult1 is null) continue;
 
             for (int j = i + 1; j < count; j++)
             {
-                var tResult2 = (array[j]);
+                var tResult2 = tResult(j);
                 if (tResult2 is null) continue;
 
                 int hashCode1 = tResult1.GetHashCode();

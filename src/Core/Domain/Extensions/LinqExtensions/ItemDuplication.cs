@@ -85,18 +85,21 @@ public static partial class ItemDuplication
     }
     
     // O(n square) -> n bình phương 2
-    private static TProperty LinearSearch<T, TProperty>(IReadOnlyList<T> array, Func<T, TProperty> predicate, int count)
+    private static TProperty LinearSearch<T, TProperty>(
+        IReadOnlyList<T> array, 
+        Func<T, TProperty> func, 
+        int count)
         where TProperty : IEquatable<TProperty>
     {
         TProperty result = default;
         for (int i = 0; i < count; i++)
         {
-            var tResult1 = predicate(array[i]);
+            var tResult1 = func(array[i]);
             if (tResult1.Equals(default)) continue;
 
             for (int j = i + 1; j < count; j++)
             {
-                var tResult2 = predicate(array[j]);
+                var tResult2 = func(array[j]);
                 if (tResult2.Equals(default)) continue;
 
                 int hashCode1 = tResult1.GetHashCode();
