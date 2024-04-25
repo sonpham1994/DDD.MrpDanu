@@ -37,7 +37,7 @@ jobs:
         
     - name: Restore dependencies
       run: |
-        dotnet restore ./src/Web
+        dotnet restore ./src/Api
         dotnet restore ./Tests/Application.Tests
         dotnet restore ./Tests/Architecture.Tests
         dotnet restore ./Tests/Domain.Tests
