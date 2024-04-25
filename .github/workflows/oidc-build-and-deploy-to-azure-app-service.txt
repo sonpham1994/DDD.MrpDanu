@@ -44,7 +44,7 @@ jobs:
       
     - name: Build
       run: |
-        dotnet build ./src/Web --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+        dotnet build ./src/Api --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Application.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Architecture.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Domain.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
@@ -56,7 +56,7 @@ jobs:
         dotnet test ./Tests/Domain.Tests --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
       
     - name: Publish
-      run: dotnet publish ./src/Web -c ${{ env.BUILD_CONFIG }} -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
+      run: dotnet publish ./src/Api -c ${{ env.BUILD_CONFIG }} -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       BUILD_CONFIG: Release
-      DOT_NET_VERSION: 7.0.x
+      DOT_NET_VERSION: 8.0.x
     needs: build
     environment: Production
 
