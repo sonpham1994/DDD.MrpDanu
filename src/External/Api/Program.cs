@@ -115,7 +115,7 @@ var isProduction = builder.Environment.IsProduction();
 builder.Services
     .AddApplication()
     .AddInfrastructure(isProduction)
-    .AddApi(isProduction);
+    .AddApi(isProduction, builder.Configuration);
 
 string allowedOrigin = builder.Configuration["AllowedOrigin"]!;
 
