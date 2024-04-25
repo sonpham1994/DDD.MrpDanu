@@ -23,7 +23,7 @@ jobs:
   build:
     env: 
       BUILD_CONFIG: Release
-      DOT_NET_VERSION: 7.0.x
+      DOT_NET_VERSION: 8.0.x
       
     runs-on: ubuntu-latest
 
@@ -50,7 +50,10 @@ jobs:
         dotnet build ./Tests/Domain.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
+      run: | 
+        dotnet test ./Tests/Application.Tests --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
+        dotnet test ./Tests/Architecture.Tests --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
+        dotnet test ./Tests/Domain.Tests --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
       
     - name: Publish
       run: dotnet publish ./src/Web -c ${{ env.BUILD_CONFIG }} -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
