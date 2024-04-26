@@ -33,6 +33,7 @@
 		<PackageReference Include="Serilog.Enrichers.Process" />
 		<PackageReference Include="Serilog.Enrichers.Thread" />
 		<PackageReference Include="Serilog.Sinks.ApplicationInsights" />
+		<!--doesn't use Serilog.Sinks.Seq on Production, just use for local. Ignoring this nuget when on production: https://chat.openai.com/share/73113f82-0505-4f16-9c35-6d423475164a-->
 		<PackageReference Include="Serilog.Sinks.Seq" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
