@@ -43,6 +43,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDatabaseSettings(this IServiceCollection services, ConfigurationManager configuration)
     {
+        // I prefer using implementing class with IValidateOption<> in order to use DI, e.g, ILogger
         //https://www.youtube.com/watch?v=qRruEdjNVNE
         //services.AddOptions<DatabaseSettings>()
         //    .BindConfiguration(nameof(DatabaseSettings))
@@ -102,18 +103,10 @@ public static class DependencyInjection
         //    .ValidateOnStart();
 
 
-
-        //services.AddOptions<DatabaseSettings>()
-        //    .BindConfiguration(nameof(DatabaseSettings))
-        //    .Validate<DatabaseSettingsValidationOption>()
-        //    .ValidateOnStart();
-
-
+        // I prefer using this approach due to be able to use DI, e.g, ILogger
         services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)));
 
         services.TryAddSingleton<IValidateOptions<DatabaseSettings>, DatabaseSettingsValidationOption>();
-
-        //services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)), null);
 
         return services;
     }

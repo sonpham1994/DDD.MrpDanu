@@ -5,7 +5,9 @@ namespace Api;
 
 //https://www.youtube.com/watch?v=jblRYDMTtvg
 //https://code-maze.com/aspnet-configuration-options-validation/
+//ValidatateOptions and how IServiceProvider with DI lifetime work: https://andrewlock.net/the-dangers-and-gotchas-of-using-scoped-services-when-configuring-options-with-options-builder/
 //Add all ValidateOptions: https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/
+//ValidateOption with .Net 8 using source generator: https://www.roundthecode.com/dotnet-tutorials/validating-appsettings-faster-dotnet-8
 public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsValidationOption> logger) : IValidateOptions<DatabaseSettings>
 {
     private readonly ILogger _logger = logger;
