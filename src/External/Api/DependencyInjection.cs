@@ -17,7 +17,7 @@ public static class DependencyInjection
     {
         services.AddCustomMiddlewares()
             .AddValidators()
-            .AddDatabaseSettings(configuration)
+            .AddOptions(configuration)
             .AddHostedService<FullGCEventBackgroundService>();
 
         //if (!isProduction)
@@ -44,7 +44,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddDatabaseSettings(this IServiceCollection services, ConfigurationManager configuration)
+    private static IServiceCollection AddOptions(this IServiceCollection services, ConfigurationManager configuration)
     {
         // I prefer using implementing class with IValidateOption<> in order to use DI, e.g, ILogger
         //https://www.youtube.com/watch?v=qRruEdjNVNE
