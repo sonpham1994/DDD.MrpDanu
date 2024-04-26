@@ -17,10 +17,10 @@ public static class DependencyInjection
             .AddDatabaseSettings(configuration)
             .AddHostedService<FullGCEventBackgroundService>();
 
-        if (!isProduction)
-        {
+        //if (!isProduction)
+        //{
             services.AddHostedService<MigrationsHostedService>();
-        }
+        //}
 
         return services;
     }
