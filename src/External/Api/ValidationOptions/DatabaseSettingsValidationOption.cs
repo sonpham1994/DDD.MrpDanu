@@ -1,7 +1,8 @@
-﻿using Infrastructure.Persistence;
+﻿using Api.LoggingDefinitions;
+using Infrastructure.Persistence;
 using Microsoft.Extensions.Options;
 
-namespace Api;
+namespace Api.ValidationOptions;
 
 //https://www.youtube.com/watch?v=jblRYDMTtvg
 //https://code-maze.com/aspnet-configuration-options-validation/
@@ -13,31 +14,32 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
     private readonly ILogger _logger = logger;
     public ValidateOptionsResult Validate(string? name, DatabaseSettings settings)
     {
-        _logger.LogInformation("Start DatabaseSettingsValidationOption");
+        string validationOptionType = nameof(DatabaseSettings);
+        _logger.StartValidationOption(validationOptionType);
         if (settings.ConnectionString == string.Empty)
         {
-            _logger.LogError("Validation Option with DatabaseSettings: ConnectionString is empty");
+            _logger.ValidateOptionWithError(validationOptionType, "ConnectionString is empty");
             return ValidateOptionsResult.Fail("ConnectionString is empty");
         }
-            
+
         if (settings.MaxRetryCount == 0)
         {
-            _logger.LogError("Validation Option with DatabaseSettings: MaxRetryCount equals to 0");
+            _logger.ValidateOptionWithError(validationOptionType, "MaxRetryCount equals to 0");
             return ValidateOptionsResult.Fail("MaxRetryCount equals to 0");
         }
-           
+
         if (settings.MaxRetryDelay == 0)
         {
-            _logger.LogError("Validation Option with DatabaseSettings: MaxRetryDelay equals to 0");
+            _logger.ValidateOptionWithError(validationOptionType, "MaxRetryDelay equals to 0");
             return ValidateOptionsResult.Fail("MaxRetryDelay equals to 0");
         }
-            
+
         if (settings.StandardExecutedDbCommandTime == 0)
         {
-            _logger.LogError("Validation Option with DatabaseSettings: StandardExecutedDbCommandTime equals to 0");
+            _logger.ValidateOptionWithError(validationOptionType, "StandardExecutedDbCommandTime equals to 0");
             return ValidateOptionsResult.Fail("StandardExecutedDbCommandTime equals to 0");
         }
-            
+
 
         var connections = settings.ConnectionString.Split(';');
         foreach (var connection in connections)
@@ -51,12 +53,12 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 var port = serverInfos[1];
                 if (string.IsNullOrEmpty(serverName) || string.IsNullOrWhiteSpace(serverName))
                 {
-                    _logger.LogError("Validation Option with DatabaseSettings: Server is empty");
+                    _logger.ValidateOptionWithError(validationOptionType, "Server is empty");
                     return ValidateOptionsResult.Fail("Server is empty");
                 }
 
             }
-            else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase) 
+            else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase)
                 || connection.StartsWith("Catalog", StringComparison.OrdinalIgnoreCase)
                 || connection.StartsWith("Initial Catalog", StringComparison.OrdinalIgnoreCase))
             {
@@ -64,10 +66,10 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 var databaseName = database[1];
                 if (string.IsNullOrEmpty(databaseName) || string.IsNullOrWhiteSpace(databaseName))
                 {
-                    _logger.LogError("Validation Option with DatabaseSettings: Database name is empty");
+                    _logger.ValidateOptionWithError(validationOptionType, "Database name is empty");
                     return ValidateOptionsResult.Fail("Database name is empty");
                 }
-                    
+
             }
             else if (connection.StartsWith("User Id", StringComparison.OrdinalIgnoreCase))
             {
@@ -75,10 +77,10 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 var userIdName = userId[1];
                 if (string.IsNullOrEmpty(userIdName) || string.IsNullOrWhiteSpace(userIdName))
                 {
-                    _logger.LogError("Validation Option with DatabaseSettings: User Id is empty");
+                    _logger.ValidateOptionWithError(validationOptionType, "User Id is empty");
                     return ValidateOptionsResult.Fail("User Id is empty");
                 }
-                    
+
             }
             else if (connection.StartsWith("Password", StringComparison.OrdinalIgnoreCase))
             {
@@ -86,13 +88,13 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 var passwordInfo = password[1];
                 if (string.IsNullOrEmpty(passwordInfo) || string.IsNullOrWhiteSpace(passwordInfo))
                 {
-                    _logger.LogError("Validation Option with DatabaseSettings: Password is empty");
+                    _logger.ValidateOptionWithError(validationOptionType, "Password is empty");
                     return ValidateOptionsResult.Fail("Password is empty");
                 }
             }
         }
 
-        _logger.LogInformation("End DatabaseSettingsValidationOption");
+        _logger.CompletedValidationOption(validationOptionType);
         return ValidateOptionsResult.Success;
     }
 }

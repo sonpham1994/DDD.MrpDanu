@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Domain.SharedKernel.Enumerations;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure;
 

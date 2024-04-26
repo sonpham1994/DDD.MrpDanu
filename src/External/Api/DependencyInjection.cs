@@ -5,6 +5,9 @@ using Infrastructure.Persistence;
 using Api.HostedServices;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Api.ValidationOptions;
+using Api.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Api;
 
@@ -102,11 +105,18 @@ public static class DependencyInjection
         //    })
         //    .ValidateOnStart();
 
-
         // I prefer using this approach due to be able to use DI, e.g, ILogger
-        services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)));
 
         services.TryAddSingleton<IValidateOptions<DatabaseSettings>, DatabaseSettingsValidationOption>();
+        services.TryAddSingleton<IValidateOptions<SerilogSettings>, SerilogSettingsValidationOption>();
+
+        // When first accessing these options, it will validate
+        //services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)));
+        //services.Configure<SerilogSettings>(configuration.GetSection("Serilog"));
+
+        //Validate when running the project on
+        services.AddOptions<DatabaseSettings>().BindConfiguration(nameof(DatabaseSettings)).ValidateOnStart();
+        services.AddOptions<SerilogSettings>().BindConfiguration("Serilog").ValidateOnStart();
 
         return services;
     }

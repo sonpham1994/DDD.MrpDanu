@@ -20,6 +20,7 @@ using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManage
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
 using Infrastructure.Persistence.SupplyAndProductionManagement.ProductPlanning.Writes;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Infrastructure;
 
@@ -180,9 +181,12 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDbInterceptors(this IServiceCollection services)
     {
-        services.AddScoped<LoggingDbCommandInterceptor>();
+        services.TryAddSingleton<LoggingDbCommandInterceptor>();
+        services.TryAddSingleton<EnumerationSaveChangesInterceptor>();
+
+        //due to inject ExternalDbContext, we cannot use Singleton
         services.AddScoped<InsertAuditableEntitiesSaveChangesInterceptor>();
-        services.AddScoped<EnumerationSaveChangesInterceptor>();
+        
 
         return services;
     }
