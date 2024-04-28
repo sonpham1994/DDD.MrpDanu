@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-	  <!--setting to false here, this will be disable serialization using reflection at runtime for everywhere in your app, not only in Api. So this is for Native AOT apps, so we don't use this in Api application. Please check https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-8-0-->
-	<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
 
+	<!--Use Directory.Build.props instead-->
+<!--	<PropertyGroup Condition="'$(Environment)' == 'Production'">-->
+<!--		<DefineConstants>$(DefineConstants);PRODUCTION</DefineConstants>-->
+<!--	</PropertyGroup>-->
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>Architecture.Tests</_Parameter1>
@@ -17,27 +16,23 @@
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Local' " />
 	<ItemGroup>
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Hosting" />
 		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Serilog.Enrichers.Environment" />
 		<PackageReference Include="Serilog.Enrichers.Process" />
 		<PackageReference Include="Serilog.Enrichers.Thread" />
-		<PackageReference Include="Serilog.Sinks.ApplicationInsights" />
-		<!--doesn't use Serilog.Sinks.Seq on Production, just use for local. Ignoring this nuget when on production: https://chat.openai.com/share/73113f82-0505-4f16-9c35-6d423475164a-->
-		<PackageReference Include="Serilog.Sinks.Seq" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
+
+	<!--doesn't use Serilog.Sinks.Seq on Production, just use for local. Ignoring this nuget when on production: https://chat.openai.com/share/73113f82-0505-4f16-9c35-6d423475164a-->
+	<ItemGroup Condition="'$(Environment)' == 'Production'">
+		<PackageReference Include="Serilog.Sinks.ApplicationInsights" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Environment)' != 'Production'">
+		<PackageReference Include="Serilog.Sinks.Seq" />
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>

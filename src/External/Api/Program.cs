@@ -119,6 +119,13 @@ builder.Services
 
 string allowedOrigin = builder.Configuration["AllowedOrigin"]!;
 
+
+#if PRODUCTION
+    Console.WriteLine("Run on Production mode");
+#else
+Console.WriteLine("Run on Development mode");
+#endif
+
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();

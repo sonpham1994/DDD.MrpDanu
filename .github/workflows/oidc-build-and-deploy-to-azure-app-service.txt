@@ -44,7 +44,7 @@ jobs:
       
     - name: Build
       run: |
-        dotnet build ./src/External/Api --configuration '${{ env.BUILD_CONFIG }}' --no-restore
+        dotnet build ./src/External/Api --configuration '${{ env.BUILD_CONFIG }}' --no-restore /p:Environment=Production
         dotnet build ./Tests/Application.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Architecture.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
         dotnet build ./Tests/Domain.Tests --configuration '${{ env.BUILD_CONFIG }}' --no-restore
@@ -56,7 +56,7 @@ jobs:
         dotnet test ./Tests/Domain.Tests --no-build --verbosity normal --configuration '${{ env.BUILD_CONFIG }}'
       
     - name: Publish
-      run: dotnet publish ./src/External/Api -c ${{ env.BUILD_CONFIG }} -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
+      run: dotnet publish ./src/External/Api -c ${{ env.BUILD_CONFIG }} /p:Environment=Production -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/DDDMrpApp'
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3

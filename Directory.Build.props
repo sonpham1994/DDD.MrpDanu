@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+<!--    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+      <!--setting to false here, this will be disable serialization using reflection at runtime for everywhere in your app, not only in Api. So this is for Native AOT apps, so we don't use this in Api application. Please check https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-8-0-->
+      <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <DefineConstants Condition="'$(Environment)' == 'Production'">$(DefineConstants);PRODUCTION</DefineConstants>
+  </PropertyGroup>
+</Project>
