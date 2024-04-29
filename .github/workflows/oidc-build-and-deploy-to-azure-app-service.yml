@@ -77,9 +77,9 @@ jobs:
       - name: OIDC Login to Azure Public Cloud
         uses: azure/login@v1.4.6
         with:
-          client-id: 3b4184c8-203b-4334-b68e-3007585ac372
-          tenant-id: 131b0c86-27ed-483d-a9b5-7ecc09c99b42
-          subscription-id: c71d42ed-9b85-48a0-a347-6f4be0986feb
+          client-id: 25ad9a43-9208-46a4-bec9-b8c3e2510ebe
+          tenant-id: 36da45f1-dd2c-4d1f-af13-5abe46b99921
+          subscription-id: 05b636ff-ef15-4d6a-b77d-2b30ad516104
         
       - name: 'Run Azure CLI commands'
         run: |
