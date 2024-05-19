@@ -16,8 +16,59 @@ internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _con
 
         //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ using OPENJSON for collection instead of IN for SQL 2019 or later version
         //https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - "However, this strategy does not work well with database query caching"
+        // https://learn.microsoft.com/en-us/shows/dotnetconf-2023/entity-framework-core-8-improved-json-queryable-collections-and-more
         // the reason why we want to use OPENJSON is to use cached execution plan. Please check SqlServerKnowledge/PerformanceBetweenEFCoreAndStoredProcedures or TestCompanyEntity.Benchmark/InVsExistsOpenJson
-        // this issue was desribed here: https://github.com/dotnet/efcore/issues/13617
+        // this issue was described here: https://github.com/dotnet/efcore/issues/13617
+        
+        /*
+         * Problem with OPENJSON:
+         *  - Performance Impact: While OPENJSON can provide benefits by maintaining query plan cache, it can be less
+         *  efficient compared to a simple IN query for primitive collections. Some users have reported that the
+         *  OPENJSON approach can be slower than the previous method of using IN
+         *  https://github.com/dotnet/efcore/issues/32394
+         *  https://github.com/dotnet/efcore/issues/30946.
+         *  - Compatibility: This change might not work well with older SQL Server versions or with specific
+         *  configurations like non-default collations. Some users have experienced issues with queries not leveraging
+         *  indexes properly, leading to slower performance due to index scans instead of index seeks
+         *  https://github.com/dotnet/efcore/issues/32147.
+         *  - Opting Out: If you encounter performance issues, you can disable this new behavior by adjusting the
+         *  SQL Server compatibility level or using specific EF Core configuration options. For example, setting a
+         *  lower compatibility level can revert to the previous behavior without affecting other features
+         *  significantly. Additionally, you can use EF Core's Expression builder API to handle specific cases
+         *  differently https://github.com/dotnet/efcore/issues/32147.
+         *
+         * Index Scans vs Index Seeks
+         * Index Seeks:
+         *  - Definition: An index seek is an efficient method of retrieving data from an index. The database engine
+         *  uses the index's structure to quickly locate the rows that satisfy the query's condition. This method
+         *  directly navigates to the rows that match the criteria, using the index keys.
+         *  - Performance: Index seeks are generally faster because they minimize the number of rows that need to be
+         *  scanned, reducing the amount of I/O operations. They are highly efficient for queries that target a
+         *  specific subset of rows based on indexed columns.
+         *  - Usage Scenario: Index seeks are typically used when the query condition is selective, meaning it filters
+         *  down to a small number of rows, such as looking up a record by a unique identifier.
+         * Index Scans:
+         *  - Definition: An index scan involves reading the entire index to find the rows that match the query
+         *  condition. The database engine scans all the entries in the index, which can be much slower than a seek,
+         *  especially for large tables.
+         *  - Performance: Index scans are less efficient because they require reading a larger number of rows. This
+         *  can lead to increased I/O operations and longer query execution times.
+         *  - Usage Scenario: Index scans occur when the query condition is less selective, meaning it targets a large
+         *  number of rows, or when no suitable index exists to optimize the search.
+         * Practical Example:
+         *  Consider a table Customers with an index on the LastName column:
+         *  - Index Seek Example: A query like SELECT * FROM Customers WHERE LastName = 'Smith' would use an index seek
+         *  if the LastName column is indexed. This is because the query is looking for a specific value, allowing the
+         *  optimizer to directly access the relevant rows.
+         *  - Index Scan Example: A query like SELECT * FROM Customers WHERE LastName LIKE 'S%' might result in an
+         *  index scan, especially if there are many last names starting with 'S'. The query optimizer might need to
+         *  scan a large portion of the index to retrieve all matching rows.
+         * Impact in EF Core 8:
+         *  In EF Core 8, the change to use OPENJSON for handling Contains queries can lead to situations where the
+         *  SQL Server optimizer might not efficiently use indexes. Specifically, queries that previously benefited
+         *  from index seeks might now result in index scans due to the way OPENJSON processes the data, particularly
+         *  with non-default collations or large datasets.
+         */
         var suppliers = await _context
             .Database
             .SqlQuery<SupplierIdWithCurrencyTypeId>(@$"
