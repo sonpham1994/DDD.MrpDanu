@@ -24,7 +24,7 @@ public class TransactionalPartnerTests
             LocationType.Oversea
         );
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
@@ -44,7 +44,7 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
@@ -64,7 +64,7 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
 
@@ -123,7 +123,7 @@ public class TransactionalPartnerTests
             LocationType.Oversea
         );
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
@@ -154,7 +154,7 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
@@ -185,7 +185,7 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
 

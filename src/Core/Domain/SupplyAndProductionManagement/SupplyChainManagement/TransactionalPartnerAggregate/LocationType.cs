@@ -15,7 +15,7 @@ public class LocationType : Enumeration<LocationType>
     public new static Result<LocationType?> FromId(in byte id)
     {
         var result = Enumeration<LocationType>.FromId(id);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return DomainErrors.LocationType.NotFoundId(id);
 
         return result;

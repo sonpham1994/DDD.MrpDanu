@@ -10,7 +10,7 @@ public static class LinqExtension
         {
             var result = predicate(element);
 
-            if (result.IsFailure)
+            if (!result.IsSuccess)
                 return result;
         } 
 

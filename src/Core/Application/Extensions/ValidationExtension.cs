@@ -28,7 +28,7 @@ internal static class ValidationExtension
         {
             Result<TValueObject> result = factoryMethod(value);
 
-            if (result.IsFailure)
+            if (!result.IsSuccess)
             {
                 context.AddFailure(result.Error.ToValidationFailure());
             }
@@ -44,7 +44,7 @@ internal static class ValidationExtension
         {
             Result<TEntity> result = factoryMethod(value);
 
-            if (result.IsFailure)
+            if (!result.IsSuccess)
             {
                 context.AddFailure(result.Error.ToValidationFailure());
             }
@@ -61,7 +61,7 @@ internal static class ValidationExtension
         {
             Result<TEntity> result = factoryMethod(value);
 
-            if (result.IsFailure)
+            if (!result.IsSuccess)
             {
                 context.AddFailure(result.Error.ToValidationFailure());
             }
@@ -77,7 +77,7 @@ internal static class ValidationExtension
         {
             Result<TEnumeration> result = factoryMethod(value);
 
-            if (result.IsFailure)
+            if (!result.IsSuccess)
             {
                 context.AddFailure(result.Error.ToValidationFailure());
             }

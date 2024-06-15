@@ -41,7 +41,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
         if (!uniqueCodeResult.IsSuccess)
             return uniqueCodeResult.Error;
         var result = TypeAndRegionalMarketValidation(materialType, regionalMarket);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return result.Error;
 
         return new Material(code, name, attributes, materialType, regionalMarket);
@@ -54,7 +54,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
             return uniqueCodeResult.Error;
 
         var result = TypeAndRegionalMarketValidation(materialType, regionalMarket);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return result;
         
         Code = code;
@@ -85,7 +85,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
                     RaiseDomainEvent(materialPriceChangedEvent);
                 }
                 var setMaterialCostResult = materialSupplierCostExisted.SetMaterialCost(materialSupplierCost.Price, materialSupplierCost.MinQuantity, materialSupplierCost.Surcharge);
-                if (setMaterialCostResult.IsFailure)
+                if (!setMaterialCostResult.IsSuccess)
                     return setMaterialCostResult;
             }
             else

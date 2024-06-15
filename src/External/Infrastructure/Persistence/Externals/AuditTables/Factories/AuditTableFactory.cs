@@ -12,12 +12,12 @@ internal static class AuditTableFactory
     public static AuditTable Create(EntityEntry entityEntry)
     {
         var state = StateAuditTable.FromEntityState(entityEntry);
-        if (state.IsFailure)
+        if (!state.IsSuccess)
             throw new DomainException(state.Error);
 
         var entityAudit = EntityAudit.Create(entityEntry); 
         var serializationResult = entityAudit.Serialize(entityEntry);
-        if (serializationResult.IsFailure)
+        if (!serializationResult.IsSuccess)
             throw new DomainException(serializationResult.Error);
         
         var result = new AuditTable

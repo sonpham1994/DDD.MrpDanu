@@ -17,7 +17,7 @@ public class AddressTests
         DomainError error)
     {
         var address = Address.Create(street, city, district, ward, zipCode, Country.VietNam);
-        address.IsFailure.Should().BeTrue();
+        address.IsSuccess.Should().BeFalse();
         address.Error.Should().Be(error);
     }
 
@@ -25,7 +25,7 @@ public class AddressTests
     public void Cannot_create_address_if_zipcode_length_is_not_five_characters()
     {
         var address = Address.Create("street", "city", "district", "ward", "123456", Country.VietNam);
-        address.IsFailure.Should().BeTrue();
+        address.IsSuccess.Should().BeFalse();
         address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
 
@@ -33,7 +33,7 @@ public class AddressTests
     public void Cannot_create_address_if_zipcode_is_not_numbers()
     {
         var address = Address.Create("street", "city", "district", "ward", "abcde", Country.VietNam);
-        address.IsFailure.Should().BeTrue();
+        address.IsSuccess.Should().BeFalse();
         address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
 

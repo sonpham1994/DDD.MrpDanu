@@ -45,7 +45,7 @@ internal sealed class GCHandlerLoggingInterceptor<TRequest, TResponse> : IPipeli
             previousGen2Count);
 
         var delta = Stopwatch.GetElapsedTime(start);
-        if (response.IsFailure)
+        if (!response.IsSuccess)
         {
             _logger.HandleFailure(handlerName, requestTypeName, response.Error, delta.TotalMicroseconds);
         }

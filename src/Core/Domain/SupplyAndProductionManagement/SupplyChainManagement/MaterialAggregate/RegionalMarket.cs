@@ -26,7 +26,7 @@ public class RegionalMarket : Enumeration<RegionalMarket>
     {
         var result = Enumeration<RegionalMarket>.FromId(id);
 
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return DomainErrors.RegionalMarket.NotFoundId(id);
 
         return result;

@@ -14,7 +14,7 @@ public class PersonNameTests
     public void Cannot_create_person_name_if_parameter_name_is_null_or_empty(string name)
     {
         var result = PersonName.Create(name);
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmptyName);
     }
 
@@ -23,7 +23,7 @@ public class PersonNameTests
     {
         var name = Helper.CreateStringByLength(201, 't');
         var result = PersonName.Create(name);
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);
     }
 

@@ -16,7 +16,7 @@ public sealed class TransactionalHandler
         foreach (var transactionalReceiver in _transactionalReceivers)
         {
             var result = await transactionalReceiver.HandleAsync();
-            if (result.IsFailure)
+            if (!result.IsSuccess)
                 return result;
         }
 

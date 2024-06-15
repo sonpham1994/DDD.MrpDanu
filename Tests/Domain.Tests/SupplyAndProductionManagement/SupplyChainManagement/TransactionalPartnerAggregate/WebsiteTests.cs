@@ -20,7 +20,7 @@ public class WebsiteTests
     {
         var result = Website.Create(website);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidWebsite(website));
     }
 
@@ -44,7 +44,7 @@ public class WebsiteTests
             .Select(s => s[random.Next(s.Length)]).ToArray());
         var result = Website.Create(value);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(100));
     }
 

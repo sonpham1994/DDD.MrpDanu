@@ -15,9 +15,9 @@ public class LinqExtensionTests
     public void AnyFailure_ExistFailure()
     {
         var array = new List<int> { 2, 4, 5 };
-        var isFail = array.AnyFailure(ExistElement);
-        isFail.IsFailure.Should().Be(true);
-        isFail.Error.Code.Should().Be("Fail");
+        var result = array.AnyFailure(ExistElement);
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Code.Should().Be("Fail");
     }
 
     [Fact]

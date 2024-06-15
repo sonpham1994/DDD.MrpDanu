@@ -10,6 +10,7 @@ public sealed class MaterialCode : ValueObject
     {
         Value = code;
     }
+    protected MaterialCode() { }
    
     public string Value { get; }
 

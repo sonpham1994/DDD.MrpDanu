@@ -39,7 +39,7 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
                 Website.Create(x.Website)
             );
 
-            if (result1.IsFailure)
+            if (!result1.IsSuccess)
                 return result1.Error;
             var (country, companyName, personName, contactInfo, locationType, transactionalPartnerType, currencyType, website) = result1.Value;
 
@@ -49,14 +49,14 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
                 TaxNo.Create(x.TaxNo, country)
             );
 
-            if (result2.IsFailure)
+            if (!result2.IsSuccess)
                 return result2.Error;
 
             var (address, taxNo) = result2.Value;
 
             return TransactionalPartner.Create(companyName, taxNo, website,
                 personName, contactInfo, address,
-                transactionalPartnerType, currencyType, locationType);
+                transactionalPartnerType!, currencyType!, locationType!);
         });
     }
 

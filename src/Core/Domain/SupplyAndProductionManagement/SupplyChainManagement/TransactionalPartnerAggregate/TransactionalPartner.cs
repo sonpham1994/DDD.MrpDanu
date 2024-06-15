@@ -60,7 +60,7 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         LocationType location)
     {
         var result = CanExecuteCreateOrUpdate(address, currency, location);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return result.Error;
 
         var contactPersonInfo = new ContactPersonInformation(personName, contactInfo);
@@ -77,7 +77,7 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         LocationType location)
     {
         var result = CanExecuteCreateOrUpdate(address, currency, location);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return result;
 
         Name = name;
@@ -101,11 +101,11 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         LocationType location)
     {
         var locationTypeResult = IsValidLocationType(location, address);
-        if (locationTypeResult.IsFailure)
+        if (!locationTypeResult.IsSuccess)
             return locationTypeResult;
 
         var currencyResult = IsValidCurrencyType(currency, address);
-        if (currencyResult.IsFailure)
+        if (!currencyResult.IsSuccess)
             return currencyResult;
 
         return Result.Success();

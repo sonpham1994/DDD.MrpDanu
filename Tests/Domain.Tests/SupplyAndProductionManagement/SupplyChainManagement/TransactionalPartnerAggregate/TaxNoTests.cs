@@ -14,7 +14,7 @@ public class TaxNoTests
     {
         var result = TaxNo.Create(taxNo, Country.Korean);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.EmptyTaxNo);
     }
 
@@ -25,7 +25,7 @@ public class TaxNoTests
     {
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidLengthTaxNo);
     }
 
@@ -36,7 +36,7 @@ public class TaxNoTests
     {
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidTaxNo);
     }
 

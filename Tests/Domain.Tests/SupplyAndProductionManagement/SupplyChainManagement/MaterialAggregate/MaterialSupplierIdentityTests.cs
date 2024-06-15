@@ -12,7 +12,7 @@ public class MaterialSupplierIdentityTests
         var materialId = (MaterialId)Guid.Empty;
         var result = MaterialSupplierIdentity.Create(materialId, (SupplierId)Guid.NewGuid());
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.MaterialSupplierIdentity.InvalidMaterialId(materialId));
     }
 
@@ -22,7 +22,7 @@ public class MaterialSupplierIdentityTests
         var supplierId = (SupplierId)Guid.Empty;
         var result = MaterialSupplierIdentity.Create((MaterialId)Guid.NewGuid(), supplierId);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.MaterialSupplierIdentity.InvalidSupplierId(supplierId));
     }
 

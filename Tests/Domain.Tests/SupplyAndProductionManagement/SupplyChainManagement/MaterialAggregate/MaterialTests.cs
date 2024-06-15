@@ -18,7 +18,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        material.IsFailure.Should().Be(true);
+        material.IsSuccess.Should().BeFalse();
         material.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
     }
 
@@ -30,7 +30,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        material.IsFailure.Should().Be(true);
+        material.IsSuccess.Should().BeFalse();
         material.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
     }
 
@@ -62,7 +62,7 @@ public class MaterialTests
                 uniqueMaterialCodeResult
             );
 
-        material.IsFailure.Should().BeTrue();
+        material.IsSuccess.Should().BeFalse();
         material.Error.Should().Be(DomainErrors.Material.ExistedCode(code1, SupplyChainManagementPreparingData.MaterialId1));
     }
 
@@ -131,7 +131,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
     }
 
@@ -145,7 +145,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
     }
 
@@ -172,7 +172,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, uniqueMaterialCodeResult);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.ExistedCode(code2, SupplyChainManagementPreparingData.MaterialId2));
     }
 

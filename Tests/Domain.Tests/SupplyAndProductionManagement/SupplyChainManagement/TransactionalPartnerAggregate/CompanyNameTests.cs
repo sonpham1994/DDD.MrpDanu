@@ -13,7 +13,7 @@ public class CompanyNameTests
     public void Cannot_create_company_name_if_parameter_name_is_null_or_empty(string name)
     {
         var result = CompanyName.Create(name);
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.EmptyName);
     }
 
@@ -22,7 +22,7 @@ public class CompanyNameTests
     {
         var name = new string('t', 301);
         var result = CompanyName.Create(name);
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.TransactionalPartner.TheLengthOfNameExceedsMaxLength);
     }
 

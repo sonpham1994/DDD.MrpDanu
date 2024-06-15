@@ -16,12 +16,12 @@ internal sealed class CreateMaterialCommandHandler(
 {
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {
-        var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
-        var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
+        var materialType = MaterialType.FromId(request.MaterialTypeId).Value!;
+        var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value!;
         var materialAttributes = MaterialAttributes
-            .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
-        var code = MaterialCode.Create(request.Code).Value;
-        var name = MaterialName.Create(request.Name).Value;
+            .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value!;
+        var code = MaterialCode.Create(request.Code).Value!;
+        var name = MaterialName.Create(request.Name).Value!;
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
@@ -31,10 +31,10 @@ internal sealed class CreateMaterialCommandHandler(
             );
         var material = Material.Create(code, name, materialAttributes, materialType, regionalMarket,
             uniqueCodeResult);
-        if (material.IsFailure)
+        if (!material.IsSuccess)
             return material.Error;
 
-        materialRepository.Save(material.Value);
+        materialRepository.Save(material.Value!);
 
         if (request.MaterialCosts.Any())
         {
@@ -44,12 +44,12 @@ internal sealed class CreateMaterialCommandHandler(
 
             var materialCostInputs = request.MaterialCosts.ToTuple();
 
-            var materialSupplierCosts = MaterialSupplierCost.Create(material.Value.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
-            if (materialSupplierCosts.IsFailure)
+            var materialSupplierCosts = MaterialSupplierCost.Create(material.Value!.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
+            if (!materialSupplierCosts.IsSuccess)
                 return materialSupplierCosts.Error;
 
-            var result = material.Value.UpdateCost(materialSupplierCosts.Value);
-            if (result.IsFailure)
+            var result = material.Value.UpdateCost(materialSupplierCosts.Value!);
+            if (!result.IsSuccess)
                 return result;
         }
 

@@ -22,12 +22,12 @@ internal sealed class UpdateMaterialCommandHandler(
         if (material is null)
             return DomainErrors.Material.MaterialIdNotFound(request.Id);
 
-        var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
-        var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
-        var materialAttributes = MaterialAttributes.Create(request.ColorCode, request.Width,
-            request.Weight, request.Unit, request.Varian).Value;
-        var code = MaterialCode.Create(request.Code).Value;
-        var name = MaterialName.Create(request.Name).Value;
+        var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value!;
+        var materialType = MaterialType.FromId(request.MaterialTypeId).Value!;
+        var materialAttributes = MaterialAttributes.Create(request.ColorCode, request.Width!,
+            request.Weight, request.Unit, request.Varian).Value!;
+        var code = MaterialCode.Create(request.Code).Value!;
+        var name = MaterialName.Create(request.Name).Value!;
 
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
@@ -38,7 +38,7 @@ internal sealed class UpdateMaterialCommandHandler(
                 cancellationToken
             );
         var materialResult = material.UpdateMaterial(code, name, materialAttributes, materialType, regionalMarket, uniqueCodeResult);
-        if (materialResult.IsFailure)
+        if (!materialResult.IsSuccess)
             return materialResult;
 
         var materialCostInputs = request.MaterialCosts
@@ -48,11 +48,11 @@ internal sealed class UpdateMaterialCommandHandler(
             .ToTuple();
 
         var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
-        if (materialSupplierCosts.IsFailure)
+        if (!materialSupplierCosts.IsSuccess)
             return materialSupplierCosts.Error;
 
-        var result = material.UpdateCost(materialSupplierCosts.Value);
-        if (result.IsFailure)
+        var result = material.UpdateCost(materialSupplierCosts.Value!);
+        if (!result.IsSuccess)
             return result;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -24,17 +24,17 @@ internal sealed class UpdateTransactionalPartnerCommandHandler(
         if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(request.Id, contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
 
-        var country = Country.FromId(request.Address.CountryId).Value;
+        var country = Country.FromId(request.Address.CountryId).Value!;
         var taxNo = TaxNo.Create(request.TaxNo, country).Value;
         var companyName = CompanyName.Create(request.Name).Value;
         var personName = PersonName.Create(request.ContactPersonName).Value;
-        var location = LocationType.FromId(request.LocationTypeId).Value;
+        var location = LocationType.FromId(request.LocationTypeId).Value!;
         var address = Address.Create(request.Address.Street, request.Address.City, request.Address.District,
             request.Address.Ward, request.Address.ZipCode, country).Value;
         var website = Website.Create(request.Website).Value;
 
-        var transactionalPartnerType = TransactionalPartnerType.FromId(request.TransactionalPartnerTypeId).Value;
-        var currencyType = CurrencyType.FromId(request.CurrencyTypeId).Value;
+        var transactionalPartnerType = TransactionalPartnerType.FromId(request.TransactionalPartnerTypeId).Value!;
+        var currencyType = CurrencyType.FromId(request.CurrencyTypeId).Value!;
 
         var result = transactionalPartner.Update
         (
@@ -46,7 +46,7 @@ internal sealed class UpdateTransactionalPartnerCommandHandler(
             currencyType,
             location
         );
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return result.Error;
 
         transactionalPartner.UpdateContactPersonInfo(personName, contactInfo);

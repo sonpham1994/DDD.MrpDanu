@@ -39,7 +39,7 @@ public class CreateTransactionalPartnerTests
 
         var result = await commandHandler.Handle(command, default);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
     }
 

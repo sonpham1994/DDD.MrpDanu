@@ -6,8 +6,6 @@ public readonly struct Result : IResult
     private readonly DomainError _error;
     private readonly bool _isSuccess;
     
-    public bool IsFailure => !IsSuccess;
-
     public bool IsSuccess
     {
         get

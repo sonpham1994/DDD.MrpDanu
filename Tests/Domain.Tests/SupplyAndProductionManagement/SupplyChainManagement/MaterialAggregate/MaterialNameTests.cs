@@ -11,26 +11,26 @@ public class MaterialNameTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Cannot_create_material_with_null_or_empty_code(string code)
+    public void Cannot_create_material_name_with_null_or_empty_name(string code)
     {
         var result = MaterialName.Create(code);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.EmptyName);
     }
     
     [Fact]
-    public void Cannot_create_material_with_exceeding_max_length()
+    public void Cannot_create_material_name_with_exceeding_max_length()
     {
         var name = Helper.CreateStringByLength(501, 't');
         var result = MaterialName.Create(name);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.ExceedsMaxLengthName);
     }
     
     [Fact]
-    public void Create_material_successfully()
+    public void Create_material_name_successfully()
     {
         string name = "name";
         var result = MaterialName.Create(name);

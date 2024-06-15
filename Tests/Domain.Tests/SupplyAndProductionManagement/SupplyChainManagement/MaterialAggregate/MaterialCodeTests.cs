@@ -11,27 +11,26 @@ public class MaterialCodeTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Cannot_create_material_with_null_or_empty_code(string code)
+    public void Cannot_create_material_code_with_null_or_empty_code(string code)
     {
         var result = MaterialCode.Create(code);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.EmptyCode);
     }
     
     [Fact]
-    public void Cannot_create_material_with_exceeding_max_length()
+    public void Cannot_create_material_code_with_exceeding_max_length()
     {
-        var maxLength = 200;
         var name = Helper.CreateStringByLength(201, 't');
         var result = MaterialCode.Create(name);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.ExceedsMaxLengthCode);
     }
     
     [Fact]
-    public void Create_material_successfully()
+    public void Create_material_code_successfully()
     {
         string code = "code";
         var result = MaterialCode.Create(code);

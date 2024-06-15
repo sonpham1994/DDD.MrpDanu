@@ -16,7 +16,7 @@ public class MaterialType : Enumeration<MaterialType>
     public new static Result<MaterialType?> FromId(in byte id)
     {
         var result = Enumeration<MaterialType>.FromId(id);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return DomainErrors.MaterialType.NotFoundId(id);
 
         return result;

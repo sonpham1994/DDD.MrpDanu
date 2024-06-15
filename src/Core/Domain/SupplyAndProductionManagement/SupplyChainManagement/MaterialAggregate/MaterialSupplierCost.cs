@@ -61,7 +61,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             // is an invariant in the Material aggregate root, the MaterialSupplierCost just exists in Material
             // aggregate root, no other aggregates. So we put this invariant here instead of putting this in Material.
             var materialSupplierIdentity = MaterialSupplierIdentity.Create(materialId, supplierId);
-            if (materialSupplierIdentity.IsFailure)
+            if (!materialSupplierIdentity.IsSuccess)
                 return materialSupplierIdentity.Error;
 
             if (minQuantity == 0)
@@ -74,19 +74,19 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
                 return DomainErrors.MaterialSupplierCost.NotFoundSupplierId(supplierId);
 
             var currencyType = CurrencyType.FromId(currencyTypeId);
-            if (currencyType.IsFailure)
+            if (!currencyType.IsSuccess)
                 return currencyType.Error;
 
             var priceResult = Money.Create(price, currencyType.Value!);
-            if (priceResult.IsFailure)
+            if (!priceResult.IsSuccess)
                 return priceResult.Error;
 
             var surchargeResult = Money.Create(surcharge, currencyType.Value!);
-            if (surchargeResult.IsFailure)
+            if (!surchargeResult.IsSuccess)
                 return DomainErrors.MaterialSupplierCost.InvalidSurcharge;
 
             var isValidPriceAndSurcharge = IsValidPriceAndSurcharge(priceResult.Value!, surchargeResult.Value!);
-            if (isValidPriceAndSurcharge.IsFailure)
+            if (!isValidPriceAndSurcharge.IsSuccess)
                 return isValidPriceAndSurcharge.Error;
 
             var materialSupplierCost = new MaterialSupplierCost(materialSupplierIdentity.Value!, priceResult.Value!, minQuantity, surchargeResult.Value!);
@@ -103,7 +103,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             return DomainErrors.MaterialSupplierCost.InvalidMinQuantity;
 
         var validityPriceAndSurchargeResult = IsValidPriceAndSurcharge(price, surcharge);
-        if (validityPriceAndSurchargeResult.IsFailure)
+        if (!validityPriceAndSurchargeResult.IsSuccess)
             return validityPriceAndSurchargeResult.Error;
 
         //if (Surcharge != surcharge)

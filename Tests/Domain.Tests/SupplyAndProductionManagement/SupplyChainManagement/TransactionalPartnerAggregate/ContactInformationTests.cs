@@ -13,7 +13,7 @@ public class ContactInformationTests
     public void Cannot_create_contact_info_with_empty_contact_info(string telNo, string email)
     {
         var result = ContactInformation.Create(telNo, email);
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmptyContact);
     }
 
@@ -21,7 +21,7 @@ public class ContactInformationTests
     public void Cannot_create_contact_info_if_tel_no_is_not_numbers()
     {
         var result = ContactInformation.Create("asdvv123aa", "abcxyz@gmail.com");
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoIsNotNumbers);
     }
 
@@ -31,7 +31,7 @@ public class ContactInformationTests
         var email = new string('e', 201);
         var result = ContactInformation.Create("123456789", email);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmailExceedsMaxLength);
     }
 
@@ -49,7 +49,7 @@ public class ContactInformationTests
     {
         var result = ContactInformation.Create("123456789", email);
 
-        result.IsFailure.Should().BeTrue();
+        result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.InvalidEmail);
     }
 

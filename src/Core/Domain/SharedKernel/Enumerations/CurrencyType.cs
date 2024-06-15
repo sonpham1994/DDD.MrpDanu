@@ -16,7 +16,7 @@ public class CurrencyType : Enumeration<CurrencyType>
     public new static Result<CurrencyType?> FromId(in byte id)
     {
         var result = Enumeration<CurrencyType>.FromId(id);
-        if (result.IsFailure)
+        if (!result.IsSuccess)
             return DomainErrors.CurrencyType.NotFoundId(id);
 
         return result;

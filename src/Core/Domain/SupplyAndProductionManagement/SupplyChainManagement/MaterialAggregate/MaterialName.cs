@@ -9,6 +9,9 @@ public sealed class MaterialName : ValueObject
     {
         Value = name;
     }
+    
+    protected MaterialName() { }
+    
     public string Value { get; }
 
     public static Result<MaterialName?> Create(string name)

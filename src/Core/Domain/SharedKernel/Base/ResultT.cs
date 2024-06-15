@@ -7,8 +7,6 @@ public readonly struct Result<T> : IResult<T>
     private readonly DomainError _error;
     private readonly bool _isSuccess;
     private readonly T _value;
-
-    public bool IsFailure => !IsSuccess;
     
     public bool IsSuccess
     {
@@ -63,5 +61,5 @@ public readonly struct Result<T> : IResult<T>
         => new(false, domainError, default);
 
     public static implicit operator Result<T?>(in Result result)
-        => new(result.IsFailure, result.Error, default);
+        => new(result.IsSuccess, result.Error, default);
 }
