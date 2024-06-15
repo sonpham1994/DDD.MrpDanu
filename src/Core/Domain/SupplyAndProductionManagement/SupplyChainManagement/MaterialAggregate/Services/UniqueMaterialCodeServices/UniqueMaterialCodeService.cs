@@ -14,14 +14,11 @@ public static class UniqueMaterialCodeService
      * please check here: https://github.com/ardalis/DDD-NoDuplicates?tab=readme-ov-file
      */
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
-        string code,
+        MaterialCode code,
         Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode,
         CancellationToken cancellationToken)
     {
-        code ??= string.Empty;
-        code = code.Trim();
-
-        var materialIdWithCode = await getMaterialByCode.Invoke(code, cancellationToken);
+        var materialIdWithCode = await getMaterialByCode.Invoke(code.Value, cancellationToken);
 
         if (materialIdWithCode is not null)
         {
@@ -33,17 +30,14 @@ public static class UniqueMaterialCodeService
 
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
         MaterialId materialId,
-        string code,
+        MaterialCode code,
         Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode,
         CancellationToken cancellationToken)
     {
-        code ??= string.Empty;
-        code = code.Trim();
-
-        var materialIdWithCode = await getMaterialByCode.Invoke(code, cancellationToken);
+        var materialIdWithCode = await getMaterialByCode.Invoke(code.Value, cancellationToken);
         if (materialIdWithCode is not null
             && materialId != materialIdWithCode.MaterialId
-            && code == materialIdWithCode.Code)
+            && code.Value == materialIdWithCode.Code)
         {
             return UniqueMaterialCodeResult.Failure(code, materialIdWithCode.MaterialId);
         }

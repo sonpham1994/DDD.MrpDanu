@@ -1,5 +1,6 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
+using Domain.Tests.Helpers;
 using FluentAssertions;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
@@ -18,9 +19,9 @@ public class PersonNameTests
     }
 
     [Fact]
-    public void Cannot_create_person_name_if_parameter_name_length_exceed_200_characters()
+    public void Cannot_create_person_name_if_parameter_name_length_exceed_max_length()
     {
-        var name = new string('t', 201);
+        var name = Helper.CreateStringByLength(201, 't');
         var result = PersonName.Create(name);
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);

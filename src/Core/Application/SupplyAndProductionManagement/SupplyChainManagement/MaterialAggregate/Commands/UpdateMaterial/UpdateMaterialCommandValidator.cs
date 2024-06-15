@@ -19,6 +19,13 @@ internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateM
             .WithErrorCode(DomainErrors.Material.EmptyId.Code)
             .WithMessage(DomainErrors.Material.EmptyId.Message);
 
+        RuleFor(x => x.Code)
+            .MustBeValueObject(
+                x => MaterialCode.Create(x));
+        RuleFor(x => x.Name)
+            .MustBeValueObject(
+                x => MaterialName.Create(x));
+        
         RuleFor(x => x)
             .MustBeValueObject(
                 x => MaterialAttributes.Create(

@@ -150,19 +150,23 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     }
 }
 
-internal class AppDbContextDesignFactory(IOptions<DatabaseSettings> options) : IDesignTimeDbContextFactory<AppDbContext>
+internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
+    public AppDbContextDesignFactory()
+    {
+        
+    }
     public AppDbContext CreateDbContext(string[] args)
     {
-        //string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
+        string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
         ////string connectionString = "Server=son-quang-pham-0131,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
         ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
         {
         });
-        //IOptions<DatabaseSettings> options = Options.Create(new DatabaseSettings
-        //{
-        //    ConnectionString = connectionString
-        //});
+        IOptions<DatabaseSettings> options = Options.Create(new DatabaseSettings
+        {
+            ConnectionString = connectionString
+        });
         var log = new LoggingDbCommandInterceptor(loggerFactory.CreateLogger<LoggingDbCommandInterceptor>(), options);
         var externalDbContext = new ExternalDbContext(options, false, log);
         var insertAuditable = new InsertAuditableEntitiesSaveChangesInterceptor(externalDbContext);

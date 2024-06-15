@@ -20,8 +20,10 @@ public static class SupplyChainManagementPreparingData
     public static readonly PersonName PersonName1 = PersonName.Create("Name1").Value;
     public static readonly ContactInformation ContactInformation1 = ContactInformation.Create("1234567890", string.Empty).Value;
 
-    public static readonly MaterialAttributes MaterialAttributes1 =
+    public static MaterialCode MaterialCode1 => MaterialCode.Create("code1").Value;
+    public static MaterialName MaterialName1 => MaterialName.Create("name1").Value;
+    public static MaterialAttributes MaterialAttributes1 =>
         MaterialAttributes.Create("colorCode1", "width1", "weight1", "unit1", "varian1").Value;
-    public static readonly MaterialAttributes MaterialAttributes2 =
+    public static MaterialAttributes MaterialAttributes2 =>
         MaterialAttributes.Create("colorCode2", "width2", "weight2", "unit2", "varian2").Value;
 }

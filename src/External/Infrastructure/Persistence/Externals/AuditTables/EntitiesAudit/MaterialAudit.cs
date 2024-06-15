@@ -33,8 +33,8 @@ public sealed class MaterialAudit : EntityAudit
         var auditData = new MaterialAudit
         {
             Id = id,
-            Code = material.Code,
-            Name = material.Name,
+            Code = material.Code.Value,
+            Name = material.Name.Value,
             ColorCode = material.Attributes.ColorCode,
             Width = material.Attributes.Width,
             Weight = material.Attributes.Weight,

@@ -13,8 +13,8 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     private static byte MaxNumberOfMaterialCosts => 20;
     private readonly List<MaterialSupplierCost> _materialSupplierCosts = new(MaxNumberOfMaterialCosts);
 
-    public string Code { get; private set; }
-    public string Name { get; private set; }
+    public MaterialCode Code { get; private set; }
+    public MaterialName Name { get; private set; }
     public MaterialAttributes Attributes { get; private set; }
     public MaterialType MaterialType { get; private set; }
     public RegionalMarket RegionalMarket { get; private set; }
@@ -25,7 +25,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     //required EF Proxies
     protected Material() { }
 
-    private Material(string code, string name, MaterialAttributes attributes, MaterialType materialType, RegionalMarket regionalMarket)
+    private Material(MaterialCode code, MaterialName name, MaterialAttributes attributes, MaterialType materialType, RegionalMarket regionalMarket)
         : this()
     {
         Code = code;
@@ -35,30 +35,30 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
         RegionalMarket = regionalMarket;
     }
 
-    public static Result<Material?> Create(string code, string name, MaterialAttributes attributes, MaterialType materialType,
+    public static Result<Material?> Create(MaterialCode code, MaterialName name, MaterialAttributes attributes, MaterialType materialType,
         RegionalMarket regionalMarket, UniqueMaterialCodeResult uniqueCodeResult)
     {
         if (!uniqueCodeResult.IsSuccess)
             return uniqueCodeResult.Error;
-        var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
+        var result = TypeAndRegionalMarketValidation(materialType, regionalMarket);
         if (result.IsFailure)
             return result.Error;
 
-        return new Material(code.Trim(), name.Trim(), attributes, materialType, regionalMarket);
+        return new Material(code, name, attributes, materialType, regionalMarket);
     }
 
-    public Result UpdateMaterial(string code, string name, MaterialAttributes attributes, MaterialType materialType,
+    public Result UpdateMaterial(MaterialCode code, MaterialName name, MaterialAttributes attributes, MaterialType materialType,
         RegionalMarket regionalMarket, UniqueMaterialCodeResult uniqueCodeResult)
     {
         if (!uniqueCodeResult.IsSuccess)
             return uniqueCodeResult.Error;
 
-        var result = CanCreateOrUpdateMaterial(code, name, materialType, regionalMarket);
+        var result = TypeAndRegionalMarketValidation(materialType, regionalMarket);
         if (result.IsFailure)
             return result;
-
-        Code = code.Trim();
-        Name = name.Trim();
+        
+        Code = code;
+        Name = name;
         Attributes = attributes;
         MaterialType = materialType;
         RegionalMarket = regionalMarket;
@@ -113,13 +113,8 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
         return result;
     }
 
-    private static Result CanCreateOrUpdateMaterial(string code, string name, MaterialType materialType, RegionalMarket regionalMarket)
+    private static Result TypeAndRegionalMarketValidation(MaterialType materialType, RegionalMarket regionalMarket)
     {
-        if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
-            return DomainErrors.Material.EmptyCode;
-        if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            return DomainErrors.Material.EmptyName;
-
         if (materialType == MaterialType.Material && regionalMarket != RegionalMarket.None)
             return DomainErrors.Material.InvalidMaterialType;
 

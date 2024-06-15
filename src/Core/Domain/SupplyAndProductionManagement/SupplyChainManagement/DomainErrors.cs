@@ -1,6 +1,7 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
@@ -12,14 +13,16 @@ public static class DomainErrors
         public static DomainError InvalidSubassembliesType => new("Material.InvalidSubassembliesType", "Subassemblies type should not be None Regional Market");
         public static DomainError EmptyId => new("Material.EmptyId", "MaterialId should not be empty.");
         public static DomainError EmptyCode => new("Material.EmptyCode", "Material code should not be empty.");
+        public static DomainError ExceedsMaxLengthCode => new($"Material.{nameof(ExceedsMaxLengthCode)}", "Material code should not larger than 200 characters.");
         public static DomainError EmptyName => new("Material.EmptyName", "Material name should not be empty.");
+        public static DomainError ExceedsMaxLengthName => new($"Material.{nameof(ExceedsMaxLengthName)}", "Material name should not larger than 500 characters.");
         public static DomainError EmptyVarian => new("Material.EmptyVarian", "Material varian should not be empty.");
         public static DomainError EmptyWidth => new("Material.EmptyWidth", "Material width should not be empty.");
         public static DomainError EmptyUnit => new("Material.EmptyUnit", "Material unit should not be empty.");
         public static DomainError ExceedsMaxNumberOfMaterialCosts => new("Material.ExceedsMaxNumberOfQuantity", "Cannot exceed the max number of Material cost.");
 
-        public static DomainError ExistedCode(string code, in MaterialId anotherMaterialId) => new("Material.ExistedCode",
-            $"The code '{code}' exists in another material with id '{anotherMaterialId.Value}'");
+        public static DomainError ExistedCode(MaterialCode code, in MaterialId anotherMaterialId) => new("Material.ExistedCode",
+            $"The code '{code.Value}' exists in another material with id '{anotherMaterialId.Value}'");
         public static DomainError MaterialIdNotFound(in Guid id) => new("Material.NotFoundId", $"Material id '{id}' is not found");
         public static DomainError MaterialIdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new("MaterialSupplierCost.MaterialIdIsNotTheSame", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same.");
     }

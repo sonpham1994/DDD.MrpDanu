@@ -25,6 +25,17 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(Environment)' != 'Production'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
 	<!--doesn't use Serilog.Sinks.Seq on Production, just use for local. Ignoring this nuget when on production: https://chat.openai.com/share/73113f82-0505-4f16-9c35-6d423475164a-->
 	<ItemGroup Condition="'$(Environment)' == 'Production'">
 		<PackageReference Include="Serilog.Sinks.ApplicationInsights" />

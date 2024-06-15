@@ -27,9 +27,21 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
         // this HasDefaultValueSql("newsequentialid()"); will generate data from database, not on the client side
         //.HasDefaultValueSql("newsequentialid()");
 
-        builder.Property(x => x.Code).HasColumnType("nvarchar(200)").IsRequired();
+        builder.Property(x => x.Code)
+            .HasColumnName(nameof(Material.Code))
+            .HasColumnType("varchar(200)")
+            .IsRequired()
+            .HasConversion(
+                x => x.Value,
+                x => MaterialCode.Create(x).Value);
         builder.HasIndex(x => x.Code).IsUnique();
-        builder.Property(x => x.Name).HasColumnType("nvarchar(500)").IsRequired();
+        builder.Property(x => x.Name)
+            .HasColumnName(nameof(Material.Name))
+            .HasColumnType("nvarchar(500)")
+            .IsRequired()
+            .HasConversion(
+            x => x.Value,
+            x => MaterialName.Create(x).Value);
         // builder.Property(x => x.CodeUnique).HasColumnType("varchar(2000)").IsRequired();
         // builder.Property(x => x.CodeUnique).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 

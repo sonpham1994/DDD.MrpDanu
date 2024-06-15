@@ -2,7 +2,7 @@ using System.Reflection;
 using Domain.SharedKernel.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Domain.Tests;
+namespace Domain.Tests.Helpers;
 
 /*
  * https://stackoverflow.com/questions/21452984/setting-the-identity-of-a-domain-entity

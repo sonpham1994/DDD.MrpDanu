@@ -10,35 +10,36 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Materi
 
 internal sealed class CreateMaterialCommandHandler(
     IUnitOfWork unitOfWork,
-    ITransactionalPartnerReadonlyRepository _transactionalPartnerReadonlyRepository,
-    IMaterialRepository _materialRepository,
-    IMaterialReadonlyRepository _materialReadonlyRepository) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
+    ITransactionalPartnerReadonlyRepository transactionalPartnerReadonlyRepository,
+    IMaterialRepository materialRepository,
+    IMaterialReadonlyRepository materialReadonlyRepository) : ICommandHandler<CreateMaterialCommand>, ITransactionalCommandHandler
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task<Result> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
     {
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value;
         var materialAttributes = MaterialAttributes
             .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value;
+        var code = MaterialCode.Create(request.Code).Value;
+        var name = MaterialName.Create(request.Name).Value;
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
-                request.Code,
-                _materialReadonlyRepository.GetByCodeAsync,
+                code,
+                materialReadonlyRepository.GetByCodeAsync,
                 cancellationToken
             );
-        var material = Material.Create(request.Code, request.Name, materialAttributes, materialType, regionalMarket,
+        var material = Material.Create(code, name, materialAttributes, materialType, regionalMarket,
             uniqueCodeResult);
         if (material.IsFailure)
             return material.Error;
 
-        _materialRepository.Save(material.Value);
+        materialRepository.Save(material.Value);
 
         if (request.MaterialCosts.Any())
         {
             var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
-            var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerReadonlyRepository.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
+            var supplierIdWithCurrencyTypeIds = (await transactionalPartnerReadonlyRepository.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
                 .ToTuple();
 
             var materialCostInputs = request.MaterialCosts.ToTuple();
@@ -52,7 +53,7 @@ internal sealed class CreateMaterialCommandHandler(
                 return result;
         }
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

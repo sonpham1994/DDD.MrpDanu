@@ -26,16 +26,18 @@ internal sealed class UpdateMaterialCommandHandler(
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value;
         var materialAttributes = MaterialAttributes.Create(request.ColorCode, request.Width,
             request.Weight, request.Unit, request.Varian).Value;
+        var code = MaterialCode.Create(request.Code).Value;
+        var name = MaterialName.Create(request.Name).Value;
 
         var uniqueCodeResult = await UniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
                 material.Id,
-                request.Code,
+                code,
                 _materialQueryForWrite.GetByCodeAsync,
                 cancellationToken
             );
-        var materialResult = material.UpdateMaterial(request.Code, request.Name, materialAttributes, materialType, regionalMarket, uniqueCodeResult);
+        var materialResult = material.UpdateMaterial(code, name, materialAttributes, materialType, regionalMarket, uniqueCodeResult);
         if (materialResult.IsFailure)
             return materialResult;
 

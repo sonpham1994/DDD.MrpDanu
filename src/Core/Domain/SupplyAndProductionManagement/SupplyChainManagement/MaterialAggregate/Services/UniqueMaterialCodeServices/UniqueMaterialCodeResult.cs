@@ -34,7 +34,7 @@ public readonly struct UniqueMaterialCodeResult : IResult
         }
     }
 
-    internal static UniqueMaterialCodeResult Failure(string code, MaterialId materialId)
+    internal static UniqueMaterialCodeResult Failure(MaterialCode code, in MaterialId materialId)
         => new(false, DomainErrors.Material.ExistedCode(code, materialId));
 
     internal static UniqueMaterialCodeResult Success()
