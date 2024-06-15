@@ -3,7 +3,7 @@ using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
 using FluentAssertions;
 
-namespace Domain.Tests.ShraredKernel;
+namespace Domain.Tests.SharedKernel;
 
 public class MoneyTests
 {

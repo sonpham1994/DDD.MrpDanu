@@ -1,5 +1,6 @@
 ﻿
 using Application.Interfaces.Writes.MaterialWrite;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
@@ -16,15 +17,17 @@ namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainMa
 // And because in Write side, we don't use dapper, so if we use dapper similiar to read side, one day if we separate
 // write and read sides on separate layers or assemblies, we need to install dapper nuger package on write side, which 
 // we really don't need. So instead of using dapper, we use built-in SqlQuery from EF Core.
-internal sealed class MaterialEfReadonlyRepository(AppDbContext _context) : IMaterialReadonlyRepository
+internal sealed class MaterialEfReadonlyRepository(AppDbContext context) : IMaterialReadonlyRepository
 {
-    public async Task<MaterialIdWithCode> GetByCodeAsync(string code, CancellationToken cancellationToken)
+    // For MaterialCode, instead of using string, we use MaterialCode to make sure the code that pass in parameter is valid.
+    // we can use MaterialCode from write side because this read operation for write side.
+    public async Task<MaterialIdWithCode?> GetByCodeAsync(MaterialCode code, CancellationToken cancellationToken)
     {
-        var material = await _context.Database
+        var material = await context.Database
                .SqlQuery<MaterialIdWithCode>($"""
                     SELECT material.Id, material.Code 
                     FROM Material 
-                    WHERE Code = {code}
+                    WHERE Code = {code.Value}
                     """)
                .FirstOrDefaultAsync(cancellationToken);
 

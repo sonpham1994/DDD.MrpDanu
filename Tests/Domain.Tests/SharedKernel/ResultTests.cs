@@ -1,9 +1,8 @@
-using System.Reflection;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Exceptions;
 using FluentAssertions;
 
-namespace Domain.Tests.ShraredKernel;
+namespace Domain.Tests.SharedKernel;
 
 public class ResultTests
 {
@@ -19,7 +18,7 @@ public class ResultTests
 
         foreach (var resultType in resultTypes)
         {
-            IResult instance = (IResult)Activator.CreateInstance(resultType);
+            IResult instance = (IResult)Activator.CreateInstance(resultType)!;
             instance.Invoking(x => x.IsSuccess).Should().Throw<DomainException>();
         }
     }
@@ -36,7 +35,7 @@ public class ResultTests
 
         foreach (var resultType in resultTypes)
         {
-            IResult instance = (IResult)Activator.CreateInstance(resultType);
+            IResult instance = (IResult)Activator.CreateInstance(resultType)!;
             instance.Invoking(x => x.Error).Should().Throw<DomainException>();
         }
     }
@@ -55,7 +54,7 @@ public class ResultTests
         foreach (var resultType in resultTypes)
         {
             Type constructedType = resultType.MakeGenericType(targetType);
-            var instance = (IResult<int>)Activator.CreateInstance(constructedType);
+            var instance = (IResult<int>)Activator.CreateInstance(constructedType)!;
             instance.Invoking(x => x.Value).Should().Throw<DomainException>();
         }
     }
@@ -80,8 +79,8 @@ public class ResultTests
     public void Create_successful_generic_result_and_value_should_not_be_null()
     {
         var result = Result.Success<string>("value");
-        result.IsSuccess.Should().BeFalse();
+        result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
-        result.Error.Should().NotBe(DomainError.Empty);
+        result.Error.Should().Be(DomainError.Empty);
     }
 }

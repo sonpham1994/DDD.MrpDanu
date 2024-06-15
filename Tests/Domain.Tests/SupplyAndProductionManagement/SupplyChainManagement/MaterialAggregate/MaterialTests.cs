@@ -40,18 +40,9 @@ public class MaterialTests
         var code1 = SupplyChainManagementPreparingData.MaterialCode1;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
-        {
-            var materialIdWithCode1 = new MaterialIdWithCode
-            {
-                Id = SupplyChainManagementPreparingData.MaterialId1.Value,
-                Code = code1.Value
-            };
 
-            return Task.FromResult(materialIdWithCode1);
-        };
-
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(code1, getMaterialByCode, default);
+        var uniqueMaterialCodeResult = await UniqueMaterialCodeService
+            .CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningCodeValueForMaterialId1, default);
         var material = Material
             .Create(
                 code1,
@@ -72,12 +63,8 @@ public class MaterialTests
         var code1 = SupplyChainManagementPreparingData.MaterialCode1;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
-        {
-            return Task.FromResult(default(MaterialIdWithCode));
-        };
 
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(code1, getMaterialByCode, default);
+        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningNullValue, default);
         var material = Material
             .Create(
                 code1,
@@ -100,7 +87,7 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         material.IsSuccess.Should().Be(true);
-        material.Value.Attributes.Should().Be(materialAttributes);
+        material.Value!.Attributes.Should().Be(materialAttributes);
         material.Value.Code.Should().Be(code1);
         material.Value.MaterialType.Should().Be(MaterialType.Subassemblies);
         material.Value.RegionalMarket.Should().Be(RegionalMarket.Florida);
@@ -115,7 +102,7 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         material.IsSuccess.Should().BeTrue();
-        material.Value.Attributes.Should().Be(materialAttributes);
+        material.Value!.Attributes.Should().Be(materialAttributes);
         material.Value.Code.Should().Be(code1);
         material.Value.MaterialType.Should().Be(MaterialType.Material);
         material.Value.RegionalMarket.Should().Be(RegionalMarket.None);
@@ -129,7 +116,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
+        var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
@@ -143,7 +130,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
+        var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
@@ -153,22 +140,17 @@ public class MaterialTests
     public async Task Cannot_update_material_if_unique_material_code_exists_on_another_material()
     {
         var code1 = SupplyChainManagementPreparingData.MaterialCode1;
-        var code2 = MaterialCode.Create("code2").Value;
+        var code2 = MaterialCode.Create("code2").Value!;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
-        material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
-        {
-            var materialIdWithCode1 = new MaterialIdWithCode
-            {
-                Id = SupplyChainManagementPreparingData.MaterialId2.Value,
-                Code = code
-            };
+        material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
 
-            return Task.FromResult(materialIdWithCode1);
-        };
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value.Id, code2, getMaterialByCode, default);
+        var uniqueMaterialCodeResult = await UniqueMaterialCodeService
+            .CheckUniqueMaterialCodeAsync(
+                material.Value!.Id, code2, 
+                GetMaterialByCodeWithReturningCodeValueForMaterialId2, 
+                default);
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, uniqueMaterialCodeResult);
 
@@ -183,18 +165,12 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
-        material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
-        {
-            var materialIdWithCode1 = new MaterialIdWithCode
-            {
-                Id = SupplyChainManagementPreparingData.MaterialId1.Value,
-                Code = code1.Value
-            };
-
-            return Task.FromResult(materialIdWithCode1);
-        };
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value.Id, code1, getMaterialByCode, default);
+        material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
+        var uniqueMaterialCodeResult = await UniqueMaterialCodeService
+            .CheckUniqueMaterialCodeAsync(
+                material.Value!.Id, code1, 
+                GetMaterialByCodeWithReturningCodeValueForMaterialId1, 
+                default);
 
         var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, uniqueMaterialCodeResult);
 
@@ -205,16 +181,12 @@ public class MaterialTests
     public async Task Update_material_successfully_if_unique_material_code_is_empty()
     {
         var code1 = SupplyChainManagementPreparingData.MaterialCode1;
-        var code2 = MaterialCode.Create("code2").Value;
+        var code2 = MaterialCode.Create("code2").Value!;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
-        material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode = (code, cancellationToken) =>
-        {
-            return Task.FromResult(default(MaterialIdWithCode));
-        };
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value.Id, code2, getMaterialByCode, default);
+        material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
+        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value!.Id, code2, GetMaterialByCodeWithReturningNullValue, default);
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, uniqueMaterialCodeResult);
 
@@ -229,7 +201,7 @@ public class MaterialTests
         var materialAttributes1 = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial(code1, name1, materialAttributes1, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
+        var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes1, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
         result.IsSuccess.Should().Be(true);
         material.Value.Attributes.Should().Be(materialAttributes1);
@@ -246,7 +218,7 @@ public class MaterialTests
 
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
+        var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
         result.IsSuccess.Should().Be(true);
         material.Value.Attributes.Should().Be(materialAttributes);
@@ -261,7 +233,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
-        material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
+        material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
             (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
@@ -272,9 +244,9 @@ public class MaterialTests
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
             (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value;
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value!;
 
-        var result = material.Value.UpdateCost(materialCosts);
+        var result = material.Value!.UpdateCost(materialCosts);
 
         result.IsSuccess.Should().Be(true);
         material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
@@ -295,7 +267,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
-        material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
+        material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
 
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
@@ -307,19 +279,19 @@ public class MaterialTests
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
             (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, suppliers).Value;
+        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, suppliers).Value!;
 
         var inputUpdated = new List<(decimal, uint, decimal, SupplierId)>
         {
             (10m, 20, 30m, SupplyChainManagementPreparingData.SupplierId1),
             (40m, 50, 60m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCostsUpdated = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputUpdated, suppliers).Value;
+        var materialCostsUpdated = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputUpdated, suppliers).Value!;
 
-        material.Value.UpdateCost(materialCostsAdded);
+        material.Value!.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsUpdated);
 
-        result.IsSuccess.Should().Be(true);
+        result.IsSuccess.Should().BeTrue();
         material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(10m, CurrencyType.VND).Value);
         material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(20);
         material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(30m, CurrencyType.VND).Value);
@@ -338,7 +310,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
-        material.Value.WithId(SupplyChainManagementPreparingData.MaterialId1);
+        material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
         {
             (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
@@ -349,15 +321,15 @@ public class MaterialTests
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
             (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, suppliers).Value;
+        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, suppliers).Value!;
 
         var inputDeleted = new List<(decimal, uint, decimal, SupplierId)>
         {
              (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
-        var materialCostsDeleted = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputDeleted, suppliers).Value;
+        var materialCostsDeleted = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputDeleted, suppliers).Value!;
 
-        material.Value.UpdateCost(materialCostsAdded);
+        material.Value!.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsDeleted);
 
         result.IsSuccess.Should().BeTrue();
@@ -366,5 +338,24 @@ public class MaterialTests
         material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(5);
         material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
         material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.Should().Be(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
+    }
+    
+    private Task<MaterialIdWithCode?> GetMaterialByCodeWithReturningNullValue(MaterialCode code, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(default(MaterialIdWithCode));
+    }
+    
+    private Task<MaterialIdWithCode?> GetMaterialByCodeWithReturningCodeValueForMaterialId1(MaterialCode code, CancellationToken cancellationToken)
+    {
+        var materialIdWithCode1 = new MaterialIdWithCode { Id = SupplyChainManagementPreparingData.MaterialId1.Value, Code = code.Value };
+
+        return Task.FromResult(materialIdWithCode1)!;
+    }
+    
+    private Task<MaterialIdWithCode?> GetMaterialByCodeWithReturningCodeValueForMaterialId2(MaterialCode code, CancellationToken cancellationToken)
+    {
+        var materialIdWithCode1 = new MaterialIdWithCode { Id = SupplyChainManagementPreparingData.MaterialId2.Value, Code = code.Value };
+
+        return Task.FromResult(materialIdWithCode1)!;
     }
 }

@@ -15,10 +15,10 @@ public static class UniqueMaterialCodeService
      */
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
         MaterialCode code,
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode,
+        Func<MaterialCode, CancellationToken, Task<MaterialIdWithCode?>> getMaterialByCode,
         CancellationToken cancellationToken)
     {
-        var materialIdWithCode = await getMaterialByCode.Invoke(code.Value, cancellationToken);
+        var materialIdWithCode = await getMaterialByCode.Invoke(code, cancellationToken);
 
         if (materialIdWithCode is not null)
         {
@@ -31,10 +31,10 @@ public static class UniqueMaterialCodeService
     public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
         MaterialId materialId,
         MaterialCode code,
-        Func<string, CancellationToken, Task<MaterialIdWithCode>> getMaterialByCode,
+        Func<MaterialCode, CancellationToken, Task<MaterialIdWithCode?>> getMaterialByCode,
         CancellationToken cancellationToken)
     {
-        var materialIdWithCode = await getMaterialByCode.Invoke(code.Value, cancellationToken);
+        var materialIdWithCode = await getMaterialByCode.Invoke(code, cancellationToken);
         if (materialIdWithCode is not null
             && materialId != materialIdWithCode.MaterialId
             && code.Value == materialIdWithCode.Code)
