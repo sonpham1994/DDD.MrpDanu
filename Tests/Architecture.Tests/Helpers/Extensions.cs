@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Architecture.Tests.Helpers;
 
-public static class Extension
+public static class Extensions
 {
     public static bool IsInitOnlySetter(this PropertyInfo property)
     {

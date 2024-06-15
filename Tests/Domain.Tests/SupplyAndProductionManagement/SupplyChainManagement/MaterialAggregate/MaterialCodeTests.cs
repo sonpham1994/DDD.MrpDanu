@@ -36,6 +36,6 @@ public class MaterialCodeTests
         var result = MaterialCode.Create(code);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(code);
+        result.Value!.Value.Should().Be(code);
     }
 }

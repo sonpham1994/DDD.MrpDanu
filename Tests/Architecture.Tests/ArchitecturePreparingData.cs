@@ -1,6 +1,6 @@
-namespace Architecture.Tests.Helpers;
+namespace Architecture.Tests;
 
-public class ArchitecturePreparingData
+public static class ArchitecturePreparingData
 {
     public const string DomainNamespace = "Domain";
     public const string ApplicationNamespace = "Application";

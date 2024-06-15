@@ -11,7 +11,7 @@ public static partial class ItemDuplication
         where T : class, IEntity
         where TProperty : IEntity
     {
-        TProperty result = default;
+        TProperty? result = default;
         if (enumerable is List<T> lst)
         {
             result = GetEntityDuplication(lst, predicate);
@@ -28,7 +28,7 @@ public static partial class ItemDuplication
         return result;
     }
 
-    public static TProperty GetEntityDuplication<T, TProperty>(
+    public static TProperty? GetEntityDuplication<T, TProperty>(
         this List<T> list, 
         Func<T, TProperty> predicate)
         where T : IEntity
@@ -50,32 +50,37 @@ public static partial class ItemDuplication
         return result;
     }
     
-    private static TProperty LinearSearchEntity<T, TProperty>(
-        IReadOnlyList<T> array, 
+    private static TProperty? LinearSearchEntity<T, TProperty>(
+        IReadOnlyList<T?>? array, 
         Func<T, TProperty> func)
         where T : IEntity
         where TProperty : class, IEntity
     {
+        if (array is null)
+        {
+            return null;
+        }
+        
         var count = array.Count;
         var result = LinearSearchEntity( index =>
         {
             if (array[index] is null)
                 return null;
             
-            return func(array[index]);
+            return func(array[index]!);
         }, 
         count);
 
         return result;
     }
     
-    public static T GetEntityDuplication<T>(this IEnumerable<T> enumerable)
+    public static T? GetEntityDuplication<T>(this IEnumerable<T?> enumerable)
         where T : IEntity
     {
-        T result = default;
+        T? result = default;
         if (enumerable is List<T> lst)
         {
-            result = GetEntityDuplication(lst);
+            result = GetEntityDuplication(lst!);
         }
         else if (enumerable is T[] array)
         {
@@ -89,7 +94,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static T GetEntityDuplication<T>(this List<T> list)
+    public static T? GetEntityDuplication<T>(this List<T?> list)
         where T : IEntity
     {
         int count = list.Count;
@@ -98,7 +103,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static T GetEntityDuplication<T>(this T[] array)
+    public static T? GetEntityDuplication<T>(this T[] array)
         where T : IEntity
     {
         int count = array.Length;
@@ -114,7 +119,7 @@ public static partial class ItemDuplication
         where T : IEntity
         where TProperty : ValueObject
     {
-        TProperty result = default;
+        TProperty? result = default;
         if (enumerable is List<T> lst)
         {
             result = GetValueObjectDuplication(lst, predicate);
@@ -154,8 +159,8 @@ public static partial class ItemDuplication
     }
     #endregion ValueObject
     
-    private static T LinearSearchEntity<T>(
-        IReadOnlyList<T> array, 
+    private static T? LinearSearchEntity<T>(
+        IReadOnlyList<T?> array, 
         int count)
         where T : IEntity
     {
@@ -165,12 +170,12 @@ public static partial class ItemDuplication
     }
     
     // O(n square) -> n bình phương 2
-    private static TResult LinearSearchEntity<TResult>(
-        Func<int, TResult> tResult,
+    private static TResult? LinearSearchEntity<TResult>(
+        Func<int, TResult?> tResult,
         int count)
         where TResult: IEntity
     {
-        TResult result = default;
+        TResult? result = default;
         for (int i = 0; i < count; i++)
         {
             var tResult1 = tResult(i);

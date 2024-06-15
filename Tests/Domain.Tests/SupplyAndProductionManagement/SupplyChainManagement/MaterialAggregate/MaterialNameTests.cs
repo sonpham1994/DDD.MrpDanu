@@ -36,6 +36,6 @@ public class MaterialNameTests
         var result = MaterialName.Create(name);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(name);
+        result.Value!.Value.Should().Be(name);
     }
 }

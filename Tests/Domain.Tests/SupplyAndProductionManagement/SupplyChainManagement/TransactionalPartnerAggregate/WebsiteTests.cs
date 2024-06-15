@@ -33,8 +33,9 @@ public class WebsiteTests
         var result = Website.Create(website);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be((Website)null);
+        result.Value.Should().Be(null);
     }
+    
     [Fact]
     public void Cannot_create_website_with_exceeding_100_length()
     {
