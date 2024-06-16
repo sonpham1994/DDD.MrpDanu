@@ -33,7 +33,7 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
             .IsRequired()
             .HasConversion(
                 x => x.Value,
-                x => MaterialCode.Create(x).Value);
+                x => MaterialCode.Create(x).Value!);
         builder.HasIndex(x => x.Code).IsUnique();
         builder.Property(x => x.Name)
             .HasColumnName(nameof(Material.Name))
@@ -41,7 +41,7 @@ internal sealed class MaterialEntityTypeConfiguration : IEntityTypeConfiguration
             .IsRequired()
             .HasConversion(
             x => x.Value,
-            x => MaterialName.Create(x).Value);
+            x => MaterialName.Create(x).Value!);
         // builder.Property(x => x.CodeUnique).HasColumnType("varchar(2000)").IsRequired();
         // builder.Property(x => x.CodeUnique).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 

@@ -1,5 +1,4 @@
 using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -7,12 +6,12 @@ public class Address : ValueObject
 {
     private static byte ZipCodeLength => 5;
 
-    public string Street { get; }
-    public string City { get; }
-    public string District { get; }
-    public string Ward { get; }
-    public string ZipCode { get; }
-    public Country Country { get; }
+    public string Street { get; } = default!;
+    public string City { get; } = default!;
+    public string District { get; } = default!;
+    public string Ward { get; } = default!;
+    public string ZipCode { get; } = default!;
+    public Country Country { get; } = default!;
 
     protected Address() { }
 
@@ -26,7 +25,7 @@ public class Address : ValueObject
         Country = country;
     }
 
-    public static Result<Address> Create(string street, string city, string district, string ward, string zipCode,
+    public static Result<Address?> Create(string? street, string? city, string? district, string? ward, string? zipCode,
         Country country)
     {
         if (string.IsNullOrEmpty(street) || string.IsNullOrWhiteSpace(street))

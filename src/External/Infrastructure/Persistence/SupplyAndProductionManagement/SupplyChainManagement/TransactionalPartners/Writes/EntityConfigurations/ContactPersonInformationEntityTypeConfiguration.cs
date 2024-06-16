@@ -1,5 +1,4 @@
 ﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
@@ -23,7 +22,7 @@ internal sealed class ContactPersonInformationEntityTypeConfiguration : IEntityT
             .HasColumnType("nvarchar(200)").IsRequired()
             .HasConversion(
                 x => x.Value,
-                x => PersonName.Create(x).Value);
+                x => PersonName.Create(x).Value!);
 
         builder.OwnsOne(x => x.ContactInformation, j =>
         {

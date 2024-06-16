@@ -5,6 +5,6 @@ namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainMa
 internal sealed record SuppliersReadModel : IReadModel
 {
     public Guid Id { get; init; }
-    public string Name { get; init; }
+    public string Name { get; init; } = default!;
     public byte CurrencyTypeId { get; init; }
 }

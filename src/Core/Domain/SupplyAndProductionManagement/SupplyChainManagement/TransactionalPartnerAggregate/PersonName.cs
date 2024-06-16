@@ -1,12 +1,11 @@
 ﻿using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class PersonName : ValueObject
 {
     private static byte PersonNameMaxLength => 200;
-    public string Value { get; }
+    public string Value { get; } = default!;
 
     private PersonName(string name)
     {
@@ -15,7 +14,7 @@ public class PersonName : ValueObject
 
     protected PersonName() { }
 
-    public static Result<PersonName> Create(string name)
+    public static Result<PersonName?> Create(string? name)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             return DomainErrors.ContactPersonInformation.EmptyName;

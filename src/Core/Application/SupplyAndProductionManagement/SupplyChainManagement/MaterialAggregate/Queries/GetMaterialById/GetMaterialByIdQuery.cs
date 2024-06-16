@@ -3,6 +3,4 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 
-public sealed record GetMaterialByIdQuery(Guid Id) : IQuery<MaterialResponse>
-{
-}
+public sealed record GetMaterialByIdQuery(Guid Id) : IQuery<MaterialResponse?>;

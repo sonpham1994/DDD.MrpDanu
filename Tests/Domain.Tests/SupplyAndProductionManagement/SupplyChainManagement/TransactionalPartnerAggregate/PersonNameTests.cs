@@ -11,7 +11,7 @@ public class PersonNameTests
     [InlineData(" ")]
     [InlineData("")]
     [InlineData(null)]
-    public void Cannot_create_person_name_if_parameter_name_is_null_or_empty(string name)
+    public void Cannot_create_person_name_if_parameter_name_is_null_or_empty(string? name)
     {
         var result = PersonName.Create(name);
         result.IsSuccess.Should().BeFalse();
@@ -34,7 +34,7 @@ public class PersonNameTests
         var name = "this is my name";
         var result = PersonName.Create(name);
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(name);
+        result.Value!.Value.Should().Be(name);
     }
 
     [Fact]
@@ -43,6 +43,6 @@ public class PersonNameTests
         var name = "this is my name";
         var result = PersonName.Create($"  {name}  ");
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(name);
+        result.Value!.Value.Should().Be(name);
     }
 }

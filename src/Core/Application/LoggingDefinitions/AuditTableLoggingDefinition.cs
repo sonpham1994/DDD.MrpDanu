@@ -12,27 +12,27 @@ namespace Application.LoggingDefinitions;
  */
 internal static class AuditTableLoggingDefinition
 {
-    private static readonly Action<ILogger, string, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
-       LoggerMessage.Define<string, DateTime>(LogLevel.Information, 0,
+    private static readonly Action<ILogger, string?, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
+       LoggerMessage.Define<string?, DateTime>(LogLevel.Information, 0,
            "----- TraceId: {TraceId} - Log AuditTable start: Time: {@DateTimeUtc}");
 
-    private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLogAuditTableLoggingDefinition =
-       LoggerMessage.Define<string, DateTime, double>(LogLevel.Information, 0,
+    private static readonly Action<ILogger, string?, DateTime, double, Exception?> CompletedLogAuditTableLoggingDefinition =
+       LoggerMessage.Define<string?, DateTime, double>(LogLevel.Information, 0,
            "----- TraceId: {TraceId} - Log AuditTable completed: Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
-    private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLongLogAuditTableLoggingDefinition =
-        LoggerMessage.Define<string, DateTime, double>(LogLevel.Warning, 0,
+    private static readonly Action<ILogger, string?, DateTime, double, Exception?> CompletedLongLogAuditTableLoggingDefinition =
+        LoggerMessage.Define<string?, DateTime, double>(LogLevel.Warning, 0,
             "----- TraceId: {TraceId} - Log AuditTable completed in a long time: Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     public static void StartLogAuditTable(this ILogger logger)
     {
-        string traceId = Helper.GetTraceId();
+        var traceId = Helper.GetTraceId();
         StartLogAuditTableLoggingDefinition(logger, traceId, DateTime.UtcNow, null);
     }
 
     public static void CompletedLogAuditTable(this ILogger logger, double totalMilliseconds)
     {
-        string traceId = Helper.GetTraceId();
+        var traceId = Helper.GetTraceId();
         if (totalMilliseconds < 2000)
             CompletedLogAuditTableLoggingDefinition(logger, traceId, DateTime.UtcNow, totalMilliseconds, null);
         else

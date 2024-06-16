@@ -11,11 +11,11 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 //Other bounded contexts can use this value object to compare materials
 public class MaterialAttributes : ValueObject
 {
-    public string ColorCode { get; }
-    public string Width { get; }
-    public string Weight { get; }
-    public string Unit { get; }
-    public string Varian { get; }
+    public string ColorCode { get; } = default!;
+    public string Width { get; } = default!;
+    public string Weight { get; } = default!;
+    public string Unit { get; } = default!;
+    public string Varian { get; } = default!;
 
     protected MaterialAttributes() {}
     
@@ -29,11 +29,11 @@ public class MaterialAttributes : ValueObject
     }
 
     public static Result<MaterialAttributes?> Create(
-        string colorCode, 
-        string width, 
-        string weight, 
-        string unit, 
-        string varian)
+        string? colorCode, 
+        string? width, 
+        string? weight, 
+        string? unit, 
+        string? varian)
     {
         if (string.IsNullOrEmpty(width) || string.IsNullOrWhiteSpace(width))
             return DomainErrors.Material.EmptyWidth;
@@ -42,6 +42,9 @@ public class MaterialAttributes : ValueObject
         if (string.IsNullOrEmpty(varian) || string.IsNullOrWhiteSpace(varian))
             return DomainErrors.Material.EmptyVarian;
 
+        colorCode ??= string.Empty;
+        weight ??= string.Empty;
+        
         colorCode = colorCode.Trim();
         width = width.Trim();
         weight = weight.Trim();

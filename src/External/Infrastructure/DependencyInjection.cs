@@ -15,7 +15,6 @@ using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.MaterialWrite;
 using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Microsoft.Extensions.Logging;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
@@ -33,8 +32,8 @@ public static class DependencyInjection
             .AddDbInterceptors()
             .AddEventDispatcher()
             .AddDbContext(isProduction)
-            .AddWritesDI()
-            .AddReadsDI()
+            .AddWritesDi()
+            .AddReadsDi()
             .AddTransactions();
 
         return services;
@@ -57,14 +56,12 @@ public static class DependencyInjection
         services.AddScoped(sp =>
         {
             var databaseSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>();
-            var eventDispatcher = sp.GetRequiredService<EventDispatcher>();
             var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
             var insertAuditableEntitiesInterceptor = sp.GetRequiredService<InsertAuditableEntitiesSaveChangesInterceptor>();
             var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
 
             return new AppDbContext(databaseSettings,
                 isProduction,
-                eventDispatcher,
                 loggingDbCommandInterceptor,
                 enumerationSaveChangesInterceptor, insertAuditableEntitiesInterceptor);
         });
@@ -74,7 +71,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddWritesDI(this IServiceCollection services)
+    private static IServiceCollection AddWritesDi(this IServiceCollection services)
     {
         services.AddScoped<IMaterialRepository, MaterialEfRepository>();
         services.AddScoped<IMaterialReadonlyRepository, MaterialEfReadonlyRepository>();
@@ -94,7 +91,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddReadsDI(this IServiceCollection services)
+    private static IServiceCollection AddReadsDi(this IServiceCollection services)
     {
         //logging for dapper
         //https://stackoverflow.com/questions/18529965/is-there-any-way-to-trace-log-the-sql-using-dapper

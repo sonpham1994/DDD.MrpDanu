@@ -10,7 +10,7 @@ public class TaxNoTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Cannot_create_tax_no_with_empty_value(string taxNo)
+    public void Cannot_create_tax_no_with_empty_value(string? taxNo)
     {
         var result = TaxNo.Create(taxNo, Country.Korean);
 
@@ -47,7 +47,7 @@ public class TaxNoTests
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(taxNo);
+        result.Value!.Value.Should().Be(taxNo);
         result.Value.Country.Should().Be(Country.VietNam);
     }
 
@@ -58,7 +58,7 @@ public class TaxNoTests
         var result = TaxNo.Create(taxNo, Country.Korean);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(taxNo);
+        result.Value!.Value.Should().Be(taxNo);
         result.Value.Country.Should().Be(Country.Korean);
     }
 
@@ -69,7 +69,7 @@ public class TaxNoTests
         var result = TaxNo.Create($"  {taxNo}  ", Country.Korean);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Value.Should().Be(taxNo);
+        result.Value!.Value.Should().Be(taxNo);
         result.Value.Country.Should().Be(Country.Korean);
     }
 }

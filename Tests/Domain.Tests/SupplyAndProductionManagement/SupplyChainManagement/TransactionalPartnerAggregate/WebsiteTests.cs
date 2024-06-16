@@ -24,17 +24,7 @@ public class WebsiteTests
         result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidWebsite(website));
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
-    public void Create_null_website_with_null_or_empty_value_successfully(string website)
-    {
-        var result = Website.Create(website);
-
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(null);
-    }
+    
     
     [Fact]
     public void Cannot_create_website_with_exceeding_100_length()

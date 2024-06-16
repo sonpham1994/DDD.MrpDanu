@@ -4,11 +4,11 @@ namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 public class Product : AggregateRoot<ProductId>
 {
-    public string Code { get; private set; }
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public string Code { get; private set; } = default!;
+    public string Name { get; private set; } = default!;
+    public string Description { get; private set; } = default!;
     
-    public BoMId? BoMId { get; private set; }
+    public BoMId? BoMId { get; private set; } = default!;
     //public uint? BoMId { get; private set; }
     //public virtual BoM BoM { get; private set; }
 

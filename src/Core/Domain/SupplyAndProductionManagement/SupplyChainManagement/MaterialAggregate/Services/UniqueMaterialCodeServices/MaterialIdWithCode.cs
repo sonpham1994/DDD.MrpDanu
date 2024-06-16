@@ -5,6 +5,6 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 public class MaterialIdWithCode
 {
     public Guid Id { get; init; }
-    public string Code { get; init; }
+    public string Code { get; init; } = default!;
     public MaterialId MaterialId => (MaterialId)Id;
 }

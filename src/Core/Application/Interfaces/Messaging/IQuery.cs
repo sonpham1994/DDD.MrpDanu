@@ -3,6 +3,6 @@ using MediatR;
 
 namespace Application.Interfaces.Messaging;
 
-public interface IQuery<TResponse> : IRequest<Result<TResponse>>
-{
-}
+public interface IQuery<TResponse> : IRequest<Result<TResponse?>>;
+
+public interface IQueryList<TResponse> : IRequest<Result<IReadOnlyList<TResponse>>>;

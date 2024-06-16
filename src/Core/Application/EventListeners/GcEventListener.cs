@@ -4,18 +4,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.EventListeners;
 
-internal sealed class GCEventListener : EventListener
+internal sealed class GcEventListener : EventListener
 {
     private const string EventCounters = "EventCounters";
-    private const string KeyGCName = "Name";
-    private const string ValueGCName = "gc-";
-    private static int PreviousGen0Count = 0;
-    private static int PreviousGen1Count = 0;
-    private static int PreviousGen2Count = 0;
+    private const string KeyGcName = "Name";
+    private const string ValueGcName = "gc-";
+    private static int _previousGen0Count;
+    private static int _previousGen1Count;
+    private static int _previousGen2Count;
     
-    private readonly ILogger<GCEventListener> _logger;
+    private readonly ILogger<GcEventListener>? _logger;
 
-    public GCEventListener(ILogger<GCEventListener> logger)
+    public GcEventListener(ILogger<GcEventListener> logger)
     {
         _logger = logger;
     }
@@ -26,7 +26,7 @@ internal sealed class GCEventListener : EventListener
 
     protected override void OnEventWritten(EventWrittenEventArgs eventData)
     {
-        if (_logger == null)
+        if (_logger is null)
             return;
         
         // Check if the event is related to GC
@@ -38,10 +38,10 @@ internal sealed class GCEventListener : EventListener
             if (eventData.EventId == -1 
                 && !string.IsNullOrEmpty(eventData.EventName) 
                 && eventData.EventName == EventCounters
-                && eventData.Payload[0] is IDictionary<string, object> eventPayload
-                && eventPayload.TryGetValue(KeyGCName, out object gcNameObj)
+                && eventData.Payload![0] is IDictionary<string, object> eventPayload
+                && eventPayload.TryGetValue(KeyGcName, out object? gcNameObj)
                 && gcNameObj is string gcName
-                && gcName.Contains(ValueGCName))
+                && gcName.Contains(ValueGcName))
             {
                 /* the GcData has information like this:
                  [Name, gen-0-gc-count], [DisplayName, Gen 0 GC Count], [DisplayRateTimeScale, 00:01:00], [Increment, 2], [IntervalSec, 0.9916412], [Metadata, ], [Series, Interval=1000], [CounterType, Sum], [DisplayUnits, ]
@@ -74,19 +74,19 @@ internal sealed class GCEventListener : EventListener
             var currentGen1Count = GC.CollectionCount(1);
             var currentGen2Count = GC.CollectionCount(2);
             
-            if (currentGen0Count > PreviousGen0Count)
+            if (currentGen0Count > _previousGen0Count)
             {
-                PreviousGen0Count = currentGen0Count;
+                _previousGen0Count = currentGen0Count;
                 _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 0, currentGen0Count, eventData.TimeStamp);
             }
-            if (currentGen1Count > PreviousGen1Count)
+            if (currentGen1Count > _previousGen1Count)
             {
-                PreviousGen1Count = currentGen1Count;
+                _previousGen1Count = currentGen1Count;
                 _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 1, currentGen1Count, eventData.TimeStamp);
             }
-            if (currentGen2Count > PreviousGen2Count)
+            if (currentGen2Count > _previousGen2Count)
             {
-                PreviousGen2Count = currentGen2Count;
+                _previousGen2Count = currentGen2Count;
                 _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 2, currentGen2Count, eventData.TimeStamp);
             }
         }

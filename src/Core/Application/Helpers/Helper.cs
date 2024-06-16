@@ -4,7 +4,7 @@ namespace Application.Helpers;
 
 public class Helper
 {
-    public static string GetTraceId()
+    public static string? GetTraceId()
     {
         return Activity.Current?.Id;
     }

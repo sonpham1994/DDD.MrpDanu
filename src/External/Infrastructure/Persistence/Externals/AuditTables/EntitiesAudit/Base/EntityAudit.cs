@@ -10,12 +10,12 @@ namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 
 public abstract class EntityAudit
 {
-    public string Id { get; protected set; }
+    public string Id { get; protected set; } = default!;
 
     [JsonIgnore]
-    public string Content { get; protected set; }
+    public string Content { get; protected set; } = default!;
     [JsonIgnore]
-    public string ObjectName { get; protected set; }
+    public string ObjectName { get; protected set; } = default!;
 
     public abstract Result Serialize(EntityEntry entityEntry);
 

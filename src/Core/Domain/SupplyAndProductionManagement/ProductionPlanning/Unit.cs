@@ -4,7 +4,7 @@ namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 public class Unit : ValueObject
 {
-    private static readonly IReadOnlyCollection<decimal> validUnitDecimals = new decimal[7]
+    private static readonly IReadOnlyCollection<decimal> ValidUnitDecimals = new[]
     {
         0.3m, 
         0.003m, 
@@ -22,9 +22,9 @@ public class Unit : ValueObject
         Value = value;
     }
 
-    public static Result<Unit> Create(decimal value)
+    public static Result<Unit?> Create(decimal value)
     {
-        if (value <= 0 || (!decimal.IsInteger(value) && !validUnitDecimals.Contains(value))) 
+        if (value <= 0 || (!decimal.IsInteger(value) && !ValidUnitDecimals.Contains(value))) 
             return DomainErrors.BoMRevisionMaterial.InvalidUnit;
 
         return new Unit(value);

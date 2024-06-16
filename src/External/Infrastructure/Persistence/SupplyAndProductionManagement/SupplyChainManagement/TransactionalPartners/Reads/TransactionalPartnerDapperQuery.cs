@@ -7,18 +7,18 @@ using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManage
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads;
 
-internal sealed class TransactionalPartnerDapperQuery(IDbConnection _dbConnection) : ITransactionalPartnerQuery
+internal sealed class TransactionalPartnerDapperQuery(IDbConnection dbConnection) : ITransactionalPartnerQuery
 {
     public async Task<IReadOnlyList<SuppliersResponse>> GetSuppliersAsync(CancellationToken cancellationToken)
     {
-        var suppliers = await _dbConnection.GetSuppliersAsync(cancellationToken);
+        var suppliers = await dbConnection.GetSuppliersAsync(cancellationToken);
 
         return suppliers.ToResponse();
     }
 
     public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetTransactionalPartnersAsync(CancellationToken cancellationToken)
     {
-        var transactionalPartners = await _dbConnection.GetTransactionalPartnersAsync(cancellationToken);
+        var transactionalPartners = await dbConnection.GetTransactionalPartnersAsync(cancellationToken);
 
         return transactionalPartners.AsTransactionalPartnersResponse();
     }
@@ -26,7 +26,7 @@ internal sealed class TransactionalPartnerDapperQuery(IDbConnection _dbConnectio
     public async Task<TransactionalPartnerResponse?> GetTransactionalPartnerByIdAsync(Guid id,
         CancellationToken cancellationToken)
     {
-        var transactionalPartner = await _dbConnection.GetTransactionalPartnerByIdAsync(id, cancellationToken);
+        var transactionalPartner = await dbConnection.GetTransactionalPartnerByIdAsync(id, cancellationToken);
 
         return transactionalPartner.ToResponse();
     }

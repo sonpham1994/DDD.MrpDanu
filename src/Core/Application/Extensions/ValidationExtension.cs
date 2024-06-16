@@ -21,12 +21,12 @@ internal static class ValidationExtension
 
     public static IRuleBuilderOptions<T, TElement> MustBeValueObject<T, TElement, TValueObject>(
         this IRuleBuilder<T, TElement> ruleBuilder,
-        Func<TElement, Result<TValueObject>> factoryMethod)
+        Func<TElement, Result<TValueObject?>> factoryMethod)
         where TValueObject : ValueObject
     {
         return (IRuleBuilderOptions<T, TElement>)ruleBuilder.Custom((value, context) =>
         {
-            Result<TValueObject> result = factoryMethod(value);
+            Result<TValueObject?> result = factoryMethod(value);
 
             if (!result.IsSuccess)
             {
@@ -53,13 +53,13 @@ internal static class ValidationExtension
     
     public static IRuleBuilderOptions<T, TElement> MustBeEntityGuidStronglyTypedId<T, TElement, TEntity, TId>(
         this IRuleBuilder<T, TElement> ruleBuilder,
-        Func<TElement, Result<TEntity>> factoryMethod)
+        Func<TElement, Result<TEntity?>> factoryMethod)
         where TEntity : EntityGuidStronglyTypedId<TId>
         where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
     {
         return (IRuleBuilderOptions<T, TElement>)ruleBuilder.Custom((value, context) =>
         {
-            Result<TEntity> result = factoryMethod(value);
+            Result<TEntity?> result = factoryMethod(value);
 
             if (!result.IsSuccess)
             {
@@ -70,12 +70,12 @@ internal static class ValidationExtension
 
     public static IRuleBuilderOptions<T, TElement> MustBeEnumeration<T, TElement, TEnumeration>(
        this IRuleBuilder<T, TElement> ruleBuilder,
-       Func<TElement, Result<TEnumeration>> factoryMethod)
+       Func<TElement, Result<TEnumeration?>> factoryMethod)
        where TEnumeration : Enumeration<TEnumeration>
     {
         return (IRuleBuilderOptions<T, TElement>)ruleBuilder.Custom((value, context) =>
         {
-            Result<TEnumeration> result = factoryMethod(value);
+            Result<TEnumeration?> result = factoryMethod(value);
 
             if (!result.IsSuccess)
             {

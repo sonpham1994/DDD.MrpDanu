@@ -4,7 +4,6 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.Transactio
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.Enumerations;
-using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads.Extensions;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads.Models;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads.Extensions;
@@ -17,7 +16,7 @@ namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainMa
 internal static class MappingExtension
 {
     public static IReadOnlyList<SuppliersResponse> ToResponse(this IEnumerable<SuppliersReadModel> suppliersReadModel)
-        => suppliersReadModel.Select(x => new SuppliersResponse(x.Id, x.Name, CurrencyType.FromId(x.CurrencyTypeId).Value.Name)).ToList();
+        => suppliersReadModel.Select(x => new SuppliersResponse(x.Id, x.Name, CurrencyType.FromId(x.CurrencyTypeId).Value!.Name)).ToList();
 
     public static IReadOnlyList<TransactionalPartnersResponse> AsTransactionalPartnersResponse(
         this IEnumerable<TransactionalPartnersReadModel> transactionalPartnersReadModel)
@@ -27,8 +26,8 @@ internal static class MappingExtension
                     x.Name,
                     x.TaxNo,
                     x.Website,
-                    TransactionalPartnerType.FromId(x.TransactionalPartnerTypeId).Value.Name,
-                    CurrencyType.FromId(x.CurrencyTypeId).Value.Name
+                    TransactionalPartnerType.FromId(x.TransactionalPartnerTypeId).Value!.Name,
+                    CurrencyType.FromId(x.CurrencyTypeId).Value!.Name
                 )).ToList();
 
     public static TransactionalPartnerResponse? ToResponse(
@@ -39,16 +38,16 @@ internal static class MappingExtension
             return result;
 
         var transactionalPartnerTypeResponse = TransactionalPartnerType
-            .FromId(transactionalPartnerReadModel.TransactionalPartnerTypeId).Value
+            .FromId(transactionalPartnerReadModel.TransactionalPartnerTypeId).Value!
             .ToResponse();
         var currencyTypeResponse = CurrencyType
-            .FromId(transactionalPartnerReadModel.CurrencyTypeId).Value
+            .FromId(transactionalPartnerReadModel.CurrencyTypeId).Value!
             .ToResponse();
         var countryResponse = Country
-            .FromId(transactionalPartnerReadModel.CountryId).Value
+            .FromId(transactionalPartnerReadModel.CountryId).Value!
             .ToResponse();
         var locationTypeResponse = LocationType
-            .FromId(transactionalPartnerReadModel.LocationTypeId).Value
+            .FromId(transactionalPartnerReadModel.LocationTypeId).Value!
             .ToResponse();
         var addressResponse = new AddressResponse
             (

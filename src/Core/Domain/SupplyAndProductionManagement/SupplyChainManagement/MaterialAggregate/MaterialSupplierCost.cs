@@ -8,9 +8,9 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 
 public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCostId>
 {
-    public Money Surcharge { get; private set; }
+    public Money Surcharge { get; private set; } = default!;
     public uint MinQuantity { get; private set; }
-    public Money Price { get; private set; }
+    public Money Price { get; private set; } = default!;
 
     /*
         * DDDAndEFCore_Myexercise/3.WorkingWithManyToOneRelationships/3.5.TypesOfRelationShipses
@@ -24,7 +24,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
     //public Material Material { get; }
     //public virtual TransactionalPartner TransactionalPartner { get; private set; }
 
-    public MaterialSupplierIdentity MaterialSupplierIdentity { get; private set; }
+    public MaterialSupplierIdentity MaterialSupplierIdentity { get; private set; } = default!;
 
     //required EF Proxies
     protected MaterialSupplierCost() { }

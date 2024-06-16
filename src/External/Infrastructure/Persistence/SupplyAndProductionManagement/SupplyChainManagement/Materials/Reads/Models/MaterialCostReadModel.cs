@@ -10,6 +10,6 @@ internal sealed record MaterialCostReadModel : IReadModel
     public decimal Price { get; init; }
 
     public Guid SupplierId { get; init; }
-    public string SupplierName { get; init; }
+    public string SupplierName { get; init; } = default!;
     public byte CurrencyTypeId { get; init; }
 }

@@ -3,4 +3,4 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 
-public sealed record GetSuppliersQuery : IQuery<IReadOnlyList<SuppliersResponse>>;
+public sealed record GetSuppliersQuery : IQueryList<SuppliersResponse>;

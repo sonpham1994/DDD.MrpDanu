@@ -10,7 +10,7 @@ public class ContactInformationTests
     [InlineData("", "")]
     [InlineData(" ", " ")]
     [InlineData(null, null)]
-    public void Cannot_create_contact_info_with_empty_contact_info(string telNo, string email)
+    public void Cannot_create_contact_info_with_empty_contact_info(string? telNo, string? email)
     {
         var result = ContactInformation.Create(telNo, email);
         result.IsSuccess.Should().BeFalse();
@@ -61,7 +61,7 @@ public class ContactInformationTests
         var result = ContactInformation.Create(telNo, email);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Email.Should().Be(email);
+        result.Value!.Email.Should().Be(email);
         result.Value.TelNo.Should().Be(telNo);
     }
 
@@ -73,30 +73,30 @@ public class ContactInformationTests
         var result = ContactInformation.Create(telNo, email);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Email.Should().Be(email);
+        result.Value!.Email.Should().Be(email);
         result.Value.TelNo.Should().Be(telNo);
     }
 
     [Theory]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Tel_no_should_not_store_null_or_white_space_data(string telNo)
+    public void Tel_no_should_not_store_null_or_white_space_data(string? telNo)
     {
         var result = ContactInformation.Create(telNo, "abcxyz@gmail.com");
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.TelNo.Should().Be(string.Empty);
+        result.Value!.TelNo.Should().Be(string.Empty);
     }
 
     [Theory]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Email_should_not_store_null_or_white_space_data(string email)
+    public void Email_should_not_store_null_or_white_space_data(string? email)
     {
         var result = ContactInformation.Create("123456789", email);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Email.Should().Be(string.Empty);
+        result.Value!.Email.Should().Be(string.Empty);
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class ContactInformationTests
         var result = ContactInformation.Create($"  {telNo}  ", $"  {email}  ");
 
         result.IsSuccess.Should().BeTrue();
-        result.Value.Email.Should().Be(email);
+        result.Value!.Email.Should().Be(email);
         result.Value.TelNo.Should().Be(telNo);
     }
 }

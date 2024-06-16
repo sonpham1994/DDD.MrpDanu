@@ -13,7 +13,7 @@ public class RegionalMarket : Enumeration<RegionalMarket>
     public static readonly RegionalMarket UK = new(7, nameof(UK), "the United Kingdom");
     public static readonly RegionalMarket Florida = new(8, nameof(Florida), "Florida");
 
-    public string Code { get; }
+    public string Code { get; } = default!;
     
     protected RegionalMarket() {}
     

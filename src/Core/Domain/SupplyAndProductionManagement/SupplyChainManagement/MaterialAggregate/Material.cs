@@ -13,11 +13,11 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     private static byte MaxNumberOfMaterialCosts => 20;
     private readonly List<MaterialSupplierCost> _materialSupplierCosts = new(MaxNumberOfMaterialCosts);
 
-    public MaterialCode Code { get; private set; }
-    public MaterialName Name { get; private set; }
-    public MaterialAttributes Attributes { get; private set; }
-    public MaterialType MaterialType { get; private set; }
-    public RegionalMarket RegionalMarket { get; private set; }
+    public MaterialCode Code { get; private set; } = default!;
+    public MaterialName Name { get; private set; } = default!;
+    public MaterialAttributes Attributes { get; private set; } = default!;
+    public MaterialType MaterialType { get; private set; } = default!;
+    public RegionalMarket RegionalMarket { get; private set; } = default!;
 
     public virtual IReadOnlyList<MaterialSupplierCost> MaterialSupplierCosts =>
         _materialSupplierCosts.ToList();

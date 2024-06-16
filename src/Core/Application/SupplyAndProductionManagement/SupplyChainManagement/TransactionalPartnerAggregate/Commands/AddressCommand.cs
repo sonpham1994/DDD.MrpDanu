@@ -2,10 +2,10 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Transa
 
 public sealed record AddressCommand
 {
-    public string Street { get; init; }
-    public string City { get; init; }
-    public string District { get; init; }
-    public string Ward { get; init; }
-    public string ZipCode { get; init; }
+    public string Street { get; init; } = default!;
+    public string City { get; init; } = default!;
+    public string District { get; init; } = default!;
+    public string Ward { get; init; } = default!;
+    public string ZipCode { get; init; } = default!;
     public byte CountryId { get; init; }
 }

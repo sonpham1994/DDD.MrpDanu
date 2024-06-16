@@ -1,31 +1,30 @@
 ﻿using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class TransactionalPartner : AggregateRootGuidStronglyTypedId<TransactionalPartnerId>
 {
-    public CompanyName Name { get; private set; }
+    public CompanyName Name { get; private set; } = default!;
 
     //TaxNo and Address may should be exist in the same ValueObject. Because whenever we modify state, it may result
     //in modifying Country, which makes the TaxNo incorrect. So the problem is that, can we put the value object in 
     //another value object?
-    public TaxNo TaxNo { get; private set; }
+    public TaxNo TaxNo { get; private set; } = default!;
 
     //if a company change address, it means the company move to another location. If two companies have the same
     //address, it means these two companies locate on the same building but they are different floors, for example
-    public Address Address { get; private set; }
+    public Address Address { get; private set; } = default!;
 
     //should website is a ValueObject? Website is not required so if we introduce ValueObject for Website, it means WebsiteValueObject
     //can be empty? -> we can treat ValueObject as null and Value Conversion skill skip factory method if null data
-    public Website? Website { get; private set; }
+    public Website? Website { get; private set; } = default!;
 
-    public virtual ContactPersonInformation ContactPersonInformation { get; private set; }
-    public TransactionalPartnerType TransactionalPartnerType { get; private set; }
-    public CurrencyType CurrencyType { get; private set; }
-    public LocationType LocationType { get; private set; }
+    public virtual ContactPersonInformation ContactPersonInformation { get; private set; } = default!;
+    public TransactionalPartnerType TransactionalPartnerType { get; private set; } = default!;
+    public CurrencyType CurrencyType { get; private set; } = default!;
+    public LocationType LocationType { get; private set; } = default!;
 
     //required EF Proxies
     protected TransactionalPartner() { }
@@ -49,9 +48,9 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         LocationType = location;
     }
 
-    public static Result<TransactionalPartner> Create(CompanyName name,
+    public static Result<TransactionalPartner?> Create(CompanyName name,
         TaxNo taxNo,
-        Website? website,
+        string? sWebsite,
         PersonName personName,
         ContactInformation contactInfo,
         Address address,
@@ -63,14 +62,18 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         if (!result.IsSuccess)
             return result.Error;
 
+        var websiteResult = CreateWebsite(sWebsite);
+        if (!websiteResult.IsSuccess)
+            return websiteResult.Error;
+
         var contactPersonInfo = new ContactPersonInformation(personName, contactInfo);
-        return new TransactionalPartner(name, taxNo, website, contactPersonInfo, address, type,
+        return new TransactionalPartner(name, taxNo, websiteResult.Value, contactPersonInfo, address, type,
             currency, location);
     }
 
     public Result Update(CompanyName name,
         TaxNo taxNo,
-        Website? website,
+        string? sWebsite,
         Address address,
         TransactionalPartnerType type,
         CurrencyType currency,
@@ -79,10 +82,13 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
         var result = CanExecuteCreateOrUpdate(address, currency, location);
         if (!result.IsSuccess)
             return result;
+        var websiteResult = CreateWebsite(sWebsite);
+        if (!websiteResult.IsSuccess)
+            return websiteResult.Error;
 
         Name = name;
         TaxNo = taxNo;
-        Website = website;
+        Website = websiteResult.Value;
         Address = address;
         TransactionalPartnerType = type;
         CurrencyType = currency;
@@ -94,6 +100,24 @@ public class TransactionalPartner : AggregateRootGuidStronglyTypedId<Transaction
     public void UpdateContactPersonInfo(PersonName personName, ContactInformation contactInfo)
     {
         ContactPersonInformation.SetContactPersonInfo(personName, contactInfo);
+    }
+
+    private static Result<Website?> CreateWebsite(string? sWebsite)
+    {
+        //note: whether the website is null or not, it will be decided based on bounded context or aggregates. For ex,
+        // the TransactionalPartner allow null WebSite, while another aggregate does not allow null Website. Hence,
+        // null or not null ValueObject based on bounded context or aggregates.
+        Website? website = default;
+        if (!string.IsNullOrEmpty(sWebsite) && !string.IsNullOrWhiteSpace(sWebsite))
+        {
+            var websiteResult = Website.Create(sWebsite);
+            if (!websiteResult.IsSuccess)
+                return websiteResult.Error;
+            
+            website = websiteResult.Value;
+        }
+
+        return website;
     }
 
     private static Result CanExecuteCreateOrUpdate(Address address,

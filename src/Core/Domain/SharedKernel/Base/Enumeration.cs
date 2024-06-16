@@ -11,7 +11,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
     public static IReadOnlyCollection<T> List => list;
 
     public byte Id { get; }
-    public string Name { get; }
+    public string Name { get; } = default!;
 
     protected Enumeration() { }
 

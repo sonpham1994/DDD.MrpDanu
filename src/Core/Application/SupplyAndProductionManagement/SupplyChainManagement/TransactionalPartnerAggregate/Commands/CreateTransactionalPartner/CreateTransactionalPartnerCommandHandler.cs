@@ -10,13 +10,13 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.Transactio
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
 internal sealed class CreateTransactionalPartnerCommandHandler(
-    ITransactionalPartnerRepository _transactionalPartnerRepository,
-    ITransactionalPartnerReadonlyRepository _transactionalPartnerQueryForWrite,
-    IUnitOfWork _unitOfWork) : ICommandHandler<CreateTransactionalPartnerCommand>
+    ITransactionalPartnerRepository transactionalPartnerRepository,
+    ITransactionalPartnerReadonlyRepository transactionalReadonlyRepository,
+    IUnitOfWork unitOfWork) : ICommandHandler<CreateTransactionalPartnerCommand>
 {
     public async Task<Result> Handle(CreateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
-        var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value;
+        var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value!;
 
         /*
          * for uniqueContact We delegate a part of invariant of Domain to Application layer. In DDD trilemma (CAP), we
@@ -36,26 +36,25 @@ internal sealed class CreateTransactionalPartnerCommandHandler(
          *  We will put the existing contact info on query side, because this method don't need to return aggregate root, just
          *  checking contact info and return boolean data type. This approach will make your repositories clean 
          */
-        if (await _transactionalPartnerQueryForWrite.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
+        if (await transactionalReadonlyRepository.ExistByContactInfoAsync(contactInfo.Email, contactInfo.TelNo, cancellationToken))
             return DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken;
 
-        var country = Country.FromId(request.Address.CountryId).Value;
-        var taxNo = TaxNo.Create(request.TaxNo, country).Value;
-        var companyName = CompanyName.Create(request.Name).Value;
-        var personName = PersonName.Create(request.ContactPersonName).Value;
-        var location = LocationType.FromId(request.LocationTypeId).Value;
+        var country = Country.FromId(request.Address!.CountryId).Value!;
+        var taxNo = TaxNo.Create(request.TaxNo, country).Value!;
+        var companyName = CompanyName.Create(request.Name).Value!;
+        var personName = PersonName.Create(request.ContactPersonName).Value!;
+        var location = LocationType.FromId(request.LocationTypeId).Value!;
         var address = Address.Create(request.Address.Street, request.Address.City, request.Address.District,
-            request.Address.Ward, request.Address.ZipCode, country).Value;
-        var website = Website.Create(request.Website).Value;
-        var transactionalPartnerType = TransactionalPartnerType.FromId(request.TransactionalPartnerTypeId).Value;
-        var currencyType = CurrencyType.FromId(request.CurrencyTypeId).Value;
+            request.Address.Ward, request.Address.ZipCode, country).Value!;
+        var transactionalPartnerType = TransactionalPartnerType.FromId(request.TransactionalPartnerTypeId).Value!;
+        var currencyType = CurrencyType.FromId(request.CurrencyTypeId).Value!;
 
-        var transactionalPartner = TransactionalPartner.Create(companyName, taxNo, website,
+        var transactionalPartner = TransactionalPartner.Create(companyName, taxNo, request.Website,
             personName, contactInfo, address,
-            transactionalPartnerType, currencyType, location).Value;
+            transactionalPartnerType, currencyType, location).Value!;
 
-        _transactionalPartnerRepository.Save(transactionalPartner);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        transactionalPartnerRepository.Save(transactionalPartner);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

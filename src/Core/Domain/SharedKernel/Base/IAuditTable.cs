@@ -45,9 +45,9 @@ public interface IAuditTableForSolution2
  */
 public abstract class AuditTableForSolution2_1
 {
-    public string Id { get; protected set; }
-    public string Content { get; protected set; }
-    public string ObjectName { get; protected set; } 
+    public string Id { get; protected set; } = default!;
+    public string Content { get; protected set; }= default!;
+    public string ObjectName { get; protected set; } = default!;
     public abstract Result<AuditTableForSolution2_1> Serialize<T>(T data); // we can use EntityEntry as parameter and put this abstract into Infrastructure instead
 
     // if we can put this factory design pattern here and put this abstract outside of domain model, it means this will reside in Infrastructure 

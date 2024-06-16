@@ -15,10 +15,10 @@ internal static class MappingExtension
     public static MaterialResponse ToResponse(this MaterialReadModel materialReadModel)
     {
         var materialTypeResponse = MaterialType
-            .FromId(materialReadModel.MaterialTypeId).Value
+            .FromId(materialReadModel.MaterialTypeId).Value!
             .ToResponse();
         var regionalMarketResponse = RegionalMarket
-            .FromId(materialReadModel.RegionalMarketId).Value
+            .FromId(materialReadModel.RegionalMarketId).Value!
             .ToResponse();
 
         var result = new MaterialResponse
@@ -43,7 +43,7 @@ internal static class MappingExtension
         this IEnumerable<MaterialCostReadModel> materialCostReadModel)
         => materialCostReadModel.Select(x =>
         {
-            string currencyTypeName = CurrencyType.FromId(x.CurrencyTypeId).Value.Name;
+            string currencyTypeName = CurrencyType.FromId(x.CurrencyTypeId).Value!.Name;
             var supplierResponse = new SuppliersResponse(x.SupplierId, x.SupplierName, currencyTypeName);
 
             return new MaterialCostManagementResponse(
@@ -64,8 +64,8 @@ internal static class MappingExtension
             x.Weight,
             x.Unit,
             x.Varian,
-            RegionalMarket.FromId(x.RegionalMarketId).Value.Name,
-            MaterialType.FromId(x.MaterialTypeId).Value.Name
+            RegionalMarket.FromId(x.RegionalMarketId).Value!.Name,
+            MaterialType.FromId(x.MaterialTypeId).Value!.Name
         )).ToList();
 
 

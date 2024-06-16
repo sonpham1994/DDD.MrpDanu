@@ -6,8 +6,8 @@ namespace Infrastructure.Persistence.LoggingDefinitions;
 
 internal static class LoggingDbCommandInterceptorLoggingDefinition
 {
-    private static readonly Action<ILogger, string, string, double, ParameterDbCommand[], DateTime, string, Exception?> StartLogDbCommandLoggingDefinition =
-       LoggerMessage.Define<string, string, double, ParameterDbCommand[], DateTime, string>
+    private static readonly Action<ILogger, string?, string, double, ParameterDbCommand[], DateTime, string, Exception?> StartLogDbCommandLoggingDefinition =
+       LoggerMessage.Define<string?, string, double, ParameterDbCommand[], DateTime, string>
         (
            LogLevel.Information,
            0,
@@ -15,8 +15,8 @@ internal static class LoggingDbCommandInterceptorLoggingDefinition
           Command: {CommandText})"
         );
 
-    private static readonly Action<ILogger, string, string, double, ParameterDbCommand[], DateTime, string, Exception?> StartLogLongDbCommandLoggingDefinition =
-      LoggerMessage.Define<string, string, double, ParameterDbCommand[], DateTime, string>
+    private static readonly Action<ILogger, string?, string, double, ParameterDbCommand[], DateTime, string, Exception?> StartLogLongDbCommandLoggingDefinition =
+      LoggerMessage.Define<string?, string, double, ParameterDbCommand[], DateTime, string>
        (
           LogLevel.Warning,
           0,
@@ -30,7 +30,7 @@ internal static class LoggingDbCommandInterceptorLoggingDefinition
         ParameterDbCommand[] parameters, 
         string commandText)
     {
-        string traceId = Helper.GetTraceId();
+        var traceId = Helper.GetTraceId();
         StartLogDbCommandLoggingDefinition(logger, traceId, methodName, durationInMilliSeconds, parameters, DateTime.UtcNow, commandText, null);
     }
 
@@ -40,7 +40,7 @@ internal static class LoggingDbCommandInterceptorLoggingDefinition
         ParameterDbCommand[] parameters,
         string commandText)
     {
-        string traceId = Helper.GetTraceId();
+        var traceId = Helper.GetTraceId();
         StartLogLongDbCommandLoggingDefinition(logger, traceId, methodName, durationInMilliSeconds, parameters, DateTime.UtcNow, commandText, null);
     }
 }

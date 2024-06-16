@@ -16,7 +16,7 @@ public class BoMRevisionCode : ValueObject
         Value = value;
     }
 
-    public Result<BoMRevisionCode> Create(BoMCode boMCode, BoMRevisionId boMRevisionId)
+    public Result<BoMRevisionCode?> Create(BoMCode boMCode, BoMRevisionId boMRevisionId)
     {
         if (boMRevisionId.Value == 0)
             return DomainErrors.BoMRevision.InvalidId(boMRevisionId.Value);

@@ -15,8 +15,8 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
     [Column(TypeName = "tinyint")]
     public new byte Id { get; private set; }
 
-    [Column(TypeName = "varchar(50)")]
-    public new string Name { get; private set; }
+    [Column(TypeName = "varchar(50)")] 
+    public new string Name { get; private set; } = default!;
     private StateAuditTable(byte id, string name) : base(id, name)
     {
         Id = id;
@@ -31,7 +31,7 @@ internal sealed class StateAuditTable : Enumeration<StateAuditTable>
 
     private StateAuditTable() { }
 
-    public static Result<StateAuditTable> FromEntityState(EntityEntry entity)
+    public static Result<StateAuditTable?> FromEntityState(EntityEntry entity)
     {
         var entityState = entity.State;
         var state = entityState switch

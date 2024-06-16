@@ -5,11 +5,11 @@ using Application.Interfaces.Reads;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 
-internal sealed class GetMaterialByIdQueryHandler(IMaterialQuery _materialQuery) : IQueryHandler<GetMaterialByIdQuery, MaterialResponse>
+internal sealed class GetMaterialByIdQueryHandler(IMaterialQuery materialQuery) : IQueryHandler<GetMaterialByIdQuery, MaterialResponse>
 {
-    public async Task<Result<MaterialResponse>> Handle(GetMaterialByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<MaterialResponse?>> Handle(GetMaterialByIdQuery request, CancellationToken cancellationToken)
     {
-        var material = await _materialQuery.GetByIdAsync(request.Id, cancellationToken);
+        var material = await materialQuery.GetByIdAsync(request.Id, cancellationToken);
 
         if (material is null)
             return DomainErrors.Material.MaterialIdNotFound(request.Id);

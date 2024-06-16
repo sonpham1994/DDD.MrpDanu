@@ -13,12 +13,12 @@ internal sealed class GCHandlerLoggingInterceptor<TRequest, TResponse> : IPipeli
     where TResponse : IResult
 {
     private readonly ILogger<GCHandlerLoggingInterceptor<TRequest, TResponse>> _logger;
-    private readonly ILogger<GCEventListener> _loggerGCEventListener;
+    private readonly ILogger<GcEventListener> _loggerGCEventListener;
     private readonly IRequestHandler<TRequest, TResponse> _requestHandler;
 
     public GCHandlerLoggingInterceptor(IRequestHandler<TRequest, TResponse> requestHandler,
         ILogger<GCHandlerLoggingInterceptor<TRequest, TResponse>> logger,
-        ILogger<GCEventListener> loggerGCEventListener)
+        ILogger<GcEventListener> loggerGCEventListener)
     {
         _requestHandler = requestHandler;
         _logger = logger;
@@ -28,7 +28,7 @@ internal sealed class GCHandlerLoggingInterceptor<TRequest, TResponse> : IPipeli
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        using var gcEventListener = new GCEventListener(_loggerGCEventListener);
+        using var gcEventListener = new GcEventListener(_loggerGCEventListener);
         var handlerName = _requestHandler.GetType().Name;
         var requestTypeName = typeof(TRequest).Name;
 
@@ -41,7 +41,7 @@ internal sealed class GCHandlerLoggingInterceptor<TRequest, TResponse> : IPipeli
 
         var response = await next();
 
-        _logger.GCGenerationLogging(handlerName, requestTypeName, previousGen0Count, previousGen1Count,
+        _logger.GcGenerationLogging(handlerName, requestTypeName, previousGen0Count, previousGen1Count,
             previousGen2Count);
 
         var delta = Stopwatch.GetElapsedTime(start);

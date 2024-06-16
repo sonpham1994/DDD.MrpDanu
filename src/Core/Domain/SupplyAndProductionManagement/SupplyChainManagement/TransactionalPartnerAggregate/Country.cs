@@ -1,5 +1,4 @@
 using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -12,7 +11,7 @@ public class Country : Enumeration<Country>
     public static readonly Country Korean = new(5, "KR", "Korean");
     public static readonly Country Malaysia = new(6, "MY", "Malaysia");
 
-    public string Code { get; }
+    public string Code { get; } = default!;
 
     private Country(in byte id, string code, string name) : base(id, name)
     {

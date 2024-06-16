@@ -3,7 +3,6 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 using FluentValidation;
 using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 

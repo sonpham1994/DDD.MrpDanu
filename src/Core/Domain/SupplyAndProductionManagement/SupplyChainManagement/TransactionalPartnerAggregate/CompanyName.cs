@@ -1,12 +1,11 @@
 using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class CompanyName : ValueObject
 {
     private static ushort CompanyNameMaxLength => 300;
-    public string Value { get; }
+    public string Value { get; } = default!;
 
     private CompanyName(string name)
     {
@@ -15,7 +14,7 @@ public class CompanyName : ValueObject
 
     protected CompanyName() { }
 
-    public static Result<CompanyName> Create(string name)
+    public static Result<CompanyName?> Create(string? name)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             return DomainErrors.TransactionalPartner.EmptyName;

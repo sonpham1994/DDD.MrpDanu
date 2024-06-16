@@ -9,11 +9,11 @@ public class AddressTests
 {
     [Theory]
     [MemberData(nameof(GetNullOrEmptyOfMandatoryProperties))]
-    public void Mandatory_parameters_should_not_be_null_or_empty(string street,
-        string city,
-        string district,
-        string ward,
-        string zipCode,
+    public void Mandatory_parameters_should_not_be_null_or_empty(string? street,
+        string? city,
+        string? district,
+        string? ward,
+        string? zipCode,
         DomainError error)
     {
         var address = Address.Create(street, city, district, ward, zipCode, Country.VietNam);
@@ -53,7 +53,7 @@ public class AddressTests
             zipCode,
             Country.VietNam);
         address.IsSuccess.Should().BeTrue();
-        address.Value.Street.Should().Be(street);
+        address.Value!.Street.Should().Be(street);
         address.Value.City.Should().Be(city);
         address.Value.District.Should().Be(district);
         address.Value.Ward.Should().Be(ward);
@@ -78,48 +78,48 @@ public class AddressTests
             Country.VietNam);
 
         address.IsSuccess.Should().BeTrue();
-        address.Value.Street.Should().Be(street);
+        address.Value!.Street.Should().Be(street);
         address.Value.City.Should().Be(city);
         address.Value.District.Should().Be(district);
         address.Value.Ward.Should().Be(ward);
         address.Value.ZipCode.Should().Be(zipCode);
     }
 
-    public static IEnumerable<object[]> GetNullOrEmptyOfMandatoryProperties()
+    public static IEnumerable<object?[]> GetNullOrEmptyOfMandatoryProperties()
     {
-        yield return new object[]
+        yield return new object?[]
             { " ", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
-        yield return new object[]
+        yield return new object?[]
             { "", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
-        yield return new object[]
+        yield return new object?[]
             { null, "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
 
-        yield return new object[]
+        yield return new object?[]
             { "street", " ", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
-        yield return new object[]
+        yield return new object?[]
             { "street", "", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
-        yield return new object[]
+        yield return new object?[]
             { "street", null, "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
 
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", " ", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", null, "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
 
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "district", " ", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "district", "", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "district", null, "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
 
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "district", "ward", " ", DomainErrors.TransactionalPartner.EmptyAddressZipCode };
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "district", "ward", "", DomainErrors.TransactionalPartner.EmptyAddressZipCode };
-        yield return new object[]
+        yield return new object?[]
             { "street", "city", "district", "ward", null, DomainErrors.TransactionalPartner.EmptyAddressZipCode };
     }
 }

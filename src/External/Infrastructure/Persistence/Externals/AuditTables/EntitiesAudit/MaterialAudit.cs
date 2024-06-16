@@ -12,16 +12,16 @@ namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit;
 
 public sealed class MaterialAudit : EntityAudit
 {
-    public string Code { get; private set; }
-    public string Name { get; private set; }
-    public string ColorCode { get; private set; }
-    public string Width { get; private set; }
-    public string Weight { get; private set; }
-    public string Unit { get; private set; }
-    public string Varian { get; private set; }
-    public MaterialType MaterialType { get; private set; }
-    public RegionalMarket RegionalMarket { get; private set; }
-    public List<MaterialSupplierCostAudit> MaterialSupplierCosts { get; private set; }
+    public string Code { get; private set; } = default!;
+    public string Name { get; private set; }= default!;
+    public string ColorCode { get; private set; }= default!;
+    public string Width { get; private set; }= default!;
+    public string Weight { get; private set; }= default!;
+    public string Unit { get; private set; }= default!;
+    public string Varian { get; private set; }= default!;
+    public MaterialType MaterialType { get; private set; }= default!;
+    public RegionalMarket RegionalMarket { get; private set; }= default!;
+    public List<MaterialSupplierCostAudit> MaterialSupplierCosts { get; private set; } = default!;
     public override Result Serialize(EntityEntry entityEntry)
     {
         var entity = entityEntry.Entity;

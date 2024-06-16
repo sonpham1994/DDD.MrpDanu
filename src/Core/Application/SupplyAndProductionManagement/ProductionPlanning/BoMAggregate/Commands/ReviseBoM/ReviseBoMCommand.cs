@@ -4,8 +4,8 @@ namespace Application.ProductionPlanning.BoMAggregate.Commands.ReviseBoM;
 
 public sealed record ReviseBoMCommand : ICommand
 {
-    public IReadOnlyList<BoMMaterialCommand> BoMMaterials = new List<BoMMaterialCommand>();
-    public string Confirmation { get; init; }
+    public IReadOnlyList<BoMMaterialCommand> BoMMaterials = [];
+    public string Confirmation { get; init; } = default!;
 }
 
 public sealed record BoMMaterialCommand : ICommand

@@ -5,11 +5,11 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Transa
 public sealed record CreateTransactionalPartnerCommand(
     string Name,
     string TaxNo,
-    string Website,
+    string? Website,
     string ContactPersonName,
     string TelNo,
     string Email,
-    AddressCommand Address,
+    AddressCommand? Address,
     byte TransactionalPartnerTypeId,
     byte CurrencyTypeId,
     byte LocationTypeId) : ICommand;

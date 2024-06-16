@@ -11,7 +11,7 @@ public static partial class ItemDuplication
         where T : class, IEntity
         where TProperty : IEntity
     {
-        TProperty? result = default;
+        TProperty? result;
         if (enumerable is List<T> lst)
         {
             result = GetEntityDuplication(lst, predicate);
@@ -39,7 +39,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static TProperty GetEntityDuplication<T, TProperty>(
+    public static TProperty? GetEntityDuplication<T, TProperty>(
         this T[] array, 
         Func<T, TProperty> predicate)
         where T : IEntity
@@ -77,7 +77,7 @@ public static partial class ItemDuplication
     public static T? GetEntityDuplication<T>(this IEnumerable<T?> enumerable)
         where T : IEntity
     {
-        T? result = default;
+        T? result;
         if (enumerable is List<T> lst)
         {
             result = GetEntityDuplication(lst!);
@@ -113,14 +113,14 @@ public static partial class ItemDuplication
     }
     
     #region ValueObject
-    public static TProperty GetValueObjectDuplication<T, TProperty>(
-        this IEnumerable<T> enumerable, 
-        Func<T, TProperty> predicate)
+    public static TProperty? GetValueObjectDuplication<T, TProperty>(
+        this IEnumerable<T?> enumerable, 
+        Func<T?, TProperty> predicate)
         where T : IEntity
         where TProperty : ValueObject
     {
-        TProperty? result = default;
-        if (enumerable is List<T> lst)
+        TProperty? result;
+        if (enumerable is List<T?> lst)
         {
             result = GetValueObjectDuplication(lst, predicate);
         }
@@ -136,9 +136,9 @@ public static partial class ItemDuplication
         return result;
     }
 
-    public static TProperty GetValueObjectDuplication<T, TProperty>(
-        this List<T> list, 
-        Func<T, TProperty> predicate)
+    public static TProperty? GetValueObjectDuplication<T, TProperty>(
+        this List<T?> list, 
+        Func<T?, TProperty> predicate)
         where T : IEntity
         where TProperty : ValueObject
     {
@@ -147,9 +147,9 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static TProperty GetValueObjectDuplication<T, TProperty>(
+    public static TProperty? GetValueObjectDuplication<T, TProperty>(
         this T[] array, 
-        Func<T, TProperty> predicate)
+        Func<T?, TProperty> predicate)
         where T : IEntity
         where TProperty : ValueObject
     {

@@ -201,9 +201,9 @@ public class MaterialSupplierCostTests
         materialCosts.IsSuccess.Should().BeTrue();
         materialCosts.Value.Should().HaveCount(1);
         materialCosts.Value!.First().Price.CurrencyType.Should().Be(CurrencyType.VND);
-        materialCosts.Value.First().Price.Value.Should().Be(6m);
-        materialCosts.Value.First().Surcharge.Value.Should().Be(8m);
-        materialCosts.Value.First().Surcharge.CurrencyType.Should().Be(CurrencyType.VND);
+        materialCosts.Value!.First().Price.Value.Should().Be(6m);
+        materialCosts.Value!.First().Surcharge.Value.Should().Be(8m);
+        materialCosts.Value!.First().Surcharge.CurrencyType.Should().Be(CurrencyType.VND);
     }
 
     [Fact]

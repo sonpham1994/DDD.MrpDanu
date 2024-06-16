@@ -9,7 +9,7 @@ internal static class EntityExtension
     {
         var type = obj.GetUnproxiedType();
         bool isAggregateRoot = type.BaseType == typeof(AggregateRoot)
-                                || (type.BaseType.IsGenericType
+                                || (type.BaseType!.IsGenericType
                                     && type.BaseType.GetGenericTypeDefinition() == typeof(AggregateRoot<>));
         bool isEntity = type.BaseType == typeof(Entity)
                         || (type.BaseType.IsGenericType

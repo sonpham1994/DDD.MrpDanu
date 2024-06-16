@@ -5,8 +5,8 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.Transaction
 
 public class ContactPersonInformation : EntityGuidStronglyTypedId<TransactionalPartnerId>
 {
-    public PersonName Name { get; private set; }
-    public ContactInformation ContactInformation { get; private set; }
+    public PersonName Name { get; private set; }  = default!;
+    public ContactInformation ContactInformation { get; private set; }  = default!;
 
     protected ContactPersonInformation() { }
 

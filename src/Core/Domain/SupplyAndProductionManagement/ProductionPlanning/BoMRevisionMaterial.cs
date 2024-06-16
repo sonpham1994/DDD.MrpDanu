@@ -5,7 +5,7 @@ namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
 {
-    public Unit Unit { get; private set; }
+    public Unit Unit { get; private set; } = default!;
     
     /*these two lines may be a record of MaterialCostManagement, but the problem is that this entity reside in another
      * bounded context. So if we want to get it, we should get it through the Aggregate Root (Material). In addition,
@@ -42,8 +42,8 @@ public class BoMRevisionMaterial : Entity<BoMRevisionMaterialId>
     // these 3 properties as Value object. In SupplyChainManagement bounded context, we can use this MaterialCost value
     // object, but the problem is that the SupplyChainManagement bounded context is designed as different approach
     // we cannot do this, but if we implement the same approach, this MaterialCost value object can live in there.
-    public MaterialSupplierIdentity MaterialSupplierIdentity { get; private set; }
-    public Money Price { get; private set; }
+    public MaterialSupplierIdentity MaterialSupplierIdentity { get; private set; } = default!;
+    public Money Price { get; private set; } = default!;
     
     public BoMRevisionId BoMRevisionId { get; private set; }
     

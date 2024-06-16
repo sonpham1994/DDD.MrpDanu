@@ -21,7 +21,7 @@ internal sealed class DatabaseTransaction : ITransaction
 
     public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
     {
-        IResult result = null;
+        IResult result = Result.Success();
         try
         {
             //https://learn.microsoft.com/en-gb/ef/core/saving/transactions
@@ -40,11 +40,11 @@ internal sealed class DatabaseTransaction : ITransaction
         }
         catch (Exception ex)
         {
-            string traceId = Helper.GetTraceId();
+            var traceId = Helper.GetTraceId();
             _appDbContext.RollbackTransaction();
             var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
             _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
-
+            
             throw;
         }
 

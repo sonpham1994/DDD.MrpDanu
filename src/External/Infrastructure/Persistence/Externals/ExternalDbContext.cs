@@ -17,7 +17,7 @@ internal sealed class ExternalDbContext : DbContext
     private readonly bool _isProduction;
     private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
     private readonly IInterceptor[] _interceptors;
-    private List<AuditTable> _auditTables;
+    private List<AuditTable> _auditTables = [];
 
     internal ExternalDbContext(IOptions<DatabaseSettings> databaseSettings
         , bool isProduction
@@ -104,7 +104,7 @@ internal sealed class ExternalDbContext : DbContext
         
         _auditTables = appDbContext.ChangeTracker
             .Entries()
-            .Where(x => AuditTableFactory.Entities.Any(j => j == x.Entity.GetUnproxiedType()!)
+            .Where(x => AuditTableFactory.Entities.Any(j => j == x.Entity.GetUnproxiedType())
                         && (x.State.IsModifiedEntityState()
                             || (x.State == EntityState.Unchanged && x.IsInternalEntityModified()))
                     )

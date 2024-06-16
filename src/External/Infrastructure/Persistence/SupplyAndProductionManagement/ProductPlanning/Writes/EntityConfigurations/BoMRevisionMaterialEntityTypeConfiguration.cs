@@ -67,7 +67,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
             .IsRequired()
             .HasConversion(x
                     => x.Value
-                , x => Unit.Create(x).Value);
+                , x => Unit.Create(x).Value!);
 
         builder.HasOne<BoMRevision>()
             .WithMany(x => x.BoMRevisionMaterials)

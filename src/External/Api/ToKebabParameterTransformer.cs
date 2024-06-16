@@ -6,7 +6,7 @@ public class ToKebabParameterTransformer : IOutboundParameterTransformer
 {
     // replace url at the start up application, url api is kebab case.
     // For example SupplyChainManagement would be material-management
-    public string TransformOutbound(object? value) => value != null
-       ? Regex.Replace(value.ToString(), "([a-z])([A-Z])", "$1-$2").ToLower() // to kebab 
+    public string? TransformOutbound(object? value) => value != null
+       ? Regex.Replace(value.ToString() ?? string.Empty, "([a-z])([A-Z])", "$1-$2").ToLower() // to kebab 
        : null;
 }

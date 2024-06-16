@@ -36,7 +36,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         }
         catch (Exception e)
         {
-            string traceId = Helper.GetTraceId();
+            var traceId = Helper.GetTraceId();
             string messageDetail = $"Exception: {e.Message}{Environment.NewLine}{e.InnerException}";
             var error = _env.IsProduction() ? ApiErrors.InternalServerErrorOnProduction : ApiErrors.InternalServerError(messageDetail);
 

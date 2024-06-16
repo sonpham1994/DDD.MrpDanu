@@ -11,14 +11,14 @@ internal sealed class AuditTable
     public Guid Id { get; set; }
     
     //json https://www.youtube.com/watch?v=2ZNMlx44gKQ&ab_channel=MilanJovanovi%C4%87
-    [Column(TypeName = "nvarchar(max)")]
-    public string Content { get; set; }
+    [Column(TypeName = "nvarchar(max)")] 
+    public string Content { get; set; } = default!;
     
     [Column(TypeName = "varchar(250)")]
-    public string ObjectId { get; set; }
+    public string ObjectId { get; set; } = default!;
     
     [Column(TypeName = "varchar(50)")]
-    public string ObjectName {get; set; }
+    public string ObjectName {get; set; } = default!;
     
     public DateTime TimeGenerated { get; set; }
     
@@ -26,10 +26,10 @@ internal sealed class AuditTable
 
     [ForeignKey(nameof(StateAuditTable))]
     public byte StateAuditTableId { get; set; }
-    public StateAuditTable StateAuditTable { get; set; }
+    public StateAuditTable StateAuditTable { get; set; }=  default!;
 
     [Column(TypeName = "varchar(250)")]
-    public string CorrelationId { get; set; }
+    public string? CorrelationId { get; set; }
 
     private AuditTable() { }
 

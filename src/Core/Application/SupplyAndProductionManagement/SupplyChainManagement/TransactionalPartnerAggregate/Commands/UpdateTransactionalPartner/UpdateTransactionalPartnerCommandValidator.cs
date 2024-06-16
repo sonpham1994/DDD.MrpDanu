@@ -25,7 +25,7 @@ internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValid
 
         RuleFor(x => x)
             .MustBeValueObject(x
-                => TaxNo.Create(x.TaxNo, Country.FromId(x.Address.CountryId).Value));
+                => TaxNo.Create(x.TaxNo, Country.FromId(x.Address!.CountryId).Value!));
 
         RuleFor(x => x.Name)
             .MustBeValueObject(CompanyName.Create);
@@ -46,7 +46,5 @@ internal sealed class UpdateTransactionalPartnerCommandValidator : AbstractValid
         RuleFor(x => x)
             .MustBeEnumeration(x
                 => CurrencyType.FromId(x.CurrencyTypeId));
-
-        RuleFor(x => x.Website).MustBeValueObject(Website.Create);
     }
 }

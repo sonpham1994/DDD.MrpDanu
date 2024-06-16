@@ -10,7 +10,7 @@ public class BoM : AggregateRoot<BoMId>
     // business to create a new BoMCode
     //from UI on original MRP Danu, this is what the system call Revision, not Code. Hence we need to follow this
     //ubiquitous language
-    public BoMCode Revision { get; private set; }
+    public BoMCode Revision { get; private set; } = default!;
     
     public ProductId? ProductId { get; private set; }
     //public uint ProductId { get; private set; }
@@ -28,7 +28,7 @@ public class BoM : AggregateRoot<BoMId>
 
     public Result IncreaseRevision()
     {
-        Revision = BoMCode.Create(Id).Value;
+        Revision = BoMCode.Create(Id).Value!;
 
         return Result.Success();
     }

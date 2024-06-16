@@ -8,7 +8,7 @@ public sealed class SerilogSettings
 public sealed class WriteTo
 {
     public string Name { get; init; } = string.Empty;
-    public Args Args { get; init; }
+    public Args Args { get; init; } = default!;
 
 }
 

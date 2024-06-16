@@ -31,7 +31,7 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
             .HasColumnName(nameof(TransactionalPartner.Name))
             .HasColumnType("nvarchar(300)")
             .HasConversion(x => x.Value,
-                x => CompanyName.Create(x).Value);
+                x => CompanyName.Create(x).Value!);
 
         builder.OwnsOne(x => x.TaxNo, j =>
         {
@@ -49,7 +49,7 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
         builder.Property(k => k.Website)
             .HasColumnType("varchar(100)")
             .HasColumnName(nameof(TransactionalPartner.Website))
-            .HasConversion(x => x.Value, x => Website.Create(x).Value)
+            .HasConversion(x => x!.Value, x => Website.Create(x).Value)
             .IsRequired(false);
 
         builder.HasOne(x => x.ContactPersonInformation)

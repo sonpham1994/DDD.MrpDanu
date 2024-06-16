@@ -25,7 +25,7 @@ internal static class AuditTableFactory
             entityAudit.Content,
             entityAudit.Id,
             entityAudit.ObjectName,
-            state.Value,
+            state.Value!,
             Guid.Empty
         );
 

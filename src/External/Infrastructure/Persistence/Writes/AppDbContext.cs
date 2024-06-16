@@ -2,7 +2,6 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Infrastructure.EventDispatchers;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Design;
 using Application.Interfaces;
@@ -18,7 +17,6 @@ namespace Infrastructure.Persistence.Writes;
 
 internal sealed class AppDbContext : DbContext, IUnitOfWork
 {
-    private readonly EventDispatcher _eventDispatcher;
     private readonly DatabaseSettings _databaseSettings;
     private readonly bool _isProduction;
     private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
@@ -34,13 +32,11 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
 
     internal AppDbContext(IOptions<DatabaseSettings> databaseSettings
         , bool isProduction
-        , EventDispatcher eventDispatcher
         , LoggingDbCommandInterceptor loggingDbCommandInterceptor
         , params IInterceptor[] interceptors)
     {
         _databaseSettings = databaseSettings.Value;
         _isProduction = isProduction;
-        _eventDispatcher = eventDispatcher;
         _loggingDbCommandInterceptor = loggingDbCommandInterceptor;
         _interceptors = interceptors;
     }
@@ -108,7 +104,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
         return _currentTransaction;
     }
 
-    public async Task CommitTransactionAsync(IDbContextTransaction transaction)
+    public async Task CommitTransactionAsync(IDbContextTransaction? transaction)
     {
         if (transaction == null) throw new ArgumentNullException(nameof(transaction));
         if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
@@ -173,7 +169,6 @@ internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbCont
         return new AppDbContext(
             options,
             false,
-            new EventDispatcher(),
             log,
             insertAuditable);
     }

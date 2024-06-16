@@ -46,24 +46,24 @@ public static class EntityHelper
             if (field is null)
             {
                 type = type.BaseType;
-                field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                field = type!.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 if (field is null)
                 {
-                    type = type.BaseType.BaseType;
-                    field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                    type = type.BaseType!.BaseType;
+                    field = type!.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 }
                 if (field is null)
                 {
-                    type = type.BaseType.BaseType.BaseType;
-                    field = type.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                    type = type.BaseType!.BaseType!.BaseType;
+                    field = type!.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 }
             }
 
-            field.SetValue(entity, id);
+            field!.SetValue(entity, id);
         }
     }
 
-    private static PropertyInfo GetProperty(Type? type, string propertyName, BindingFlags bindibgAttr)
+    private static PropertyInfo? GetProperty(Type? type, string propertyName, BindingFlags bindibgAttr)
     {
         PropertyInfo? result = null;
 
@@ -75,7 +75,7 @@ public static class EntityHelper
         return result;
     }
 
-    private static FieldInfo GetField(Type? type, string propertyName, BindingFlags bindibgAttr)
+    private static FieldInfo? GetField(Type? type, string propertyName, BindingFlags bindibgAttr)
     {
         FieldInfo? result = null;
 

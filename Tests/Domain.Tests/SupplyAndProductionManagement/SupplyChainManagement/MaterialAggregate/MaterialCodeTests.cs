@@ -11,7 +11,7 @@ public class MaterialCodeTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Cannot_create_material_code_with_null_or_empty_code(string code)
+    public void Cannot_create_material_code_with_null_or_empty_code(string? code)
     {
         var result = MaterialCode.Create(code);
 

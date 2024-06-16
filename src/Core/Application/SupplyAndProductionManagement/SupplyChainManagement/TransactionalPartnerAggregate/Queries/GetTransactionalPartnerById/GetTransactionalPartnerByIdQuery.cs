@@ -2,4 +2,4 @@ using Application.Interfaces.Messaging;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 
-public sealed record GetTransactionalPartnerByIdQuery(Guid Id) : IQuery<TransactionalPartnerResponse>;
+public sealed record GetTransactionalPartnerByIdQuery(Guid Id) : IQuery<TransactionalPartnerResponse?>;

@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -17,8 +16,8 @@ public class ContactInformation : ValueObject
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
         TimeSpan.FromMilliseconds(250));
 
-    public string TelNo { get; }
-    public string Email { get; }
+    public string TelNo { get; } = default!;
+    public string Email { get; } = default!;
 
     private ContactInformation(string telNo, string email)
     {
@@ -28,7 +27,7 @@ public class ContactInformation : ValueObject
 
     protected ContactInformation() { }
 
-    public static Result<ContactInformation> Create(string? telNo, string? email)
+    public static Result<ContactInformation?> Create(string? telNo, string? email)
     {
         telNo ??= string.Empty;
         email ??= string.Empty;

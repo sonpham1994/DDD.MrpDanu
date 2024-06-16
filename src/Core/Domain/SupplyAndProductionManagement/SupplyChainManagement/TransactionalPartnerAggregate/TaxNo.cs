@@ -1,5 +1,4 @@
 ﻿using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -7,8 +6,8 @@ public class TaxNo : ValueObject
 {
     private static byte TaxNoVietnamLength => 10;
 
-    public string Value { get; }
-    public virtual Country Country { get; }
+    public string Value { get; } = default!;
+    public virtual Country Country { get; } = default!;
 
     protected TaxNo() { }
 
@@ -18,7 +17,7 @@ public class TaxNo : ValueObject
         Country = country;
     }
 
-    public static Result<TaxNo> Create(string value, Country country)
+    public static Result<TaxNo?> Create(string? value, Country country)
     {
         if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
             return DomainErrors.TransactionalPartner.EmptyTaxNo;

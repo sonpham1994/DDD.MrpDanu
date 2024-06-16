@@ -8,8 +8,8 @@ public class BoMRevision : Entity<BoMRevisionId>
     
     // use BoMRevisionCode to make sure that the client code should pass BoMCode to create BoMRevisionCode
     // along with BoMId
-    public BoMRevisionCode Revision { get; }
-    public string Confirmation { get; private set; }
+    public BoMRevisionCode Revision { get; } = default!;
+    public string Confirmation { get; private set; } = default!;
     
     public BoMId BoMId { get; private set; }
     
@@ -23,7 +23,7 @@ public class BoMRevision : Entity<BoMRevisionId>
         Confirmation = confirmation;
     }
 
-    public Result<BoMRevision> Create(string confirmation)
+    public Result<BoMRevision?> Create(string confirmation)
     {
         if (string.IsNullOrEmpty(confirmation) || string.IsNullOrWhiteSpace(confirmation))
             return DomainErrors.BoMRevision.EmptyConfirmation;

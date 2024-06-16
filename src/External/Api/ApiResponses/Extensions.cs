@@ -19,8 +19,8 @@ public static class ApiResponseExtensions
 
 public static class ApiResponseExtensions<T>
 {
-    public static ApiResponse<T> Failure(IReadOnlyList<ApiError> errors) => new(false, errors, default);
+    public static ApiResponse<T> Failure(IReadOnlyList<ApiError> errors) => new(false, errors, default!);
 
-    public static ApiResponse<T> Failure(ApiError error) => new(false, new List<ApiError>(1) { error }, default);
+    public static ApiResponse<T> Failure(ApiError error) => new(false, new List<ApiError>(1) { error }, default!);
     public static ApiResponse<T> Success(T result) => new(true, Array.Empty<ApiError>(), result);
 }

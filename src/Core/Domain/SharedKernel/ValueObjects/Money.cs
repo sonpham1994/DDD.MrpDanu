@@ -6,7 +6,7 @@ namespace Domain.SharedKernel.ValueObjects;
 public class Money : ValueObject
 {
     public decimal Value { get; }
-    public CurrencyType CurrencyType { get; }
+    public CurrencyType CurrencyType { get; } = default!;
 
     private Money(in decimal value, CurrencyType currencyType)
     {

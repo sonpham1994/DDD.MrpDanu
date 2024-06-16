@@ -13,7 +13,7 @@ internal abstract class GuidStronglyTypedIdValueGenerator<TId> : ValueGenerator<
 
     public override TId Next(EntityEntry entry)
     {
-        return Next(_generator.Next(null));
+        return Next(_generator.Next(default!));
     }
 
     protected abstract TId Next(Guid id);

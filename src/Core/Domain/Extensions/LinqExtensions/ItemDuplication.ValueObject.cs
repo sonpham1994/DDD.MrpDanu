@@ -5,10 +5,10 @@ namespace Domain.Extensions.LinqExtensions;
 
 public static partial class ItemDuplication
 {
-    public static T GetValueObjectDuplication<T>(this IEnumerable<T> enumerable)
+    public static T? GetValueObjectDuplication<T>(this IEnumerable<T> enumerable)
         where T : ValueObject
     {
-        T result = default;
+        T? result;
         if (enumerable is List<T> lst)
         {
             result = GetValueObjectDuplication(lst);
@@ -25,7 +25,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static T GetValueObjectDuplication<T>(this List<T> list)
+    public static T? GetValueObjectDuplication<T>(this List<T> list)
         where T : ValueObject
     {
         int count = list.Count;
@@ -34,7 +34,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static T GetValueObjectDuplication<T>(this T[] array)
+    public static T? GetValueObjectDuplication<T>(this T[] array)
         where T : ValueObject
     {
         int count = array.Length;
@@ -43,7 +43,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    private static T LinearSearchValueObject<T>(
+    private static T? LinearSearchValueObject<T>(
         IReadOnlyList<T> array, 
         int count)
         where T : ValueObject
@@ -53,9 +53,9 @@ public static partial class ItemDuplication
         return result;
     }
     
-    private static TProperty LinearSearchValueObject<T, TProperty>(
-        IReadOnlyList<T> array, 
-        Func<T, TProperty> func)
+    private static TProperty? LinearSearchValueObject<T, TProperty>(
+        IReadOnlyList<T?> array, 
+        Func<T?, TProperty> func)
         where T : IEntity
         where TProperty : ValueObject
     {
@@ -72,12 +72,12 @@ public static partial class ItemDuplication
     }
     
     // O(n square) -> n bình phương 2
-    private static TResult LinearSearchValueObject<TResult>(
-        Func<int, TResult> tResult,
+    private static TResult? LinearSearchValueObject<TResult>(
+        Func<int, TResult?> tResult,
         int count)
         where TResult: ValueObject
     {
-        TResult result = default;
+        TResult? result = default;
         for (int i = 0; i < count; i++)
         {
             var tResult1 = tResult(i);

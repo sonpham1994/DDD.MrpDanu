@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -16,7 +15,7 @@ public class Website : ValueObject
 
     private static byte WebsiteLength => 100;
 
-    public string Value { get; }
+    public string Value { get; } = default!;
 
     protected Website() { }
 
@@ -24,9 +23,7 @@ public class Website : ValueObject
 
     public static Result<Website?> Create(string value)
     {
-        //note: should remove this one, whether the website is null or not, it will be decided based on bounded context
-        if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-            return Result.Success(default(Website));
+        
 
         value = value.Trim();
         if (value.Length > WebsiteLength)

@@ -11,7 +11,7 @@ public class MaterialNameTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void Cannot_create_material_name_with_null_or_empty_name(string code)
+    public void Cannot_create_material_name_with_null_or_empty_name(string? code)
     {
         var result = MaterialName.Create(code);
 

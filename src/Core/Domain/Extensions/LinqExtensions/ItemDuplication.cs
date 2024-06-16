@@ -5,12 +5,12 @@ namespace Domain.Extensions.LinqExtensions;
 public static partial class ItemDuplication
 {
     //https://www.youtube.com/watch?v=zYavFBwsJxE&ab_channel=MilanJovanovi%C4%87
-    public static TProperty GetItemDuplication<T, TProperty>(
+    public static TProperty? GetItemDuplication<T, TProperty>(
         this IEnumerable<T> enumerable, 
         Func<T, TProperty> predicate)
         where TProperty : IEquatable<TProperty>
     {
-        TProperty result = default;
+        TProperty? result;
         if (enumerable is List<T> lst)
         {
             result = GetItemDuplication(lst, predicate);
@@ -27,10 +27,10 @@ public static partial class ItemDuplication
         return result;
     }
 
-    public static T GetItemDuplication<T>(this IEnumerable<T> enumerable)
+    public static T? GetItemDuplication<T>(this IEnumerable<T> enumerable)
         where T : IEquatable<T>
     {
-        T result = default;
+        T? result;
         Func<T, T> func = x => x;
         if (enumerable is List<T> lst)
         {
@@ -48,7 +48,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static T GetItemDuplication<T>(this List<T> list)
+    public static T? GetItemDuplication<T>(this List<T> list)
         where T : IEquatable<T>
     {
         int count = list.Count;
@@ -57,7 +57,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static T GetItemDuplication<T>(this T[] array)
+    public static T? GetItemDuplication<T>(this T[] array)
         where T : IEquatable<T>
     {
         int count = array.Length;
@@ -66,7 +66,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static TProperty GetItemDuplication<T, TProperty>(this List<T> list, Func<T, TProperty> predicate)
+    public static TProperty? GetItemDuplication<T, TProperty>(this List<T> list, Func<T, TProperty> predicate)
         where TProperty : IEquatable<TProperty>
     {
         int count = list.Count;
@@ -75,7 +75,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static TProperty GetItemDuplication<T, TProperty>(this T[] array, Func<T, TProperty> predicate)
+    public static TProperty? GetItemDuplication<T, TProperty>(this T[] array, Func<T, TProperty> predicate)
         where TProperty : IEquatable<TProperty>
     {
         int count = array.Length;
@@ -85,13 +85,13 @@ public static partial class ItemDuplication
     }
     
     // O(n square) -> n bình phương 2
-    private static TProperty LinearSearch<T, TProperty>(
+    private static TProperty? LinearSearch<T, TProperty>(
         IReadOnlyList<T> array, 
         Func<T, TProperty> func, 
         int count)
         where TProperty : IEquatable<TProperty>
     {
-        TProperty result = default;
+        TProperty? result = default;
         for (int i = 0; i < count; i++)
         {
             var tResult1 = func(array[i]);

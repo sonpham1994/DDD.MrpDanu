@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-public sealed class MaterialName : ValueObject
+public class MaterialName : ValueObject
 {
     private static ushort NameMaxLength => 500;
     private MaterialName(string name)
@@ -12,9 +12,9 @@ public sealed class MaterialName : ValueObject
     
     protected MaterialName() { }
     
-    public string Value { get; }
+    public string Value { get; } = default!;
 
-    public static Result<MaterialName?> Create(string name)
+    public static Result<MaterialName?> Create(string? name)
     {
         if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             return DomainErrors.Material.EmptyName;

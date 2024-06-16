@@ -35,18 +35,17 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
                 ContactInformation.Create(x.TelNo, x.Email),
                 LocationType.FromId(x.LocationTypeId),
                 TransactionalPartnerType.FromId(x.TransactionalPartnerTypeId),
-                CurrencyType.FromId(x.CurrencyTypeId),
-                Website.Create(x.Website)
+                CurrencyType.FromId(x.CurrencyTypeId)
             );
 
             if (!result1.IsSuccess)
                 return result1.Error;
-            var (country, companyName, personName, contactInfo, locationType, transactionalPartnerType, currencyType, website) = result1.Value;
+            var (country, companyName, personName, contactInfo, locationType, transactionalPartnerType, currencyType) = result1.Value;
 
             var result2 = ResultCombine.Create
             (
-                Address.Create(x.Address.Street, x.Address.City, x.Address.District, x.Address.Ward, x.Address.ZipCode, country),
-                TaxNo.Create(x.TaxNo, country)
+                Address.Create(x.Address.Street, x.Address.City, x.Address.District, x.Address.Ward, x.Address.ZipCode, country!),
+                TaxNo.Create(x.TaxNo, country!)
             );
 
             if (!result2.IsSuccess)
@@ -54,8 +53,8 @@ internal sealed class CreateTransactionalPartnerCommandValidator : AbstractValid
 
             var (address, taxNo) = result2.Value;
 
-            return TransactionalPartner.Create(companyName, taxNo, website,
-                personName, contactInfo, address,
+            return TransactionalPartner.Create(companyName!, taxNo!, x.Website,
+                personName!, contactInfo!, address!,
                 transactionalPartnerType!, currencyType!, locationType!);
         });
     }
