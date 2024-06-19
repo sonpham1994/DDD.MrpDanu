@@ -28,11 +28,86 @@ public class MaterialCodeTests
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.ExceedsMaxLengthCode);
     }
-    
+
+    [Theory]
+    [InlineData("!")]
+    [InlineData("@")]
+    [InlineData("$")]
+    [InlineData("%")]
+    [InlineData("^")]
+    [InlineData("&")]
+    [InlineData("*")]
+    [InlineData("(")]
+    [InlineData(")")]
+    [InlineData("_")]
+    [InlineData("+")]
+    [InlineData("=")]
+    [InlineData("`")]
+    [InlineData("~")]
+    [InlineData("[")]
+    [InlineData("{")]
+    [InlineData("]")]
+    [InlineData("}")]
+    [InlineData("\\")]
+    [InlineData("|")]
+    [InlineData(";")]
+    [InlineData(":")]
+    [InlineData("'")]
+    [InlineData("\"")]
+    [InlineData(",")]
+    [InlineData("<")]
+    [InlineData(".")]
+    [InlineData(">")]
+    [InlineData("/")]
+    [InlineData("?")]
+    public void Cannot_create_material_code_with_special_characters(string specialCharacter)
+    {
+        string code = "code" + specialCharacter;
+        var result = MaterialCode.Create(code);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be(DomainErrors.Material.NotAllowedSpecialCharacters);
+    }
+
+    [Fact]
+    public void Cannot_create_material_code_space_character_in_middle_of_data()
+    {
+        string code = "code 1";
+        var result = MaterialCode.Create(code);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be(DomainErrors.Material.NotAllowedSpaceCharacterInMiddle);
+    }
+
+    [Theory]
+    [InlineData(".")]
+    [InlineData("/")]
+    [InlineData("-")]
+    public void Cannot_create_material_code_with_only_allowed_special_character(string specialCharacter)
+    {
+        var result = MaterialCode.Create(specialCharacter);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be(DomainErrors.Material.NotAllowedOnlyAllowedSpecialCharacters);
+    }
+
     [Fact]
     public void Create_material_code_successfully()
     {
         string code = "code";
+        var result = MaterialCode.Create(code);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value!.Value.Should().Be(code);
+    }
+
+    [Theory]
+    [InlineData(".")]
+    [InlineData("/")]
+    [InlineData("-")]
+    public void Create_material_code_successfully_with_allowed_special_character(string specialCharacter)
+    {
+        string code = "code" + specialCharacter;
         var result = MaterialCode.Create(code);
 
         result.IsSuccess.Should().BeTrue();

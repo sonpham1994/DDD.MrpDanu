@@ -6,13 +6,16 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 public class MaterialCode : ValueObject
 {
     private static byte CodeMaxLength => 200;
-    
-    // validation for varchar, we don't use nvarchar
-    private static readonly Regex CharactersCodeAllowed = new(@"^[a-zA-Z0-9\s!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|\\:;\""'<>\.,\?/]*$",
+    // validation for characters and special characters like '-', '.', '/'
+    private static readonly Regex CharactersCodeAllowed = new(@"^[a-zA-Z0-9]*$",
         RegexOptions.Compiled,
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
         TimeSpan.FromMilliseconds(250));
-    
+    private static readonly Regex SpecialCharactersCodeAllowed = new(@"^[\-/\.]*$",
+        RegexOptions.Compiled,
+        // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
+        TimeSpan.FromMilliseconds(250));
+
     private MaterialCode(string code)
     {
         Value = code;
@@ -30,8 +33,18 @@ public class MaterialCode : ValueObject
         
         if (code.Length > CodeMaxLength)
             return DomainErrors.Material.ExceedsMaxLengthCode;
-        if (!CharactersCodeAllowed.IsMatch(code))
-            return DomainErrors.Material.CodeNotAllowedSpecialCharacters;
+
+        // This validation should be discussed with client, if the client accept English characters and
+        // special characters like '-', '.', '/', we will bring them into this invariant.
+        var resultCodeAllowed = CharactersCodeAllowed.IsMatch(code);
+        var resultSpecialCharacterCodeAllowed = SpecialCharactersCodeAllowed.IsMatch(code);
+        if (!resultSpecialCharacterCodeAllowed)
+            return DomainErrors.Material.NotAllowedSpecialCharacters;
+        if (!resultCodeAllowed && resultSpecialCharacterCodeAllowed)
+            return DomainErrors.Material.NotAllowedOnlyAllowedSpecialCharacters;
+        // This validation should be discussed with client
+        if (code.Contains(' '))
+            return DomainErrors.Material.NotAllowedSpaceCharacterInMiddle;
 
         return new MaterialCode(code);
     }

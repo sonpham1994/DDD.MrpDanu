@@ -15,8 +15,12 @@ public static class DomainErrors
         public static DomainError EmptyCode => new("Material.EmptyCode", "Material code should not be empty.");
         public static DomainError ExceedsMaxLengthCode => new($"Material.{nameof(ExceedsMaxLengthCode)}", "Material code should not larger than 200 characters.");
 
-        public static DomainError CodeNotAllowedSpecialCharacters => new(
-            $"Material.{nameof(CodeNotAllowedSpecialCharacters)}", "Material code is not allowed special characters.");
+        public static DomainError NotAllowedSpecialCharacters => new(
+           $"Material.{nameof(NotAllowedSpecialCharacters)}", "Material code is not allowed special characters. The special characters can allow to input is '-', '.', '/'");
+        public static DomainError NotAllowedOnlyAllowedSpecialCharacters => new(
+           $"Material.{nameof(NotAllowedOnlyAllowedSpecialCharacters)}", "Material code is not only have allowed special characters.");
+        public static DomainError NotAllowedSpaceCharacterInMiddle => new(
+           $"Material.{nameof(NotAllowedSpaceCharacterInMiddle)}", "Material code should not have space ' ' in middle data.");
         public static DomainError EmptyName => new("Material.EmptyName", "Material name should not be empty.");
         public static DomainError ExceedsMaxLengthName => new($"Material.{nameof(ExceedsMaxLengthName)}", "Material name should not larger than 500 characters.");
         public static DomainError EmptyVarian => new("Material.EmptyVarian", "Material varian should not be empty.");
