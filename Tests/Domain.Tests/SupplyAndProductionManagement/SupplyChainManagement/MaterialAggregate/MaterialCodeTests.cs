@@ -58,6 +58,8 @@ public class MaterialCodeTests
     [InlineData("<")]
     [InlineData(">")]
     [InlineData("?")]
+    [InlineData("a b")] // space
+    [InlineData("a  c")] // tab
     public void Cannot_create_material_code_with_not_allowed_special_characters(string specialCharacter)
     {
         string code = "code" + specialCharacter;
@@ -87,6 +89,21 @@ public class MaterialCodeTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Value.Should().Be(code);
+    }
+    
+    [Theory]
+    [InlineData(" code")]
+    [InlineData("code ")]
+    [InlineData(" code ")]
+    [InlineData("   code")]
+    [InlineData("code    ")]
+    [InlineData("   code    ")]
+    public void Material_code_should_trim_value(string code)
+    {
+        var result = MaterialCode.Create(code);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value!.Value.Should().Be(code.Trim());
     }
 
     [Theory]

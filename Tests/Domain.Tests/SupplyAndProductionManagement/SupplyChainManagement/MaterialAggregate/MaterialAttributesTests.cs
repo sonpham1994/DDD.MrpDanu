@@ -23,34 +23,64 @@ public class MaterialAttributesTests
         materialAttributes.Error.Should().Be(error);
     }
 
-    [Fact]
-    public void Create_material_attributes_successfully_and_should_trim_all_properties()
+    [Theory]
+    [InlineData("color code ", "width", "weight", "unit", "varian")]
+    [InlineData(" color code", "width", "weight", "unit", "varian")]
+    [InlineData(" color code ", "width", "weight", "unit", "varian")]
+    [InlineData("   color code", "width", "weight", "unit", "varian")]
+    [InlineData("color code  ", "width", "weight", "unit", "varian")]
+    [InlineData("   color code  ", "width", "weight", "unit", "varian")]
+    [InlineData("color code", " width", "weight", "unit", "varian")]
+    [InlineData("color code", "width ", "weight", "unit", "varian")]
+    [InlineData("color code", " width ", "weight", "unit", "varian")]
+    [InlineData("color code", "     width", "weight", "unit", "varian")]
+    [InlineData("color code", "width    ", "weight", "unit", "varian")]
+    [InlineData("color code", "     width    ", "weight", "unit", "varian")]
+    [InlineData("color code", "width", " weight", "unit", "varian")]
+    [InlineData("color code", "width", "weight ", "unit", "varian")]
+    [InlineData("color code", "width", " weight ", "unit", "varian")]
+    [InlineData("color code", "width", "    weight", "unit", "varian")]
+    [InlineData("color code", "width", "weight  ", "unit", "varian")]
+    [InlineData("color code", "width", "    weight  ", "unit", "varian")]
+    [InlineData("color code", "width", "weight", " unit", "varian")]
+    [InlineData("color code", "width", "weight", "unit ", "varian")]
+    [InlineData("color code", "width", "weight", " unit ", "varian")]
+    [InlineData("color code", "width", "weight", "  unit", "varian")]
+    [InlineData("color code", "width", "weight", "unit  ", "varian")]
+    [InlineData("color code", "width", "weight", "  unit  ", "varian")]
+    [InlineData("color code", "width", "weight", "unit", " varian")]
+    [InlineData("color code", "width", "weight", "unit", "varian ")]
+    [InlineData("color code", "width", "weight", "unit", " varian ")]
+    [InlineData("color code", "width", "weight", "unit", "  varian")]
+    [InlineData("color code", "width", "weight", "unit", "varian    ")]
+    [InlineData("color code", "width", "weight", "unit", "  varian    ")]
+    public void Create_material_attributes_successfully_and_should_trim_all_properties(
+        string colorCode, 
+        string width, 
+        string weight, 
+        string unit, 
+        string varian)
     {
-        string colorCode = "color code 1";
-        string width = "width 1";
-        string weight = "weight 1";
-        string unit = "unit 1";
-        string varian = "varian 1";
         var materialAttributes = MaterialAttributes.Create(
-            $" {colorCode} ",
-            $" {width} ",
-            $" {weight} ",
-            $" {unit} ",
-            $" {varian} ");
+            colorCode,
+            width,
+            weight,
+            unit,
+            varian);
 
-        materialAttributes.IsSuccess.Should().Be(true);
-        materialAttributes.Value!.ColorCode.Should().Be(colorCode);
-        materialAttributes.Value.Width.Should().Be(width);
-        materialAttributes.Value.Weight.Should().Be(weight);
-        materialAttributes.Value.Unit.Should().Be(unit.ToUpper());
-        materialAttributes.Value.Varian.Should().Be(varian);
+        materialAttributes.IsSuccess.Should().BeTrue();
+        materialAttributes.Value!.ColorCode.Should().Be(colorCode.Trim());
+        materialAttributes.Value.Width.Should().Be(width.Trim());
+        materialAttributes.Value.Weight.Should().Be(weight.Trim());
+        materialAttributes.Value.Unit.Should().Be(unit.Trim().ToUpper());
+        materialAttributes.Value.Varian.Should().Be(varian.Trim());
     }
     
     [Theory]
     [InlineData(" ", " ")]
     [InlineData("", "")]
     [InlineData(null, null)]
-    public void Cannot_material_attributes_successfully_with_colorcode_and_weight_are_null_or_empty(string? colorCode, string? weight)
+    public void Create_material_attributes_successfully_with_colorcode_and_weight_are_null_or_empty(string? colorCode, string? weight)
     {
         string width = "width 1";
         string unit = "unit 1";

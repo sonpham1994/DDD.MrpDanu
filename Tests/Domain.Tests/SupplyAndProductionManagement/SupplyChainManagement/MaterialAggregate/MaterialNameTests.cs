@@ -38,4 +38,19 @@ public class MaterialNameTests
         result.IsSuccess.Should().BeTrue();
         result.Value!.Value.Should().Be(name);
     }
+    
+    [Theory]
+    [InlineData(" name")]
+    [InlineData("name ")]
+    [InlineData(" name ")]
+    [InlineData("   name")]
+    [InlineData("name    ")]
+    [InlineData("   name    ")]
+    public void Material_name_should_trim_value(string name)
+    {
+        var result = MaterialName.Create(name);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value!.Value.Should().Be("name");
+    }
 }
