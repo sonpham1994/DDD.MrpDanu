@@ -56,27 +56,15 @@ public class MaterialCodeTests
     [InlineData("\"")]
     [InlineData(",")]
     [InlineData("<")]
-    [InlineData(".")]
     [InlineData(">")]
-    [InlineData("/")]
     [InlineData("?")]
-    public void Cannot_create_material_code_with_special_characters(string specialCharacter)
+    public void Cannot_create_material_code_with_not_allowed_special_characters(string specialCharacter)
     {
         string code = "code" + specialCharacter;
         var result = MaterialCode.Create(code);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(DomainErrors.Material.NotAllowedSpecialCharacters);
-    }
-
-    [Fact]
-    public void Cannot_create_material_code_space_character_in_middle_of_data()
-    {
-        string code = "code 1";
-        var result = MaterialCode.Create(code);
-
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.NotAllowedSpaceCharacterInMiddle);
     }
 
     [Theory]

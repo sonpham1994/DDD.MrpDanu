@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <!--CS8618: Non-nullable property-->
+    <!--CS8603: Possible null reference return.-->
+    <!--CS8604: Possible null reference argument for parameter -->
+    <!--CS8634: The type '...' cannot be used as type parameter '...' in the generic type or method '...'. Nullability of type argument '...' doesn't match 'class' constraint.-->
+    <!--CS8767: Nullability of reference types in type of parameter '...' of '...' doesn't match implicitly implemented member '...' (possibly because of nullability attributes).-->
+    <!--CS8625: Cannot convert null literal to non-nullable reference type.-->
+    <!--CS8602: Dereference of a possibly null reference.-->
+    <!--CS8600: Converting null literal or possible null value to non-nullable type.-->
+    <!--CS8631: The type '...' cannot be used as type parameter '...' in the generic type or method '...'. Nullability of type argument '...' doesn't match constraint type '...'.-->
+    <!--CS8621: Nullability of reference types in return type of 'lambda expression' doesn't match the target delegate '...' (possibly because of nullability attributes).-->
+    <!--CS0659: '...' overrides Object.Equals(object o) but does not override Object.GetHashCode()-->
+    <!--CS9191: The 'ref' modifier for argument 2 corresponding to 'in' parameter is equivalent to 'in'. Consider using 'in' instead.-->
+    <!--CS0219: The variable 'a' is assigned but its value is never used-->
+    <NoWarn>CS8618;CS8603;CS8604;CS8634;CS8767;CS8625;CS8602;CS8600;CS8631;CS8621;CS0659;CS9191;CS0219</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,11 +7,11 @@ public class MaterialCode : ValueObject
 {
     private static byte CodeMaxLength => 200;
     // validation for characters and special characters like '-', '.', '/'
-    private static readonly Regex CharactersCodeAllowed = new(@"^[a-zA-Z0-9]*$",
+    private static readonly Regex CharactersAndSpecialCharactersAllowed = new(@"^[a-zA-Z0-9\-/\.]*$",
         RegexOptions.Compiled,
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
         TimeSpan.FromMilliseconds(250));
-    private static readonly Regex SpecialCharactersCodeAllowed = new(@"^[\-/\.]*$",
+    private static readonly Regex SpecialCharactersAllowed = new(@"^[\-/\.]*$",
         RegexOptions.Compiled,
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
         TimeSpan.FromMilliseconds(250));
@@ -36,15 +36,13 @@ public class MaterialCode : ValueObject
 
         // This validation should be discussed with client, if the client accept English characters and
         // special characters like '-', '.', '/', we will bring them into this invariant.
-        var resultCodeAllowed = CharactersCodeAllowed.IsMatch(code);
-        var resultSpecialCharacterCodeAllowed = SpecialCharactersCodeAllowed.IsMatch(code);
-        if (!resultSpecialCharacterCodeAllowed)
+        var resultCodeAllowed = CharactersAndSpecialCharactersAllowed.IsMatch(code);
+        if (!resultCodeAllowed)
             return DomainErrors.Material.NotAllowedSpecialCharacters;
-        if (!resultCodeAllowed && resultSpecialCharacterCodeAllowed)
+        
+        var resultOnlySpecialCharacterCodeAllowed = SpecialCharactersAllowed.IsMatch(code);
+        if (resultOnlySpecialCharacterCodeAllowed)
             return DomainErrors.Material.NotAllowedOnlyAllowedSpecialCharacters;
-        // This validation should be discussed with client
-        if (code.Contains(' '))
-            return DomainErrors.Material.NotAllowedSpaceCharacterInMiddle;
 
         return new MaterialCode(code);
     }
