@@ -3,7 +3,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class ContactInformation : ValueObject
+public class ContactInformation : ValueObject<ContactInformation>
 {
     private static byte EmailMaxLength => 200;
     private static byte TelNoMaxLength => 20;
@@ -66,10 +66,8 @@ public class ContactInformation : ValueObject
         yield return Email.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(ContactInformation other)
     {
-        if (valueObject is not ContactInformation other)
-            return false;
         if (TelNo != other.TelNo)
             return false;
         if (Email != other.Email)

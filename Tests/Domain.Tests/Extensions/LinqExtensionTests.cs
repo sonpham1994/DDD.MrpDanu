@@ -1,5 +1,5 @@
 using Domain.Extensions;
-using Domain.Extensions.LinqExtensions;
+using Domain.SharedKernel.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -147,7 +147,7 @@ public class LinqExtensionTests
             Material.Create(MaterialCode.Create("code4").Value!, MaterialName.Create("name4").Value!,SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value!,
         };
 
-        var result = items.GetValueObjectDuplication(x => x!.Attributes);
+        var result = items.GetItemDuplication(x => x!.Attributes);
 
         result.Should().NotBeNull();
         result.Should().Be(items[0]!.Attributes);
@@ -164,7 +164,7 @@ public class LinqExtensionTests
             Material.Create(MaterialCode.Create("code4").Value!, MaterialName.Create("name4").Value!,SupplyChainManagementPreparingData.MaterialAttributes2, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value!.WithId(materialId4)
         };
 
-        var result = items.GetValueObjectDuplication(x => x!.Attributes);
+        var result = items.GetItemDuplication(x => x!.Attributes);
     
         result.Should().BeNull();
     }
@@ -182,7 +182,7 @@ public class LinqExtensionTests
             null
         };
 
-        var result = items.GetValueObjectDuplication(x => x!.Attributes);
+        var result = items.GetItemDuplication(x => x!.Attributes);
     
         result.Should().BeNull();
     }
@@ -200,7 +200,7 @@ public class LinqExtensionTests
             Material.Create(MaterialCode.Create("code3").Value!, MaterialName.Create("name1").Value!,SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value!.WithId(materialId3),
         };
 
-        var result = items.GetValueObjectDuplication(x => x!.Attributes);
+        var result = items.GetItemDuplication(x => x!.Attributes);
     
         result.Should().NotBeNull();
         result.Should().Be(items[0]!.Attributes);
@@ -223,7 +223,7 @@ public class LinqExtensionTests
             Material.Create(MaterialCode.Create("code3").Value!, MaterialName.Create("name1").Value!,SupplyChainManagementPreparingData.MaterialAttributes1, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success()).Value!.WithId(materialId3),
         };
 
-        var result = items.GetValueObjectDuplication(x => x!.Attributes);
+        var result = items.GetItemDuplication(x => x!.Attributes);
     
         result.Should().NotBeNull();
         result.Should().Be(material1.Attributes);

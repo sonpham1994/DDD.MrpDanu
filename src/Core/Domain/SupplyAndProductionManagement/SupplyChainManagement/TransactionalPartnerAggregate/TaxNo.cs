@@ -2,7 +2,7 @@
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class TaxNo : ValueObject
+public class TaxNo : ValueObject<TaxNo>
 {
     private static byte TaxNoVietnamLength => 10;
 
@@ -41,10 +41,8 @@ public class TaxNo : ValueObject
         yield return Country.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(TaxNo other)
     {
-        if (valueObject is not TaxNo other)
-            return false;
         if (Value != other.Value)
             return false;
         if (Country != other.Country)

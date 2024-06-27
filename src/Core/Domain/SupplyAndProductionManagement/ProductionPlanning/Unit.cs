@@ -2,7 +2,7 @@
 
 namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
-public class Unit : ValueObject
+public class Unit : ValueObject<Unit>
 {
     private static readonly IReadOnlyCollection<decimal> ValidUnitDecimals = new[]
     {
@@ -36,10 +36,8 @@ public class Unit : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(Unit other)
     {
-        if (valueObject is not Unit other)
-            return false;
         if (Value != other.Value)
             return false;
 

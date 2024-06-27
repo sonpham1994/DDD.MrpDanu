@@ -6,7 +6,7 @@ namespace Domain.SharedKernel.ValueObjects;
 //whenever we compare the MaterialSupplierCost entity, we always compare the MaterialId and SupplierId whether
 //MaterialSupplierCost exist the same MaterialId and SupplierId or not. Hence I decide to make 2 these properties as
 // value object
-public class MaterialSupplierIdentity : ValueObject
+public class MaterialSupplierIdentity : ValueObject<MaterialSupplierIdentity>
 {
     private readonly TransactionalPartnerId _transactionalPartnerId;
     public MaterialId MaterialId { get; }
@@ -37,10 +37,8 @@ public class MaterialSupplierIdentity : ValueObject
         yield return _transactionalPartnerId.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(MaterialSupplierIdentity other)
     {
-        if (valueObject is not MaterialSupplierIdentity other)
-            return false;
         if (MaterialId != other.MaterialId)
             return false;
         if (_transactionalPartnerId != other._transactionalPartnerId)

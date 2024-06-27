@@ -1,5 +1,5 @@
 ﻿using Domain.Extensions;
-using Domain.Extensions.LinqExtensions;
+using Domain.SharedKernel.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;
 using Domain.SharedKernel.ValueObjects;

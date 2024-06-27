@@ -2,7 +2,7 @@
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class PersonName : ValueObject
+public class PersonName : ValueObject<PersonName>
 {
     private static byte PersonNameMaxLength => 200;
     public string Value { get; } = default!;
@@ -32,10 +32,8 @@ public class PersonName : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(PersonName other)
     {
-        if (valueObject is not PersonName other)
-            return false;
         if (Value != other.Value)
             return false;
 

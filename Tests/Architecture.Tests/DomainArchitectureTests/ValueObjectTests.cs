@@ -16,7 +16,7 @@ public class ValueObjectTests
         //     .GetTypes()
         //     .Where(x => x.BaseType is not null
         //                 && x.BaseType == typeof(ValueObject)).ToList();
-        var valueObjects = Types.InAssembly(DomainAssembly.Instance).That().Inherit(typeof(ValueObject)).GetTypes();
+        var valueObjects = Types.InAssembly(DomainAssembly.Instance).That().ImplementInterface(typeof(IValueObject)).GetTypes();
         var properties = valueObjects.SelectMany(x => x.GetProperties()).ToList();
 
         var result = properties.Any(x => !x.IsNoSetter());
@@ -33,7 +33,7 @@ public class ValueObjectTests
         //                 && x.BaseType == typeof(ValueObject)).ToList();
         var publicConstructorValueObjects = Types.InAssembly(DomainAssembly.Instance)
             .That()
-            .Inherit(typeof(ValueObject))
+            .ImplementInterface(typeof(IValueObject))
             .GetTypes()
             .SelectMany(x=>x.GetConstructors(BindingFlags.Public | BindingFlags.Instance))
             .ToList();

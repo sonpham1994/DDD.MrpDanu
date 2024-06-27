@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-public class MaterialName : ValueObject
+public class MaterialName : ValueObject<MaterialName>
 {
     private static ushort NameMaxLength => 500;
     private MaterialName(string name)
@@ -30,11 +30,9 @@ public class MaterialName : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(MaterialName other)
     {
-        if (valueObject is not MaterialName materialName)
-            return false;
-        if (Value != materialName.Value)
+        if (Value != other.Value)
             return false;
 
         return true;

@@ -22,7 +22,7 @@ internal static class ValidationExtension
     public static IRuleBuilderOptions<T, TElement> MustBeValueObject<T, TElement, TValueObject>(
         this IRuleBuilder<T, TElement> ruleBuilder,
         Func<TElement, Result<TValueObject?>> factoryMethod)
-        where TValueObject : ValueObject
+        where TValueObject : IValueObject
     {
         return (IRuleBuilderOptions<T, TElement>)ruleBuilder.Custom((value, context) =>
         {

@@ -1,13 +1,13 @@
 using Domain.SharedKernel.Exceptions;
 
-namespace Domain.Extensions.LinqExtensions;
+namespace Domain.SharedKernel.Extensions.LinqExtensions;
 
 public static partial class ItemDuplication
 {
     //https://www.youtube.com/watch?v=zYavFBwsJxE&ab_channel=MilanJovanovi%C4%87
     public static TProperty? GetItemDuplication<T, TProperty>(
         this IEnumerable<T> enumerable, 
-        Func<T, TProperty> predicate)
+        Func<T?, TProperty?> predicate)
         where TProperty : IEquatable<TProperty>
     {
         TProperty? result;
@@ -27,11 +27,11 @@ public static partial class ItemDuplication
         return result;
     }
 
-    public static T? GetItemDuplication<T>(this IEnumerable<T> enumerable)
+    public static T? GetItemDuplication<T>(this IEnumerable<T?> enumerable)
         where T : IEquatable<T>
     {
         T? result;
-        Func<T, T> func = x => x;
+        Func<T?, T?> func = x => x;
         if (enumerable is List<T> lst)
         {
             result = GetItemDuplication(lst, func);
@@ -66,7 +66,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static TProperty? GetItemDuplication<T, TProperty>(this List<T> list, Func<T, TProperty> predicate)
+    public static TProperty? GetItemDuplication<T, TProperty>(this List<T> list, Func<T?, TProperty?> predicate)
         where TProperty : IEquatable<TProperty>
     {
         int count = list.Count;
@@ -75,7 +75,7 @@ public static partial class ItemDuplication
         return result;
     }
     
-    public static TProperty? GetItemDuplication<T, TProperty>(this T[] array, Func<T, TProperty> predicate)
+    public static TProperty? GetItemDuplication<T, TProperty>(this T[] array, Func<T?, TProperty?> predicate)
         where TProperty : IEquatable<TProperty>
     {
         int count = array.Length;
@@ -86,21 +86,27 @@ public static partial class ItemDuplication
     
     // O(n square) -> n bình phương 2
     private static TProperty? LinearSearch<T, TProperty>(
-        IReadOnlyList<T> array, 
-        Func<T, TProperty> func, 
+        IReadOnlyList<T?> array, 
+        Func<T?, TProperty?> func, 
         int count)
         where TProperty : IEquatable<TProperty>
     {
         TProperty? result = default;
         for (int i = 0; i < count; i++)
         {
+            if (array[i] is null)
+                continue;
+            
             var tResult1 = func(array[i]);
-            if (tResult1.Equals(default)) continue;
+            if (tResult1 is null || tResult1.Equals(default)) continue;
 
             for (int j = i + 1; j < count; j++)
             {
+                if (array[j] is null)
+                    continue;
+                
                 var tResult2 = func(array[j]);
-                if (tResult2.Equals(default)) continue;
+                if (tResult2 is null || tResult2.Equals(default)) continue;
 
                 int hashCode1 = tResult1.GetHashCode();
                 int hashCode2 = tResult2.GetHashCode();

@@ -2,7 +2,9 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class ValueObject : IEquatable<ValueObject>
+public interface IValueObject;
+
+public abstract class ValueObject<T> : IValueObject, IEquatable<T>
 {
     private int? _cachedHashCode;
 
@@ -13,7 +15,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
     protected abstract IEnumerable<int> GetHashCodeComponents();
 
-    protected abstract bool EqualComponents(ValueObject valueObject);
+    protected abstract bool EqualComponents(T valueObject);
 
     /* don't know why .Net or EntityFramework calls this Equals(object? obj) a lot. It will cast from valueObject
      * to object and decrease your app performance.
@@ -47,7 +49,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
         if (obj is null)
             return false;
 
-        if (obj is not ValueObject otherValue)
+        if (obj is not T otherValue)
         {
             return false;
         }
@@ -57,7 +59,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
     
     //improving comparing performance by not using cast valueobject to object
     // please check benchmarks.benchmark.CastObject
-    public bool Equals(ValueObject? valueObject)
+    public bool Equals(T? valueObject)
     {
         if (valueObject is null)
             return false;
@@ -89,7 +91,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return _cachedHashCode.Value;
     }
 
-    public static bool operator ==(ValueObject? a, ValueObject? b)
+    public static bool operator ==(ValueObject<T>? a, ValueObject<T>? b)
     {
         if (a is null && b is null)
             return true;
@@ -100,13 +102,8 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return a.Equals(b);
     }
 
-    public static bool operator !=(ValueObject a, ValueObject b)
+    public static bool operator !=(ValueObject<T> a, ValueObject<T> b)
     {
         return !(a == b);
-    }
-
-    public T GetCopy<T>()
-    {
-        return (T)this.MemberwiseClone();
     }
 }

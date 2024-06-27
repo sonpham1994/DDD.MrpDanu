@@ -9,7 +9,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 // name and code of their material differently) but share the same attributes of materials such as color, width,
 // weight, unit, varian, we can treat two materials as the same. So we remove Name from this value object.
 //Other bounded contexts can use this value object to compare materials
-public class MaterialAttributes : ValueObject
+public class MaterialAttributes : ValueObject<MaterialAttributes>
 {
     public string ColorCode { get; } = default!;
     public string Width { get; } = default!;
@@ -89,11 +89,8 @@ public class MaterialAttributes : ValueObject
         yield return ColorCode.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(MaterialAttributes other)
     {
-        if (valueObject is not MaterialAttributes other)
-            return false;
-
         if (Varian != other.Varian)
             return false;
         if (Width != other.Width)

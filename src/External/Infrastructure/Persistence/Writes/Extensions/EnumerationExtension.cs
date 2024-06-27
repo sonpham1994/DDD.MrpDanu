@@ -38,14 +38,27 @@ internal static class EnumerationExtension
 
     // .NET 8 or later version with disable lazy loading for removing virtual entities or disable lazyloading for specific entities
     // please check: https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - "This can be changed in EF8 to opt-in to the classic EF6 behavior such that a navigation can be made to not lazy-load simply by making the navigation non-virtual"
-    public static EntityGuidStronglyTypedId<TId> BindingEnumeration<TEnumeration, TId>(
-        this EntityGuidStronglyTypedId<TId> entity,
-        TEnumeration enumeration,
+    // public static EntityGuidStronglyTypedId<TId> BindingEnumeration<TEnumeration, TId>(
+    //     this EntityGuidStronglyTypedId<TId> entity,
+    //     TEnumeration enumeration,
+    //     string shadowProperty,
+    //     string propertyName,
+    //     AppDbContext context)
+    //     where TEnumeration : Enumeration<TEnumeration>
+    //     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    // {
+    //     var id = context.Entry(entity).Property<byte>(shadowProperty).CurrentValue;
+    //     var value = Enumeration<TEnumeration>.FromId(id).Value;
+    //     entity.GetUnproxiedType().GetProperty(propertyName)!.SetValue(entity, value, null);
+    //
+    //     return entity;
+    // }
+    public static IEntity BindingEnumeration<TEnumeration>(
+        this IEntity entity,
         string shadowProperty,
         string propertyName,
         AppDbContext context)
         where TEnumeration : Enumeration<TEnumeration>
-        where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
     {
         var id = context.Entry(entity).Property<byte>(shadowProperty).CurrentValue;
         var value = Enumeration<TEnumeration>.FromId(id).Value;
@@ -54,8 +67,8 @@ internal static class EnumerationExtension
         return entity;
     }
 
-    public static ValueObject BindingEnumeration<TEnumeration>(
-        this ValueObject valueObject,
+    public static IValueObject BindingEnumeration<TEnumeration>(
+        this IValueObject valueObject,
         string shadowProperty,
         string propertyName,
         AppDbContext context)

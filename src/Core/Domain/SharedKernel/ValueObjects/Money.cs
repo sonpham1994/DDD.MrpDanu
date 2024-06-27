@@ -3,7 +3,7 @@ using Domain.SharedKernel.Enumerations;
 
 namespace Domain.SharedKernel.ValueObjects;
 
-public class Money : ValueObject
+public class Money : ValueObject<Money>
 {
     public decimal Value { get; }
     public CurrencyType CurrencyType { get; } = default!;
@@ -36,10 +36,8 @@ public class Money : ValueObject
         yield return CurrencyType.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(Money other)
     {
-        if (valueObject is not Money other)
-            return false;
         if (Value != other.Value)
             return false;
         if (CurrencyType != other.CurrencyType)

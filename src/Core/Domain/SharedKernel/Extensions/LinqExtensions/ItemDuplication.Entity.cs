@@ -1,7 +1,7 @@
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Exceptions;
 
-namespace Domain.Extensions.LinqExtensions;
+namespace Domain.SharedKernel.Extensions.LinqExtensions;
 
 public static partial class ItemDuplication
 {
@@ -111,53 +111,6 @@ public static partial class ItemDuplication
         
         return result;
     }
-    
-    #region ValueObject
-    public static TProperty? GetValueObjectDuplication<T, TProperty>(
-        this IEnumerable<T?> enumerable, 
-        Func<T?, TProperty> predicate)
-        where T : IEntity
-        where TProperty : ValueObject
-    {
-        TProperty? result;
-        if (enumerable is List<T?> lst)
-        {
-            result = GetValueObjectDuplication(lst, predicate);
-        }
-        else if (enumerable is T[] array)
-        {
-            result = GetValueObjectDuplication(array, predicate);
-        }
-        else
-        {
-            throw new DomainException(DomainErrors.ItemDuplication.NotSupportType(enumerable.GetType().Name));
-        }
-        
-        return result;
-    }
-
-    public static TProperty? GetValueObjectDuplication<T, TProperty>(
-        this List<T?> list, 
-        Func<T?, TProperty> predicate)
-        where T : IEntity
-        where TProperty : ValueObject
-    {
-        var result = LinearSearchValueObject(list, predicate);
-        
-        return result;
-    }
-    
-    public static TProperty? GetValueObjectDuplication<T, TProperty>(
-        this T[] array, 
-        Func<T?, TProperty> predicate)
-        where T : IEntity
-        where TProperty : ValueObject
-    {
-        var result = LinearSearchValueObject(array, predicate);
-        
-        return result;
-    }
-    #endregion ValueObject
     
     private static T? LinearSearchEntity<T>(
         IReadOnlyList<T?> array, 

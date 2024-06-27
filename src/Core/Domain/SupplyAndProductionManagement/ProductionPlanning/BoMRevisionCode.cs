@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.ProductionPlanning;
 
-public class BoMRevisionCode : ValueObject
+public class BoMRevisionCode : ValueObject<BoMRevisionCode>
 {
     public string Value { get; }
 
@@ -30,11 +30,9 @@ public class BoMRevisionCode : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(BoMRevisionCode other)
     {
-        if (valueObject is not BoMRevisionCode boMRevisionCode)
-            return false;
-        if (Value != boMRevisionCode.Value)
+        if (Value != other.Value)
             return false;
 
         return true;

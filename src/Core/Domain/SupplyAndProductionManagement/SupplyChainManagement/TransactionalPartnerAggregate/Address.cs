@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class Address : ValueObject
+public class Address : ValueObject<Address>
 {
     private static byte ZipCodeLength => 5;
 
@@ -54,10 +54,8 @@ public class Address : ValueObject
         yield return Country.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject obj)
+    protected override bool EqualComponents(Address other)
     {
-        if (obj is not Address other)
-            return false;
         if (ZipCode != other.ZipCode)
             return false;
         if (Ward != other.Ward)

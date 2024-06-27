@@ -2,7 +2,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class CompanyName : ValueObject
+public class CompanyName : ValueObject<CompanyName>
 {
     private static ushort CompanyNameMaxLength => 300;
     public string Value { get; } = default!;
@@ -32,10 +32,8 @@ public class CompanyName : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject obj)
+    protected override bool EqualComponents(CompanyName other)
     {
-        if (obj is not CompanyName other)
-            return false;
         if (Value != other.Value)
             return false;
 

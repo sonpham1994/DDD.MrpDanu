@@ -3,7 +3,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class Website : ValueObject
+public class Website : ValueObject<Website>
 {
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
     //https://www.youtube.com/watch?v=RSFiiKUvzLI&ab_channel=NickChapsas
@@ -23,8 +23,6 @@ public class Website : ValueObject
 
     public static Result<Website?> Create(string value)
     {
-        
-
         value = value.Trim();
         if (value.Length > WebsiteLength)
             return DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(WebsiteLength);
@@ -39,10 +37,8 @@ public class Website : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(Website other)
     {
-        if (valueObject is not Website other)
-            return false;
         if (Value != other.Value)
             return false;
 

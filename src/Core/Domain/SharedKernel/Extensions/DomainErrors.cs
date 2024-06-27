@@ -1,7 +1,6 @@
-using Domain.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 
-namespace Domain.Extensions;
+namespace Domain.SharedKernel.Extensions;
 
 public static class DomainErrors
 {

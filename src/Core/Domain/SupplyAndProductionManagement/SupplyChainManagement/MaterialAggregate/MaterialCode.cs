@@ -3,7 +3,7 @@ using Domain.SharedKernel.Base;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-public class MaterialCode : ValueObject
+public class MaterialCode : ValueObject<MaterialCode>
 {
     private static byte CodeMaxLength => 200;
     // validation for characters and special characters like '-', '.', '/'
@@ -51,11 +51,9 @@ public class MaterialCode : ValueObject
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(ValueObject valueObject)
+    protected override bool EqualComponents(MaterialCode other)
     {
-        if (valueObject is not MaterialCode materialCode)
-            return false;
-        if (Value != materialCode.Value)
+        if (Value != other.Value)
             return false;
 
         return true;
