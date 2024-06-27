@@ -3,7 +3,7 @@ using Domain.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
-public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<Enumeration<T>>
+public abstract class Enumeration<T> : IComparable<T>, IEquatable<T>
     where T : Enumeration<T>
 {
     private int? _cachedHashCode;
@@ -19,7 +19,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
 
     public override bool Equals(object? obj)
     {
-        if (obj is not Enumeration<T> otherValue)
+        if (obj is not T otherValue)
         {
             return false;
         }
@@ -29,7 +29,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
 
     //improving comparing performance by not using cast valueobject to object
     // please check benchmarks.benchmark.CastObject
-    public bool Equals(Enumeration<T>? otherValue)
+    public bool Equals(T? otherValue)
     {
         if (otherValue is null)
             return false;
@@ -69,7 +69,7 @@ public abstract class Enumeration<T> : IComparable<Enumeration<T>>, IEquatable<E
         return _cachedHashCode.Value;
     }
 
-    public int CompareTo(Enumeration<T>? other) => Id.CompareTo(other!.Id);
+    public int CompareTo(T? other) => Id.CompareTo(other!.Id);
 
     private static T[] CreateEnumerations()
     {

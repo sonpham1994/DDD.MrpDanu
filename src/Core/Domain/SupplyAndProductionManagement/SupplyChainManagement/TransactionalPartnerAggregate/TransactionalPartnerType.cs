@@ -3,7 +3,6 @@
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
 public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
-    , IEquatable<TransactionalPartnerType> // for span using IndexOf
 {
     public static readonly TransactionalPartnerType Customer = new(1, nameof(Customer));
     public static readonly TransactionalPartnerType Supplier = new(2, nameof(Supplier));
@@ -13,18 +12,6 @@ public class TransactionalPartnerType : Enumeration<TransactionalPartnerType>
 
     private TransactionalPartnerType(in byte id, string name) : base(id, name)
     {
-    }
-
-    public bool Equals(TransactionalPartnerType? value)
-    {
-        if (value is null)
-            return false;
-        if (ReferenceEquals(this, value))
-            return true;
-        if (Id == value.Id)
-            return true;
-
-        return false;
     }
 
     public new static Result<TransactionalPartnerType?> FromId(in byte id)
