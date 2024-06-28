@@ -1,6 +1,5 @@
 using Domain.Extensions;
 using Infrastructure.Persistence.Externals.AuditTables;
-using Infrastructure.Persistence.Externals.AuditTables.Factories;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
@@ -86,7 +85,7 @@ internal sealed class ExternalDbContext : DbContext
          *  invalid state or not, but this situation is rarely to happen (I think so).
          * And also, these data persist with LazyLoader coming from Proxy - Lazy Loading
          */
-        
+
         /*we don't directly convert EntityEntry to AuditTable, because we're using lazy loading, and if we convert
          * EntityEntry to AuditTable here, we load the Entities from db by using lazy load in Serialize method in
          * AuditTable Factory. If we have modified data, it's ok, but we don't have anything to change them, we make an
@@ -101,10 +100,10 @@ internal sealed class ExternalDbContext : DbContext
              .Select(AuditTableFactory.Create) ---> make a further loading here due to Lazy loading
              .ToList();
          */
-        
+
         _auditTables = appDbContext.ChangeTracker
             .Entries()
-            .Where(x => AuditTableFactory.Entities.Any(j => j == x.Entity.GetUnproxiedType())
+            .Where(x => x.Entity.IsEntityAudit()
                         && (x.State.IsModifiedEntityState()
                             || (x.State == EntityState.Unchanged && x.IsInternalEntityModified()))
                     )
@@ -112,7 +111,7 @@ internal sealed class ExternalDbContext : DbContext
              *  we need to create a list of audit tables this, not in GetAuditTables method. Because after saving
              * is made, the entity state will reset. For example Added would be Unchanged, Deleted would be Detached
              */
-            .Select(AuditTableFactory.Create) 
+            .Select(x => x.CreateAuditTable())
             .ToList();
     }
 

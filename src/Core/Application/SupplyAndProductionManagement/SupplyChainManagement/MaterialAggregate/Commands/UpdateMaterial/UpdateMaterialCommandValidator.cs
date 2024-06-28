@@ -41,6 +41,6 @@ internal sealed class UpdateMaterialCommandValidator : AbstractValidator<UpdateM
 
         RuleFor(x => x.MaterialCosts)
             .SetValidator(new MaterialCostsValidator())
-            .When(x => x.MaterialCosts.Any());
+            .When(x => x.MaterialCosts.Count > 0);
     }
 }

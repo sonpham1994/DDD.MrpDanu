@@ -23,7 +23,7 @@ internal sealed class CreateMaterialCommandValidator : AbstractValidator<CreateM
         
         RuleFor(x => x.MaterialCosts)
             .SetValidator(new MaterialCostsValidator())
-            .When(x => x.MaterialCosts.Any());
+            .When(x => x.MaterialCosts.Count > 0);
 
         RuleFor(x => x)
             .MustBeValueObject(

@@ -2,7 +2,6 @@
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
-using PersistenceExtensions = Infrastructure.Persistence.Extensions;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
 
@@ -12,7 +11,7 @@ internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _con
     //to have any restrictions on write side (DDD). So we don't need to follow all the concepts of DDD on query side
     public async Task<IReadOnlyList<SupplierIdWithCurrencyTypeId>> GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(IReadOnlyList<Guid> ids, CancellationToken cancellationToken)
     {
-        var supplierTypeIds = PersistenceExtensions.GetSupplierTypeIds();
+        var supplierTypeIds = TransactionalPartners.Extensions.GetSupplierTypeIds();
 
         //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ using OPENJSON for collection instead of IN for SQL 2019 or later version
         //https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - "However, this strategy does not work well with database query caching"

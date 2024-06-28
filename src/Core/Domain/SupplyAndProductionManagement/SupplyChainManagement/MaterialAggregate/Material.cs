@@ -1,10 +1,11 @@
-﻿using Domain.SharedKernel.Base;
+﻿using Domain.Extensions;
+using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
+public class Material : AggregateRootGuidStronglyTypedId<MaterialId>, IAuditTable
 {
     // this largest number of materials depends on domain, it doesn't make sense if we have the infinite number.
     // The number 20 is the number you should discuss with domain experts, if the domain experts say that 
@@ -69,7 +70,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
     //need to use ubiquitous language for this method
     public Result UpdateCost(IReadOnlyList<MaterialSupplierCost> materialSupplierCosts)
     {
-        var existByAnotherMaterialId = materialSupplierCosts.FirstOrDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
+        var existByAnotherMaterialId = materialSupplierCosts.FindOrFirstDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
         if (existByAnotherMaterialId is not null)
             return DomainErrors.Material.MaterialIdsAreNotTheSame(Id, existByAnotherMaterialId.MaterialSupplierIdentity.MaterialId);
 
@@ -99,7 +100,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>
 
         _materialSupplierCosts
             .RemoveAll(x =>
-                !materialSupplierCosts.Any(j => j.MaterialSupplierIdentity == x.MaterialSupplierIdentity));
+                !materialSupplierCosts.ExistOrAny(j => j.MaterialSupplierIdentity == x.MaterialSupplierIdentity));
 
         return Result.Success();
     }

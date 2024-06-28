@@ -14,6 +14,7 @@ public class FirstOrDefaultVsFindBenchmark
     public int Length { get; set; }
 
     private List<int> _data;
+    private int _dataFind;
 
     [GlobalSetup]
     public void Setup()
@@ -24,20 +25,20 @@ public class FirstOrDefaultVsFindBenchmark
         {
             _data.Add(random.Next());
         }
+
+        _dataFind = _data[Length - 1];
     }
 
     [Benchmark]
     public void FirstOrDefault()
     {
-        var data = _data[Length - 1];
-        var test = _data.FirstOrDefault(x => x == data);
+        var test = _data.FirstOrDefault(x => x == _dataFind);
     }
 
     [Benchmark]
     public void Find()
     {
-        var data = _data[Length - 1];
-        var test = _data.Find(x => x == data);
+        var test = _data.Find(x => x == _dataFind);
     }
 
     [Benchmark]
@@ -45,5 +46,43 @@ public class FirstOrDefaultVsFindBenchmark
     {
         var data = _data[Length - 1];
         var test = _data[Length - 1];
+    }
+
+    [Benchmark]
+    public void FindOrFirstOrDefaultWithPredicate()
+    {
+        var test = FindOrFirstDefaultWithPredicate(_data, x => x == _dataFind);
+    }
+
+    [Benchmark]
+    public void FindOrFirstOrDefaultWithWithFunc()
+    {
+        var test = FindOrFirstDefaultWithFunc(_data, x => x == _dataFind);
+    }
+
+    private static T? FindOrFirstDefaultWithPredicate<T>(IReadOnlyList<T> input, Predicate<T> func)
+    {
+        if (input is List<T> list)
+        {
+            return list.Find(func);
+        }
+        else
+        {
+            Func<T, bool> predicate = new Func<T, bool>(func);
+            return input.FirstOrDefault(predicate);
+        }
+    }
+
+    private static T? FindOrFirstDefaultWithFunc<T>(IReadOnlyList<T> input, Func<T, bool> func)
+    {
+        if (input is List<T> list)
+        {
+            Predicate<T> predicate = new Predicate<T>(func);
+            return list.Find(predicate);
+        }
+        else
+        {
+            return input.FirstOrDefault(func);
+        }
     }
 }

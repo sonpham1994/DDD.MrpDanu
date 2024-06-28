@@ -17,18 +17,31 @@ public static class LinqExtension
         return Result.Success();
     }
 
-    public static T? FindOrFirstDefault<T>(this IReadOnlyList<T> input, Func<T, bool> func)
+    // Please check DDD.MrpDanu\Benchmarks\Benchmark\FirstOrDefaultVsFind\FirstOrDefaultVsFindBenchmark.cs
+    public static T? FindOrFirstDefault<T>(this IReadOnlyList<T> input, Predicate<T> predicate)
     {
         if (input is List<T> list)
         {
-            Predicate<T> predicate = new Predicate<T>(func);
             return list.Find(predicate);
         }
         else
         {
+            Func<T, bool> func = new(predicate);
             return input.FirstOrDefault(func);
         }
     }
-    
-    
+
+    //Please check DDD.MrpDanu\Benchmarks\Benchmark\ExistsOrAny\ExistsOrAnyBenchmark.cs
+    public static bool ExistOrAny<T>(this IReadOnlyList<T> input, Predicate<T> predicate)
+    {
+        if (input is List<T> list)
+        {
+            return list.Exists(predicate);
+        }
+        else
+        {
+            Func<T, bool> func = new(predicate);
+            return input.Any(func);
+        }
+    }
 }

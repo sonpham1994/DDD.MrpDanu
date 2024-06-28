@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Errors\**" />
+    <Compile Remove="SupplyAndProductionManagement\SupplyChainManagement\TransactionalPartnerAggregate\Events\**" />
     <EmbeddedResource Remove="Errors\**" />
+    <EmbeddedResource Remove="SupplyAndProductionManagement\SupplyChainManagement\TransactionalPartnerAggregate\Events\**" />
     <None Remove="Errors\**" />
+    <None Remove="SupplyAndProductionManagement\SupplyChainManagement\TransactionalPartnerAggregate\Events\**" />
     <Compile Update="Extensions\LinqExtensions\ItemDuplication.Entity.cs">
       <DependentUpon>ItemDuplication.cs</DependentUpon>
     </Compile>
@@ -21,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="SupplyAndProductionManagement" />
-    <Folder Include="SupplyAndProductionManagement\SupplyChainManagement\TransactionalPartnerAggregate\Events" />
   </ItemGroup>
   
 </Project>

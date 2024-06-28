@@ -69,7 +69,7 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             if (price <= 0)
                 return DomainErrors.MaterialSupplierCost.InvalidPrice;
 
-            var (existSupplierId, currencyTypeId) = supplierIdWithCurrencyTypeIds.FirstOrDefault(x => x.SupplierId == supplierId);
+            var (existSupplierId, currencyTypeId) = supplierIdWithCurrencyTypeIds.FindOrFirstDefault(x => x.SupplierId == supplierId);
             if (existSupplierId.IsEmpty())
                 return DomainErrors.MaterialSupplierCost.NotFoundSupplierId(supplierId);
 

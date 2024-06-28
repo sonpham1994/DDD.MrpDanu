@@ -10,7 +10,7 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 
 namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit;
 
-public sealed class MaterialAudit : EntityAudit
+internal sealed class MaterialAudit : EntityAudit
 {
     public string Code { get; private set; } = default!;
     public string Name { get; private set; }= default!;
@@ -55,7 +55,7 @@ public sealed class MaterialAudit : EntityAudit
     }
 }
 
-public sealed class MaterialSupplierCostAudit
+internal sealed class MaterialSupplierCostAudit
 {
     public Guid Id { get; private set; }
     public decimal Price { get; private set; }

@@ -83,3 +83,6 @@ public interface IAuditTableForSolution3
  *  process/request or not. So it makes sense to have a correlationId like traceId to group all the impacts if we
  *  change sth
  */
+
+//Solution 4: solution2.1 and mark the entity for AuditTable by interface
+public interface IAuditTable;

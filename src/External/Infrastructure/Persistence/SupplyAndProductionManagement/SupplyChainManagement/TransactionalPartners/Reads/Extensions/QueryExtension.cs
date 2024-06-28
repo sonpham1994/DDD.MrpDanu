@@ -1,7 +1,6 @@
 using System.Data;
 using Dapper;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads.Models;
-using PersistenceExtensions = Infrastructure.Persistence.Extensions;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads.Extensions;
 
@@ -57,7 +56,7 @@ internal static class QueryExtension
          * if we use TransactionalPartnerType.GetSupplierTypes() to get suppliers, we reduce domain knowledge duplication
          *  , but have a highly coupling between read/write side, so we move it to SupplyChainManagementMapping
          */
-        var supplierTypeIds = PersistenceExtensions.GetSupplierTypeIds();
+        var supplierTypeIds = TransactionalPartners.Extensions.GetSupplierTypeIds();
         var suppliers = await dbConnection
             .QueryAsync<SuppliersReadModel>("""
                 SELECT Id, Name, CurrencyTypeId

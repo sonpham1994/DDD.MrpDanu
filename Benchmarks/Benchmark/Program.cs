@@ -21,11 +21,12 @@ using Benchmark.BoxingEntityEquals;
 using Benchmark.ValueObjectEqualsBoxing;
 using Benchmark.FirstOrDefaultVsFind;
 using Benchmark.RecordStructs;
+using Benchmark.ExistsOrAny;
 
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<StrucRecordBenchmark>();
+BenchmarkRunner.Run<ExistsOrAnyBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();
