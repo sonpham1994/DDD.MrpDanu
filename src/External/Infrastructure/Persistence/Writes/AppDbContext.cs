@@ -18,7 +18,6 @@ namespace Infrastructure.Persistence.Writes;
 internal sealed class AppDbContext : DbContext, IUnitOfWork
 {
     private readonly DatabaseSettings _databaseSettings;
-    private readonly bool _isProduction;
     private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
     private readonly IInterceptor[] _interceptors;
     private IDbContextTransaction? _currentTransaction;
@@ -30,15 +29,15 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     public DbSet<Product> Products => Set<Product>();
     public DbSet<BoM> BoMs => Set<BoM>();
 
-    internal AppDbContext(IOptions<DatabaseSettings> databaseSettings
-        , bool isProduction
+    public AppDbContext(IOptions<DatabaseSettings> databaseSettings
         , LoggingDbCommandInterceptor loggingDbCommandInterceptor
-        , params IInterceptor[] interceptors)
+        , EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor
+        , InsertAuditableEntitiesSaveChangesInterceptor insertAuditableEntitiesSaveChangesInterceptor
+        )
     {
         _databaseSettings = databaseSettings.Value;
-        _isProduction = isProduction;
         _loggingDbCommandInterceptor = loggingDbCommandInterceptor;
-        _interceptors = interceptors;
+        _interceptors = [enumerationSaveChangesInterceptor, insertAuditableEntitiesSaveChangesInterceptor];
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -57,7 +56,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
             .UseLazyLoadingProxies(b => b.IgnoreNonVirtualNavigations())
             .AddInterceptors(_interceptors);
 
-        if (!_isProduction)
+        if (_databaseSettings.EnableLog)
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()
@@ -146,30 +145,30 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     }
 }
 
-internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbContext>
-{
-    public AppDbContextDesignFactory()
-    {
+//internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbContext>
+//{
+//    public AppDbContextDesignFactory()
+//    {
         
-    }
-    public AppDbContext CreateDbContext(string[] args)
-    {
-        string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
-        ////string connectionString = "Server=son-quang-pham-0131,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
-        ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
-        {
-        });
-        IOptions<DatabaseSettings> options = Options.Create(new DatabaseSettings
-        {
-            ConnectionString = connectionString
-        });
-        var log = new LoggingDbCommandInterceptor(loggerFactory.CreateLogger<LoggingDbCommandInterceptor>(), options);
-        var externalDbContext = new ExternalDbContext(options, false, log);
-        var insertAuditable = new InsertAuditableEntitiesSaveChangesInterceptor(externalDbContext);
-        return new AppDbContext(
-            options,
-            false,
-            log,
-            insertAuditable);
-    }
-}
+//    }
+//    public AppDbContext CreateDbContext(string[] args)
+//    {
+//        string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
+//        ////string connectionString = "Server=son-quang-pham-0131,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
+//        ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+//        {
+//        });
+//        IOptions<DatabaseSettings> options = Options.Create(new DatabaseSettings
+//        {
+//            ConnectionString = connectionString
+//        });
+//        var log = new LoggingDbCommandInterceptor(loggerFactory.CreateLogger<LoggingDbCommandInterceptor>(), options);
+//        var externalDbContext = new ExternalDbContext(options, false, log);
+//        var insertAuditable = new InsertAuditableEntitiesSaveChangesInterceptor(externalDbContext);
+//        return new AppDbContext(
+//            options,
+//            false,
+//            log,
+//            insertAuditable);
+//    }
+//}

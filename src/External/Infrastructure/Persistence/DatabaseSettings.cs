@@ -20,4 +20,5 @@ public sealed class DatabaseSettings
     public byte MaxRetryCount { get; init; } = 0;
     public int MaxRetryDelay { get; init; } = 0; //seconds
     public double StandardExecutedDbCommandTime { get; init; } = 0; //miliseconds
+    public bool EnableLog { get; init; }
 }

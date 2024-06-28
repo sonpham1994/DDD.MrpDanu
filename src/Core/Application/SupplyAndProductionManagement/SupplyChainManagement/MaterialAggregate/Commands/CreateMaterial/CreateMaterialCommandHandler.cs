@@ -37,7 +37,7 @@ internal sealed class CreateMaterialCommandHandler(
 
         materialRepository.Save(material.Value!);
 
-        if (request.MaterialCosts.Count > 0)
+        if (request.MaterialCosts?.Count > 0)
         {
             var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
             var supplierIdWithCurrencyTypeIds = (await transactionalPartnerReadonlyRepository.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))

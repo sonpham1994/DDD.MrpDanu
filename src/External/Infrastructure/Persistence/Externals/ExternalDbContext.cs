@@ -13,20 +13,17 @@ namespace Infrastructure.Persistence.Externals;
 internal sealed class ExternalDbContext : DbContext
 {
     private readonly DatabaseSettings _databaseSettings;
-    private readonly bool _isProduction;
     private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
     private readonly IInterceptor[] _interceptors;
     private List<AuditTable> _auditTables = [];
 
-    internal ExternalDbContext(IOptions<DatabaseSettings> databaseSettings
-        , bool isProduction
+    public ExternalDbContext(IOptions<DatabaseSettings> databaseSettings
         , LoggingDbCommandInterceptor loggingDbCommandInterceptor
-        , params IInterceptor[] interceptors)
+        , EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor)
     {
         _databaseSettings = databaseSettings.Value;
         _loggingDbCommandInterceptor = loggingDbCommandInterceptor;
-        _isProduction = isProduction;
-        _interceptors = interceptors;
+        _interceptors = [enumerationSaveChangesInterceptor];
     }
 
     public DbSet<AuditTable> AuditTables => Set<AuditTable>();
@@ -42,7 +39,7 @@ internal sealed class ExternalDbContext : DbContext
             })
             .AddInterceptors(_interceptors);
 
-        if (!_isProduction)
+        if (_databaseSettings.EnableLog)
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()
@@ -121,22 +118,22 @@ internal sealed class ExternalDbContext : DbContext
     }
 }
 
-internal class ExternalDbContextDesignFactory : IDesignTimeDbContextFactory<ExternalDbContext>
-{
-    public ExternalDbContext CreateDbContext(string[] args)
-    {
-        string connectionString = "Server=LAPTOP-IHQC4RF9,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
-        //string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
-        ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
-        {
-        });
-        IOptions<DatabaseSettings> options = Options.Create(new DatabaseSettings
-        {
-            ConnectionString = connectionString
-        });
-        return new ExternalDbContext(
-            options,
-            false,
-            new LoggingDbCommandInterceptor(loggerFactory.CreateLogger<LoggingDbCommandInterceptor>(), options));
-    }
-}
+//internal class ExternalDbContextDesignFactory : IDesignTimeDbContextFactory<ExternalDbContext>
+//{
+//    public ExternalDbContext CreateDbContext(string[] args)
+//    {
+//        string connectionString = "Server=LAPTOP-IHQC4RF9,1433;Database=DDD.MrpDanu;User Id=sa;Password=Vsa*12345#;TrustServerCertificate=true";
+//        //string connectionString = "Server=localhost,1433;Database=DDD.MrpDanu;User Id=sa;Password=reallyStrongPwd123;TrustServerCertificate=true";
+//        ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+//        {
+//        });
+//        IOptions<DatabaseSettings> options = Options.Create(new DatabaseSettings
+//        {
+//            ConnectionString = connectionString
+//        });
+//        return new ExternalDbContext(
+//            options,
+//            false,
+//            new LoggingDbCommandInterceptor(loggerFactory.CreateLogger<LoggingDbCommandInterceptor>(), options));
+//    }
+//}

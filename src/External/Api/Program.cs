@@ -100,7 +100,10 @@ builder.Services.AddControllers(options =>
     * Please noticed that: when we fall back to reflection-based, we don't see the error of register source generator. So some
     * api use reflection-based but you expect it should be source generator.
     */
-    options.JsonSerializerOptions.TypeInfoResolver = JsonTypeInfoResolver.Combine(ApiRequestJsonSourceGenerator.Default, ApiResponseJsonSourceGenerator.Default);
+    options.JsonSerializerOptions.TypeInfoResolver = JsonTypeInfoResolver
+    .Combine(
+        ApiRequestJsonSourceGenerator.Default, 
+        ApiResponseJsonSourceGenerator.Default);
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

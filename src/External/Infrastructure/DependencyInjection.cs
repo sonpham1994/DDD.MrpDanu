@@ -41,30 +41,32 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDbContext(this IServiceCollection services, bool isProduction)
     {
-        services.AddScoped(sp =>
-        {
-            var databaseSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>();
-            var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
-            var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
+        //services.AddScoped(sp =>
+        //{
+        //    var databaseSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>();
+        //    var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
+        //    var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
 
-            return new ExternalDbContext(databaseSettings,
-                isProduction,
-                loggingDbCommandInterceptor,
-                enumerationSaveChangesInterceptor);
-        });
+        //    return new ExternalDbContext(databaseSettings,
+        //        isProduction,
+        //        loggingDbCommandInterceptor,
+        //        enumerationSaveChangesInterceptor);
+        //});
+        //services.AddScoped(sp =>
+        //{
+        //    var databaseSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>();
+        //    var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
+        //    var insertAuditableEntitiesInterceptor = sp.GetRequiredService<InsertAuditableEntitiesSaveChangesInterceptor>();
+        //    var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
 
-        services.AddScoped(sp =>
-        {
-            var databaseSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>();
-            var loggingDbCommandInterceptor = sp.GetRequiredService<LoggingDbCommandInterceptor>();
-            var insertAuditableEntitiesInterceptor = sp.GetRequiredService<InsertAuditableEntitiesSaveChangesInterceptor>();
-            var enumerationSaveChangesInterceptor = sp.GetRequiredService<EnumerationSaveChangesInterceptor>();
+        //    return new AppDbContext(databaseSettings,
+        //        isProduction,
+        //        loggingDbCommandInterceptor,
+        //        enumerationSaveChangesInterceptor, insertAuditableEntitiesInterceptor);
+        //});
 
-            return new AppDbContext(databaseSettings,
-                isProduction,
-                loggingDbCommandInterceptor,
-                enumerationSaveChangesInterceptor, insertAuditableEntitiesInterceptor);
-        });
+        services.AddDbContext<ExternalDbContext>();
+        services.AddDbContext<AppDbContext>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 
