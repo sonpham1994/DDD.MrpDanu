@@ -42,7 +42,7 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        base.OnConfiguring(optionsBuilder);
+        //base.OnConfiguring(optionsBuilder);
         optionsBuilder
             .UseSqlServer(_databaseSettings.ConnectionString, msSqlOptions =>
             {
