@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.LoggingDefinitions;
 
@@ -41,35 +42,30 @@ internal static class PerformanceDetectionCommandInterceptorLoggingDefinition
     //     StartLogLongDbCommandLoggingDefinition(logger, traceId, methodName, durationInMilliSeconds, parameters, DateTime.UtcNow, commandText, null);
     // }
     
-    private static readonly Action<ILogger, EventId, string, double, DateTime, Exception?> StartLogDbCommandLoggingDefinition =
-        LoggerMessage.Define<EventId, string, double, DateTime>
-        (
-            LogLevel.Information,
-            0,
-            @"PerformanceDetectionCommandInterceptorLogging - EventId: {@EventId} - {MethodName} - Executed DbCommand ({ExecutedDbCommandTime}) milliseconds, Time={@DateTimeUtcNow}"
-        );
-
-    private static readonly Action<ILogger, EventId, string, double,  DateTime, Exception?> StartLogLongDbCommandLoggingDefinition =
-        LoggerMessage.Define<EventId, string, double, DateTime>
+    private static readonly Action<ILogger, string, EventId, string, double,  DateTime, string, Exception?> StartLogLongDbCommandLoggingDefinition =
+        LoggerMessage.Define<string, EventId, string, double, DateTime, string>
         (
             LogLevel.Warning,
             0,
-            @"PerformanceDetectionCommandInterceptorLogging - EventId: {@EventId} - {MethodName} - Executed DbCommand ({ExecutedDbCommandTime}) milliseconds, Time={@DateTimeUtcNow}"
+            """
+            LoggingType: {LoggingType} - EventId: {@EventId} - {MethodName} - Executed DbCommand ({ExecutedDbCommandTime}) milliseconds in a long time, Time={@DateTimeUtcNow}
+            CommandText: {CommandText}
+            """
         );
-
-    public static void StartLogDbCommand(this ILogger logger, 
-        string methodName, 
-        double durationInMilliSeconds,
-        EventId eventId)
-    {
-        StartLogDbCommandLoggingDefinition(logger, eventId, methodName, durationInMilliSeconds, DateTime.UtcNow, null);
-    }
 
     public static void StartLogLongDbCommand(this ILogger logger,
         string methodName,
         double durationInMilliSeconds,
-        EventId eventId)
+        CommandExecutedEventData commandExecutedEventData)
     {
-        StartLogLongDbCommandLoggingDefinition(logger, eventId, methodName, durationInMilliSeconds, DateTime.UtcNow, null);
+        StartLogLongDbCommandLoggingDefinition(
+            logger,
+            LoggingTypes.PerformanceDetectionCommandInterceptor,
+            commandExecutedEventData.EventId, 
+            methodName, 
+            durationInMilliSeconds, 
+            DateTime.UtcNow, 
+            commandExecutedEventData.Command.CommandText, 
+            null);
     }
 }

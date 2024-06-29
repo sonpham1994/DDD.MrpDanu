@@ -7,26 +7,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Behaviors.Interceptors.Base;
 
-internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
+internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>(
+    IEnumerable<IValidator<TRequest>> validators,
+    ILogger<ValidatorBaseInterceptor<TRequest, TResponse>> logger)
     where TResponse : IResult
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
-    private readonly ILogger<ValidatorBaseInterceptor<TRequest, TResponse>> _logger;
-
-    protected ValidatorBaseInterceptor(IEnumerable<IValidator<TRequest>> validators
-        , ILogger<ValidatorBaseInterceptor<TRequest, TResponse>> logger)
-    {
-        _validators = validators;
-        _logger = logger;
-    }
-
     protected async Task<TResponse> HandleRequest(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var requestTypeName = typeof(TRequest).Name;
 
-        _logger.StartValidation(requestTypeName);
+        logger.StartValidation(requestTypeName);
         
-        IReadOnlyList<DomainError> domainErrors = _validators
+        IReadOnlyList<DomainError> domainErrors = validators
             .Select(x => x.Validate(request))
             .SelectMany(x => x.Errors)
             .Where(x => x is not null)
@@ -34,7 +26,7 @@ internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
         
         if (domainErrors.Count > 0)
         {
-            _logger.ValidateFailure(requestTypeName, domainErrors);
+            logger.ValidateFailure(requestTypeName, domainErrors);
             
             //boxing: cast from value type to reference type (struct to interface)
             IResult result = Result.Failure(domainErrors[0]);
@@ -46,7 +38,7 @@ internal abstract class ValidatorBaseInterceptor<TRequest, TResponse>
             //throw new DomainException(domainErrors);
         }
         
-        _logger.CompletedValidation(requestTypeName);
+        logger.CompletedValidation(requestTypeName);
 
         var response = await next();
 

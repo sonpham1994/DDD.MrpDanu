@@ -7,41 +7,33 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence;
 
-internal sealed class DatabaseTransaction : ITransaction
+internal sealed class DatabaseTransaction(AppDbContext appDbContext, ILogger<DatabaseTransaction> logger)
+    : ITransaction
 {
-    private readonly AppDbContext _appDbContext;
-    private readonly ILogger<DatabaseTransaction> _logger;
-
-    public DatabaseTransaction(AppDbContext appDbContext, ILogger<DatabaseTransaction> logger)
-    {
-        _appDbContext = appDbContext;
-        _logger = logger;
-    }
-
     public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
     {
         IResult result = Result.Success();
         try
         {
             //https://learn.microsoft.com/en-gb/ef/core/saving/transactions
-            var strategy = _appDbContext.Database.CreateExecutionStrategy();
+            var strategy = appDbContext.Database.CreateExecutionStrategy();
 
             await strategy.ExecuteAsync(async () =>
             {
-                await using var transaction = await _appDbContext.BeginTransactionAsync();
+                await using var transaction = await appDbContext.BeginTransactionAsync();
                 result = await transactionalHandler.HandleAsync();
 
                 if (result.IsSuccess)
-                    await _appDbContext.CommitTransactionAsync(transaction);
+                    await appDbContext.CommitTransactionAsync(transaction);
                 else
-                    _appDbContext.RollbackTransaction();
+                    appDbContext.RollbackTransaction();
             });
         }
         catch (Exception ex)
         {
-            _appDbContext.RollbackTransaction();
+            appDbContext.RollbackTransaction();
             var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
-            _logger.LogError(ex, "ERROR Handling transaction: {@Message}", message);
+            logger.LogError(ex, "ERROR Handling transaction: {@Message}", message);
             
             throw;
         }

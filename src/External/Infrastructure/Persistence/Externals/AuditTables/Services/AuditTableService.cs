@@ -18,7 +18,7 @@ internal sealed class AuditTableService : IAuditTableService
         
     }
 
-    public async Task<Result> LogChangesAsync()
+    public async Task<Result> InsertChangesAsync()
     {
         var auditTables = _externalDbContext.GetAuditTables();
 

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.EventListeners;
 
-internal sealed class GcEventListener : EventListener
+internal sealed class GcEventListener(ILogger<GcEventListener> logger) : EventListener
 {
     private const string EventCounters = "EventCounters";
     private const string KeyGcName = "Name";
@@ -13,12 +13,8 @@ internal sealed class GcEventListener : EventListener
     private static int _previousGen1Count;
     private static int _previousGen2Count;
     
-    private readonly ILogger<GcEventListener>? _logger;
+    private readonly ILogger<GcEventListener>? _logger = logger;
 
-    public GcEventListener(ILogger<GcEventListener> logger)
-    {
-        _logger = logger;
-    }
     protected override void OnEventSourceCreated(EventSource eventSource)
     {
         EnableEvents(eventSource, EventLevel.LogAlways, EventKeywords.All);

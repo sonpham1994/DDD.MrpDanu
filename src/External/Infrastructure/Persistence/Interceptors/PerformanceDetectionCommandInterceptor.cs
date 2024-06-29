@@ -55,11 +55,7 @@ internal sealed class PerformanceDetectionCommandInterceptor(
         double durationInMilliSeconds = eventData.Duration.TotalMilliseconds;
         if (durationInMilliSeconds > _standardExecutedDbCommandTime)
         {
-            logger.StartLogLongDbCommand(methodName, durationInMilliSeconds, eventData.EventId);
-        }
-        else
-        {
-            logger.StartLogDbCommand(methodName, durationInMilliSeconds, eventData.EventId);
+            logger.StartLogLongDbCommand(methodName, durationInMilliSeconds, eventData);
         }
     }
 }

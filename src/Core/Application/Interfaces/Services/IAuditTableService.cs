@@ -4,7 +4,7 @@ namespace Application.Interfaces.Services;
 
 public interface IAuditTableService
 {
-    Task<Result> LogChangesAsync();
+    Task<Result> InsertChangesAsync();
     /*
      *  - Solution 1: you just put the IAuditTable interface in any Domain and then serializing all properties in that
      *  entity.

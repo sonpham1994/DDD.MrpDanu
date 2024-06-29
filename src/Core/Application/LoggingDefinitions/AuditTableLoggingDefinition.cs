@@ -11,28 +11,28 @@ namespace Application.LoggingDefinitions;
  */
 internal static class AuditTableLoggingDefinition
 {
-    private static readonly Action<ILogger, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
-       LoggerMessage.Define<DateTime>(LogLevel.Information, 0,
-           "AuditTableLogging - Log AuditTable start: Time: {@DateTimeUtc}");
+    private static readonly Action<ILogger, string, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
+       LoggerMessage.Define<string, DateTime>(LogLevel.Information, 0,
+           "LoggingType: {LoggingType} - Insertion AuditTable start: Time: {@DateTimeUtc}");
 
-    private static readonly Action<ILogger, DateTime, double, Exception?> CompletedLogAuditTableLoggingDefinition =
-       LoggerMessage.Define<DateTime, double>(LogLevel.Information, 0,
-           "AuditTableLogging - Log AuditTable completed: Time: {@DateTimeUtc} in {ElapsedMs}ms");
+    private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLogAuditTableLoggingDefinition =
+       LoggerMessage.Define<string, DateTime, double>(LogLevel.Information, 0,
+           "LoggingType: {LoggingType} - Insertion AuditTable completed: Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
-    private static readonly Action<ILogger, DateTime, double, Exception?> CompletedLongLogAuditTableLoggingDefinition =
-        LoggerMessage.Define<DateTime, double>(LogLevel.Warning, 0,
-            "AuditTableLogging - Log AuditTable completed in a long time: Time: {@DateTimeUtc} in {ElapsedMs}ms");
+    private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLongLogAuditTableLoggingDefinition =
+        LoggerMessage.Define<string, DateTime, double>(LogLevel.Warning, 0,
+            "LoggingType: {LoggingType} - Insertion AuditTable completed in a long time: Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     public static void StartLogAuditTable(this ILogger logger)
     {
-        StartLogAuditTableLoggingDefinition(logger, DateTime.UtcNow, null);
+        StartLogAuditTableLoggingDefinition(logger, LoggingTypes.AuditTable, DateTime.UtcNow, null);
     }
 
     public static void CompletedLogAuditTable(this ILogger logger, double totalMilliseconds)
     {
         if (totalMilliseconds < 2000)
-            CompletedLogAuditTableLoggingDefinition(logger, DateTime.UtcNow, totalMilliseconds, null);
+            CompletedLogAuditTableLoggingDefinition(logger, LoggingTypes.AuditTable, DateTime.UtcNow, totalMilliseconds, null);
         else
-            CompletedLongLogAuditTableLoggingDefinition(logger, DateTime.UtcNow, totalMilliseconds, null);
+            CompletedLongLogAuditTableLoggingDefinition(logger, LoggingTypes.AuditTable, DateTime.UtcNow, totalMilliseconds, null);
     }
 }

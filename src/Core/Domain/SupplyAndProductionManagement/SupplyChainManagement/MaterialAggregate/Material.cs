@@ -70,7 +70,8 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>, IAuditTabl
     //need to use ubiquitous language for this method
     public Result UpdateCost(IReadOnlyList<MaterialSupplierCost> materialSupplierCosts)
     {
-        var existByAnotherMaterialId = materialSupplierCosts.FindOrFirstDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
+        var existByAnotherMaterialId = materialSupplierCosts
+            .FindOrFirstDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
         if (existByAnotherMaterialId is not null)
             return DomainErrors.Material.MaterialIdsAreNotTheSame(Id, existByAnotherMaterialId.MaterialSupplierIdentity.MaterialId);
 

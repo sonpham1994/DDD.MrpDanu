@@ -25,7 +25,7 @@ public static class DependencyInjection
                 .AddOpenBehavior(typeof(ValidatorInterceptor<,>))
                 .AddOpenBehavior(typeof(ValidatorResponseInterceptor<,>))
                 .AddOpenBehavior(typeof(TransactionalBehavior<,>))
-                .AddOpenBehavior(typeof(GCHandlerLoggingInterceptor<,>));
+                .AddOpenBehavior(typeof(HandlerLoggingInterceptor<,>));
         });
         
         return services;
