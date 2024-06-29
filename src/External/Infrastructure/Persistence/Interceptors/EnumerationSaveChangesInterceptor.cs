@@ -1,4 +1,5 @@
 using Domain;
+using Domain.Extensions;
 using Domain.SharedKernel.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -15,7 +16,7 @@ internal sealed class EnumerationSaveChangesInterceptor : SaveChangesInterceptor
     {
         var dbContext = eventData.Context;
         var enumerationEntries = dbContext!.ChangeTracker.Entries()
-            .Where(x => EnumerationTypes.Contains(x.Entity.GetType()) && x.State != EntityState.Unchanged)
+            .Where(x => EnumerationTypes.Contains(x.Entity.GetUnproxiedType()) && x.State != EntityState.Unchanged)
             .ToList();
 
         foreach (var enumerationEntry in enumerationEntries)
