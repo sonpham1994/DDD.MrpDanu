@@ -12,6 +12,7 @@
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Serilog" />
   </ItemGroup>
   
   <ItemGroup>

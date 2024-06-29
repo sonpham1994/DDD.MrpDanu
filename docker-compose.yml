@@ -6,6 +6,8 @@ services:
   mssqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mrp_sql_server
+    # platform: linux/amd64
+    # platform: linux/arm64/v8
     ports:
       - "1433:1433"
     volumes:

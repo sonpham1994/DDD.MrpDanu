@@ -15,11 +15,19 @@ using Domain.SupplyAndProductionManagement.ProductionPlanning;
 
 namespace Infrastructure.Persistence.Writes;
 
-internal sealed class AppDbContext : DbContext, IUnitOfWork
+internal sealed class AppDbContext(
+    DbContextOptions<AppDbContext> options,
+    IOptions<DatabaseSettings> databaseSettings,
+    EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor,
+    InsertAuditableEntitiesSaveChangesInterceptor insertAuditableEntitiesSaveChangesInterceptor,
+    PerformanceDetectionCommandInterceptor performanceDetectionCommandInterceptor)
+    : DbContext(options), IUnitOfWork
 {
-    private readonly DatabaseSettings _databaseSettings;
-    private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
-    private readonly IInterceptor[] _interceptors;
+    private readonly DatabaseSettings _databaseSettings = databaseSettings.Value;
+    private readonly IInterceptor[] _interceptors = [
+        enumerationSaveChangesInterceptor, 
+        insertAuditableEntitiesSaveChangesInterceptor, 
+        performanceDetectionCommandInterceptor];
     private IDbContextTransaction? _currentTransaction;
 
     public bool HasActiveTransaction => _currentTransaction != null;
@@ -28,17 +36,6 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
     public DbSet<TransactionalPartner> TransactionalPartners => Set<TransactionalPartner>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<BoM> BoMs => Set<BoM>();
-
-    public AppDbContext(IOptions<DatabaseSettings> databaseSettings
-        , LoggingDbCommandInterceptor loggingDbCommandInterceptor
-        , EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor
-        , InsertAuditableEntitiesSaveChangesInterceptor insertAuditableEntitiesSaveChangesInterceptor
-        )
-    {
-        _databaseSettings = databaseSettings.Value;
-        _loggingDbCommandInterceptor = loggingDbCommandInterceptor;
-        _interceptors = [enumerationSaveChangesInterceptor, insertAuditableEntitiesSaveChangesInterceptor];
-    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -54,23 +51,21 @@ internal sealed class AppDbContext : DbContext, IUnitOfWork
             })
             // Disable lazy-loading for entities are not virtual: https://learn.microsoft.com/en-gb/ef/core/what-is-new/ef-core-8.0/whatsnew - Opt-out of lazy-loading for specific navigations
             .UseLazyLoadingProxies(b => b.IgnoreNonVirtualNavigations())
+            //Interceptor: https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
+            //https://devblogs.microsoft.com/dotnet/announcing-ef7-preview7-entity-framework/
             .AddInterceptors(_interceptors);
 
         if (_databaseSettings.EnableLog)
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()
-                .EnableDetailedErrors()
-                //Interceptor: https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors
-                //https://devblogs.microsoft.com/dotnet/announcing-ef7-preview7-entity-framework/
-                .AddInterceptors(_loggingDbCommandInterceptor);
-
+                .EnableDetailedErrors();
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        //base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 

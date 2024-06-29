@@ -4,22 +4,16 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Infrastructure.Persistence.Interceptors;
 
-internal sealed class InsertAuditableEntitiesSaveChangesInterceptor : SaveChangesInterceptor
+internal sealed class InsertAuditableEntitiesSaveChangesInterceptor(ExternalDbContext externalDbContext)
+    : SaveChangesInterceptor
 {
-    private readonly ExternalDbContext _externalDbContext;
-    
-    public InsertAuditableEntitiesSaveChangesInterceptor(ExternalDbContext externalDbContext)
-    {
-        _externalDbContext = externalDbContext;
-    }
-    
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
         if (eventData.Context is AppDbContext appDbContext)
         {
-            _externalDbContext.SetAuditTables(appDbContext);
+            externalDbContext.SetAuditTables(appDbContext);
         }
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
@@ -30,7 +24,7 @@ internal sealed class InsertAuditableEntitiesSaveChangesInterceptor : SaveChange
     {
         if (eventData.Context is AppDbContext appDbContext)
         {
-            _externalDbContext.SetAuditTables(appDbContext);
+            externalDbContext.SetAuditTables(appDbContext);
         }
 
         return base.SavingChanges(eventData, result);
@@ -43,7 +37,7 @@ internal sealed class InsertAuditableEntitiesSaveChangesInterceptor : SaveChange
     {
         if (eventData.Context is AppDbContext && result == 0)
         {
-            _externalDbContext.ClearAuditTables();
+            externalDbContext.ClearAuditTables();
         }
 
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
@@ -53,7 +47,7 @@ internal sealed class InsertAuditableEntitiesSaveChangesInterceptor : SaveChange
     {
         if (eventData.Context is AppDbContext && result == 0)
         {
-            _externalDbContext.ClearAuditTables();
+            externalDbContext.ClearAuditTables();
         }
 
         return base.SavedChanges(eventData, result);

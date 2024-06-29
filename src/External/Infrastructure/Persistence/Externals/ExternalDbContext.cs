@@ -1,30 +1,23 @@
-using Domain.Extensions;
 using Infrastructure.Persistence.Externals.AuditTables;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Persistence.Externals;
 
-internal sealed class ExternalDbContext : DbContext
+internal sealed class ExternalDbContext(
+    DbContextOptions<ExternalDbContext> options,
+    IOptions<DatabaseSettings> databaseSettings,
+    EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor,
+    PerformanceDetectionCommandInterceptor performanceDetectionCommandInterceptor)
+    : DbContext(options)
 {
-    private readonly DatabaseSettings _databaseSettings;
-    private readonly LoggingDbCommandInterceptor _loggingDbCommandInterceptor;
-    private readonly IInterceptor[] _interceptors;
+    private readonly DatabaseSettings _databaseSettings = databaseSettings.Value;
+    private readonly IInterceptor[] _interceptors = [enumerationSaveChangesInterceptor, performanceDetectionCommandInterceptor];
     private List<AuditTable> _auditTables = [];
-
-    public ExternalDbContext(IOptions<DatabaseSettings> databaseSettings
-        , LoggingDbCommandInterceptor loggingDbCommandInterceptor
-        , EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor)
-    {
-        _databaseSettings = databaseSettings.Value;
-        _loggingDbCommandInterceptor = loggingDbCommandInterceptor;
-        _interceptors = [enumerationSaveChangesInterceptor];
-    }
 
     public DbSet<AuditTable> AuditTables => Set<AuditTable>();
     public DbSet<StateAuditTable> StateAuditTables => Set<StateAuditTable>();
@@ -43,7 +36,7 @@ internal sealed class ExternalDbContext : DbContext
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()
-                .AddInterceptors(_loggingDbCommandInterceptor);
+                .EnableDetailedErrors();
         }
     }
 

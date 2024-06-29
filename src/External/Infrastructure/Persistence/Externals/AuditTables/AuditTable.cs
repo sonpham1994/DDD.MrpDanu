@@ -1,6 +1,6 @@
-using Application.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Application.Helpers;
 
 namespace Infrastructure.Persistence.Externals.AuditTables;
 

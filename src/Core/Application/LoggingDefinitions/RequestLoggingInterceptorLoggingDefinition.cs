@@ -1,4 +1,3 @@
-using Application.Helpers;
 using Domain.SharedKernel.Base;
 using Microsoft.Extensions.Logging;
 
@@ -17,38 +16,36 @@ namespace Application.LoggingDefinitions;
 */
 internal static class RequestLoggingInterceptorLoggingDefinition
 {
-    private static readonly Action<ILogger, string?, string, object?, DateTime, Exception?> StartRequestLoggingDefinition =
-        LoggerMessage.Define<string?, string, object?, DateTime>(LogLevel.Information, 0,
-            "----- TraceId: {TraceId} - Starting request: {RequestName} - Request: {@Request} - Time: {@DateTimeUtc}");
+    private static readonly Action<ILogger, string, object?, DateTime, Exception?> StartRequestLoggingDefinition =
+        LoggerMessage.Define<string, object?, DateTime>(LogLevel.Information, 0,
+            "RequestLogging - Starting request: {RequestName} - Request: {@Request} - Time: {@DateTimeUtc}");
     
-    private static readonly Action<ILogger, string?, string, object?, DateTime, Exception?> CompletedRequestLoggingDefinition =
-        LoggerMessage.Define<string?, string, object?, DateTime>(LogLevel.Information, 0,
-            "----- TraceId: {TraceId} - Completed request: {RequestName} - Response: {@Response} - Time: {@DateTimeUtc}");
+    private static readonly Action<ILogger,  string, object?, DateTime, Exception?> CompletedRequestLoggingDefinition =
+        LoggerMessage.Define<string, object?, DateTime>(LogLevel.Information, 0,
+            "RequestLogging - Completed request: {RequestName} - Response: {@Response} - Time: {@DateTimeUtc}");
     
-    private static readonly Action<ILogger, string?, string, Result, DateTime, Exception?> CompletedRequestWithResultLoggingDefinition =
-        LoggerMessage.Define<string?, string, Result, DateTime>(LogLevel.Information, 0,
-            "----- TraceId: {TraceId} - Completed request: {RequestName} - Response: {@Response} - Time: {@DateTimeUtc}");
+    private static readonly Action<ILogger, string, Result, DateTime, Exception?> CompletedRequestWithResultLoggingDefinition =
+        LoggerMessage.Define<string, Result, DateTime>(LogLevel.Information, 0,
+            "RequestLogging - Completed request: {RequestName} - Response: {@Response} - Time: {@DateTimeUtc}");
 
     public static void StartRequest<TRequest>(this ILogger logger, TRequest request)
     {
         var requestTypeName = typeof(TRequest).Name;
-        var traceId = Helper.GetTraceId();
         
-        StartRequestLoggingDefinition(logger, traceId, requestTypeName, request, DateTime.UtcNow, null);
+        StartRequestLoggingDefinition(logger, requestTypeName, request, DateTime.UtcNow, null);
     }
     
     public static void CompletedRequest<T>(this ILogger logger, in T response, string requestTypeName)
     {
-        var traceId = Helper.GetTraceId();
         //Result is struct, so we need to prevent boxing
         if (response is Result result)
         {
-            CompletedRequestWithResultLoggingDefinition(logger, traceId, requestTypeName, result, DateTime.UtcNow, null);
+            CompletedRequestWithResultLoggingDefinition(logger, requestTypeName, result, DateTime.UtcNow, null);
         }
         //for case Result<T> we cannot prevent boxing, because we need to know the exact which T type is
         else
         {
-            CompletedRequestLoggingDefinition(logger, traceId, requestTypeName, response, DateTime.UtcNow, null);
+            CompletedRequestLoggingDefinition(logger, requestTypeName, response, DateTime.UtcNow, null);
         }
     }
 }

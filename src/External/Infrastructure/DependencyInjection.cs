@@ -180,12 +180,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDbInterceptors(this IServiceCollection services)
     {
-        services.TryAddSingleton<LoggingDbCommandInterceptor>();
+        services.TryAddSingleton<PerformanceDetectionCommandInterceptor>();
         services.TryAddSingleton<EnumerationSaveChangesInterceptor>();
 
         //due to inject ExternalDbContext, we cannot use Singleton
-        services.AddScoped<InsertAuditableEntitiesSaveChangesInterceptor>();
-        
+        services.TryAddScoped<InsertAuditableEntitiesSaveChangesInterceptor>();
 
         return services;
     }

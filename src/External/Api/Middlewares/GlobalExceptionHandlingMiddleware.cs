@@ -1,23 +1,13 @@
 using System.Net;
 using System.Text.Json;
-using Application.Helpers;
 using Domain.SharedKernel.Exceptions;
 using Api.ApiResponses;
 using Api.SourceGenerators;
 
 namespace Api.Middlewares;
 
-public class GlobalExceptionHandlingMiddleware : IMiddleware
+public class GlobalExceptionHandlingMiddleware(IWebHostEnvironment env, Serilog.ILogger logger) : IMiddleware
 {
-    private readonly Serilog.ILogger _logger;
-    private readonly IWebHostEnvironment _env;
-
-    public GlobalExceptionHandlingMiddleware(IWebHostEnvironment env, Serilog.ILogger logger)
-    {
-        _env = env;
-        _logger = logger;
-    }
-
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
@@ -36,11 +26,10 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
         }
         catch (Exception e)
         {
-            var traceId = Helper.GetTraceId();
             string messageDetail = $"Exception: {e.Message}{Environment.NewLine}{e.InnerException}";
-            var error = _env.IsProduction() ? ApiErrors.InternalServerErrorOnProduction : ApiErrors.InternalServerError(messageDetail);
+            var error = env.IsProduction() ? ApiErrors.InternalServerErrorOnProduction : ApiErrors.InternalServerError(messageDetail);
 
-            _logger.Error(e, "----- TraceId: {TraceId}, ErrorMessageDetail: {ErrorMessageDetail}", traceId, messageDetail);
+            logger.Error(e, "ErrorMessageDetail: {ErrorMessageDetail}", messageDetail);
 
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 

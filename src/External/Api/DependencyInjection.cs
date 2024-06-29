@@ -30,6 +30,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddCustomMiddlewares(this IServiceCollection services)
     {
+        services.AddScoped<LoggingMiddleware>();
         services.AddScoped<GlobalExceptionHandlingMiddleware>();
 
         return services;

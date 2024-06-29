@@ -1,5 +1,4 @@
 using Application.Behaviors.TransactionalBehaviours;
-using Application.Helpers;
 using Application.Interfaces;
 using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.Writes;
@@ -40,10 +39,9 @@ internal sealed class DatabaseTransaction : ITransaction
         }
         catch (Exception ex)
         {
-            var traceId = Helper.GetTraceId();
             _appDbContext.RollbackTransaction();
             var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
-            _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
+            _logger.LogError(ex, "ERROR Handling transaction: {@Message}", message);
             
             throw;
         }

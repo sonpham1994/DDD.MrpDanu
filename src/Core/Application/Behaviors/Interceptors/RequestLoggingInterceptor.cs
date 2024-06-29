@@ -4,24 +4,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Behaviors.Interceptors;
 
-internal sealed class RequestLoggingInterceptor<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class RequestLoggingInterceptor<TRequest, TResponse>(
+    ILogger<RequestLoggingInterceptor<TRequest, TResponse>> logger)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<RequestLoggingInterceptor<TRequest, TResponse>> _logger;
-
-    public RequestLoggingInterceptor(ILogger<RequestLoggingInterceptor<TRequest, TResponse>> logger)
-        => _logger = logger;
-    
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         var requestTypeName = typeof(TRequest).Name;
 
-        _logger.StartRequest(request);
-        
+        logger.StartRequest(request);
+    
         var response = await next();
-        
-        _logger.CompletedRequest(response, requestTypeName);
+    
+        logger.CompletedRequest(response, requestTypeName);
 
         return response;
     }

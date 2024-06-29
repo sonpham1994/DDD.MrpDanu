@@ -22,7 +22,6 @@ internal sealed class EnumerationSaveChangesInterceptor : SaveChangesInterceptor
         {
             enumerationEntry.State = EntityState.Unchanged;
         }
-
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
     

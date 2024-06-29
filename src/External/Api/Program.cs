@@ -149,6 +149,7 @@ app.UseCors(cors =>
 
 app.UseAuthorization();
 
+app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapControllers();
