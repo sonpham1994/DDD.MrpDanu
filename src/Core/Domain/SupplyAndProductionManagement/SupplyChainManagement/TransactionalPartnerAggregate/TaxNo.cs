@@ -41,13 +41,6 @@ public class TaxNo : ValueObject<TaxNo>
         yield return Country.GetHashCode();
     }
 
-    protected override bool EqualComponents(TaxNo other)
-    {
-        if (Value != other.Value)
-            return false;
-        if (Country != other.Country)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(TaxNo other) 
+        => Value == other.Value && Country == other.Country;
 }

@@ -32,11 +32,6 @@ public class CompanyName : ValueObject<CompanyName>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(CompanyName other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(CompanyName other) 
+        => Value == other.Value;
 }

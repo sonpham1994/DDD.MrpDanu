@@ -1,5 +1,5 @@
 using System.Reflection;
-using Domain.Extensions;
+using Domain.SharedKernel.Extensions;
 using Domain.SharedKernel.Base;
 
 namespace Infrastructure.Persistence.Writes.Extensions;

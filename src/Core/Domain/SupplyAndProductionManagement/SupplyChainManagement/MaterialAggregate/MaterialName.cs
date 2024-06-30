@@ -30,11 +30,6 @@ public class MaterialName : ValueObject<MaterialName>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(MaterialName other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(MaterialName other) 
+        => Value == other.Value;
 }

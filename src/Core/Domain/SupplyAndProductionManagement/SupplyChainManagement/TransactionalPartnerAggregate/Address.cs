@@ -54,21 +54,11 @@ public class Address : ValueObject<Address>
         yield return Country.GetHashCode();
     }
 
-    protected override bool EqualComponents(Address other)
-    {
-        if (ZipCode != other.ZipCode)
-            return false;
-        if (Ward != other.Ward)
-            return false;
-        if (District != other.District)
-            return false;
-        if (City != other.City)
-            return false;
-        if (Street != other.Street)
-            return false;
-        if (Country != other.Country)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(Address other) 
+        => ZipCode == other.ZipCode 
+           && Ward == other.Ward 
+           && District == other.District 
+           && City == other.City 
+           && Street == other.Street 
+           && Country == other.Country;
 }

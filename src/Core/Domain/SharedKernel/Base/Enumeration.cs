@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Domain.Extensions;
+using Domain.SharedKernel.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
@@ -43,7 +43,13 @@ public abstract class Enumeration<T> : IComparable<T>, IEquatable<T>
         return typeMatches && valueMatches;
     }
     
-    public static bool operator ==(Enumeration<T> a, Enumeration<T> b) => a.Equals(b);
+    public static bool operator ==(Enumeration<T> a, Enumeration<T> b)
+    {
+        if (a is not T aT || b is not T bT)
+            return false;
+        
+        return aT.Equals(bT);
+    }
 
     public static bool operator !=(Enumeration<T> a, Enumeration<T> b) => !(a == b);
 

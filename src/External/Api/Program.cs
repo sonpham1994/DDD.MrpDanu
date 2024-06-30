@@ -8,7 +8,7 @@ using Api.Controllers.SupplyChainManagement;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization.Metadata;
-
+using Api.EventListeners;
 
 
 //var logger = Log.Logger = new LoggerConfiguration()
@@ -131,14 +131,14 @@ Console.WriteLine("Run on Development mode");
 
 var app = builder.Build();
 
-app.UseSerilogRequestLogging();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseCors(cors =>
 {
@@ -155,5 +155,9 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.MapControllers();
 
 app.MapSupplyChainManagementEndpoints();
+
+// using Feature Flag when you want to enable this
+// var logger = app.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<GcEventListener>>();
+// using var gcEventListener = new GcEventListener(logger);
 
 app.Run();

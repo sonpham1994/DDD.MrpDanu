@@ -1,4 +1,4 @@
-﻿using Domain.Extensions;
+﻿using Domain.SharedKernel.Extensions;
 using Domain.SharedKernel.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.Enumerations;

@@ -36,11 +36,6 @@ public class Unit : ValueObject<Unit>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(Unit other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(Unit other) 
+        => Value == other.Value;
 }

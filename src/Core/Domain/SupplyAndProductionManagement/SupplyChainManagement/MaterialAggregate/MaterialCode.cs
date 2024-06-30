@@ -51,11 +51,6 @@ public class MaterialCode : ValueObject<MaterialCode>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(MaterialCode other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(MaterialCode other) 
+        => Value == other.Value;
 }

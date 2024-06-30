@@ -1,5 +1,5 @@
 using Domain.SharedKernel.ValueObjects;
-using Domain.Extensions;
+using Domain.SharedKernel.Extensions;
 using Infrastructure.Persistence.Writes.Extensions;
 using Application.Interfaces.Writes.MaterialWrite;
 using Domain.SharedKernel.Enumerations;

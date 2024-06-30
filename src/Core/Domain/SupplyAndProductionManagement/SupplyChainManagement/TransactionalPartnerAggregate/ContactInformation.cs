@@ -66,13 +66,6 @@ public class ContactInformation : ValueObject<ContactInformation>
         yield return Email.GetHashCode();
     }
 
-    protected override bool EqualComponents(ContactInformation other)
-    {
-        if (TelNo != other.TelNo)
-            return false;
-        if (Email != other.Email)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(ContactInformation other) 
+        => TelNo == other.TelNo && Email == other.Email;
 }

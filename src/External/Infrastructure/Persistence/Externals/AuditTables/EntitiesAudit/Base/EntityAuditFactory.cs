@@ -1,4 +1,4 @@
-﻿using Domain.Extensions;
+﻿using Domain.SharedKernel.Extensions;
 using Domain.SharedKernel.Exceptions;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Errors;

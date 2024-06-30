@@ -89,19 +89,10 @@ public class MaterialAttributes : ValueObject<MaterialAttributes>
         yield return ColorCode.GetHashCode();
     }
 
-    protected override bool EqualComponents(MaterialAttributes other)
-    {
-        if (Varian != other.Varian)
-            return false;
-        if (Width != other.Width)
-            return false;
-        if (Weight != other.Weight)
-            return false;
-        if (Unit != other.Unit)
-            return false;
-        if (ColorCode != other.ColorCode)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(MaterialAttributes other) 
+        => Varian == other.Varian 
+          && Width == other.Width 
+          && Weight == other.Weight 
+          && Unit == other.Unit 
+          && ColorCode == other.ColorCode;
 }

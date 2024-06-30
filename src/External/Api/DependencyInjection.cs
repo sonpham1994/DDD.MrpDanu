@@ -1,3 +1,4 @@
+using Api.EventListeners;
 using Application;
 using Api.Middlewares;
 using FluentValidation;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Api.ValidationOptions;
 using Api.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 
 namespace Api;
 
@@ -18,13 +20,15 @@ public static class DependencyInjection
         services.AddCustomMiddlewares()
             .AddValidators()
             .AddOptions(configuration)
-            .AddHostedService<FullGCEventBackgroundService>();
+            .AddHostedService<GcEventListenerBackgroundService>()
+            .AddFeatureManagement(configuration.GetSection(nameof(FeatureFlags)));
 
         //if (!isProduction)
         //{
             services.AddHostedService<MigrationsHostedService>();
         //}
 
+        services.AddSingleton<GcEventListener>();
         return services;
     }
 

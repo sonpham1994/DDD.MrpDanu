@@ -14,7 +14,7 @@ internal static class ValidatorInterceptorLoggingDefinition
             "LoggingType: {LoggingType} - Command Validation's {CommandType} completed  - Time: {@DateTimeUtc}");
     
     private static readonly Action<ILogger, string, string, IReadOnlyList<DomainError>, DateTime, Exception?> ValidateFailureLoggingDefinition =
-        LoggerMessage.Define<string, string, IReadOnlyList<DomainError>, DateTime>(LogLevel.Error, 0,
+        LoggerMessage.Define<string, string, IReadOnlyList<DomainError>, DateTime>(LogLevel.Warning, 0,
             "LoggingType: {LoggingType} - Command Validation's {CommandType} failed - Errors: {@ValidationErrors} - Time: {@DateTimeUtc}");
     
     public static void StartValidation(this ILogger logger, string commandTypeName)

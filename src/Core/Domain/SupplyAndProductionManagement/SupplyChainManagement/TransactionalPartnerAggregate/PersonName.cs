@@ -32,11 +32,6 @@ public class PersonName : ValueObject<PersonName>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(PersonName other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(PersonName other) 
+        => Value == other.Value;
 }

@@ -30,11 +30,6 @@ public class BoMRevisionCode : ValueObject<BoMRevisionCode>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(BoMRevisionCode other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(BoMRevisionCode other) 
+        => Value == other.Value;
 }

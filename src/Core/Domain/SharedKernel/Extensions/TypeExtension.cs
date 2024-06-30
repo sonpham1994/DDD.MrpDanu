@@ -1,6 +1,6 @@
 using Domain.SharedKernel.Base;
 
-namespace Domain.Extensions;
+namespace Domain.SharedKernel.Extensions;
 
 public static class TypeExtension
 {

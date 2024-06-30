@@ -1,4 +1,4 @@
-using Domain.Extensions;
+using Domain.SharedKernel.Extensions;
 using Domain.SharedKernel.Base;
 
 namespace Domain.SharedKernel.ValueObjects;
@@ -38,12 +38,6 @@ public class MaterialSupplierIdentity : ValueObject<MaterialSupplierIdentity>
     }
 
     protected override bool EqualComponents(MaterialSupplierIdentity other)
-    {
-        if (MaterialId != other.MaterialId)
-            return false;
-        if (_transactionalPartnerId != other._transactionalPartnerId)
-            return false;
-
-        return true;
-    }
+        => MaterialId == other.MaterialId 
+            && _transactionalPartnerId == other._transactionalPartnerId;
 }

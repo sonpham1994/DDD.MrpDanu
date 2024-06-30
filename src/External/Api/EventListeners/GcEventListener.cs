@@ -1,10 +1,10 @@
 using System.Diagnostics.Tracing;
 using System.Runtime.InteropServices;
-using Microsoft.Extensions.Logging;
+using Api.LoggingDefinitions;
 
-namespace Application.EventListeners;
+namespace Api.EventListeners;
 
-internal sealed class GcEventListener(ILogger<GcEventListener> logger) : EventListener
+public sealed class GcEventListener(ILogger<GcEventListener> logger) : EventListener
 {
     private const string EventCounters = "EventCounters";
     private const string KeyGcName = "Name";
@@ -57,8 +57,8 @@ internal sealed class GcEventListener(ILogger<GcEventListener> logger) : EventLi
                 [Min, 44.220805725151216] and [Max, 44.220805725151216] (for gc-fragmentation): The minimum and maximum values recorded for the metric within the sampling interval.
                 [DisplayUnits, %] (for gc-fragmentation): Indicates the unit of measurement for the metric, which is percentage in this case.
                  */
-                
-                _logger.LogWarning("GC Event: {GCEventName}, GcData: {@GcData}, Time generated: {@TimeGenerated}", gcName, eventPayload, eventData.TimeStamp);
+
+                _logger.LogGcEvent(gcName, eventPayload);
             }
         }
         // this would be track whenever the GC performs, it means not only your handlers from your code, but also the
@@ -73,17 +73,17 @@ internal sealed class GcEventListener(ILogger<GcEventListener> logger) : EventLi
             if (currentGen0Count > _previousGen0Count)
             {
                 _previousGen0Count = currentGen0Count;
-                _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 0, currentGen0Count, eventData.TimeStamp);
+                _logger.LogGcEventOccurenceAtGeneration(eventData.EventName, 0, currentGen0Count, eventData.TimeStamp);
             }
             if (currentGen1Count > _previousGen1Count)
             {
                 _previousGen1Count = currentGen1Count;
-                _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 1, currentGen1Count, eventData.TimeStamp);
+                _logger.LogGcEventOccurenceAtGeneration(eventData.EventName, 1, currentGen1Count, eventData.TimeStamp);
             }
             if (currentGen2Count > _previousGen2Count)
             {
                 _previousGen2Count = currentGen2Count;
-                _logger.LogWarning("GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}", eventData.EventName, 2, currentGen2Count, eventData.TimeStamp);
+                _logger.LogGcEventOccurenceAtGeneration(eventData.EventName, 2, currentGen2Count, eventData.TimeStamp);
             }
         }
     }

@@ -1,10 +1,11 @@
-using Domain.Extensions;
+using Domain.SharedKernel.Extensions;
 
 namespace Domain.SharedKernel.Base;
 
 public interface IValueObject;
 
 public abstract class ValueObject<T> : IValueObject, IEquatable<T>
+    where T : ValueObject<T>
 {
     private int? _cachedHashCode;
 
@@ -93,17 +94,17 @@ public abstract class ValueObject<T> : IValueObject, IEquatable<T>
 
     public static bool operator ==(ValueObject<T>? a, ValueObject<T>? b)
     {
-        if (a is null && b is null)
-            return true;
-
         if (a is null || b is null)
             return false;
-
-        return a.Equals(b);
+        
+        if (a is not T aT || b is not T bT)
+        {
+            return false;
+        }
+        
+        return aT.Equals(bT);
     }
 
     public static bool operator !=(ValueObject<T> a, ValueObject<T> b)
-    {
-        return !(a == b);
-    }
+        => !(a == b);
 }

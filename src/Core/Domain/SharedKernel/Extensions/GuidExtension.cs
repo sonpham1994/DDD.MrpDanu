@@ -1,7 +1,7 @@
 using System.Data.SqlTypes;
 using Domain.SharedKernel.Base;
 
-namespace Domain.Extensions;
+namespace Domain.SharedKernel.Extensions;
 
 public static class GuidExtension
 {

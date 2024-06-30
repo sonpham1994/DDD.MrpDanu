@@ -1,4 +1,4 @@
-﻿using Domain.Extensions;
+﻿using Domain.SharedKernel.Extensions.LinqExtensions;
 using Domain.SharedKernel.Base;
 using Domain.SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;

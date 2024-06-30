@@ -31,11 +31,6 @@ public class BoMCode : ValueObject<BoMCode>
         yield return Value.GetHashCode();
     }
     
-    protected override bool EqualComponents(BoMCode other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(BoMCode other) 
+        => Value == other.Value;
 }

@@ -37,11 +37,6 @@ public class Website : ValueObject<Website>
         yield return Value.GetHashCode();
     }
 
-    protected override bool EqualComponents(Website other)
-    {
-        if (Value != other.Value)
-            return false;
-
-        return true;
-    }
+    protected override bool EqualComponents(Website other) 
+        => Value == other.Value;
 }

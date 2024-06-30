@@ -1,22 +1,18 @@
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Domain.Extensions;
+using Domain.SharedKernel.Extensions;
 using Domain.SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Persistence;
 using Infrastructure.Persistence.Writes;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
 
-internal sealed class TransactionalPartnerEfRepository
-    : BaseEfGuidStronglyTypedIdRepository<TransactionalPartner, TransactionalPartnerId>, ITransactionalPartnerRepository
+internal sealed class TransactionalPartnerEfRepository(AppDbContext context)
+    : BaseEfGuidStronglyTypedIdRepository<TransactionalPartner, TransactionalPartnerId>(context),
+        ITransactionalPartnerRepository
 {
-    public TransactionalPartnerEfRepository(AppDbContext context) : base(context)
-    {
-    }
-
     public override async ValueTask<TransactionalPartner?> GetByIdAsync(TransactionalPartnerId id, CancellationToken cancellationToken)
     {
         TransactionalPartner? transactionalPartner = null;

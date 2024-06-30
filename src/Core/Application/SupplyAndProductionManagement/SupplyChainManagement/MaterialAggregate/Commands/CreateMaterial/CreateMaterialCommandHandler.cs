@@ -5,7 +5,6 @@ using Domain.SharedKernel.Base;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.Extensions;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 

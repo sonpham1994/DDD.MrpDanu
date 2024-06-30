@@ -37,12 +37,6 @@ public class Money : ValueObject<Money>
     }
 
     protected override bool EqualComponents(Money other)
-    {
-        if (Value != other.Value)
-            return false;
-        if (CurrencyType != other.CurrencyType)
-            return false;
-
-        return true;
-    }
+        => Value == other.Value 
+            && CurrencyType == other.CurrencyType;
 }
