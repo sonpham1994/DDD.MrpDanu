@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace Application.Helpers;
 
-public class Helper
+public static class Helper
 {
     public static string? GetTraceId()
     {

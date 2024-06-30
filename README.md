@@ -82,3 +82,8 @@ url:
 http://localhost:5288/MaterialManagement/Materials
 http://localhost:5288/MaterialManagement/TransactionalPartners
 ```
+
+Seq:
+```
+http://localhost:8081
+```
