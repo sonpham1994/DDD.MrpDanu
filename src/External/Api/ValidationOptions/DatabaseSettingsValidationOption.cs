@@ -14,7 +14,14 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
     private readonly ILogger _logger = logger;
     public ValidateOptionsResult Validate(string? name, DatabaseSettings settings)
     {
-        string validationOptionType = nameof(DatabaseSettings);
+        // create a string with char for not be interned. Because we just use this at once when we start program, hence we
+        // don't need to allocate this value string in high-frequency heap
+        //Please check Benchmark/StringInternOrHighFrequencyHeap
+        //string: DatabaseSettings
+        char[] database = ['D', 'a', 't', 'a', 'b', 'a', 's', 'e'];
+        char[] databaseSettings = [..database, ..Extensions.SettingsValue];
+
+        var validationOptionType = new string(databaseSettings);
         _logger.StartValidationOption(validationOptionType);
         if (settings.ConnectionString == string.Empty)
         {
@@ -62,8 +69,8 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 || connection.StartsWith("Catalog", StringComparison.OrdinalIgnoreCase)
                 || connection.StartsWith("Initial Catalog", StringComparison.OrdinalIgnoreCase))
             {
-                var database = connection.Split('=');
-                var databaseName = database[1];
+                var databaseInfo = connection.Split('=');
+                var databaseName = databaseInfo[1];
                 if (string.IsNullOrEmpty(databaseName) || string.IsNullOrWhiteSpace(databaseName))
                 {
                     _logger.ValidateOptionWithError(validationOptionType, "Database name is empty");

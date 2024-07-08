@@ -21,11 +21,13 @@ public static class ValidationOptionLoggingDefinition
 
     public static void CompletedValidationOption(this ILogger logger, string validationOptionType)
     {
+        //logger.LogWarning("GC LoggingType: " + GC.GetGeneration(LoggingTypes.ValidationOption));
         _completedValidationOption(logger, LoggingTypes.ValidationOption, validationOptionType, DateTime.UtcNow, null);
     }
 
     public static void ValidateOptionWithError(this ILogger logger, string validationOptionType, string errorMessage)
     {
+        //logger.LogWarning("GC LoggingType: " + GC.GetGeneration(LoggingTypes.ValidationOption));
         _validateOptionWithError(logger, LoggingTypes.ValidationOption, validationOptionType, errorMessage, DateTime.UtcNow, null);
     }
 }

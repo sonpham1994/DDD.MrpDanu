@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Benchmark;
 using Benchmark.BoxingCompareTo;
 using Benchmark.CastingObject;
 using Benchmark.ConvertGuidToStringAndViceVersa;
@@ -26,7 +27,11 @@ using Benchmark.ExistsOrAny;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<ExistsOrAnyBenchmark>();
+var a = new StringInternOrHighFrequencyHeap();
+a.CreateStringWithBeInterned();
+a.CreateStringWithNotBeInterned();
+
+//BenchmarkRunner.Run<ExistsOrAnyBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();

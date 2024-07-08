@@ -9,9 +9,15 @@ public sealed class SerilogSettingsValidationOption(IWebHostEnvironment environm
 
     public ValidateOptionsResult Validate(string? name, SerilogSettings options)
     {
-        if (environment.IsProduction())
+        if (environment.IsDevelopment())
         {
-            string validationOptionType = nameof(SerilogSettings);
+            // create a string with char for not be interned. Because we just use this at once when we start program, hence we
+            // don't need to allocate this value string in high-frequency heap
+            //Please check Benchmark/StringInternOrHighFrequencyHeap
+            //string: SerilogSettings
+            char[] serilog = ['S', 'e', 'r', 'i', 'l', 'o', 'g'];
+            char[] serilogSettings = [..serilog, ..Extensions.SettingsValue];
+            string validationOptionType = new string(serilogSettings);
 
             logger.StartValidationOption(validationOptionType);
             if (options.WriteTo.Count == 0)
