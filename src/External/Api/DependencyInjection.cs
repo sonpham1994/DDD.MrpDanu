@@ -110,8 +110,9 @@ public static class DependencyInjection
         //    })
         //    .ValidateOnStart();
 
-        // I prefer using this approach due to be able to use DI, e.g, ILogger
-
+        // I prefer using this approach due to be able to use DI, e.g, ILogger. The problem with this approach is that
+        // it registers DI as Singleton. Because we just need to validate it at once, hence registering as singleton
+        // can allocate memory on Generation 2 that doesn't really need.
         services.TryAddSingleton<IValidateOptions<DatabaseSettings>, DatabaseSettingsValidationOption>();
         services.TryAddSingleton<IValidateOptions<SerilogSettings>, SerilogSettingsValidationOption>();
 
