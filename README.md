@@ -183,6 +183,33 @@ Show nodes in replica set
 rs.status()
 ```
 
+## Check the election process
+Stop primary node server from docker, one of secondaries will become primary. If you restart the former primary node,
+it can become current primary though it should be secondary node. It can be attributed to high-priority, the former 
+primary node hah priority which is higher than others, hence it can become primary again.
+
+If you want to prevent the former primary node to become primary again. You can:
+Connect to current primary: 
+```
+mongosh --port <current primary port>
+```
+Get config
+```zsh
+config = rs.conf();
+```
+Modify priority
+```zsh
+// Set a lower priority for the original primary node
+config.members[0].priority = 0.5; // Adjust the index as per your configuration
+
+// Optional: Set higher priorities for the secondary nodes
+config.members[1].priority = 1; // Adjust the index as per your configuration
+config.members[2].priority = 1; // Adjust the index as per your configuration
+
+// Apply the updated configuration
+rs.reconfig(config, { force: true });
+```
+
 ## Connect replica set via Mongo Compass
 Connect primary mongo via command line
 ```zsh
