@@ -27,15 +27,16 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       
-  mongo:
-    image: mongo
-    container_name: mrp_mongo_db
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodbdata:/data/db
+  # mongodb 1 instance
+#  mongo:
+#    image: mongo
+#    container_name: mrp_mongo_db
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - mongodbdata:/data/db
       
 volumes:
-  mongodbdata:
+  # mongodbdata:
   mrpseqdata:
   sqlvolume:

@@ -41,9 +41,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		Directory.Packages.props = Directory.Packages.props
-		docker-compose.yml = docker-compose.yml
+		docker-compose.mrp-infra.yml = docker-compose.mrp-infra.yml
 		README.md = README.md
 		Directory.Build.props = Directory.Build.props
+		docker-compose.mongodb-replica-set.yml = docker-compose.mongodb-replica-set.yml
 	EndProjectSection
 EndProject
 Global
