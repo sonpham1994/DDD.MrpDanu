@@ -77,6 +77,7 @@ docker-compose -p mrp_infra -f docker-compose.mrp-infra.yml -f docker-compose.mo
 ```
 
 ## Apply config replica set for mongoDb
+References: https://www.youtube.com/watch?v=LGqTzPATSV4
 Connect to mongo primary
 ```zsh
 docker-compose exec mongo-primary mongosh
