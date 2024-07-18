@@ -33,43 +33,58 @@ public static class MigrationExtensions
         if (!await dbContext.Set<MaterialType>().AnyAsync())
         {
             var list = MaterialType.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsync(list, nameof(MaterialType), dbContext);
+            // create a string with char for not be interned. Because we just use this at once when we start program, hence we
+            // don't need to allocate this value string in high-frequency heap. And when Gc 2 is perform collection process.
+            // These value on high-frequency heap are never collected. By creating string as char[], these value will not live
+            // in High-Frequency heap and then they are eligible for collection of GC. Please check TestGcForString project
+            // Please check Benchmark/StringInternOrHighFrequencyHeap
+            char[] materialTypeChars = ['M', 'a', 't', 'e', 'r', 'i', 'a', 'l', 'T', 'y', 'p', 'e'];
+            await InsertEnumerationAsync(list, new string(materialTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<RegionalMarket>().AnyAsync())
         {
             var list = RegionalMarket.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsyncWithCode(list, nameof(RegionalMarket), dbContext);
+            char[] regionalMarketChars = ['R', 'e', 'g', 'i', 'o', 'n', 'a', 'l', 'M', 'a', 'r', 'k', 'e', 't'];
+            await InsertEnumerationAsyncWithCode(list, new string(regionalMarketChars), dbContext);
         }
 
         if (!await dbContext.Set<CurrencyType>().AnyAsync())
         {
             var list = CurrencyType.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsync(list, nameof(CurrencyType), dbContext);
+            char[] currencyTypeChars = ['C', 'u', 'r', 'r', 'e', 'n', 'c', 'y', 'T', 'y', 'p', 'e'];
+            await InsertEnumerationAsync(list, new string(currencyTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<LocationType>().AnyAsync())
         {
             var list = LocationType.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsync(list, nameof(LocationType), dbContext);
+            char[] locationTypeChars = ['L', 'o', 'c', 'a', 't', 'i', 'o', 'n', 'T', 'y', 'p', 'e'];
+            await InsertEnumerationAsync(list, new string(locationTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<TransactionalPartnerType>().AnyAsync())
         {
             var list = TransactionalPartnerType.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsync(list, nameof(TransactionalPartnerType), dbContext);
+            char[] transactionalPartnerTypeChars =
+            [
+                'T', 'r', 'a', 'n', 's', 'a', 'c', 't', 'i', 'o', 'n', 'a', 'l', 'P', 'a', 'r', 't', 'n', 'e', 'r', 'T', 'y', 'p', 'e'
+            ];
+            await InsertEnumerationAsync(list, new string(transactionalPartnerTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<Country>().AnyAsync())
         {
             var list = Country.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsyncWithCode(list, nameof(Country), dbContext);
+            char[] countryChars = ['C', 'o', 'u', 'n', 't', 'r', 'y'];
+            await InsertEnumerationAsyncWithCode(list, new string(countryChars), dbContext);
         }
 
         if (!await externalDbContext.Set<StateAuditTable>().AnyAsync())
         {
             var list = StateAuditTable.List.Where(x => x.Id > 0).ToList();
-            await InsertEnumerationAsync(list, nameof(StateAuditTable), externalDbContext);
+            char[] stateAuditTableChars = ['S', 't', 'a', 't', 'e', 'A', 'u', 'd', 'i', 't', 'T', 'a', 'b', 'l', 'e'];
+            await InsertEnumerationAsync(list, new string(stateAuditTableChars), externalDbContext);
         }
     }
 

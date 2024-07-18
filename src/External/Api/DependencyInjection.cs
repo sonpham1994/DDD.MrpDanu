@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Api.ValidationOptions;
 using Api.Settings;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 
 namespace Api;
@@ -21,7 +20,7 @@ public static class DependencyInjection
             .AddValidators()
             .AddOptions(configuration)
             .AddHostedService<GcEventListenerBackgroundService>()
-            .AddFeatureManagement(configuration.GetSection(nameof(FeatureFlags)));
+            .AddFeatureManagement(configuration.GetSection(Constants.FeatureFlags.ConfigurationName));
 
         //if (!isProduction)
         //{
@@ -121,8 +120,8 @@ public static class DependencyInjection
         //services.Configure<SerilogSettings>(configuration.GetSection("Serilog"));
 
         //Validate when running the project on
-        services.AddOptions<DatabaseSettings>().BindConfiguration(nameof(DatabaseSettings)).ValidateOnStart();
-        services.AddOptions<SerilogSettings>().BindConfiguration("Serilog").ValidateOnStart();
+        services.AddOptions<DatabaseSettings>().BindConfiguration(Constants.Database.ConfigurationName).ValidateOnStart();
+        services.AddOptions<SerilogSettings>().BindConfiguration(Constants.Serilog.ConfigurationName).ValidateOnStart();
 
         return services;
     }

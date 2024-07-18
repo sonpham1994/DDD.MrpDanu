@@ -12,7 +12,7 @@ internal sealed class GetMaterialByIdQueryHandler(IMaterialQuery materialQuery) 
         var material = await materialQuery.GetByIdAsync(request.Id, cancellationToken);
 
         if (material is null)
-            return DomainErrors.Material.MaterialIdNotFound(request.Id);
+            return DomainErrors.Material.NotFoundId(request.Id);
 
         return material;
     }

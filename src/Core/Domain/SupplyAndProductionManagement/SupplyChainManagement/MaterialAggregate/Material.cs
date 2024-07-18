@@ -73,7 +73,7 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>, IAuditTabl
         var existByAnotherMaterialId = materialSupplierCosts
             .FindOrFirstDefault(x => x.MaterialSupplierIdentity.MaterialId != Id);
         if (existByAnotherMaterialId is not null)
-            return DomainErrors.Material.MaterialIdsAreNotTheSame(Id, existByAnotherMaterialId.MaterialSupplierIdentity.MaterialId);
+            return DomainErrors.Material.IdsAreNotTheSame(Id, existByAnotherMaterialId.MaterialSupplierIdentity.MaterialId);
 
         foreach (var materialSupplierCost in materialSupplierCosts)
         {

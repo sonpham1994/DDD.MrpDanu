@@ -1,5 +1,5 @@
+using Api.Constants;
 using Api.EventListeners;
-using Api.Settings;
 using Microsoft.FeatureManagement;
 
 namespace Api.HostedServices;

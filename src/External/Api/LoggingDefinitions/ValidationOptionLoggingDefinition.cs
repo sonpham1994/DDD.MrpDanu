@@ -2,6 +2,8 @@
 
 public static class ValidationOptionLoggingDefinition
 {
+    //These format cannot be cleaned up event if using char[]. Hence we dont' need to create char array for this case.
+    //Please check TestGcForString project
     private static readonly Action<ILogger, string, string, DateTime, Exception?> _startValidationOption =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
            "LoggingType: {LoggingType} - ValidationOptionType: {ValidationOptionType} start, Time: {@DateTimeUtc}");

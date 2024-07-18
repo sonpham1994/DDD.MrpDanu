@@ -1,4 +1,4 @@
-﻿namespace Api.Settings;
+namespace Api.Settings;
 
 public sealed class SerilogSettings
 {

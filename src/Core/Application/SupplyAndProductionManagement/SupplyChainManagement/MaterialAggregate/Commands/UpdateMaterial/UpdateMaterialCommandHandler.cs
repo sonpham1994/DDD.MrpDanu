@@ -20,7 +20,7 @@ internal sealed class UpdateMaterialCommandHandler(
     {
         var material = await _materialRepository.GetByIdAsync((MaterialId)request.Id, cancellationToken);
         if (material is null)
-            return DomainErrors.Material.MaterialIdNotFound(request.Id);
+            return DomainErrors.Material.NotFoundId(request.Id);
 
         var regionalMarket = RegionalMarket.FromId(request.RegionalMarketId).Value!;
         var materialType = MaterialType.FromId(request.MaterialTypeId).Value!;

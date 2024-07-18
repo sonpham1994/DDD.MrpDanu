@@ -1,6 +1,7 @@
 ﻿using Api.LoggingDefinitions;
 using Infrastructure.Persistence;
 using Microsoft.Extensions.Options;
+using CommonConstants = Api.Constants;
 
 namespace Api.ValidationOptions;
 
@@ -14,17 +15,13 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
     private readonly ILogger _logger = logger;
     public ValidateOptionsResult Validate(string? name, DatabaseSettings settings)
     {
-        // create a string with char for not be interned. Because we just use this at once when we start program, hence we
-        // don't need to allocate this value string in high-frequency heap
-        //Please check Benchmark/StringInternOrHighFrequencyHeap
-        //string: DatabaseSettings
-        char[] database = ['D', 'a', 't', 'a', 'b', 'a', 's', 'e'];
-        char[] databaseSettings = [..database, ..Extensions.SettingsValue];
-
-        var validationOptionType = new string(databaseSettings);
+        var validationOptionType = new string(CommonConstants.Database.ConfigurationName);
         _logger.StartValidationOption(validationOptionType);
+        
         if (settings.ConnectionString == string.Empty)
         {
+            //we don't need to create char[] as representation of string because when code hit this, it means your app
+            // will fail to start app, and it will shut down your app. After you reconfigure correctly, it will restart
             _logger.ValidateOptionWithError(validationOptionType, "ConnectionString is empty");
             return ValidateOptionsResult.Fail("ConnectionString is empty");
         }
@@ -51,7 +48,7 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
         var connections = settings.ConnectionString.Split(';');
         foreach (var connection in connections)
         {
-            if (connection.StartsWith("Server", StringComparison.OrdinalIgnoreCase))
+            if (connection.StartsWith(Constants.ServerDatabaseKey, StringComparison.OrdinalIgnoreCase))
             {
                 var serverConfig = connection.Split('=');
                 var server = serverConfig[1];
@@ -65,9 +62,9 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 }
 
             }
-            else if (connection.StartsWith("Database", StringComparison.OrdinalIgnoreCase)
-                || connection.StartsWith("Catalog", StringComparison.OrdinalIgnoreCase)
-                || connection.StartsWith("Initial Catalog", StringComparison.OrdinalIgnoreCase))
+            else if (connection.StartsWith(CommonConstants.Database.DatabaseString, StringComparison.OrdinalIgnoreCase)
+                || connection.StartsWith(Constants.CatalogDatabaseKey, StringComparison.OrdinalIgnoreCase)
+                || connection.StartsWith(Constants.InitialCatalogDatabaseKey, StringComparison.OrdinalIgnoreCase))
             {
                 var databaseInfo = connection.Split('=');
                 var databaseName = databaseInfo[1];
@@ -78,7 +75,7 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 }
 
             }
-            else if (connection.StartsWith("User Id", StringComparison.OrdinalIgnoreCase))
+            else if (connection.StartsWith(Constants.UserIdDatabaseKey, StringComparison.OrdinalIgnoreCase))
             {
                 var userId = connection.Split('=');
                 var userIdName = userId[1];
@@ -89,7 +86,7 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 }
 
             }
-            else if (connection.StartsWith("Password", StringComparison.OrdinalIgnoreCase))
+            else if (connection.StartsWith(Constants.PasswordDatabaseKey, StringComparison.OrdinalIgnoreCase))
             {
                 var password = connection.Split('=');
                 var passwordInfo = password[1];
