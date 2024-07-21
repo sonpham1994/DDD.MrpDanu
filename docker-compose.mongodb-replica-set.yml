@@ -6,8 +6,9 @@ services:
     hostname: mongo-primary
     image: mongo
     ports:
-      - "27001:27017"
-    command: mongod --replSet "rs0" --bind_ip_all
+      - "27001:27001"
+    command: mongod --replSet "rs0" --port 27001
+#    command: mongod --replSet "rs0" --bind_ip "0.0.0.0,mongo-primary"
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
@@ -17,14 +18,17 @@ services:
 #        ipv4_address: 172.20.0.2
     volumes:
       - ../mongodb/primary:/data/db
+#    extra_hosts:
+#      - "mongo-primary:127.0.0.1"
   
   mongo_secondary-1:
     container_name: mongo_secondary-1
     hostname: mongo-secondary-1
     image: mongo
     ports:
-      - "27002:27017"
-    command: mongod --replSet "rs0" --bind_ip_all
+      - "27002:27002"
+    command: mongod --replSet "rs0" --port 27002
+#    command: mongod --replSet "rs0" --bind_ip "0.0.0.0,mongo-secondary-1"
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
@@ -34,14 +38,17 @@ services:
 #        ipv4_address: 172.20.0.3
     volumes:
       - ../mongodb/secondary1:/data/db
+#    extra_hosts:
+#      - "mongo-secondary-1:127.0.0.1"
   
   mongo_secondary-2:
     container_name: mongo_secondary-2
     hostname: mongo-secondary-2
     image: mongo
     ports:
-      - "27003:27017"
-    command: mongod --replSet "rs0" --bind_ip_all
+      - "27003:27003"
+    command: mongod --replSet "rs0" --port 27003
+#    command: mongod --replSet "rs0" --bind_ip "0.0.0.0,mongo-secondary-2"
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
@@ -51,14 +58,17 @@ services:
 #        ipv4_address: 172.20.0.4
     volumes:
       - ../mongodb/secondary2:/data/db
+#    extra_hosts:
+#      - "mongo-secondary-2:127.0.0.1"
   
   mongo-arbiter:
     container_name: mongo-arbiter
     hostname: mongo-arbiter
     image: mongo
     ports:
-      - "27004:27017"
-    command: mongod --replSet "rs0" --bind_ip_all
+      - "27004:27004"
+    command: mongod --replSet "rs0" --port 27004
+    #command: mongod --replSet "rs0" --bind_ip "0.0.0.0,mongo-arbiter"
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
@@ -67,6 +77,8 @@ services:
 #      mrp_infra_network:
 #        ipv4_address: 172.20.0.5
     volumes: []
+#    extra_hosts:
+#      - "mongo-arbiter:127.0.0.1"
 
 networks:
   mrp_infra_network:

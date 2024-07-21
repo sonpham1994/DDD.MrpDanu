@@ -78,7 +78,14 @@ docker compose -p mrp_infra -f docker-compose.mrp-infra.yml -f docker-compose.mo
 
 ## Apply config replica set for mongoDb
 References: https://www.youtube.com/watch?v=LGqTzPATSV4
+connect to Replica set: https://www.mongodb.com/community/forums/t/mongodb-replica-docker-cannot-connect-on-replica-only-individual-connection/12802/5
 Connect to mongo primary
+
+Add this data in "/etc/hosts"
+```zsh
+127.0.0.1 mongo-primary mongo-secondary-1 mongo-secondary-2 mongo-arbiter
+```
+
 ```zsh
 docker compose exec mongo-primary mongosh
 OR
@@ -94,22 +101,22 @@ config = {
   "members": [
       {
         "_id": 1,
-        "host": "mongo-primary:27017",
+        "host": "mongo-primary:27001",
         priority: 3
       },
       {
         "_id": 2,
-        "host": "mongo-secondary-1:27017",
+        "host": "mongo-secondary-1:27002",
         priority: 2
       },
       {
         "_id": 3,
-        "host": "mongo-secondary-2:27017",
+        "host": "mongo-secondary-2:27003",
         priority: 1
       },
       {
         "_id": 4,
-        "host": "mongo-arbiter:27017",
+        "host": "mongo-arbiter:27004",
         "arbiterOnly": true
       }
   ]
@@ -238,4 +245,16 @@ http://localhost:5288/MaterialManagement/TransactionalPartners
 Seq:
 ```
 http://localhost:8081
+```
+
+## For ping mongo
+```zsh
+docker exec -it mongo-primary /bin/bash
+```
+```zsh
+apt-get update
+apt-get install -y iputils-ping
+```
+```zsh
+apt-get install -y dnsutils
 ```
