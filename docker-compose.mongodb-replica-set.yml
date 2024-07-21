@@ -1,71 +1,77 @@
 version: "3.8"
 
 services:
-  # mongodb replica set
   mongo-primary:
     container_name: mongo-primary
+    hostname: mongo-primary
     image: mongo
     ports:
-      - 27001:27017
-    # --replSet "rs0": replica set name is `rs0`
-    command: mongod --replSet "rs0" --bind_ip_all
-    environment: 
-      - MONGO_INITDB_REPLICASET=rs0
-    restart: always
-    networks:
-      - mongo_replica
-    volumes: 
-      - ../mongodb/primary:/data/db
-  
-  mongo_secondary-1:
-    container_name: mongo_secondary-1
-    image: mongo
-    ports:
-      - 27002:27017
-    # --replSet "rs0": replica set name is `rs0`
+      - "27001:27017"
     command: mongod --replSet "rs0" --bind_ip_all
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
     networks:
-      - mongo_replica
+      - mrp_infra_network
+#      mrp_infra_network:
+#        ipv4_address: 172.20.0.2
+    volumes:
+      - ../mongodb/primary:/data/db
+  
+  mongo_secondary-1:
+    container_name: mongo_secondary-1
+    hostname: mongo-secondary-1
+    image: mongo
+    ports:
+      - "27002:27017"
+    command: mongod --replSet "rs0" --bind_ip_all
+    environment:
+      - MONGO_INITDB_REPLICASET=rs0
+    restart: always
+    networks:
+      - mrp_infra_network
+#      mrp_infra_network:
+#        ipv4_address: 172.20.0.3
     volumes:
       - ../mongodb/secondary1:/data/db
   
   mongo_secondary-2:
     container_name: mongo_secondary-2
+    hostname: mongo-secondary-2
     image: mongo
     ports:
-      - 27003:27017
-    # --replSet "rs0": replica set name is `rs0`
+      - "27003:27017"
     command: mongod --replSet "rs0" --bind_ip_all
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
     networks:
-      - mongo_replica
+      - mrp_infra_network
+#      mrp_infra_network:
+#        ipv4_address: 172.20.0.4
     volumes:
       - ../mongodb/secondary2:/data/db
   
   mongo-arbiter:
     container_name: mongo-arbiter
+    hostname: mongo-arbiter
     image: mongo
     ports:
-      - 27004:27017
-    # --replSet "rs0": replica set name is `rs0`
+      - "27004:27017"
     command: mongod --replSet "rs0" --bind_ip_all
     environment:
       - MONGO_INITDB_REPLICASET=rs0
     restart: always
     networks:
-      - mongo_replica
+      - mrp_infra_network
+#      mrp_infra_network:
+#        ipv4_address: 172.20.0.5
     volumes: []
-      
-volumes:
-  mongo-primary:
-  mongo_secondary-1:
-  mongo_secondary-2:
 
 networks:
-  mongo_replica:
+  mrp_infra_network:
+    # external: true
     driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.20.0.0/16

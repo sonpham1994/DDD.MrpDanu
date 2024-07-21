@@ -12,14 +12,21 @@ using Infrastructure.Persistence.Externals.AuditTables.Services;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Writes;
 using Application.Interfaces.Write;
 using Application.Interfaces.Reads;
+using Application.Interfaces.Writes.AuditTrailWrite;
 using Application.Interfaces.Writes.MaterialWrite;
 using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
+using Domain.AuditTrail.SharedKernel;
+using Domain.AuditTrail.SupplyChainManagement;
+using Domain.SharedKernel.Base;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
 using Infrastructure.Persistence.SupplyAndProductionManagement.ProductPlanning.Writes;
+using Infrastructure.Persistence.AuditTrail;
+using Infrastructure.PersistenceMongoDb;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Driver;
 
 namespace Infrastructure;
 
@@ -34,11 +41,12 @@ public static class DependencyInjection
             .AddDbContext(isProduction)
             .AddWritesDi()
             .AddReadsDi()
-            .AddTransactions();
+            .AddTransactions()
+            .AddAuditTrail();
 
         return services;
     }
-
+    
     private static IServiceCollection AddDbContext(this IServiceCollection services, bool isProduction)
     {
         //services.AddScoped(sp =>
@@ -188,4 +196,47 @@ public static class DependencyInjection
 
         return services;
     }
+
+    private static IServiceCollection AddAuditTrail(this IServiceCollection services)
+    {
+        services.AddTransient<AuditTrailDomainEvents>();
+        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+
+        services.AddSingleton(sp =>
+        {
+            var mongoDbSettings = sp.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+            // var settings = new MongoClientSettings
+            // {
+            //     Servers = new[]
+            //     {
+            //         new MongoServerAddress("mongo-node1", 27017),
+            //         new MongoServerAddress("mongo-node2", 27017),
+            //         new MongoServerAddress("mongo-node3", 27017)
+            //     },
+            //     DirectConnection = 
+            //     ReplicaSetName = "rs0"
+            // };
+            //var client = new MongoClient(settings);
+            var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
+            return mongoClient.GetDatabase("dddMrpDanu");
+        });
+
+        services.AddMongoRepository<MaterialAudit>("materialAudit");
+        
+        return services;
+    }
+    
+    public static IServiceCollection AddMongoRepository<T>(this IServiceCollection services, string collectionName)
+        where T : AuditEntity
+    {
+        services.AddSingleton<IAuditTableWriteRepository<T>>(serviceProvider =>
+        {
+            var database = serviceProvider.GetRequiredService<IMongoDatabase>();
+            return new AuditTableWriteMongoRepository<T>(database, collectionName);
+        });
+
+        return services;
+    }
+    
+    
 }

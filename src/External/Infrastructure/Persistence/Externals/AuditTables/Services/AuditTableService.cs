@@ -1,31 +1,22 @@
 using Application.Interfaces.Services;
 using Domain.SharedKernel.Base;
-using Infrastructure.Persistence.LoggingDefinitions;
 using Infrastructure.Persistence.Writes;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.Services;
 
-internal sealed class AuditTableService : IAuditTableService
+internal sealed class AuditTableService(
+    ExternalDbContext externalDbContext, 
+    AppDbContext appDbContext)
+    : IAuditTableService
 {
-    private readonly ExternalDbContext _externalDbContext;
-    private readonly AppDbContext _appDbContext;
-
-    public AuditTableService(ExternalDbContext externalDbContext, AppDbContext appDbContext)
-    {
-        _externalDbContext = externalDbContext;
-        _appDbContext = appDbContext;
-        
-    }
-
     public async Task<Result> InsertChangesAsync()
     {
-        var auditTables = _externalDbContext.GetAuditTables();
+        var auditTables = externalDbContext.GetAuditTables();
 
-        if (_appDbContext.HasActiveTransaction && auditTables.Count > 0)
+        if (appDbContext.HasActiveTransaction && auditTables.Count > 0)
         {
-            await _externalDbContext.AuditTables.AddRangeAsync(auditTables);
-            await _externalDbContext.SaveChangesAsync();
+            await externalDbContext.AuditTables.AddRangeAsync(auditTables);
+            await externalDbContext.SaveChangesAsync();
         }
 
         return Result.Success();

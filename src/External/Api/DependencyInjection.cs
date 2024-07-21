@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Api.ValidationOptions;
 using Api.Settings;
+using Infrastructure.PersistenceMongoDb;
 using Microsoft.FeatureManagement;
 
 namespace Api;
@@ -114,6 +115,8 @@ public static class DependencyInjection
         // can allocate memory on Generation 2 that doesn't really need.
         services.TryAddSingleton<IValidateOptions<DatabaseSettings>, DatabaseSettingsValidationOption>();
         services.TryAddSingleton<IValidateOptions<SerilogSettings>, SerilogSettingsValidationOption>();
+        services.TryAddSingleton<IValidateOptions<MongoDbSettings>, MongoDbSettingsValidationOption>();
+        
 
         // When first accessing these options, it will validate
         //services.Configure<DatabaseSettings>(configuration.GetSection(nameof(DatabaseSettings)));
@@ -122,6 +125,7 @@ public static class DependencyInjection
         //Validate when running the project on
         services.AddOptions<DatabaseSettings>().BindConfiguration(Constants.Database.ConfigurationName).ValidateOnStart();
         services.AddOptions<SerilogSettings>().BindConfiguration(Constants.Serilog.ConfigurationName).ValidateOnStart();
+        services.AddOptions<MongoDbSettings>().BindConfiguration(Constants.MongoDb.ConfigurationName).ValidateOnStart();
 
         return services;
     }

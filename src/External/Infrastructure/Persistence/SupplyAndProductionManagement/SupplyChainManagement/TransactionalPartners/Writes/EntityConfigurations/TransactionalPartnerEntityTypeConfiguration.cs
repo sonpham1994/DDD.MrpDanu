@@ -25,8 +25,6 @@ internal sealed class TransactionalPartnerEntityTypeConfiguration : IEntityTypeC
         // this HasDefaultValueSql("newsequentialid()"); will generate data from database, not on the client side
         //.HasDefaultValueSql("newsequentialid()");
 
-        builder.Ignore(x => x.DomainEvents);
-
         builder.Property(x => x.Name)
             .HasColumnName(nameof(TransactionalPartner.Name))
             .HasColumnType("nvarchar(300)")

@@ -25,5 +25,9 @@
   <ItemGroup>
     <Folder Include="SupplyAndProductionManagement" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
   
 </Project>

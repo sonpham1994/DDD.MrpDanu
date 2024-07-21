@@ -1,13 +1,14 @@
 namespace Domain.SharedKernel.Base;
 
-public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct, IEquatable<TId>
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot, IHaveDomainEvents
+    where TId : struct, IEquatable<TId>
 {
-    private readonly List<DomainEvent> _domainEvents = new();
-    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
+    private readonly List<DomainEventBase> _domainEvents = new();
+    public IReadOnlyList<DomainEventBase> DomainEvents => _domainEvents;
 
     protected AggregateRoot() { }
 
-    protected void RaiseDomainEvent(DomainEvent newEvent)
+    protected void RaiseDomainEvent(DomainEventBase newEvent)
     {
         _domainEvents.Add(newEvent);
     }
@@ -18,14 +19,14 @@ public abstract class AggregateRoot<TId> : Entity<TId> where TId : struct, IEqua
     }
 }
 
-public abstract class AggregateRoot : Entity
+public abstract class AggregateRoot : Entity, IAggregateRoot
 {
-    private readonly List<DomainEvent> _domainEvents = new();
-    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
+    private readonly List<DomainEventBase> _domainEvents = new();
+    public IReadOnlyList<DomainEventBase> DomainEvents => _domainEvents;
 
     protected AggregateRoot() { }
 
-    protected void RaiseDomainEvent(DomainEvent newEvent)
+    protected void RaiseDomainEvent(DomainEventBase newEvent)
     {
         _domainEvents.Add(newEvent);
     }
@@ -36,14 +37,14 @@ public abstract class AggregateRoot : Entity
     }
 }
 
-public abstract class AggregateRootGuidStronglyTypedId<TId> : EntityGuidStronglyTypedId<TId> 
+public abstract class AggregateRootGuidStronglyTypedId<TId> : EntityGuidStronglyTypedId<TId> , IAggregateRoot
     where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
 {
-    private readonly List<DomainEvent> _domainEvents = new();
-    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
+    private readonly List<DomainEventBase> _domainEvents = new();
+    public IReadOnlyList<DomainEventBase> DomainEvents => _domainEvents;
     protected AggregateRootGuidStronglyTypedId() { }
 
-    protected void RaiseDomainEvent(DomainEvent newEvent)
+    protected void RaiseDomainEvent(DomainEventBase newEvent)
     {
         _domainEvents.Add(newEvent);
     }
@@ -53,3 +54,5 @@ public abstract class AggregateRootGuidStronglyTypedId<TId> : EntityGuidStrongly
         _domainEvents.Clear();
     }
 }
+
+public interface IAggregateRoot;

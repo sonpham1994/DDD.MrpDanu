@@ -4,7 +4,7 @@ using Domain.SharedKernel.ValueObjects;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
-public class TransactionalPartner : AggregateRootGuidStronglyTypedId<TransactionalPartnerId>
+public class TransactionalPartner : EntityGuidStronglyTypedId<TransactionalPartnerId>, IAggregateRoot
 {
     public CompanyName Name { get; private set; } = default!;
 

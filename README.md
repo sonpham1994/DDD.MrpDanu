@@ -73,14 +73,14 @@ Remove-Migration -Project src/External/Infrastructure -StartupProject src/Extern
 docker compose -p mrp_infra -f docker-compose.mrp-infra.yml up -d
 docker compose -p mongodb-replica-set -f docker-compose.mongodb-replica-set.yml up -d
 OR
-docker-compose -p mrp_infra -f docker-compose.mrp-infra.yml -f docker-compose.mongodb-replica-set.yml up -d
+docker compose -p mrp_infra -f docker-compose.mrp-infra.yml -f docker-compose.mongodb-replica-set.yml up -d
 ```
 
 ## Apply config replica set for mongoDb
 References: https://www.youtube.com/watch?v=LGqTzPATSV4
 Connect to mongo primary
 ```zsh
-docker-compose exec mongo-primary mongosh
+docker compose exec mongo-primary mongosh
 OR
 mongosh --port 27001
 ```
@@ -99,12 +99,12 @@ config = {
       },
       {
         "_id": 2,
-        "host": "mongo_secondary-1:27017",
+        "host": "mongo-secondary-1:27017",
         priority: 2
       },
       {
         "_id": 3,
-        "host": "mongo_secondary-2:27017",
+        "host": "mongo-secondary-2:27017",
         priority: 1
       },
       {
@@ -176,7 +176,7 @@ config.members.push({
 
 Re-apply replica set with new configuration
 ```zsh
-rs.reconfig(config, { force: true });
+rs.reconfig(config, { force: true })
 ```
 
 Show nodes in replica set

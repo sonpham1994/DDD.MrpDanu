@@ -5,8 +5,13 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
-public class Material : AggregateRootGuidStronglyTypedId<MaterialId>, IAuditTable
+public class Material : EntityGuidStronglyTypedId<MaterialId>, IAuditTable, IAggregateRoot, IHaveDomainEvents
 {
+    private readonly List<DomainEventBase> _domainEvent = [];
+    public IReadOnlyList<DomainEventBase> DomainEvents => _domainEvent.AsReadOnly();
+    private void RaiseDomainEvent(DomainEventBase domainEvent) => _domainEvent.Add(domainEvent);
+    public void ClearDomainEvents() => _domainEvent.Clear();
+    
     // this largest number of materials depends on domain, it doesn't make sense if we have the infinite number.
     // The number 20 is the number you should discuss with domain experts, if the domain experts say that 
     // the number 20 is the maximum, you put it here. (Write UT for this case)
@@ -125,6 +130,8 @@ public class Material : AggregateRootGuidStronglyTypedId<MaterialId>, IAuditTabl
 
         return Result.Success();
     }
+
+    
 }
 
 

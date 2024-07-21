@@ -6,4 +6,4 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 public sealed record MaterialPriceChangedDomainEvent(
     MaterialId MaterialId, 
     SupplierId SupplierId, 
-    Money Price) : DomainEvent;
+    Money Price) : DomainEventBase;

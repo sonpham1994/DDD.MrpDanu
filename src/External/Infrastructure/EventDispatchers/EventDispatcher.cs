@@ -6,15 +6,15 @@ namespace Infrastructure.EventDispatchers;
 
 internal sealed class EventDispatcher
 {
-    public void Dispatch(IEnumerable<DomainEvent> events)
+    public void Dispatch(IEnumerable<DomainEventBase> events)
     {
-        foreach (DomainEvent ev in events)
+        foreach (DomainEventBase ev in events)
         {
             Dispatch(ev);
         }
     }
 
-    private void Dispatch(DomainEvent ev) 
+    private void Dispatch(DomainEventBase ev) 
     { 
         switch (ev)
         {

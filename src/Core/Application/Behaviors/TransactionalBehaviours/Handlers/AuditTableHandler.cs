@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Behaviors.TransactionalBehaviours.Handlers;
 
-internal sealed class AuditTableHandler(IAuditTableService auditTableService, ILogger<AuditTableHandler> logger)
+internal sealed class AuditTableHandler(
+    IAuditTableService auditTableService, 
+    ILogger<AuditTableHandler> logger)
     : ITransactionalReceiver
 {
     public async Task<IResult> HandleAsync()
