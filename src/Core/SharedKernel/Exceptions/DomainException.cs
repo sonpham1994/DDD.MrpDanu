@@ -8,5 +8,5 @@ public sealed class DomainException : Exception
 
     public DomainException(IReadOnlyList<DomainError> errors) => Errors = errors;
     
-    public DomainException(in DomainError error) => Errors = new List<DomainError>(1) {error};
+    public DomainException(in DomainError error) => Errors = new DomainError[] {error};
 }

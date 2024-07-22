@@ -12,7 +12,7 @@ public static class DomainErrors
     public static class Money
     {
         public static DomainError InvalidMoney => new("Money.InvalidMoney", "Money should not be less than or equal to 0");
-        public static DomainError InvalidVNDCurrencyMoney => new("Money.InvalidVNDCurrencyMoney", "Money should be integer for VND currency");
+        public static DomainError InvalidVndCurrencyMoney => new("Money.InvalidVNDCurrencyMoney", "Money should be integer for VND currency");
     }
 
     public static class MaterialSupplierIdentity
@@ -22,8 +22,6 @@ public static class DomainErrors
     }
     
     public static DomainError NullRequestBodyParameter => new("General.NullRequestBodyParameter", "Request body parameter should not be null");
-
-    
 
     public static DomainError SafeFailWithCode(string code) => new($"SafeFail.{code}", $"Should check failure for error code '{code}' before executing operation.");
     

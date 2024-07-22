@@ -31,7 +31,7 @@ public class MoneyTests
         var money = Money.Create(1.5m, CurrencyType.VND);
 
         money.IsSuccess.Should().BeFalse();
-        money.Error.Should().Be(DomainErrors.Money.InvalidVNDCurrencyMoney);
+        money.Error.Should().Be(DomainErrors.Money.InvalidVndCurrencyMoney);
     }
     
     [Fact]

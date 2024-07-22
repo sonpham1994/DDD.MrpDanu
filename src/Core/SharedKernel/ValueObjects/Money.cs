@@ -24,7 +24,7 @@ public class Money : ValueObject<Money>
         if (currencyType == CurrencyType.VND)
         {
             if (!decimal.IsInteger(value)) //VND should be integer
-                return DomainErrors.Money.InvalidVNDCurrencyMoney;
+                return DomainErrors.Money.InvalidVndCurrencyMoney;
         }
 
         return new Money(value, currencyType);
