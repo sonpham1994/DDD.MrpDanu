@@ -1,5 +1,3 @@
-using SharedKernel;
-
 namespace SharedKernel.Exceptions;
 
 public sealed class DomainException : Exception

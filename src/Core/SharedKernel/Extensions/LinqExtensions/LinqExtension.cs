@@ -1,5 +1,3 @@
-using SharedKernel;
-
 namespace SharedKernel.Extensions.LinqExtensions;
 
 public static class LinqExtension

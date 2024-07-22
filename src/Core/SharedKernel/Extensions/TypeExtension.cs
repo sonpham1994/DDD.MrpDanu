@@ -1,5 +1,3 @@
-using SharedKernel;
-
 namespace SharedKernel.Extensions;
 
 public static class TypeExtension

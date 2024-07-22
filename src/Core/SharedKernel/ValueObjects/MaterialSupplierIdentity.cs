@@ -1,5 +1,4 @@
 using SharedKernel.Extensions;
-using SharedKernel;
 
 namespace SharedKernel.ValueObjects;
 

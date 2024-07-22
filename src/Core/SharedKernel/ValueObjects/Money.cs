@@ -1,5 +1,4 @@
-﻿using SharedKernel;
-using SharedKernel.Enumerations;
+﻿using SharedKernel.Enumerations;
 
 namespace SharedKernel.ValueObjects;
 

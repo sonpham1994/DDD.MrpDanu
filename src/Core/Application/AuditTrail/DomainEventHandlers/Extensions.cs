@@ -21,7 +21,8 @@ internal static class Extensions
             domainEvent.RegionalMarket,
             domainEvent.MaterialSupplierCosts.ToEntityAudits(),
             domainEvent.StateAuditEntity,
-            Helper.GetTraceId());
+            Helper.GetTraceId(),
+            domainEvent.DateOccurred);
     }
 
     public static MaterialSupplierCostAudit? ToEntityAudit(

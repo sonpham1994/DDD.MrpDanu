@@ -1,4 +1,3 @@
-using SharedKernel;
 using SharedKernel.Exceptions;
 
 namespace SharedKernel.Extensions.LinqExtensions;

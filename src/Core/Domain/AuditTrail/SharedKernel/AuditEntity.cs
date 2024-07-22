@@ -6,7 +6,7 @@ public abstract class AuditEntity
 
     public string ObjectId { get; set; } = default!;
 
-    public DateTimeOffset TimeGenerated { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset TimeGenerated { get; set; }
 
     public Guid CreatedUser { get; set; } = Guid.Empty;
 
@@ -14,9 +14,10 @@ public abstract class AuditEntity
 
     public string? CorrelationId { get; set; }
 
-    protected AuditEntity(StateAuditEntity state, string? correlationId)
+    protected AuditEntity(StateAuditEntity state, string? correlationId, DateTimeOffset timeGenerated)
     {
         StateAuditEntity = state;
         CorrelationId = correlationId;
+        TimeGenerated = timeGenerated;
     }
 }

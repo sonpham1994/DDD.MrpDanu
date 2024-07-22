@@ -1,5 +1,3 @@
-using SharedKernel;
-
 namespace SharedKernel.ValueObjects;
 
 public readonly record struct MaterialId(Guid Value) : IGuidStronglyTypedId

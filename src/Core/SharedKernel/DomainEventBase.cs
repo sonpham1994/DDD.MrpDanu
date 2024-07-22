@@ -4,6 +4,6 @@ namespace SharedKernel;
 
 public abstract record DomainEventBase : INotification
 {
-  public DateTime DateOccurred { get; protected set; } = DateTime.UtcNow;
+  public DateTimeOffset DateOccurred { get; protected set; } = DateTimeOffset.UtcNow;
 }
 

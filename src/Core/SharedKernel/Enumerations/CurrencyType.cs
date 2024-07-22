@@ -1,6 +1,4 @@
-﻿using SharedKernel;
-
-namespace SharedKernel.Enumerations;
+﻿namespace SharedKernel.Enumerations;
 
 public class CurrencyType : Enumeration<CurrencyType>
 {

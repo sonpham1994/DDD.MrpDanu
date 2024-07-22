@@ -29,7 +29,8 @@ public sealed class MaterialAudit : AuditEntity
         RegionalMarket regionalMarket,
         List<MaterialSupplierCostAudit> materialSupplierCosts,
         StateAuditEntity state,
-        string? correlationId) : base(state, correlationId)
+        string? correlationId,
+        DateTimeOffset timeGenerated) : base(state, correlationId, timeGenerated)
     {
         ObjectId = id.ToString();
         Code = code;
