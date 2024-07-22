@@ -1,6 +1,6 @@
 using System.Reflection;
-using Domain.SharedKernel.Extensions;
-using Domain.SharedKernel.Base;
+using SharedKernel.Extensions;
+using SharedKernel;
 
 namespace Infrastructure.Persistence.Writes.Extensions;
 

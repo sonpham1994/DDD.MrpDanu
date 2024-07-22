@@ -1,5 +1,5 @@
 using Application.Behaviors.TransactionalBehaviours;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 
 namespace Application.Interfaces;
 

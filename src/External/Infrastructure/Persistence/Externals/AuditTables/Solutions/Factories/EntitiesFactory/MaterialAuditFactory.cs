@@ -3,7 +3,7 @@
 // using Infrastructure.Errors;
 // using Microsoft.EntityFrameworkCore.ChangeTracking;
 // using Domain.Extensions;
-// using Domain.SharedKernel.Base;
+// using SharedKernel;
 // using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 // using System.Text.Json;
 // using Infrastructure.Persistence.Externals.AuditTables.Solutions.Entities;

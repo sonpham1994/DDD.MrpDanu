@@ -1,4 +1,4 @@
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 

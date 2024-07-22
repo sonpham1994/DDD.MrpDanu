@@ -1,4 +1,4 @@
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 using Infrastructure.Persistence.Writes.EntityConfigurations;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;

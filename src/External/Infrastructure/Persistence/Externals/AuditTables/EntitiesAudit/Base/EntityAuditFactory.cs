@@ -1,5 +1,5 @@
-﻿using Domain.SharedKernel.Extensions;
-using Domain.SharedKernel.Exceptions;
+﻿using SharedKernel.Extensions;
+using SharedKernel.Exceptions;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Errors;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel;
+using SharedKernel.ValueObjects;
 using Application.Interfaces.Writes.MaterialWrite;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;

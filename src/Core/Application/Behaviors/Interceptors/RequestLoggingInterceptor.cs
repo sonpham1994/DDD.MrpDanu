@@ -1,5 +1,5 @@
 using Application.LoggingDefinitions;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

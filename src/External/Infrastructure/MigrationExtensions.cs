@@ -1,6 +1,6 @@
 ﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Externals.AuditTables;
 using Infrastructure.Persistence.Writes;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure;

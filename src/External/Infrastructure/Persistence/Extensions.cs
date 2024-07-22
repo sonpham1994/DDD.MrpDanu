@@ -1,5 +1,5 @@
 using Domain.AuditTrail.SharedKernel;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Errors;
 using Infrastructure.Persistence.Externals.AuditTables;
 using Infrastructure.Persistence.Writes;

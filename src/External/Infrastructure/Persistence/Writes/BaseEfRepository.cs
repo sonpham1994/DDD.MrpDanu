@@ -1,4 +1,4 @@
-﻿using Domain.SharedKernel.Base;
+﻿using SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Writes;

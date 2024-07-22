@@ -1,7 +1,7 @@
-using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
+using SharedKernel;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

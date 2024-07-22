@@ -1,6 +1,6 @@
 using Architecture.Tests.Helpers;
 using Domain;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using FluentAssertions;
 
 namespace Architecture.Tests.DomainArchitectureTests;

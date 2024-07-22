@@ -1,7 +1,7 @@
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel;
+using SharedKernel.ValueObjects;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.DeleteTransactionalPartner;
 

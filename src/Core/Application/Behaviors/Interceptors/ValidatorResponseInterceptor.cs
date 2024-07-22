@@ -1,6 +1,6 @@
 using Application.Behaviors.Interceptors.Base;
 using Application.Interfaces.Messaging;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;

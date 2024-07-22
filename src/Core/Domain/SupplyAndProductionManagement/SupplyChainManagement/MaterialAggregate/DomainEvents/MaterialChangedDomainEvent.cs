@@ -1,6 +1,6 @@
 using Domain.AuditTrail.SharedKernel;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel;
+using SharedKernel.Enumerations;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.DomainEvents;
 

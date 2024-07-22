@@ -1,4 +1,4 @@
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;

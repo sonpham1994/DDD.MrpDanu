@@ -1,5 +1,5 @@
 using Application.Extensions;
-using Domain.SharedKernel;
+using SharedKernel;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentValidation;
 

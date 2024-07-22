@@ -1,5 +1,5 @@
 ﻿using Api.ApiResponses;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

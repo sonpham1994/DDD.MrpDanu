@@ -1,5 +1,5 @@
 using Application.Interfaces.Services;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Persistence.Writes;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.Services;

@@ -1,5 +1,5 @@
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Exceptions;
+using SharedKernel;
+using SharedKernel.Exceptions;
 using FluentAssertions;
 
 namespace Domain.Tests.SharedKernel;

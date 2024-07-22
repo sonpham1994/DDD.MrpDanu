@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Domain.SupplyAndProductionManagement.ProductionPlanning.DomainEventHandlers;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

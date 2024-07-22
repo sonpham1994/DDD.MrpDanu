@@ -2,7 +2,7 @@
 // using System.Collections.Generic;
 // using System.Linq;
 // using Domain.Extensions;
-// using Domain.SharedKernel.Base;
+// using SharedKernel;
 // using Infrastructure.Persistence.Externals.AuditTables;
 // using Infrastructure.Persistence.Externals.AuditTables.Solutions.Factories;
 // using Infrastructure.Persistence.Interceptors;

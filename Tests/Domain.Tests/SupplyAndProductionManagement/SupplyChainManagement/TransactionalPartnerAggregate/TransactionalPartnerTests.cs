@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using FluentAssertions;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;

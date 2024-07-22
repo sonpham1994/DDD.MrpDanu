@@ -1,5 +1,5 @@
 using Domain.AuditTrail.SharedKernel;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.DomainEvents;
 

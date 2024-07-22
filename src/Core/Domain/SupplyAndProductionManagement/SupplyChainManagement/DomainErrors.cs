@@ -1,6 +1,6 @@
-﻿using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
+﻿using SharedKernel;
+using SharedKernel.Enumerations;
+using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement;

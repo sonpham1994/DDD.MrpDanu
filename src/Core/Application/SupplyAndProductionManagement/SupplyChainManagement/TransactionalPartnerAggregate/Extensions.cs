@@ -1,5 +1,5 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 

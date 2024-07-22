@@ -68,24 +68,17 @@ Update-Database -project src/External/Infrastructure -StartupProject src/Externa
 Remove-Migration -Project src/External/Infrastructure -StartupProject src/External/Api -Context ExternalDbContext
 ```
 
-## Run docker
-```zsh
-docker compose -p mrp_infra -f docker-compose.mrp-infra.yml up -d
-docker compose -p mongodb-replica-set -f docker-compose.mongodb-replica-set.yml up -d
-OR
-docker compose -p mrp_infra -f docker-compose.mrp-infra.yml -f docker-compose.mongodb-replica-set.yml up -d
-```
 
-## Apply config replica set for mongoDb
+
+## Configure Replica set for MongoDb
 References: https://www.youtube.com/watch?v=LGqTzPATSV4
 connect to Replica set: https://www.mongodb.com/community/forums/t/mongodb-replica-docker-cannot-connect-on-replica-only-individual-connection/12802/5
-Connect to mongo primary
 
-Add this data in "/etc/hosts"
+Add this hosts as described in `docker-compose.mongodb-replica-set.yml` file into "/etc/hosts"
 ```zsh
 127.0.0.1 mongo-primary mongo-secondary-1 mongo-secondary-2 mongo-arbiter
 ```
-
+Connect to primary node
 ```zsh
 docker compose exec mongo-primary mongosh
 OR
@@ -198,15 +191,9 @@ primary node hah priority which is higher than others, hence it can become prima
 
 If you want to prevent the former primary node to become primary again. You can:
 Connect to current primary: 
-```
+```zsh
 mongosh --port <current primary port>
-```
-Get config
-```zsh
 config = rs.conf();
-```
-Modify priority
-```zsh
 // Set a lower priority for the original primary node
 config.members[0].priority = 0.5; // Adjust the index as per your configuration
 
@@ -218,16 +205,42 @@ config.members[2].priority = 1; // Adjust the index as per your configuration
 rs.reconfig(config, { force: true });
 ```
 
-## Connect replica set via Mongo Compass
+## Connect direct node via Mongo Compass
 Connect primary mongo via command line
 ```zsh
 mongo --port 27001
 ```
-after that, get connection string
+after that, get connection string direct node instead of replica set
 ```zsh
 db.getMongo()
 ```
 After that, copy and paste connection string from command `db.getMong()` into Mongo Compass
+
+## Connect replica set
+Using command line
+```zsh
+mongosh "mongodb://localhost:27001,localhost:27002,localhost:27003,localhost:27004/?replicaSet=rs0"
+```
+Connect Mongo Compass. Pass connection string replica set as below into Mongo Compass
+
+## Run docker
+```zsh
+docker compose -p mrp_infra -f docker-compose.mrp-infra.yml up -d
+docker compose -p mongodb-replica-set -f docker-compose.mongodb-replica-set.yml up -d
+OR
+docker compose -p mrp_infra -f docker-compose.mrp-infra.yml -f docker-compose.mongodb-replica-set.yml up -d
+```
+
+## Check docker network
+Check whether the `mrp_infra_mrp_infra_network` exists or not.
+List docker network
+```zsh
+docker network ls
+```
+Check docker network details
+```zsh
+docker network inspect "mrp_infra_mrp_infra_network"
+```
 
 ## Run project
 At the root of project run docker compose:
@@ -257,4 +270,7 @@ apt-get install -y iputils-ping
 ```
 ```zsh
 apt-get install -y dnsutils
+```
+```zsh
+ping mongo-secondary-1
 ```

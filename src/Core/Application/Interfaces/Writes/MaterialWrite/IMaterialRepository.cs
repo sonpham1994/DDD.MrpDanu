@@ -1,4 +1,4 @@
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Application.Interfaces.Writes.MaterialWrite;

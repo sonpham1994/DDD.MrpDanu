@@ -1,7 +1,7 @@
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Reads;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 

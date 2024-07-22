@@ -322,7 +322,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Product", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.SharedKernel.DomainClasses.CurrencyType", b =>
+            modelBuilder.Entity("SharedKernel.DomainClasses.CurrencyType", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -411,7 +411,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.SharedKernel.DomainClasses.Money", "Price", b1 =>
+                    b.OwnsOne("SharedKernel.DomainClasses.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("MaterialCostManagementId")
                                 .HasColumnType("uniqueidentifier");
@@ -431,7 +431,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.ToTable("MaterialCostManagement");
 
-                            b1.HasOne("Domain.SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
+                            b1.HasOne("SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
                                 .WithMany()
                                 .HasForeignKey("CurrencyTypeId")
                                 .OnDelete(DeleteBehavior.NoAction)
@@ -443,7 +443,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Navigation("CurrencyType");
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.DomainClasses.Money", "Surcharge", b1 =>
+                    b.OwnsOne("SharedKernel.DomainClasses.Money", "Surcharge", b1 =>
                         {
                             b1.Property<Guid>("MaterialCostManagementId")
                                 .HasColumnType("uniqueidentifier");
@@ -463,7 +463,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.ToTable("MaterialCostManagement");
 
-                            b1.HasOne("Domain.SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
+                            b1.HasOne("SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
                                 .WithMany()
                                 .HasForeignKey("CurrencyTypeId")
                                 .OnDelete(DeleteBehavior.NoAction)
@@ -519,7 +519,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
                 {
-                    b.HasOne("Domain.SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
+                    b.HasOne("SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
                         .WithMany()
                         .HasForeignKey("CurrencyTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -671,7 +671,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.SharedKernel.DomainClasses.Money", "Price", b1 =>
+                    b.OwnsOne("SharedKernel.DomainClasses.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("BoMRevisionMaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -693,7 +693,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("BoMRevisionMaterialId");
 
-                            b1.HasOne("Domain.SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
+                            b1.HasOne("SharedKernel.DomainClasses.CurrencyType", "CurrencyType")
                                 .WithMany()
                                 .HasForeignKey("CurrencyTypeId")
                                 .OnDelete(DeleteBehavior.NoAction)

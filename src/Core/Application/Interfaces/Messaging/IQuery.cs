@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using MediatR;
 
 namespace Application.Interfaces.Messaging;

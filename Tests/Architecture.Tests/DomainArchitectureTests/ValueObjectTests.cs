@@ -1,7 +1,7 @@
 using System.Reflection;
 using Architecture.Tests.Helpers;
 using Domain;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using FluentAssertions;
 using NetArchTest.Rules;
 

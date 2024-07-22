@@ -1,5 +1,5 @@
 using Application.Interfaces.Messaging;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Application.Interfaces.Reads;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;

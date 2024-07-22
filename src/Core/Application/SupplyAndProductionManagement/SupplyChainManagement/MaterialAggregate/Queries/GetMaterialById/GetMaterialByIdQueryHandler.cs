@@ -1,7 +1,7 @@
 using Application.Interfaces.Messaging;
-using Domain.SharedKernel.Base;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
+using SharedKernel;
 using Application.Interfaces.Reads;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 

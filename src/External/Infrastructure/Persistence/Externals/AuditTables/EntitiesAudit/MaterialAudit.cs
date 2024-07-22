@@ -1,10 +1,10 @@
-﻿using Domain.SharedKernel.Base;
+﻿using SharedKernel;
 using Infrastructure.Errors;
 using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Domain.SharedKernel.Extensions;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Extensions;
+using SharedKernel.Enumerations;
 using Infrastructure.JsonSourceGenerators;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

@@ -1,6 +1,6 @@
 using Application.Extensions;
 using Application.LoggingDefinitions;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;

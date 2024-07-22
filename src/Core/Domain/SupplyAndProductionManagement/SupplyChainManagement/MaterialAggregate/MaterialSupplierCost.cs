@@ -1,8 +1,8 @@
-﻿using Domain.SharedKernel.Extensions;
-using Domain.SharedKernel.Extensions.LinqExtensions;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
+﻿using SharedKernel.Extensions;
+using SharedKernel.Extensions.LinqExtensions;
+using SharedKernel;
+using SharedKernel.Enumerations;
+using SharedKernel.ValueObjects;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

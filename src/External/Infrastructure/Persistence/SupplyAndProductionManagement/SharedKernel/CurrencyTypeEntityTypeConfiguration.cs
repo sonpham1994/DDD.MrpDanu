@@ -1,4 +1,4 @@
-﻿using Domain.SharedKernel.Enumerations;
+﻿using SharedKernel.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

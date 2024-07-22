@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

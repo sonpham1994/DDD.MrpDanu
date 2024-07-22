@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Persistence.Externals;
 using Infrastructure.Persistence.Writes;
 using Infrastructure.Persistence.AuditTrail;

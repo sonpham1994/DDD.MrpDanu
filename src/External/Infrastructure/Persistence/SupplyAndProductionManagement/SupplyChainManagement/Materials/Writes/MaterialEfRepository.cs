@@ -1,8 +1,8 @@
-using Domain.SharedKernel.ValueObjects;
-using Domain.SharedKernel.Extensions;
+using SharedKernel.ValueObjects;
+using SharedKernel.Extensions;
 using Infrastructure.Persistence.Writes.Extensions;
 using Application.Interfaces.Writes.MaterialWrite;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.Writes;
 

@@ -23,7 +23,7 @@ public class CommandTests
             .Or()
             .ImplementInterface(typeof(ICommandHandler<,>))
             .Should()
-            .HaveDependencyOn(DomainNamespace)
+            .HaveDependencyOnAny(DomainNamespace, ApplicationNamespace)
             .GetResult();
 
         result.IsSuccessful.Should().BeTrue();

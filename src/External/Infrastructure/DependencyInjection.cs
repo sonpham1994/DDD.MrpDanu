@@ -18,7 +18,7 @@ using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.AuditTrail.SharedKernel;
 using Domain.AuditTrail.SupplyChainManagement;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;

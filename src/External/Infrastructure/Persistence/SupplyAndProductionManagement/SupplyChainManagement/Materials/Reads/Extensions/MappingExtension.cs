@@ -3,7 +3,7 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAg
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads.Extensions;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads.Models;
 

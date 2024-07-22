@@ -35,7 +35,7 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.HasSequence("productseq")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("Domain.SharedKernel.Enumerations.CurrencyType", b =>
+            modelBuilder.Entity("SharedKernel.Enumerations.CurrencyType", b =>
                 {
                     b.Property<byte>("Id")
                         .HasColumnType("tinyint")
@@ -423,7 +423,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
+                    b.OwnsOne("SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
                         {
                             b1.Property<Guid>("BoMRevisionMaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -460,7 +460,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.Money", "Price", b1 =>
+                    b.OwnsOne("SharedKernel.ValueObjects.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("BoMRevisionMaterialId")
                                 .HasColumnType("uniqueidentifier");
@@ -482,7 +482,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("BoMRevisionMaterialId");
 
-                            b1.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
+                            b1.HasOne("SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                                 .WithMany()
                                 .HasForeignKey("CurrencyTypeId")
                                 .OnDelete(DeleteBehavior.NoAction)
@@ -532,7 +532,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
+                    b.OwnsOne("SharedKernel.ValueObjects.MaterialSupplierIdentity", "MaterialSupplierIdentity", b1 =>
                         {
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
@@ -562,7 +562,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.Money", "Price", b1 =>
+                    b.OwnsOne("SharedKernel.ValueObjects.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
@@ -582,7 +582,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.ToTable("MaterialSupplierCost");
 
-                            b1.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
+                            b1.HasOne("SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                                 .WithMany()
                                 .HasForeignKey("CurrencyTypeId")
                                 .OnDelete(DeleteBehavior.NoAction)
@@ -594,7 +594,7 @@ namespace Infrastructure.Persistence.Migrations
                             b1.Navigation("CurrencyType");
                         });
 
-                    b.OwnsOne("Domain.SharedKernel.ValueObjects.Money", "Surcharge", b1 =>
+                    b.OwnsOne("SharedKernel.ValueObjects.Money", "Surcharge", b1 =>
                         {
                             b1.Property<Guid>("MaterialSupplierCostId")
                                 .HasColumnType("uniqueidentifier");
@@ -614,7 +614,7 @@ namespace Infrastructure.Persistence.Migrations
 
                             b1.ToTable("MaterialSupplierCost");
 
-                            b1.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
+                            b1.HasOne("SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                                 .WithMany()
                                 .HasForeignKey("CurrencyTypeId")
                                 .OnDelete(DeleteBehavior.NoAction)
@@ -671,7 +671,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.TransactionalPartner", b =>
                 {
-                    b.HasOne("Domain.SharedKernel.Enumerations.CurrencyType", "CurrencyType")
+                    b.HasOne("SharedKernel.Enumerations.CurrencyType", "CurrencyType")
                         .WithMany()
                         .HasForeignKey("CurrencyTypeId")
                         .OnDelete(DeleteBehavior.Cascade)

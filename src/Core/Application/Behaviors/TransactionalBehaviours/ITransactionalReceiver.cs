@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 
 namespace Application.Behaviors.TransactionalBehaviours;
 

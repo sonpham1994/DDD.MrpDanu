@@ -1,5 +1,5 @@
 ﻿using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;

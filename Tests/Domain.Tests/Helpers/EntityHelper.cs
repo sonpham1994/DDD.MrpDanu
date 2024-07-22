@@ -1,5 +1,5 @@
 using System.Reflection;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain.Tests.Helpers;
@@ -35,7 +35,12 @@ public static class EntityHelper
     private static void SetId<TEntity, TDataType>(TEntity entity, TDataType id) where TEntity : class
     {
         var type = entity!.GetType();
-        var idProperty = type.GetProperty("Id", BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+        var idProperty = type.GetProperty("Id", type);
+        if (idProperty is null)
+        {
+            idProperty = type.GetProperty("Id", BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);    
+        }
+        
         if (idProperty is not null)
         {
             idProperty.SetValue(entity, id);
@@ -49,12 +54,12 @@ public static class EntityHelper
                 field = type!.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 if (field is null)
                 {
-                    type = type.BaseType!.BaseType;
+                    type = type.BaseType!;
                     field = type!.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 }
                 if (field is null)
                 {
-                    type = type.BaseType!.BaseType!.BaseType;
+                    type = type.BaseType!;
                     field = type!.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 }
             }

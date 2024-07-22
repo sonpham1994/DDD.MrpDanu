@@ -1,7 +1,7 @@
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Application.Interfaces.Writes.MaterialWrite;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;

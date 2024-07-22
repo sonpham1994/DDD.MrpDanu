@@ -1,7 +1,7 @@
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Reads;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement;
-using Domain.SharedKernel.Base;
+using SharedKernel;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 

@@ -1,8 +1,8 @@
 using Application.Extensions;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 using FluentValidation;
-using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
+using DomainErrorsShared = SharedKernel.DomainErrors;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 

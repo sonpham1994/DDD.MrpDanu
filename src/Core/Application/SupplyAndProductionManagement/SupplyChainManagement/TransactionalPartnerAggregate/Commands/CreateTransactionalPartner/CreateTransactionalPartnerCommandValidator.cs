@@ -1,10 +1,10 @@
 using Application.Extensions;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel;
+using SharedKernel.Enumerations;
+using SharedKernel.ValueObjects;
 using FluentValidation;
-using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
+using DomainErrorsShared = SharedKernel.DomainErrors;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 

@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Enumerations;
+using SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
 namespace Domain.AuditTrail.SupplyChainManagement;

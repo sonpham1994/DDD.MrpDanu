@@ -1,9 +1,9 @@
-﻿using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
+﻿using SharedKernel.Enumerations;
+using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
-using SharedKernelDomainErrors = Domain.SharedKernel.DomainErrors;
+using SharedKernelDomainErrors = SharedKernel.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

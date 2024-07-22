@@ -1,5 +1,5 @@
-using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.Enumerations;
+using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.Tests.Helpers;

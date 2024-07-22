@@ -1,5 +1,5 @@
-﻿using Domain.SharedKernel.Base;
-using Domain.SharedKernel.ValueObjects;
+﻿using SharedKernel;
+using SharedKernel.ValueObjects;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 

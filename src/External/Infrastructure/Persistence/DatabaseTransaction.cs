@@ -1,6 +1,6 @@
 using Application.Behaviors.TransactionalBehaviours;
 using Application.Interfaces;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

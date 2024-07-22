@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Microsoft.Extensions.Logging;
 
 namespace Application.LoggingDefinitions;

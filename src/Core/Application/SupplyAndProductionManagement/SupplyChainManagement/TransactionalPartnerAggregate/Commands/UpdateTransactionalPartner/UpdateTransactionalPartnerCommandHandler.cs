@@ -2,9 +2,9 @@ using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Enumerations;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel;
+using SharedKernel.Enumerations;
+using SharedKernel.ValueObjects;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;

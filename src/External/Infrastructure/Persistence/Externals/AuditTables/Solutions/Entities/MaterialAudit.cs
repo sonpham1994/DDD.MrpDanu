@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Errors;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

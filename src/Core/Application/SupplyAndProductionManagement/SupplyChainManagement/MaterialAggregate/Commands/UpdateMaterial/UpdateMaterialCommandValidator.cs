@@ -1,7 +1,7 @@
 using Application.Extensions;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentValidation;
-using DomainErrorsShared = Domain.SharedKernel.DomainErrors;
+using DomainErrorsShared = SharedKernel.DomainErrors;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;

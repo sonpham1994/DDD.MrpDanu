@@ -1,6 +1,6 @@
 
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands;
 

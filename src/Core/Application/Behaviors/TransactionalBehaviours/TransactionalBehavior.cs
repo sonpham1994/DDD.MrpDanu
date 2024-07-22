@@ -1,6 +1,6 @@
 using Application.Behaviors.TransactionalBehaviours.Handlers;
 using Application.Interfaces;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Application.Interfaces.Messaging;

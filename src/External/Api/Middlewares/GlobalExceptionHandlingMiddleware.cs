@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using Domain.SharedKernel.Exceptions;
+using SharedKernel.Exceptions;
 using Api.ApiResponses;
 using Api.SourceGenerators;
 

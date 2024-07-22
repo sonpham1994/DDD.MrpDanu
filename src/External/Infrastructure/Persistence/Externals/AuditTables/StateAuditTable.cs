@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Infrastructure.Errors;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;

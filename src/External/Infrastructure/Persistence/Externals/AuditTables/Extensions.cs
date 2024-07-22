@@ -1,6 +1,6 @@
-﻿using Domain.SharedKernel.Extensions;
-using Domain.SharedKernel.Base;
-using Domain.SharedKernel.Exceptions;
+﻿using SharedKernel.Extensions;
+using SharedKernel;
+using SharedKernel.Exceptions;
 using Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

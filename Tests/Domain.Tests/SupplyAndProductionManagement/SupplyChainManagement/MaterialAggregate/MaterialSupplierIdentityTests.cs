@@ -1,5 +1,5 @@
-using Domain.SharedKernel;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel;
+using SharedKernel.ValueObjects;
 using FluentAssertions;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;

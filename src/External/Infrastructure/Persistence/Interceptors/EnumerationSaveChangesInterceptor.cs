@@ -1,6 +1,6 @@
 using Domain;
-using Domain.SharedKernel.Extensions;
-using Domain.SharedKernel.Base;
+using SharedKernel.Extensions;
+using SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

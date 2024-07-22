@@ -2,7 +2,7 @@ using Application;
 using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Architecture.Tests.Helpers;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using FluentAssertions;
 using FluentValidation;
 using Mono.Cecil;

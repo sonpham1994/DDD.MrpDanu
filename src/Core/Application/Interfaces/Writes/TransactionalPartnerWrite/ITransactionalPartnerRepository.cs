@@ -1,5 +1,5 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using Domain.SharedKernel.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Application.Interfaces.Writes.TransactionalPartnerWrite;
 

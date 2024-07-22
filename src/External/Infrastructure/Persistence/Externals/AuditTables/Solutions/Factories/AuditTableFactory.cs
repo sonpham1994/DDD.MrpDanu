@@ -1,9 +1,9 @@
 // using System;
 // using System.Linq;
-// using Domain.SharedKernel.Exceptions;
+// using SharedKernel.Exceptions;
 // using Domain.Extensions;
 // using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-// using Domain.SharedKernel.Base;
+// using SharedKernel;
 // using Infrastructure.Errors;
 // using Infrastructure.Persistence.Externals.AuditTables.Solutions.Entities;
 // using Infrastructure.Persistence.Externals.AuditTables.Solutions.Factories.EntitiesFactory;

@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.EntitiesAudit.Base;

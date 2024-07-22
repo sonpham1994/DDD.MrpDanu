@@ -1,4 +1,4 @@
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using FluentValidation;
 using FluentValidation.Results;
 

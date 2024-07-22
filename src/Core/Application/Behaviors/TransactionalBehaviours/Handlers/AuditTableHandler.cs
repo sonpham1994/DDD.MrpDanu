@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Application.Interfaces.Services;
 using Application.LoggingDefinitions;
-using Domain.SharedKernel.Base;
+using SharedKernel;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Behaviors.TransactionalBehaviours.Handlers;
