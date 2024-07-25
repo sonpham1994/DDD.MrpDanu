@@ -3,7 +3,7 @@ using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
-using SharedKernelDomainErrors = SharedKernel.DomainErrors;
+using SharedKernelDomainErrors = SharedKernel.Enumerations.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

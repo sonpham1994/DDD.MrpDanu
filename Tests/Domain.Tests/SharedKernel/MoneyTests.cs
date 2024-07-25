@@ -1,7 +1,7 @@
-using SharedKernel;
 using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 using FluentAssertions;
+using DomainErrors = SharedKernel.ValueObjects.DomainErrors;
 
 namespace Domain.Tests.SharedKernel;
 

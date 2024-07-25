@@ -21,7 +21,7 @@ public static partial class ItemDuplication
         }
         else
         {
-            throw new DomainException(DomainErrors.ItemDuplication.NotSupportType(enumerable.GetType().Name));
+            throw new ItemDuplicationDomainException(enumerable.GetType());
         }
         
         return result;
@@ -87,7 +87,7 @@ public static partial class ItemDuplication
         }
         else
         {
-            throw new DomainException(DomainErrors.ItemDuplication.NotSupportType(enumerable.GetType().Name));
+            throw new ItemDuplicationDomainException(enumerable.GetType());
         }
         
         return result;

@@ -32,7 +32,7 @@ public readonly struct Result<T> : IResult<T>
         get
         {
             if (!_isSuccess)
-                throw new DomainException(DomainErrors.SafeFailWithCode(_error.Code));
+                throw new SafeFailWithCodeResultDomainException(_error.Code);
 
             return _value;
         }

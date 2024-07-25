@@ -1,4 +1,3 @@
-using SharedKernel;
 using SharedKernel.ValueObjects;
 using FluentAssertions;
 
