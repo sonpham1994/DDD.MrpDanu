@@ -1,6 +1,6 @@
 namespace SharedKernel.Exceptions;
 
-public sealed class DomainException : Exception
+public class DomainException : Exception
 {
     public IReadOnlyList<DomainError> Errors { get; }
 

@@ -27,7 +27,7 @@ using Benchmark.ExistsOrAny;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<TrimBenchmark>();
+BenchmarkRunner.Run<RecordStructWithInterfaceMethodBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();

@@ -8,6 +8,6 @@ public static class ResultExtension
         where T : IResult
     {
         if (!isSuccess && error.IsEmpty())
-            throw new DomainException(DomainErrors.SafeFail);
+            throw new SafeFailResultDomainException();
     }
 }
