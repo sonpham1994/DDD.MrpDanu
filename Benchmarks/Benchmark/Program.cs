@@ -27,11 +27,7 @@ using Benchmark.ExistsOrAny;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-var a = new StringInternOrHighFrequencyHeap();
-a.CreateStringWithBeInterned();
-a.CreateStringWithNotBeInterned();
-
-//BenchmarkRunner.Run<ExistsOrAnyBenchmark>();
+BenchmarkRunner.Run<TrimBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();
