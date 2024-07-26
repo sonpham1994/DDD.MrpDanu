@@ -1,3 +1,5 @@
+using SharedKernel.ValueObjects;
+
 namespace SharedKernel;
 
 /*
@@ -17,18 +19,12 @@ namespace SharedKernel;
  * HashSet use Entry as Node, and that Node is struct and it uses ref for assigning. Please take a look more detail on this.
  * "readonly ref struct": https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct
  */
-public readonly struct DomainError : IEquatable<DomainError>
+public readonly struct DomainError(string code, string message) : IEquatable<DomainError>
 {
     public static DomainError Empty => new(string.Empty, string.Empty);
 
-    public string Code { get; }
-    public string Message { get; }
-
-    public DomainError(string code, string message)
-    {
-        Code = code;
-        Message = message;
-    }
+    public string Code { get; } = code;
+    public string Message { get; } = message;
 
     public bool IsEmpty()
     {
@@ -37,9 +33,6 @@ public readonly struct DomainError : IEquatable<DomainError>
 
     public override bool Equals(object? obj)
     {
-        if (obj is null)
-            return false;
-        
         if (obj is DomainError error)
         {
             return Equals(error);
@@ -58,6 +51,6 @@ public readonly struct DomainError : IEquatable<DomainError>
 
     public override int GetHashCode()
     {
-        return (GetType().Name.GetHashCode() + Code.GetHashCode()).GetHashCode();
+        return (nameof(DomainError).GetHashCode() + Code.GetHashCode()).GetHashCode();
     }
 }
