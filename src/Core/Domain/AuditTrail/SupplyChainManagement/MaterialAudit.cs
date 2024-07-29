@@ -30,9 +30,8 @@ public sealed class MaterialAudit : AuditEntity
         List<MaterialSupplierCostAudit> materialSupplierCosts,
         StateAuditEntity state,
         string? correlationId,
-        DateTimeOffset timeGenerated) : base(state, correlationId, timeGenerated)
+        DateTimeOffset timeGenerated) : base(id.ToString(), state, correlationId, timeGenerated)
     {
-        ObjectId = id.ToString();
         Code = code;
         Name = name;
         ColorCode = colorCode;
