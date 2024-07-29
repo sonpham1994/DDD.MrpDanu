@@ -7,10 +7,7 @@ public class CompanyName : ValueObject<CompanyName>
     private static ushort CompanyNameMaxLength => 300;
     public string Value { get; } = default!;
 
-    private CompanyName(string name)
-    {
-        Value = name;
-    }
+    private CompanyName(string name) => Value = name;
 
     protected CompanyName() { }
 

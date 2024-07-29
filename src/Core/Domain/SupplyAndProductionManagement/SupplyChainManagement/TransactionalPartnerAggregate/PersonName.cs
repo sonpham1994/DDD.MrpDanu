@@ -7,10 +7,7 @@ public class PersonName : ValueObject<PersonName>
     private static byte PersonNameMaxLength => 200;
     public string Value { get; } = default!;
 
-    private PersonName(string name)
-    {
-        Value = name;
-    }
+    private PersonName(string name) => Value = name;
 
     protected PersonName() { }
 

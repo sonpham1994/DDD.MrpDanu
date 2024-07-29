@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using SharedKernel;
 
@@ -16,10 +17,7 @@ public class MaterialCode : ValueObject<MaterialCode>
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
         TimeSpan.FromMilliseconds(250));
 
-    private MaterialCode(string code)
-    {
-        Value = code;
-    }
+    private MaterialCode(string code) => Value = code;
     protected MaterialCode() { }
    
     public string Value { get; } = default!;

@@ -5,10 +5,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 public class MaterialName : ValueObject<MaterialName>
 {
     private static ushort NameMaxLength => 500;
-    private MaterialName(string name)
-    {
-        Value = name;
-    }
+    private MaterialName(string name) => Value = name;
     
     protected MaterialName() { }
     
