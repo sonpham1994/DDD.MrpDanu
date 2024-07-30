@@ -1,4 +1,5 @@
-﻿using SharedKernel;
+﻿using System.Diagnostics.CodeAnalysis;
+using SharedKernel;
 using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 
@@ -102,22 +103,25 @@ public class TransactionalPartner : EntityGuidStronglyTypedId<TransactionalPartn
         ContactPersonInformation.SetContactPersonInfo(personName, contactInfo);
     }
 
-    private static Result<Website?> CreateWebsite(string? sWebsite)
+    private static Result<Website?> CreateWebsite([StringSyntax(StringSyntaxAttribute.Uri)]string? sWebsite)
     {
         //note: whether the website is null or not, it will be decided based on bounded context or aggregates. For ex,
         // the TransactionalPartner allow null WebSite, while another aggregate does not allow null Website. Hence,
         // null or not null ValueObject based on bounded context or aggregates.
-        Website? website = default;
-        if (!string.IsNullOrEmpty(sWebsite) && !string.IsNullOrWhiteSpace(sWebsite))
+        var websiteResult = Website.Create(sWebsite);
+        if (!websiteResult.IsSuccess)
         {
-            var websiteResult = Website.Create(sWebsite);
-            if (!websiteResult.IsSuccess)
+            if (websiteResult.Error != DomainErrors.TransactionalPartner.EmptyWebsiteValue)
+            {
                 return websiteResult.Error;
-            
-            website = websiteResult.Value;
+            }
+            else
+            {
+                return Result.Success();
+            }
         }
 
-        return website;
+        return websiteResult.Value;
     }
 
     private static Result CanExecuteCreateOrUpdate(Address address,

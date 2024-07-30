@@ -74,7 +74,8 @@ public static class DomainErrors
         public static DomainError InvalidLengthTaxNo => new($"{nameof(TransactionalPartner)}.{nameof(InvalidLengthTaxNo)}", "The length of tax no in local country should be 10.");
         public static DomainError InvalidTaxNo => new($"{nameof(TransactionalPartner)}.{nameof(InvalidTaxNo)}", "Tax no in local country should be numbers.");
         public static DomainError NotFound => new($"{nameof(TransactionalPartner)}.{nameof(NotFound)}", "Transactional partner is not found");
-        
+
+        public static DomainError EmptyWebsiteValue =>  new($"{nameof(TransactionalPartner)}.{nameof(EmptyWebsiteValue)}",  "Website's value should not be null or empty.");
         public static DomainError InvalidWebsite(string website) => new($"{nameof(TransactionalPartner)}.{nameof(InvalidWebsite)}", $"The website '{website}' is invalid.");
         public static DomainError ExceedsMaxLengthWebsite(in byte maxLength) => new($"{nameof(TransactionalPartner)}.{nameof(ExceedsMaxLengthWebsite)}", $"The website characters cannot exceeds '{maxLength}'.");
         public static DomainError NotFoundId(in TransactionalPartnerId id) => new($"{nameof(TransactionalPartner)}.{nameof(NotFoundId)}", $"Transactional partner id '{id.Value}' is not found");

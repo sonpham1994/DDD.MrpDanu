@@ -23,9 +23,12 @@ public class Website : ValueObject<Website>
     private Website(string value) => Value = value;
 
     //String meaning: https://www.youtube.com/shorts/-7CJOU0QJC0
-    public static Result<Website?> Create([StringSyntax(StringSyntaxAttribute.Uri)]string value)
+    public static Result<Website?> Create([StringSyntax(StringSyntaxAttribute.Uri)]string? value)
     {
-        value = value.Trim();
+        if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+            return DomainErrors.TransactionalPartner.EmptyWebsiteValue;
+
+        value = value!.Trim();
         if (value.Length > WebsiteLength)
             return DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(WebsiteLength);
         if (!WebsitePattern.IsMatch(value))
