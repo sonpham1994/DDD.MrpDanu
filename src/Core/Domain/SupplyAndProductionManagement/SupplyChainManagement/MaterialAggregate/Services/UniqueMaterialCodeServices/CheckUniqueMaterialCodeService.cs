@@ -6,7 +6,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 // of a service to perform an operation, rather than having to rely on any previous history that might have occurred
 // within a particular service instance we can use domain service as scoped as per request or just use it as
 // static class
-public static class UniqueMaterialCodeService
+public static class CheckUniqueMaterialCodeService
 {
     /*
      * There are multiple ways to to check uniqueness data or some situations similar related to making a call to

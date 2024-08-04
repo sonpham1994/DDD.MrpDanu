@@ -41,7 +41,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
 
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningCodeValueForMaterialId1, default);
         var material = Material
             .Create(
@@ -64,7 +64,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
 
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningNullValue, default);
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningNullValue, default);
         var material = Material
             .Create(
                 code1,
@@ -146,7 +146,7 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
 
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync(
                 material.Value!.Id, code2, 
                 GetMaterialByCodeWithReturningCodeValueForMaterialId2, 
@@ -166,7 +166,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync(
                 material.Value!.Id, code1, 
                 GetMaterialByCodeWithReturningCodeValueForMaterialId1, 
@@ -186,7 +186,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        var uniqueMaterialCodeResult = await UniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value!.Id, code2, GetMaterialByCodeWithReturningNullValue, default);
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value!.Id, code2, GetMaterialByCodeWithReturningNullValue, default);
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, uniqueMaterialCodeResult);
 

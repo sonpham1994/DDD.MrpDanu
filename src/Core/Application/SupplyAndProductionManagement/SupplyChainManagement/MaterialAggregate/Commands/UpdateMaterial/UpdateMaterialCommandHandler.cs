@@ -29,7 +29,7 @@ internal sealed class UpdateMaterialCommandHandler(
         var code = MaterialCode.Create(request.Code).Value!;
         var name = MaterialName.Create(request.Name).Value!;
 
-        var uniqueCodeResult = await UniqueMaterialCodeService
+        var uniqueCodeResult = await CheckUniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
                 material.Id,

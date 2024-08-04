@@ -22,7 +22,7 @@ internal sealed class CreateMaterialCommandHandler(
             .Create(request.ColorCode, request.Width, request.Weight, request.Unit, request.Varian).Value!;
         var code = MaterialCode.Create(request.Code).Value!;
         var name = MaterialName.Create(request.Name).Value!;
-        var uniqueCodeResult = await UniqueMaterialCodeService
+        var uniqueCodeResult = await CheckUniqueMaterialCodeService
             .CheckUniqueMaterialCodeAsync
             (
                 code,
