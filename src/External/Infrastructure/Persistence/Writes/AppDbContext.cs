@@ -2,12 +2,9 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore.Design;
 using Application.Interfaces;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore.Storage;
-using Infrastructure.Persistence.Externals;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -36,6 +33,9 @@ internal sealed class AppDbContext(
     public DbSet<TransactionalPartner> TransactionalPartners => Set<TransactionalPartner>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<BoM> BoMs => Set<BoM>();
+
+    //we can override ChangeTracker api, need to somehow override this implementation for reducing boxing. Maybe apply Source Generator
+    //public override ChangeTracker ChangeTracker { get; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

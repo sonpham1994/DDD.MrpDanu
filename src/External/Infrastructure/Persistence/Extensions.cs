@@ -61,6 +61,7 @@ internal static class Extensions
 
         return appDbContext.ChangeTracker
             .Entries()
+            // maybe need cache this delegation func for improving performance: pls check Benchmark.Infrastructure/CacheDelegateFunction
             .Where(x => x.Entity.IsEntityAudit()
                         && (x.State.IsModifiedEntityState()
                             || (x.State == EntityState.Unchanged && x.IsInternalEntityModified()))
