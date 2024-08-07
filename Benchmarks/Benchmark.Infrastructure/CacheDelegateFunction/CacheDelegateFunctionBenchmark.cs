@@ -11,6 +11,7 @@ public static class Ext
     }
 }
 
+//https://kevingosse.medium.com/performance-best-practices-in-c-b85a47bdd93a
 [MemoryDiagnoser]
 public class CacheDelegateFunctionBenchmark
 {
