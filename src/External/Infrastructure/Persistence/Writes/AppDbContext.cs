@@ -34,7 +34,7 @@ internal sealed class AppDbContext(
     public DbSet<Product> Products => Set<Product>();
     public DbSet<BoM> BoMs => Set<BoM>();
 
-    //we can override ChangeTracker api, need to somehow override this implementation for reducing boxing. Maybe apply Source Generator
+    //TODO: we can override ChangeTracker api, need to somehow override this implementation for reducing boxing. Maybe apply Source Generator
     //public override ChangeTracker ChangeTracker { get; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
