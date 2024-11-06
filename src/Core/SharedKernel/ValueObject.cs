@@ -5,9 +5,10 @@ namespace SharedKernel;
 public interface IValueObject;
 
 /*TODO: Apply Source Generator: Generate EqualComponents and GetHashCodeComponents
- * - Source Generator can be longer in compile time. It can apply for small project such as micro service
- * - If it's a big project or modular project. We you don't care about memory. You can apply Sequential Component as
- * - Vladimir Khorikov does, this will reduce your code when inherit ValueObject.
+ * - Source Generator can be longer at compile time. It can apply for small project such as micro service
+ * - If it's a big project or modular project, and we you don't care about memory, we can apply Sequential Component as
+ * Vladimir Khorikov does, this will reduce your code when inherit ValueObject. However, applying source generator can
+ * make the big project or modular project significantly slow at compile time, hence it's not ideal for big or modular project.
  *  - Otherwise, apply this approach for improve performance and reduce memory usage.
  */
 public abstract class ValueObject<T> : IValueObject, IEquatable<T>
