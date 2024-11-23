@@ -1,5 +1,4 @@
 ﻿using Api;
-using Architecture.Tests.Helpers;
 using FluentAssertions;
 using NetArchTest.Rules;
 
@@ -9,14 +8,13 @@ using static ArchitecturePreparingData;
 
 public class ApiArchitectureTests
 {
-    private static readonly string[] ApplicationInterfaces = new string[]
-    {
+    private static readonly string[] ApplicationInterfaces = [
         $"{ApplicationNamespace}.Interfaces",
         $"{ApplicationNamespace}.Interfaces.Messaging",
         $"{ApplicationNamespace}.Interfaces.Queries",
         $"{ApplicationNamespace}.Interfaces.Repositories",
         $"{ApplicationNamespace}.Interfaces.Services"
-    };
+    ];
 
     private const string ControllerClass = "Controller";
     

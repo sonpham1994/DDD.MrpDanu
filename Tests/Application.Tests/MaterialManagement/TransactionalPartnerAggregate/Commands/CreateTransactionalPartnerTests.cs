@@ -13,16 +13,9 @@ namespace Application.Tests.SupplyChainManagement.TransactionalPartnerAggregate.
 //https://www.youtube.com/watch?v=a6Qab5l-VLo&t=103s&ab_channel=MilanJovanovi%C4%87
 public class CreateTransactionalPartnerTests
 {
-    private readonly Mock<ITransactionalPartnerRepository> _transactionalPartnerRepositoryMock;
-    private readonly Mock<ITransactionalPartnerReadonlyRepository> _transactionalPartnerQueryForWriteMock;
-    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-
-    public CreateTransactionalPartnerTests()
-    {
-        _transactionalPartnerRepositoryMock = new Mock<ITransactionalPartnerRepository>();
-        _transactionalPartnerQueryForWriteMock = new Mock<ITransactionalPartnerReadonlyRepository>();
-        _unitOfWorkMock = new Mock<IUnitOfWork>();
-    }
+    private readonly Mock<ITransactionalPartnerRepository> _transactionalPartnerRepositoryMock = new();
+    private readonly Mock<ITransactionalPartnerReadonlyRepository> _transactionalPartnerQueryForWriteMock = new();
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
     [Fact]
     public async Task Handle_should_return_failure_when_contact_info_existed()

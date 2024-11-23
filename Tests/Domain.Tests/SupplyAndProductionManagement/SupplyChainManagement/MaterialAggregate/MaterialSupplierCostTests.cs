@@ -298,8 +298,8 @@ public class MaterialSupplierCostTests
     {
         public static IEnumerable<object[]> GetInvalidCurrencyTypeId()
         {
-            yield return new object[] { (byte)(CurrencyType.List.First().Id - 1) };
-            yield return new object[] { (byte)(CurrencyType.List.Last().Id + 1) };
+            yield return [(byte)(CurrencyType.List.First().Id - 1)];
+            yield return [(byte)(CurrencyType.List.Last().Id + 1)];
         }
     }
 }

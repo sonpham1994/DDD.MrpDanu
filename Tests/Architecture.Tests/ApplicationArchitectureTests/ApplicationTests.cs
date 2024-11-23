@@ -18,11 +18,7 @@ public class ApplicationTests
     public void Application_should_not_have_dependencies_on_other_projects()
     {
         var applicationAssembly = ApplicationAssembly.Instance;
-        var otherProjects = new[]
-        {
-            InfrastructureNamespace,
-            ApiNamespace,
-        };
+        string[] otherProjects = [InfrastructureNamespace, ApiNamespace];
 
         var result = Types.InAssembly(applicationAssembly).ShouldNot().HaveDependencyOnAll(otherProjects).GetResult();
 

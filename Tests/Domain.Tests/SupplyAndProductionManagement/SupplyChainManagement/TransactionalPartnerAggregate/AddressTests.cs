@@ -87,39 +87,24 @@ public class AddressTests
 
     public static IEnumerable<object?[]> GetNullOrEmptyOfMandatoryProperties()
     {
-        yield return new object?[]
-            { " ", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
-        yield return new object?[]
-            { "", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
-        yield return new object?[]
-            { null, "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet };
+        yield return [" ", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet];
+        yield return ["", "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet];
+        yield return [null, "city", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressStreet];
 
-        yield return new object?[]
-            { "street", " ", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
-        yield return new object?[]
-            { "street", "", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
-        yield return new object?[]
-            { "street", null, "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity };
+        yield return ["street", " ", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity];
+        yield return ["street", "", "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity];
+        yield return ["street", null, "district", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressCity];
 
-        yield return new object?[]
-            { "street", "city", " ", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
-        yield return new object?[]
-            { "street", "city", "", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
-        yield return new object?[]
-            { "street", "city", null, "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict };
+        yield return ["street", "city", " ", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict];
+        yield return ["street", "city", "", "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict];
+        yield return ["street", "city", null, "ward", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressDistrict];
 
-        yield return new object?[]
-            { "street", "city", "district", " ", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
-        yield return new object?[]
-            { "street", "city", "district", "", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
-        yield return new object?[]
-            { "street", "city", "district", null, "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard };
+        yield return ["street", "city", "district", " ", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard];
+        yield return ["street", "city", "district", "", "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard];
+        yield return ["street", "city", "district", null, "zipCode", DomainErrors.TransactionalPartner.EmptyAddressWard];
 
-        yield return new object?[]
-            { "street", "city", "district", "ward", " ", DomainErrors.TransactionalPartner.EmptyAddressZipCode };
-        yield return new object?[]
-            { "street", "city", "district", "ward", "", DomainErrors.TransactionalPartner.EmptyAddressZipCode };
-        yield return new object?[]
-            { "street", "city", "district", "ward", null, DomainErrors.TransactionalPartner.EmptyAddressZipCode };
+        yield return ["street", "city", "district", "ward", " ", DomainErrors.TransactionalPartner.EmptyAddressZipCode];
+        yield return ["street", "city", "district", "ward", "", DomainErrors.TransactionalPartner.EmptyAddressZipCode];
+        yield return ["street", "city", "district", "ward", null, DomainErrors.TransactionalPartner.EmptyAddressZipCode];
     }
 }

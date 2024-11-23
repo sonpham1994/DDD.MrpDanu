@@ -15,12 +15,7 @@ public class DomainTests
     public void Domain_should_not_have_dependencies_on_other_projects()
     {
         var domainAssembly = DomainAssembly.Instance;
-        var otherProjects = new[]
-        {
-            ApplicationNamespace,
-            InfrastructureNamespace,
-            ApiNamespace,
-        };
+        string[] otherProjects = [ApplicationNamespace, InfrastructureNamespace, ApiNamespace];
 
         var result = Types.InAssembly(domainAssembly).ShouldNot().HaveDependencyOnAll(otherProjects).GetResult();
 

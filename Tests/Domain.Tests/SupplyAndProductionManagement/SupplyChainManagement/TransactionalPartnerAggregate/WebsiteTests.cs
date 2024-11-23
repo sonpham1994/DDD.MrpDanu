@@ -39,7 +39,7 @@ public class WebsiteTests
     [Fact]
     public void Cannot_create_website_with_exceeding_100_length()
     {
-        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         var random = new Random();
         string value = new string(Enumerable.Repeat(chars, 101)
             .Select(s => s[random.Next(s.Length)]).ToArray());
@@ -53,7 +53,7 @@ public class WebsiteTests
     [Fact]
     public void Create_website_with_value_successfully()
     {
-        string value = "http://abcxyz.com";
+        const string value = "http://abcxyz.com";
         var result = Website.Create(value);
 
         result.IsSuccess.Should().BeTrue();

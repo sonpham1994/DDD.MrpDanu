@@ -99,16 +99,16 @@ public class MaterialAttributesTests
 
     public static IEnumerable<object?[]> GetNullOrEmptyOfMandatoryProperties()
     {
-        yield return new object?[] { "", "", "", "unit", "varian", DomainErrors.Material.EmptyWidth };
-        yield return new object?[] { "", null, "", "unit", "varian", DomainErrors.Material.EmptyWidth };
-        yield return new object?[] { "", " ", "", "unit", "varian", DomainErrors.Material.EmptyWidth };
+        yield return ["", "", "", "unit", "varian", DomainErrors.Material.EmptyWidth];
+        yield return ["", null, "", "unit", "varian", DomainErrors.Material.EmptyWidth];
+        yield return ["", " ", "", "unit", "varian", DomainErrors.Material.EmptyWidth];
 
-        yield return new object?[] { "", "width1", "", "", "varian", DomainErrors.Material.EmptyUnit };
-        yield return new object?[] { "", "width1", "", null, "varian", DomainErrors.Material.EmptyUnit };
-        yield return new object?[] { "", "width1", "", " ", "varian", DomainErrors.Material.EmptyUnit };
+        yield return ["", "width1", "", "", "varian", DomainErrors.Material.EmptyUnit];
+        yield return ["", "width1", "", null, "varian", DomainErrors.Material.EmptyUnit];
+        yield return ["", "width1", "", " ", "varian", DomainErrors.Material.EmptyUnit];
 
-        yield return new object?[] { "", "width1", "", "unit", "", DomainErrors.Material.EmptyVarian };
-        yield return new object?[] { "", "width1", "", "unit", null, DomainErrors.Material.EmptyVarian };
-        yield return new object?[] { "", "width1", "", "unit", " ", DomainErrors.Material.EmptyVarian };
+        yield return ["", "width1", "", "unit", "", DomainErrors.Material.EmptyVarian];
+        yield return ["", "width1", "", "unit", null, DomainErrors.Material.EmptyVarian];
+        yield return ["", "width1", "", "unit", " ", DomainErrors.Material.EmptyVarian];
     }
 }

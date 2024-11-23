@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.AuditTrail.DomainEventHandlers;
 
-public class MaterialChangedDomainEventHandler(IAuditTableWriteRepository<MaterialAudit> auditTableRepository): INotificationHandler<MaterialChangedDomainEvent>
+public sealed class MaterialChangedDomainEventHandler(IAuditTableWriteRepository<MaterialAudit> auditTableRepository): INotificationHandler<MaterialChangedDomainEvent>
 {
     public async Task Handle(MaterialChangedDomainEvent notification, CancellationToken cancellationToken)
     {

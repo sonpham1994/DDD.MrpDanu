@@ -17,6 +17,7 @@ public static class Extensions
             material.RegionalMarket,
             material.MaterialSupplierCosts.ToDomainEvents(),
             state);
+    
     public static MaterialSupplierCostChangedDomainEvent? ToDomainEvent(this MaterialSupplierCost? materialSupplierCost)
         => materialSupplierCost is null 
             ? null 
