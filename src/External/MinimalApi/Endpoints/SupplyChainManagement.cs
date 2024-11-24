@@ -55,21 +55,21 @@ public static class SupplyChainManagement
         {
             var materialResult = await sender.Send(new GetMaterialByIdQuery(id), cancellationToken);
 
-            return materialResult.IsSuccess ? Results.Ok(materialResult.Value) : Results.BadRequest(materialResult.Error);
+            return materialResult.IsSuccess ? Results.Ok(materialResult.Value.ToApiSuccess()) : Results.BadRequest(materialResult.Error.ToApiFailure());
         });
         
         materialGroup.MapPut("{id:guid}", async (UpdateMaterialCommand request, CancellationToken cancellationToken, ISender sender) =>
         {
             var result = await sender.Send(request, cancellationToken);
 
-            return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Error);
+            return result.IsSuccess ? Results.Ok(ApiResponseExtensions.ToApiSuccess()) : Results.BadRequest(result.Error.ToApiFailure());
         });
         
         materialGroup.MapDelete("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
         {
             var result = await sender.Send(new DeleteMaterialCommand(id), cancellationToken);
 
-            return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Error);
+            return result.IsSuccess ? Results.Ok(ApiResponseExtensions.ToApiSuccess()) : Results.BadRequest(result.Error.ToApiFailure());
         });
         
 
@@ -98,7 +98,7 @@ public static class SupplyChainManagement
         {
             var materialResult = await sender.Send(new GetTransactionalPartnerByIdQuery(id), cancellationToken);
 
-            return materialResult.IsSuccess ? Results.Ok(materialResult.Value) : Results.BadRequest(materialResult.Error);
+            return materialResult.IsSuccess ? Results.Ok(materialResult.Value.ToApiSuccess()) : Results.BadRequest(materialResult.Error.ToApiFailure());
         });
         
         materialGroup.MapPost("", async (CreateTransactionalPartnerCommand request, ISender sender) =>
@@ -114,14 +114,14 @@ public static class SupplyChainManagement
         {
             var result = await sender.Send(request, cancellationToken);
 
-            return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Error);
+            return result.IsSuccess ? Results.Ok(ApiResponseExtensions.ToApiSuccess()) : Results.BadRequest(result.Error.ToApiFailure());
         });
         
         materialGroup.MapDelete("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
         {
             var result = await sender.Send(new DeleteTransactionalPartnerCommand(id), cancellationToken);
 
-            return result.IsSuccess ? Results.Ok() : Results.BadRequest(result.Error);
+            return result.IsSuccess ? Results.Ok(ApiResponseExtensions.ToApiSuccess()) : Results.BadRequest(result.Error.ToApiFailure());
         });
 
         return group;
@@ -134,6 +134,7 @@ public static class SupplyChainManagement
             IReadOnlyList<MaterialTypeResponse> result = MaterialType.List
                 .Select(x => x.ToResponse())
                 .ToList();
+            
             return result.ToApiSuccess();
         });
 
@@ -142,6 +143,7 @@ public static class SupplyChainManagement
             IReadOnlyList<RegionalMarketResponse> result = RegionalMarket.List
                 .Select(x => x.ToResponse())
                 .ToList();
+            
             return result.ToApiSuccess();
         });
 
@@ -150,6 +152,7 @@ public static class SupplyChainManagement
             IReadOnlyList<CountryResponse> result = Country.List
                 .Select(x => x.ToResponse())
                 .ToList();
+            
             return result.ToApiSuccess();
         });
 
@@ -158,6 +161,7 @@ public static class SupplyChainManagement
             IReadOnlyList<LocationTypeResponse> result = LocationType.List
                 .Select(x => x.ToResponse())
                 .ToList();
+            
             return result.ToApiSuccess();
         });
 
@@ -166,6 +170,7 @@ public static class SupplyChainManagement
             IReadOnlyList<TransactionalPartnerTypeResponse> result = TransactionalPartnerType.List
                 .Select(x => x.ToResponse())
                 .ToList();
+            
             return result.ToApiSuccess();
         });
 
@@ -174,6 +179,7 @@ public static class SupplyChainManagement
             IReadOnlyList<CurrencyTypeResponse> result = CurrencyType.List
                 .Select(x => x.ToResponse())
                 .ToList();
+            
             return result.ToApiSuccess();
         });
 
