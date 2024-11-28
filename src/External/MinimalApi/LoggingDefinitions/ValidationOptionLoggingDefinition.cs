@@ -3,6 +3,7 @@
 public static class ValidationOptionLoggingDefinition
 {
     //These format cannot be cleaned up event if using char[]. Hence we dont' need to create char array for this case.
+    // But we can use Console.Error.WriteLine, it can be cleaned up with GC.Collect(2)
     //Please check TestGcForString project
     private static readonly Action<ILogger, string, string, DateTime, Exception?> _startValidationOption =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
