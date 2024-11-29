@@ -113,6 +113,9 @@ public static class DependencyInjection
         // I prefer using this approach due to be able to use DI, e.g, ILogger. The problem with this approach is that
         // it registers DI as Singleton. Because we just need to validate it at once, hence registering as singleton
         // can allocate memory on Generation 2 that doesn't really need.
+        // this will run whenever the settings is changed (for ex DatabaseSettings), the validator will run again,
+        // for case if something change while running, the app will not shut down.
+        // it will be suitable for connection changes frequently, but not ideal for connection never change.
         services.TryAddSingleton<IValidateOptions<DatabaseSettings>, DatabaseSettingsValidationOption>();
         services.TryAddSingleton<IValidateOptions<SerilogSettings>, SerilogSettingsValidationOption>();
         services.TryAddSingleton<IValidateOptions<MongoDbSettings>, MongoDbSettingsValidationOption>();

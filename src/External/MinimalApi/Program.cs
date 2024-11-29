@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization.Metadata;
 using Application;
 using Infrastructure;
+using Infrastructure.Persistence;
+using Microsoft.Extensions.Options;
 using MinimalApi;
 using MinimalApi.Endpoints;
 using MinimalApi.Middlewares;
@@ -76,7 +78,17 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapSupplyChainManagementEndpoints();
 
+app.MapGet("/test-api", (IOptionsMonitor<DatabaseSettings> test) =>
+{
+    var a = test;
+});
+
 app.UseHttpsRedirection();
+
+using (var a = app.Services.CreateScope())
+{
+    var b = a.ServiceProvider.GetRequiredService<TestingOptions>();
+}
 
 
 app.Run();

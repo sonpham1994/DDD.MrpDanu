@@ -18,7 +18,7 @@ internal sealed class AppDbContext(
     EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor,
     InsertAuditableEntitiesSaveChangesInterceptor insertAuditableEntitiesSaveChangesInterceptor,
     PerformanceDetectionCommandInterceptor performanceDetectionCommandInterceptor)
-    : DbContext(options), IUnitOfWork
+    : DbContext(options), IUnitOfWork, IAppDbConnection
 {
     private readonly DatabaseSettings _databaseSettings = databaseSettings.Value;
     private readonly IInterceptor[] _interceptors = [
@@ -138,6 +138,9 @@ internal sealed class AppDbContext(
             _currentTransaction = null;
         }
     }
+
+    public bool CanConnect()
+        => Database.CanConnect();
 }
 
 //internal class AppDbContextDesignFactory : IDesignTimeDbContextFactory<AppDbContext>

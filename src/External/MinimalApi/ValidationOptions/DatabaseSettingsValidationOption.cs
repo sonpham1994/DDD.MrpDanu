@@ -44,7 +44,6 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
             return ValidateOptionsResult.Fail("StandardExecutedDbCommandTime equals to 0");
         }
 
-
         var connections = settings.ConnectionString.Split(';');
         foreach (var connection in connections)
         {

@@ -18,7 +18,7 @@ public class GlobalExceptionHandlingMiddleware(IWebHostEnvironment env, Serilog.
         {
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            string json = JsonSerializer.Serialize(ApiResponseExtensions.ToApiFailure(e.Errors), ApiResponseJsonSourceGenerator.Default.ApiResponse);
+            string json = JsonSerializer.Serialize(e.Errors.ToApiFailure(), ApiResponseJsonSourceGenerator.Default.ApiResponse);
 
             context.Response.ContentType = "application/json";
 
@@ -33,7 +33,7 @@ public class GlobalExceptionHandlingMiddleware(IWebHostEnvironment env, Serilog.
 
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            string json = JsonSerializer.Serialize(ApiResponseExtensions.ToApiFailure(error), ApiResponseJsonSourceGenerator.Default.ApiResponse);
+            string json = JsonSerializer.Serialize(error.ToApiFailure(), ApiResponseJsonSourceGenerator.Default.ApiResponse);
 
             context.Response.ContentType = "application/json";
 

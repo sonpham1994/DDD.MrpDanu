@@ -66,7 +66,7 @@ public sealed class GcEventListenerBackgroundService(ILogger<GcEventListener> lo
                 {
                     _gcEventListener.Dispose();
                     _gcEventListener = null;
-                    logger.LogInformation("GCEventListener started.");
+                    logger.LogInformation("GCEventListener stopped.");
                 }
             }
         }

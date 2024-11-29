@@ -23,7 +23,7 @@ public static class SupplyChainManagement
 {
     public static IEndpointRouteBuilder MapSupplyChainManagementEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("supply-chain-management");
+        var group = app.MapGroup("/supply-chain-management");
 
         group.MapCommonSupplyChainManagementEndpoints()
             .MapMaterialEndpoints()

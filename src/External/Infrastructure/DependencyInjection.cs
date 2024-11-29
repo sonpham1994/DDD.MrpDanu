@@ -77,6 +77,7 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<IAppDbConnection>(sp => sp.GetRequiredService<AppDbContext>());
 
         return services;
     }
