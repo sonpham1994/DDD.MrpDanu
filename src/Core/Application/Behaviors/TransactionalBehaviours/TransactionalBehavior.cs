@@ -9,22 +9,21 @@ using Application.LoggingDefinitions;
 
 namespace Application.Behaviors.TransactionalBehaviours;
 
-internal sealed class TransactionalBehavior<TRequest, TResponse>(
-    ILogger<TransactionalBehavior<TRequest, TResponse>> logger,
+internal sealed class TransactionalBehavior<TRequest>(
+    ILogger<TransactionalBehavior<TRequest>> logger,
     ITransaction transaction,
     AuditTableHandler auditTableHandler)
-    : IPipelineBehavior<TRequest, TResponse>
+    : IPipelineBehavior<TRequest, Result>
     where TRequest : ITransactionalCommand
-    where TResponse : IResult
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+    public async Task<Result> Handle(TRequest request, RequestHandlerDelegate<Result> next,
         CancellationToken cancellationToken)
     {
         var requestName = request.GetGenericTypeName();
         logger.StartTransactionalBehavior(requestName);
 
         var transactionalHandler = new TransactionalHandler(
-            new RequestHandler<TResponse>(next),
+            new RequestHandler(next),
             auditTableHandler);
 
         //the next handler is DomainEvent or publish message to message broker
@@ -33,6 +32,6 @@ internal sealed class TransactionalBehavior<TRequest, TResponse>(
 
         logger.CompletedTransactionalBehavior(requestName);
 
-        return (TResponse)response;
+        return response;
     }
 }

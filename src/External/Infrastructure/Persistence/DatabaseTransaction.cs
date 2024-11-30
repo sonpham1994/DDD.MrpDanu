@@ -10,9 +10,9 @@ namespace Infrastructure.Persistence;
 internal sealed class DatabaseTransaction(AppDbContext appDbContext, ILogger<DatabaseTransaction> logger)
     : ITransaction
 {
-    public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
+    public async Task<Result> HandleAsync(TransactionalHandler transactionalHandler)
     {
-        IResult result = Result.Success();
+        var result = Result.Success();
         try
         {
             //https://learn.microsoft.com/en-gb/ef/core/saving/transactions

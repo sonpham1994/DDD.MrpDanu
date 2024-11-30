@@ -1,11 +1,11 @@
 ﻿namespace Infrastructure.Persistence;
 
-internal sealed class ShadowProperties
+internal static class ShadowProperties
 {
-    public const string MaterialTypeId = "MaterialTypeId";
-    public const string RegionalMarketId = "RegionalMarketId";
-    public const string CountryId = "CountryId";
-    public const string TransactionalPartnerTypeId = "TransactionalPartnerTypeId";
-    public const string CurrencyTypeId = "CurrencyTypeId";
-    public const string LocationTypeId = "LocationTypeId";
+    public const string MaterialTypeId = nameof(MaterialTypeId);
+    public const string RegionalMarketId = nameof(RegionalMarketId);
+    public const string CountryId = nameof(CountryId);
+    public const string TransactionalPartnerTypeId = nameof(TransactionalPartnerTypeId);
+    public const string CurrencyTypeId = nameof(CurrencyTypeId);
+    public const string LocationTypeId = nameof(LocationTypeId);
 }

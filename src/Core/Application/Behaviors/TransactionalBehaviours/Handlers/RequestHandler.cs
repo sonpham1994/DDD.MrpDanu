@@ -3,10 +3,9 @@ using MediatR;
 
 namespace Application.Behaviors.TransactionalBehaviours.Handlers;
 
-internal sealed class RequestHandler<TResponse>(RequestHandlerDelegate<TResponse> handler) : ITransactionalReceiver
-    where TResponse : IResult
+internal sealed class RequestHandler(RequestHandlerDelegate<Result> handler) : ITransactionalReceiver
 {
-    public async Task<IResult> HandleAsync()
+    public async Task<Result> HandleAsync()
     {
         return await handler();
     }

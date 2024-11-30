@@ -11,7 +11,7 @@ public sealed class TransactionalHandler
         _transactionalReceivers = transactionalReceivers;
     }
 
-    public async Task<IResult> HandleAsync()
+    public async Task<Result> HandleAsync()
     {
         foreach (var transactionalReceiver in _transactionalReceivers)
         {

@@ -11,13 +11,14 @@ internal sealed class AuditTableHandler(
     ILogger<AuditTableHandler> logger)
     : ITransactionalReceiver
 {
-    public async Task<IResult> HandleAsync()
+    public async Task<Result> HandleAsync()
     {
         logger.StartLogAuditTable();
+        
         var stopWatch = Stopwatch.StartNew();
-
         var result = await auditTableService.InsertChangesAsync();
         stopWatch.Stop();
+        
         logger.CompletedLogAuditTable(stopWatch.ElapsedMilliseconds);
 
         return result;

@@ -58,8 +58,8 @@ internal sealed class AppDbContext(
         if (_databaseSettings.EnableLog)
         {
             optionsBuilder
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+                .EnableSensitiveDataLogging(true)
+                .EnableDetailedErrors(true);
         }
     }
 

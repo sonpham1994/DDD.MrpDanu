@@ -29,10 +29,10 @@ internal sealed class HandlerLoggingInterceptor<TRequest, TResponse>(
 
         var stopWatch = Stopwatch.StartNew();
         var response = await next();
-
+        stopWatch.Stop();
+        
         logger.GcGenerationLogging(handlerName, requestTypeName, previousGen0Count, previousGen1Count,
             previousGen2Count);
-        stopWatch.Stop();
         logger.CompletedHandler(handlerName, requestTypeName, response, stopWatch.ElapsedMilliseconds);
 
         return response;

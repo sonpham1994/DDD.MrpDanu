@@ -78,6 +78,7 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapSupplyChainManagementEndpoints();
 
+// just for test
 app.MapGet("/test-api", (IOptionsMonitor<DatabaseSettings> test) =>
 {
     var a = test;
@@ -85,10 +86,17 @@ app.MapGet("/test-api", (IOptionsMonitor<DatabaseSettings> test) =>
 
 app.UseHttpsRedirection();
 
+// just for test
 using (var a = app.Services.CreateScope())
 {
     var b = a.ServiceProvider.GetRequiredService<TestingOptions>();
 }
+
+/*
+ * TODO: build a configuration api instead of using ACC, when the configurations change, we publish an event and
+ * the subscriber we receive that event and update on memory themself. consider using Redis, and check the price
+ * when build api configuration yourself and ACC on Azure or Azure Key Vault Secret.
+ */
 
 
 app.Run();
