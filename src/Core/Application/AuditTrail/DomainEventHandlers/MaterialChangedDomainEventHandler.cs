@@ -10,6 +10,9 @@ public sealed class MaterialChangedDomainEventHandler(IAuditTableWriteRepository
     public async Task Handle(MaterialChangedDomainEvent notification, CancellationToken cancellationToken)
     {
         var materialAudit = notification.ToEntityAudit();
-        await auditTableRepository.InsertAsync(materialAudit);
+        if (materialAudit is not null)
+        {
+            await auditTableRepository.InsertAsync(materialAudit);
+        }
     }
 }

@@ -14,7 +14,7 @@ public sealed class MaterialAudit : AuditEntity
     public string Varian { get; private set; }= default!;
     public MaterialType MaterialType { get; private set; }= default!;
     public RegionalMarket RegionalMarket { get; private set; }= default!;
-    public List<MaterialSupplierCostAudit> MaterialSupplierCosts { get; private set; } = default!;
+    public IReadOnlyList<MaterialSupplierCostAudit> MaterialSupplierCosts { get; private set; } = Array.Empty<MaterialSupplierCostAudit>();
 
     public MaterialAudit(
         Guid id,
@@ -27,7 +27,7 @@ public sealed class MaterialAudit : AuditEntity
         string varian,
         MaterialType materialType,
         RegionalMarket regionalMarket,
-        List<MaterialSupplierCostAudit> materialSupplierCosts,
+        IReadOnlyList<MaterialSupplierCostAudit> materialSupplierCosts,
         StateAuditEntity state,
         string? correlationId,
         DateTimeOffset timeGenerated) : base(id.ToString(), state, correlationId, timeGenerated)
