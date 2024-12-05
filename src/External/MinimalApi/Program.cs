@@ -96,6 +96,7 @@ using (var a = app.Services.CreateScope())
  * TODO: build a configuration api instead of using ACC, when the configurations change, we publish an event and
  * the subscriber we receive that event and update on memory themself. consider using Redis, and check the price
  * when build api configuration yourself and ACC on Azure or Azure Key Vault Secret.
+ * sample here: https://dogabariscakmak.medium.com/net-core-ioptions-with-redis-backplane-1ee7f9c26619
  */
 
 
