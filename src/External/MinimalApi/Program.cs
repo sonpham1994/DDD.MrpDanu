@@ -99,5 +99,11 @@ using (var a = app.Services.CreateScope())
  * sample here: https://dogabariscakmak.medium.com/net-core-ioptions-with-redis-backplane-1ee7f9c26619
  */
 
+/*
+ * TODO: Add log for module (or controller/minimal api) to check that whether it's used a lot or not. If it's hardly
+ * ever used by user, consider moving it to Azure Function for saving expense. If you build microservice and
+ * each service is traditional host, consider all of them for using a lot or not and move it to Azure Function
+ * can save client's money. Also we can scale the module that uses a lot efficiently.
+ */
 
 app.Run();
