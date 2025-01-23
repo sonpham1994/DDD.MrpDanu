@@ -6,7 +6,7 @@ namespace Infrastructure.PersistenceMongoDb;
 
 internal class AuditTableWriteMongoRepository<T>(IMongoDatabase database, string collectionName) 
     : IAuditTableWriteRepository<T>
-    where T : AuditEntity
+    where T : IAuditEntity
 {
     private readonly IMongoCollection<T> dbCollection = database.GetCollection<T>(collectionName);
 

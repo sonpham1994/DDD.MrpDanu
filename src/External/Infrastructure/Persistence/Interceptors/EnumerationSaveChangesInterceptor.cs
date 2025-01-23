@@ -50,12 +50,11 @@ internal sealed class EnumerationSaveChangesInterceptor : SaveChangesInterceptor
                         && x.BaseType.GetGenericTypeDefinition() == typeof(Enumeration<>);
         
         
-        var enumerationTypes = DomainAssembly.Instance.GetTypes().Where(enumerationPredicate).ToArray();
-        var enumerationInfrastructureTypes = InfrastructureAssembly.Instance.GetTypes().Where(enumerationPredicate).ToArray();
+        var enumerationTypes = DomainAssembly.Instance.GetTypes().Where(enumerationPredicate);
+        var enumerationInfrastructureTypes = InfrastructureAssembly.Instance.GetTypes().Where(enumerationPredicate);
+        var enumerationSharedKernelTypes = SharedKernelAssembly.Instance.GetTypes().Where(enumerationPredicate);
 
-        var types = new Type[enumerationTypes.Length + enumerationInfrastructureTypes.Length];
-        enumerationTypes.CopyTo(types, 0);
-        enumerationInfrastructureTypes.CopyTo(types, enumerationTypes.Length);
+        var types = enumerationTypes.Concat(enumerationInfrastructureTypes).Concat(enumerationSharedKernelTypes).ToArray();
 
         return types;
     }

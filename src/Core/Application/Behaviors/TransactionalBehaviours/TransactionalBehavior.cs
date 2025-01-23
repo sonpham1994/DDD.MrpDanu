@@ -9,8 +9,8 @@ using Application.LoggingDefinitions;
 
 namespace Application.Behaviors.TransactionalBehaviours;
 
-internal sealed class TransactionalBehavior<TRequest>(
-    ILogger<TransactionalBehavior<TRequest>> logger,
+internal sealed class TransactionalBehavior<TRequest, TResponse>(
+    ILogger<TransactionalBehavior<TRequest, TResponse>> logger,
     ITransaction transaction,
     AuditTableHandler auditTableHandler)
     : IPipelineBehavior<TRequest, Result>

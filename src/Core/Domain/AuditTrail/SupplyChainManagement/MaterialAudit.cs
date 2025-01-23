@@ -3,17 +3,19 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 
 namespace Domain.AuditTrail.SupplyChainManagement;
 
-public sealed class MaterialAudit : AuditEntity
+public sealed class MaterialAudit : IAuditEntity
 {
-    public string Code { get; private set; } = default!;
-    public string Name { get; private set; }= default!;
-    public string ColorCode { get; private set; }= default!;
-    public string Width { get; private set; }= default!;
-    public string Weight { get; private set; }= default!;
-    public string Unit { get; private set; }= default!;
-    public string Varian { get; private set; }= default!;
-    public MaterialType MaterialType { get; private set; }= default!;
-    public RegionalMarket RegionalMarket { get; private set; }= default!;
+    public Guid Id { get; private set; }
+    public string Code { get; private set; }
+    public string Name { get; private set; }
+    public string ColorCode { get; private set; }
+    public string Width { get; private set; }
+    public string Weight { get; private set; }
+    public string Unit { get; private set; }
+    public string Varian { get; private set; }
+    public MaterialType MaterialType { get; private set; }
+    public RegionalMarket RegionalMarket { get; private set; }
+    public DateTimeOffset DateOccured { get; private set; }
     public IReadOnlyList<MaterialSupplierCostAudit> MaterialSupplierCosts { get; private set; } = Array.Empty<MaterialSupplierCostAudit>();
 
     public MaterialAudit(
@@ -28,10 +30,9 @@ public sealed class MaterialAudit : AuditEntity
         MaterialType materialType,
         RegionalMarket regionalMarket,
         IReadOnlyList<MaterialSupplierCostAudit> materialSupplierCosts,
-        StateAuditEntity state,
-        string? correlationId,
-        DateTimeOffset timeGenerated) : base(id.ToString(), state, correlationId, timeGenerated)
+        DateTimeOffset dateOccured)
     {
+        Id = id;
         Code = code;
         Name = name;
         ColorCode = colorCode;
@@ -42,5 +43,6 @@ public sealed class MaterialAudit : AuditEntity
         MaterialType = materialType;
         RegionalMarket = regionalMarket;
         MaterialSupplierCosts = materialSupplierCosts;
+        DateOccured = dateOccured;
     }
 }

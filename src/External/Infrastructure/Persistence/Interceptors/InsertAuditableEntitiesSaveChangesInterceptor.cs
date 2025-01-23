@@ -12,7 +12,8 @@ internal sealed class InsertAuditableEntitiesSaveChangesInterceptor(
     IDomainEventDispatcher domainEventDispatcher)
     : SaveChangesInterceptor
 {
-    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
+    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {

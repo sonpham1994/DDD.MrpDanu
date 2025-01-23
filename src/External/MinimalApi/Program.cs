@@ -78,19 +78,7 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapSupplyChainManagementEndpoints();
 
-// just for test
-app.MapGet("/test-api", (IOptionsMonitor<DatabaseSettings> test) =>
-{
-    var a = test;
-});
-
 app.UseHttpsRedirection();
-
-// just for test
-using (var a = app.Services.CreateScope())
-{
-    var b = a.ServiceProvider.GetRequiredService<TestingOptions>();
-}
 
 /*
  * TODO: build a configuration api instead of using ACC, when the configurations change, we publish an event and

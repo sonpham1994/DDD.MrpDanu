@@ -26,6 +26,9 @@ using Infrastructure.Persistence.SupplyAndProductionManagement.ProductPlanning.W
 using Infrastructure.Persistence.AuditTrail;
 using Infrastructure.PersistenceMongoDb;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace Infrastructure;
@@ -200,6 +203,9 @@ public static class DependencyInjection
 
     private static IServiceCollection AddAuditTrail(this IServiceCollection services)
     {
+        // Add services to the container.
+        BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+        BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
         services.AddTransient<AuditTrailDomainEvents>();
         services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
 
@@ -228,12 +234,12 @@ public static class DependencyInjection
     }
     
     public static IServiceCollection AddMongoRepository<T>(this IServiceCollection services, string collectionName)
-        where T : AuditEntity
+        where T : IAuditEntity
     {
-        services.AddSingleton<IAuditTableWriteRepository<T>>(serviceProvider =>
+        services.AddSingleton<IAuditTableWriteRepository<AuditEntity<T>>>(serviceProvider =>
         {
             var database = serviceProvider.GetRequiredService<IMongoDatabase>();
-            return new AuditTableWriteMongoRepository<T>(database, collectionName);
+            return new AuditTableWriteMongoRepository<AuditEntity<T>>(database, collectionName);
         });
 
         return services;
