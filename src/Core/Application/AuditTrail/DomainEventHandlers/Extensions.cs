@@ -7,7 +7,7 @@ namespace Application.AuditTrail.DomainEventHandlers;
 
 internal static class Extensions
 {
-    public static AuditEntity<MaterialAudit>? ToEntityAudit(this MaterialChangedDomainEvent? domainEvent)
+    public static AuditEntity<MaterialAudit>? ToEntityAudit(this MaterialAuditDomainEvent? domainEvent)
     {
         if (domainEvent is null)
             return null;
@@ -34,7 +34,7 @@ internal static class Extensions
     }
 
     public static MaterialSupplierCostAudit? ToEntityAudit(
-        this MaterialSupplierCostChangedDomainEvent? materialSupplierCost)
+        this MaterialSupplierCostAuditDomainEvent? materialSupplierCost)
     {
         if (materialSupplierCost is null)
             return null;
@@ -49,7 +49,7 @@ internal static class Extensions
     }
     
     public static IReadOnlyList<MaterialSupplierCostAudit> ToEntityAudits(
-        this IReadOnlyList<MaterialSupplierCostChangedDomainEvent>? materialSupplierCosts)
+        this IReadOnlyList<MaterialSupplierCostAuditDomainEvent>? materialSupplierCosts)
     {
         if (materialSupplierCosts is null)
             return Array.Empty<MaterialSupplierCostAudit>();

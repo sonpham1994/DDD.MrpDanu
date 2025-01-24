@@ -4,7 +4,7 @@ using SharedKernel.Enumerations;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.DomainEvents;
 
-public sealed record MaterialChangedDomainEvent(
+public sealed record MaterialAuditDomainEvent(
     Guid Id,
     string Code,
     string Name,
@@ -15,10 +15,10 @@ public sealed record MaterialChangedDomainEvent(
     string Varian,
     MaterialType MaterialType,
     RegionalMarket RegionalMarket,
-    IReadOnlyList<MaterialSupplierCostChangedDomainEvent> MaterialSupplierCosts,
+    IReadOnlyList<MaterialSupplierCostAuditDomainEvent> MaterialSupplierCosts,
     StateAuditEntity StateAuditEntity) : DomainEventBase;
 
-public sealed record MaterialSupplierCostChangedDomainEvent(
+public sealed record MaterialSupplierCostAuditDomainEvent(
     Guid Id,
     decimal Price,
     uint MinQuantity,

@@ -4,7 +4,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 
 public static class Extensions
 {
-    public static MaterialChangedDomainEvent ToDomainEvent(this Material material, StateAuditEntity state)
+    public static MaterialAuditDomainEvent ToDomainEvent(this Material material, StateAuditEntity state)
         => new(material.Id.Value,
             material.Code.Value,
             material.Name.Value,
@@ -18,7 +18,7 @@ public static class Extensions
             material.MaterialSupplierCosts.ToDomainEvents(),
             state);
     
-    public static MaterialSupplierCostChangedDomainEvent? ToDomainEvent(this MaterialSupplierCost? materialSupplierCost)
+    public static MaterialSupplierCostAuditDomainEvent? ToDomainEvent(this MaterialSupplierCost? materialSupplierCost)
         => materialSupplierCost is null 
             ? null 
             : new(materialSupplierCost.Id.Value,
@@ -28,10 +28,10 @@ public static class Extensions
             materialSupplierCost.Price.CurrencyType,
             materialSupplierCost.MaterialSupplierIdentity.SupplierId.Value);
 
-    public static IReadOnlyList<MaterialSupplierCostChangedDomainEvent> ToDomainEvents(
+    public static IReadOnlyList<MaterialSupplierCostAuditDomainEvent> ToDomainEvents(
         this IReadOnlyList<MaterialSupplierCost?>? materialSupplierCosts)
         => materialSupplierCosts is null 
-            ? Array.Empty<MaterialSupplierCostChangedDomainEvent>()
+            ? Array.Empty<MaterialSupplierCostAuditDomainEvent>()
             : materialSupplierCosts.Select(x => x.ToDomainEvent())
                 .Where(x=> x is not null)
                 .ToList()!;

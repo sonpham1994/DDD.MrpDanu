@@ -44,6 +44,7 @@ public static class DependencyInjection
             .AddDbContext(isProduction)
             .AddWritesDi()
             .AddReadsDi()
+            .AddMongoDb()
             .AddTransactions()
             .AddAuditTrail();
 
@@ -101,6 +102,7 @@ public static class DependencyInjection
     private static IServiceCollection AddEventDispatcher(this IServiceCollection services)
     {
         services.AddScoped<EventDispatcher>();
+        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
 
         return services;
     }
@@ -203,12 +205,32 @@ public static class DependencyInjection
 
     private static IServiceCollection AddAuditTrail(this IServiceCollection services)
     {
+        services.AddTransient<AuditTrailDomainEvents>();
+        
+
+        services.AddMongoRepository<MaterialAudit>("materialAudit");
+        
+        return services;
+    }
+    
+    private static IServiceCollection AddMongoRepository<T>(this IServiceCollection services, string collectionName)
+        where T : IAuditEntity
+    {
+        services.AddSingleton<IAuditTableWriteRepository<AuditEntity<T>>>(serviceProvider =>
+        {
+            var database = serviceProvider.GetRequiredService<IMongoDatabase>();
+            return new AuditTableWriteMongoRepository<AuditEntity<T>>(database, collectionName);
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddMongoDb(this IServiceCollection services)
+    {
         // Add services to the container.
         BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
         BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
-        services.AddTransient<AuditTrailDomainEvents>();
-        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
-
+        
         services.AddSingleton(sp =>
         {
             var mongoDbSettings = sp.GetRequiredService<IOptions<MongoDbSettings>>().Value;
@@ -227,23 +249,7 @@ public static class DependencyInjection
             var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
             return mongoClient.GetDatabase("dddMrpDanu");
         });
-
-        services.AddMongoRepository<MaterialAudit>("materialAudit");
         
         return services;
     }
-    
-    public static IServiceCollection AddMongoRepository<T>(this IServiceCollection services, string collectionName)
-        where T : IAuditEntity
-    {
-        services.AddSingleton<IAuditTableWriteRepository<AuditEntity<T>>>(serviceProvider =>
-        {
-            var database = serviceProvider.GetRequiredService<IMongoDatabase>();
-            return new AuditTableWriteMongoRepository<AuditEntity<T>>(database, collectionName);
-        });
-
-        return services;
-    }
-    
-    
 }

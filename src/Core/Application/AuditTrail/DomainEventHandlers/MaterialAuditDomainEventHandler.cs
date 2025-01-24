@@ -6,11 +6,11 @@ using MediatR;
 
 namespace Application.AuditTrail.DomainEventHandlers;
 
-public sealed class MaterialChangedDomainEventHandler(
+public sealed class MaterialAuditDomainEventHandler(
     IAuditTableWriteRepository<AuditEntity<MaterialAudit>> auditTableRepository)
-        : INotificationHandler<MaterialChangedDomainEvent>
+        : INotificationHandler<MaterialAuditDomainEvent>
 {
-    public async Task Handle(MaterialChangedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(MaterialAuditDomainEvent notification, CancellationToken cancellationToken)
     {
         var materialAudit = notification.ToEntityAudit();
         if (materialAudit is not null)
