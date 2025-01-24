@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Externals.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.7")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -33,7 +33,6 @@ namespace Infrastructure.Persistence.Externals.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CorrelationId")
-                        .IsRequired()
                         .HasColumnType("varchar(250)");
 
                     b.Property<Guid>("CreatedUser")

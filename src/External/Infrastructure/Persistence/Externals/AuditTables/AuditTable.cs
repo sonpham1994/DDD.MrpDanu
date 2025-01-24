@@ -26,7 +26,7 @@ internal sealed class AuditTable
 
     [ForeignKey(nameof(StateAuditTable))]
     public byte StateAuditTableId { get; set; }
-    public StateAuditTable StateAuditTable { get; set; }=  default!;
+    public StateAuditTable StateAuditTable { get; set; } =  default!;
 
     [Column(TypeName = "varchar(250)")]
     public string? CorrelationId { get; set; }

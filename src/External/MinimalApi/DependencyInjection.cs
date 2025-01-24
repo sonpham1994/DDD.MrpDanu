@@ -25,7 +25,7 @@ public static class DependencyInjection
 
         //if (!isProduction)
         //{
-            services.AddHostedService<MigrationsHostedService>();
+            //services.AddHostedService<MigrationsHostedService>();
         //}
 
         services.AddSingleton<GcEventListener>();

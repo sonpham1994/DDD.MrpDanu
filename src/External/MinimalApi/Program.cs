@@ -93,5 +93,12 @@ app.UseHttpsRedirection();
  * each service is traditional host, consider all of them for using a lot or not and move it to Azure Function
  * can save client's money. Also we can scale the module that uses a lot efficiently.
  */
+using (var serviceScope = app.Services.CreateScope())
+{
+    var factory = serviceScope.ServiceProvider.GetRequiredService<IServiceScopeFactory>();
+    await factory.ApplyMigrationsAsync();
+}
 
 app.Run();
+
+public class ProgramMinimalApi { } // Integration test

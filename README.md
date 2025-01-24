@@ -22,7 +22,7 @@ Patterns:
   - Options pattern
 
 Framework and Libraries:
-  - Entity Framework 8
+  - Entity Framework
   - EntityFrameworkCore.SqlServer
   - EntityFrameworkCore.Proxies
   - Serilog
@@ -39,17 +39,17 @@ stand at DDD.MrpDanu folder and run the command lines below
 Install Microsoft.EntityFrameworkCore.Design
 AppDbContext:
 ```zsh
-dotnet ef migrations add Initial --project src/External/Infrastructure --startup-project src/External/Api --context AppDbContext -o Persistence/Migrations
-dotnet ef database update --project src/External/Infrastructure --startup-project src/External/Api --context AppDbContext
-dotnet ef migrations remove --project src/External/Infrastructure --startup-project src/External/Api --context AppDbContext
+dotnet ef migrations add Initial --project src/External/Infrastructure --startup-project src/External/MinimalApi --context AppDbContext -o Persistence/Migrations
+dotnet ef database update --project src/External/Infrastructure --startup-project src/External/MinimalApi --context AppDbContext
+dotnet ef migrations remove --project src/External/Infrastructure --startup-project src/External/MinimalApi --context AppDbContext
 ```
 
 
 ExternalDbContext
 ```zsh
-dotnet ef migrations add InititAuditTable --project src/External/Infrastructure --startup-project src/External/Api --context ExternalDbContext -o Persistence/Externals/Migrations
-dotnet ef database update --project src/External/Infrastructure --startup-project src/External/Api --context ExternalDbContext
-dotnet ef migrations remove --project src/External/Infrastructure --startup-project src/External/Api --context ExternalDbContext
+dotnet ef migrations add InititAuditTable --project src/External/Infrastructure --startup-project src/External/MinimalApi --context ExternalDbContext -o Persistence/Externals/Migrations
+dotnet ef database update --project src/External/Infrastructure --startup-project src/External/MinimalApi --context ExternalDbContext
+dotnet ef migrations remove --project src/External/Infrastructure --startup-project src/External/MinimalApi --context ExternalDbContext
 ```
 
 

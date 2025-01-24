@@ -27,8 +27,11 @@ internal sealed class ExternalDbContext(
         optionsBuilder
             .UseSqlServer(_databaseSettings.ConnectionString, msSqlOptions =>
             {
-                msSqlOptions.EnableRetryOnFailure(maxRetryCount:_databaseSettings.MaxRetryCount, maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
+                msSqlOptions.EnableRetryOnFailure(maxRetryCount: _databaseSettings.MaxRetryCount,
+                    maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
                     errorNumbersToAdd: null);
+                msSqlOptions.UseCompatibilityLevel(160);
+                msSqlOptions.MigrationsHistoryTable("ExternalDbContextMigrationsHistory");
             })
             .AddInterceptors(_interceptors);
 

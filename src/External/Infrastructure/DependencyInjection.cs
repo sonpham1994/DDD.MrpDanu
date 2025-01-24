@@ -206,7 +206,6 @@ public static class DependencyInjection
     private static IServiceCollection AddAuditTrail(this IServiceCollection services)
     {
         services.AddTransient<AuditTrailDomainEvents>();
-        
 
         services.AddMongoRepository<MaterialAudit>("materialAudit");
         

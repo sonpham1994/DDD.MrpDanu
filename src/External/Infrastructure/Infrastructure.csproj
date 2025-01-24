@@ -4,12 +4,19 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+<!--  <ItemGroup>-->
+<!--	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">-->
+<!--      <_Parameter1>Architecture.Tests</_Parameter1>-->
+<!--	</AssemblyAttribute>-->
+<!--  </ItemGroup>-->
+
+  <!-- From .NET 5 -->
   <ItemGroup>
-	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>Architecture.Tests</_Parameter1>
-	</AssemblyAttribute>
+    <InternalsVisibleTo Include="Architecture.Tests" />
+    <InternalsVisibleTo Include="Tests.Integration" />
   </ItemGroup>
-	
+
+
   <ItemGroup>
     <PackageReference Include="Dapper" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
