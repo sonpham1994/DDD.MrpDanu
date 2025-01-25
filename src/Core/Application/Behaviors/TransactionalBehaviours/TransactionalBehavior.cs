@@ -1,10 +1,10 @@
-using Application.Behaviors.TransactionalBehaviours.Handlers;
 using Application.Interfaces;
 using SharedKernel;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Application.Interfaces.Messaging;
 using Application.Extensions;
+using Application.Interfaces.Services;
 using Application.LoggingDefinitions;
 
 namespace Application.Behaviors.TransactionalBehaviours;
@@ -12,26 +12,30 @@ namespace Application.Behaviors.TransactionalBehaviours;
 internal sealed class TransactionalBehavior<TRequest, TResponse>(
     ILogger<TransactionalBehavior<TRequest, TResponse>> logger,
     ITransaction transaction,
-    AuditTableHandler auditTableHandler)
-    : IPipelineBehavior<TRequest, Result>
+    IAuditTableService auditTableService)
+    : ITransactionalCommandHandler<TRequest, TResponse>
     where TRequest : ITransactionalCommand
+    where TResponse : IResult
 {
-    public async Task<Result> Handle(TRequest request, RequestHandlerDelegate<Result> next,
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         var requestName = request.GetGenericTypeName();
         logger.StartTransactionalBehavior(requestName);
-
-        var transactionalHandler = new TransactionalHandler(
-            new RequestHandler(next),
-            auditTableHandler);
+        IResult result = Result.Success();
+        
+        await transaction.HandleAsync(async () =>
+        {
+            result = await next();
+            await auditTableService.InsertChangesAsync();
+            
+            return Result.Success();
+        });
 
         //the next handler is DomainEvent or publish message to message broker
 
-        var response = await transaction.HandleAsync(transactionalHandler);
-
         logger.CompletedTransactionalBehavior(requestName);
 
-        return response;
+        return (TResponse)result;
     }
 }

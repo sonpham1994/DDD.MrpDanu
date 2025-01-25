@@ -1,16 +1,24 @@
+using System.Diagnostics;
 using Application.Interfaces.Services;
+using Infrastructure.Persistence.LoggingDefinitions;
 using SharedKernel;
 using Infrastructure.Persistence.Writes;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.Externals.AuditTables.Services;
 
 internal sealed class AuditTableService(
     ExternalDbContext externalDbContext, 
-    AppDbContext appDbContext)
+    AppDbContext appDbContext,
+    ILogger<AuditTableService> logger)
     : IAuditTableService
 {
     public async Task<Result> InsertChangesAsync()
     {
+        logger.StartLogAuditTable();
+        
+        var stopWatch = Stopwatch.StartNew();
+        
         var auditTables = externalDbContext.GetAuditTables();
 
         if (appDbContext.HasActiveTransaction && auditTables.Count > 0)
@@ -18,6 +26,13 @@ internal sealed class AuditTableService(
             await externalDbContext.AuditTables.AddRangeAsync(auditTables);
             await externalDbContext.SaveChangesAsync();
         }
+        
+        stopWatch.Stop();
+        
+        logger.CompletedLogAuditTable(stopWatch.ElapsedMilliseconds);
+
+        
+        
 
         return Result.Success();
     }

@@ -7,12 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence;
 
-internal sealed class DatabaseTransaction(AppDbContext appDbContext, ILogger<DatabaseTransaction> logger)
+internal sealed class DatabaseTransaction(
+    AppDbContext appDbContext, 
+    ILogger<DatabaseTransaction> logger)
     : ITransaction
 {
-    public async Task<Result> HandleAsync(TransactionalHandler transactionalHandler)
+    public async Task<Result> HandleAsync(Func<Task<IResult>> handler)
     {
-        var result = Result.Success();
         try
         {
             //https://learn.microsoft.com/en-gb/ef/core/saving/transactions
@@ -21,7 +22,7 @@ internal sealed class DatabaseTransaction(AppDbContext appDbContext, ILogger<Dat
             await strategy.ExecuteAsync(async () =>
             {
                 await using var transaction = await appDbContext.BeginTransactionAsync();
-                result = await transactionalHandler.HandleAsync();
+                var result = await handler.Invoke();
 
                 if (result.IsSuccess)
                     await appDbContext.CommitTransactionAsync(transaction);
@@ -38,26 +39,6 @@ internal sealed class DatabaseTransaction(AppDbContext appDbContext, ILogger<Dat
             throw;
         }
 
-        return result;
+        return Result.Success();
     }
-
-    //public async Task<IResult> HandleAsync(TransactionalHandler transactionalHandler)
-    //{
-    //    IResult result = null;
-    //    try
-    //    {
-    //        result = await transactionalHandler.HandleAsync();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        string traceId = Helper.GetTraceId();
-    //        _appDbContext.RollbackTransaction();
-    //        var message = $"{ex.Message}{Environment.NewLine}{ex.InnerException}";
-    //        _logger.LogError(ex, "----- TraceId: {TraceId}, ERROR Handling transaction: {@Message}", traceId, message);
-
-    //        throw;
-    //    }
-
-    //    return result;
-    //}
 }

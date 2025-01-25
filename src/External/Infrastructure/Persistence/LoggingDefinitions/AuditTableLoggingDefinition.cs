@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Application.LoggingDefinitions;
+namespace Infrastructure.Persistence.LoggingDefinitions;
 
 /*
  * LoggingDefinition: Application vs Infrastructure

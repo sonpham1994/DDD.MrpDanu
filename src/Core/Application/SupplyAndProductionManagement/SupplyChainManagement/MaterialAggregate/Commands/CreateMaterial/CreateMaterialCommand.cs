@@ -1,8 +1,9 @@
 using Application.Interfaces.Messaging;
+using SharedKernel.ValueObjects;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 
-public sealed record CreateMaterialCommand : ICommand, ITransactionalCommand
+public sealed record CreateMaterialCommand : ICommand<MaterialId>, ITransactionalCommand
 {
     public string Code { get; init; } = default!;
     public string Name { get; init; } = default!;

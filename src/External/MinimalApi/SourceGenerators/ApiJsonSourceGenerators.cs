@@ -30,6 +30,7 @@ namespace MinimalApi.SourceGenerators;
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<LocationTypeResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<TransactionalPartnerTypeResponse>>))]
 [JsonSerializable(typeof(ApiResponse<IReadOnlyList<CurrencyTypeResponse>>))]
+[JsonSerializable(typeof(ApiResponse<Guid>))]
 public partial class ApiResponseJsonSourceGenerator : JsonSerializerContext
 {
 }

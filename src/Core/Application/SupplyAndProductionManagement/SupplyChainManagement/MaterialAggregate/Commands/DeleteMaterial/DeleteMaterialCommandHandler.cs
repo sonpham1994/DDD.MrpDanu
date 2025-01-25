@@ -8,7 +8,7 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Materi
 
 internal sealed class DeleteMaterialCommandHandler(
     IMaterialRepository _materialRepository,
-    IUnitOfWork _unitOfWork) : ICommandHandler<DeleteMaterialCommand>, ITransactionalCommandHandler
+    IUnitOfWork _unitOfWork) : ICommandHandler<DeleteMaterialCommand>
 {
     public async Task<Result> Handle(DeleteMaterialCommand request, CancellationToken cancellationToken)
     {

@@ -14,7 +14,7 @@ internal sealed class UpdateMaterialCommandHandler(
     IUnitOfWork _unitOfWork,
     ITransactionalPartnerReadonlyRepository _transactionalPartnerQueryForWrite,
     IMaterialRepository _materialRepository,
-    IMaterialReadonlyRepository _materialQueryForWrite) : ICommandHandler<UpdateMaterialCommand>, ITransactionalCommandHandler
+    IMaterialReadonlyRepository _materialQueryForWrite) : ICommandHandler<UpdateMaterialCommand>
 {
     public async Task<Result> Handle(UpdateMaterialCommand request, CancellationToken cancellationToken)
     {

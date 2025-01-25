@@ -35,13 +35,14 @@ public static class SupplyChainManagement
     private static IEndpointRouteBuilder MapMaterialEndpoints(this IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("materials");
+        
         materialGroup.MapPost("", async (CreateMaterialCommand request, ISender sender) =>
-        {
-            var result = await sender.Send(request);
+            {
+                var result = await sender.Send(request);
 
-            return result.IsSuccess 
-                ? Results.Ok(ApiResponseExtensions.ToApiSuccess())
-                : Results.BadRequest(result.Error.ToApiFailure());
+                return result.IsSuccess
+                    ? Results.Accepted($"supply-chain-management/materials/{result.Value.Value}", result.Value.Value.ToApiSuccess())
+                    : Results.BadRequest(result.Error.ToApiFailure());
         });
         
         materialGroup.MapGet("", async (CancellationToken cancellationToken, ISender sender) =>

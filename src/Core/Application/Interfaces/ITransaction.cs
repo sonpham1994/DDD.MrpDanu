@@ -5,5 +5,5 @@ namespace Application.Interfaces;
 
 public interface ITransaction
 {
-    Task<Result> HandleAsync(TransactionalHandler transactionalHandler);
+    Task<Result> HandleAsync(Func<Task<IResult>> handler);
 }
