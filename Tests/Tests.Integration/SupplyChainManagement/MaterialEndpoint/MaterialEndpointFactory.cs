@@ -1,4 +1,5 @@
 using System.Data;
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Writes;
 using Infrastructure.PersistenceMongoDb;
@@ -11,9 +12,12 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MinimalApi.ApiResponses;
 using MinimalApi.HostedServices;
+using SharedKernel.ValueObjects;
 using Testcontainers.MongoDb;
 using Testcontainers.MsSql;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
@@ -28,6 +32,12 @@ public class MaterialEndpointFactory : WebApplicationFactory<ProgramMinimalApi>,
         new MongoDbBuilder()
             .WithImage("mongo:latest")
             .Build();
+
+    public const string Host = "http://localhost";
+    public const string Url = $"{Host}/{Endpoint}";
+    public const string Endpoint = "supply-chain-management/materials";
+
+    public static readonly ApiError ExistedMaterialCode = new(DomainErrors.Material.ExistedCode(MaterialCode.Create("code").Value, new MaterialId()).Code, "message");
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

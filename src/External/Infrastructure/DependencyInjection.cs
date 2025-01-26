@@ -227,8 +227,8 @@ public static class DependencyInjection
     private static IServiceCollection AddMongoDb(this IServiceCollection services)
     {
         // Add services to the container.
-        BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
-        BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+        BsonSerializer.TryRegisterSerializer(new GuidSerializer(BsonType.String));
+        BsonSerializer.TryRegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
         
         services.AddSingleton(sp =>
         {

@@ -8,9 +8,9 @@ using MinimalApi.ApiResponses;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
-public class GetAllMaterialEndpointTests : IClassFixture<MaterialEndpointFactory>
+public class GetAllMaterialEndpointTests(MaterialEndpointFactory apiFactory) : IClassFixture<MaterialEndpointFactory>
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient _httpClient = apiFactory.CreateClient();
 
     private readonly Faker<CreateMaterialCommand> _createMaterialFaker = new Faker<CreateMaterialCommand>()
         .RuleFor(x => x.Name, f => f.Name.FirstName())
@@ -22,21 +22,17 @@ public class GetAllMaterialEndpointTests : IClassFixture<MaterialEndpointFactory
         .RuleFor(x => x.ColorCode, f => f.Random.Words(5))
         .RuleFor(x => x.MaterialTypeId, (byte)1)
         .RuleFor(x => x.RegionalMarketId, (byte)1);
-    
-    public GetAllMaterialEndpointTests(MaterialEndpointFactory apiFactory)
-    {
-        _httpClient = apiFactory.CreateClient();
-    }
-    
+
     [Fact]
     public async Task GetAll_ReturnsResult_WhenMaterialsExist()
     {
         //Arrange
         var materialRequest = _createMaterialFaker.Generate();
-        await _httpClient.PostAsJsonAsync($"supply-chain-management/materials", materialRequest);
+        var response = await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
+        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
         
         // Act
-        var materialsResponse = await _httpClient.GetAsync($"supply-chain-management/materials");
+        var materialsResponse = await _httpClient.GetAsync(MaterialEndpointFactory.Endpoint);
         
         // Assert
         materialsResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -44,13 +40,15 @@ public class GetAllMaterialEndpointTests : IClassFixture<MaterialEndpointFactory
         customersResponse!.IsSuccess.Should().BeTrue();
         customersResponse.Errors.Should().BeEmpty();
         customersResponse.Result.Should().HaveCount(1);
+        
+        await _httpClient.DeleteAsync($"{MaterialEndpointFactory.Endpoint}/{materialCreatedResponse.Result}");
     }
     
     [Fact]
     public async Task GetAll_ReturnsEmptyResult_WhenNoMaterialsExist()
     {
         // Act
-        var response = await _httpClient.GetAsync($"supply-chain-management/materials");
+        var response = await _httpClient.GetAsync(MaterialEndpointFactory.Endpoint);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
