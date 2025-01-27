@@ -20,7 +20,6 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(ApplicationAssembly.Instance)
                 .AddOpenBehavior(typeof(RequestLoggingInterceptor<,>))
                 .AddOpenBehavior(typeof(ValidatorInterceptor<,>))
-                .AddOpenBehavior(typeof(ValidatorResponseInterceptor<,>))
                 .AddOpenBehavior(typeof(TransactionalBehavior<,>))
                 .AddOpenBehavior(typeof(HandlerLoggingInterceptor<,>));
         });

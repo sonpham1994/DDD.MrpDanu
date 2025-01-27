@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 namespace Infrastructure.Persistence.Writes.EntityConfigurations;
 
 internal abstract class GuidStronglyTypedIdValueGenerator<TId> : ValueGenerator<TId>
-    where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    where TId : IEquatable<TId>, IGuidStronglyTypedId
 {
     private static readonly SequentialGuidValueGenerator _generator = new();
 

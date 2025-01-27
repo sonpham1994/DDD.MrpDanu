@@ -112,7 +112,7 @@ public static class GuidExtension
     }
 
     public static bool IsEmpty<T>(this T stronglyTypedId)
-        where T : struct, IEquatable<T>, IGuidStronglyTypedId
+        where T : IEquatable<T>, IGuidStronglyTypedId
     {
         return stronglyTypedId.Value == Guid.Empty;
     }

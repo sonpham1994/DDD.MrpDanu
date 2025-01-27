@@ -3,10 +3,10 @@ using SharedKernel.Extensions;
 namespace SharedKernel;
 
 public abstract class Entity<TId> : IEntity, IEquatable<Entity<TId>> 
-    where TId : struct, IEquatable<TId> //implement IEquatable<TId> to avoid boxing when using Id.Equals.(other.Id), please check Benchmarks\Benchmark\BoxingEntityEquals
+    where TId : IEquatable<TId> //implement IEquatable<TId> to avoid boxing when using Id.Equals.(other.Id), please check Benchmarks\Benchmark\BoxingEntityEquals
 {
     private int? _cachedHashCode;
-    public TId Id { get; }
+    public TId Id { get; } = default!;
 
     protected Entity()
     {
@@ -213,7 +213,7 @@ public abstract class Entity : Entity<Guid>, IComparable<Entity>
 }
 
 public abstract class EntityGuidStronglyTypedId<TId> : Entity<TId>, IComparable<EntityGuidStronglyTypedId<TId>>
-    where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    where TId : IEquatable<TId>, IGuidStronglyTypedId
 {
     //we use SequentialGuid from EF Core, so we use Sequential Guid for this, and the SequentialGuid from EF Core
     // uses from SqlGuid. If your application uses Postgres, you may change the behaviour of SequentialGuid.CompareTo

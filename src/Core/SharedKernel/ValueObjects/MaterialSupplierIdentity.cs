@@ -8,7 +8,7 @@ namespace SharedKernel.ValueObjects;
 public class MaterialSupplierIdentity : ValueObject<MaterialSupplierIdentity>
 {
     private readonly TransactionalPartnerId _transactionalPartnerId;
-    public MaterialId MaterialId { get; }
+    public MaterialId MaterialId { get; } = default!;
     public SupplierId SupplierId => new(_transactionalPartnerId.Value);
 
     //required EF

@@ -1,8 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
-using Bogus;
 using FluentAssertions;
 using MinimalApi.ApiResponses;
 
@@ -12,22 +10,11 @@ public class GetAllMaterialEndpointTests(MaterialEndpointFactory apiFactory) : I
 {
     private readonly HttpClient _httpClient = apiFactory.CreateClient();
 
-    private readonly Faker<CreateMaterialCommand> _createMaterialFaker = new Faker<CreateMaterialCommand>()
-        .RuleFor(x => x.Name, f => f.Name.FirstName())
-        .RuleFor(x => x.Code, f => "code")
-        .RuleFor(x => x.Unit, f => f.Random.Words(5))
-        .RuleFor(x => x.Varian, f => f.Random.Words(5))
-        .RuleFor(x => x.Weight, f => f.Random.Words(5))
-        .RuleFor(x => x.Width, f => f.Random.Words(5))
-        .RuleFor(x => x.ColorCode, f => f.Random.Words(5))
-        .RuleFor(x => x.MaterialTypeId, (byte)1)
-        .RuleFor(x => x.RegionalMarketId, (byte)1);
-
     [Fact]
     public async Task GetAll_ReturnsResult_WhenMaterialsExist()
     {
         //Arrange
-        var materialRequest = _createMaterialFaker.Generate();
+        var materialRequest = MaterialEndpointFactory.CreateMaterialFaker.Generate();
         var response = await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
         var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
         

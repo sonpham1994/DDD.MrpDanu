@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
-using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
-using Bogus;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using FluentAssertions;
 using MinimalApi.ApiResponses;
 
@@ -11,52 +11,74 @@ public class CreateMaterialEndpointTests(MaterialEndpointFactory apiFactory) : I
 {
     private readonly HttpClient _httpClient = apiFactory.CreateClient();
 
-    private readonly Faker<CreateMaterialCommand> _createMaterialFaker = new Faker<CreateMaterialCommand>()
-        .RuleFor(x => x.Name, f => f.Name.FirstName())
-        .RuleFor(x => x.Code, f => "code")
-        .RuleFor(x => x.Unit, f => f.Random.Words(5))
-        .RuleFor(x => x.Varian, f => f.Random.Words(5))
-        .RuleFor(x => x.Weight, f => f.Random.Words(5))
-        .RuleFor(x => x.Width, f => f.Random.Words(5))
-        .RuleFor(x => x.ColorCode, f => f.Random.Words(5))
-        .RuleFor(x => x.MaterialTypeId, (byte)1)
-        .RuleFor(x => x.RegionalMarketId, (byte)1);
-
     [Fact]
     public async Task Create_Material_WhenDataIsValid()
     {
         //Arrange
-        var materialRequest = _createMaterialFaker.Generate();
+        var materialRequest = MaterialEndpointFactory.CreateMaterialFaker.Generate();
         
         // Act
         var response = await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
-        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
         
         // Assert
+        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
+        var materialId = materialCreatedResponse!.Result;
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-        response.Headers.Location!.ToString().Should().Be($"{MaterialEndpointFactory.Url}/{materialCreatedResponse.Result}");
+        response.Headers.Location!.ToString().Should().Be($"{MaterialEndpointFactory.Url}/{materialId}");
         materialCreatedResponse.IsSuccess.Should().BeTrue();
         materialCreatedResponse.Errors.Should().BeEmpty();
+
+        var materialResponse = await _httpClient.GetAsync($"{MaterialEndpointFactory.Endpoint}/{materialId}");
+        var materialApiResponse = await materialResponse.Content.ReadFromJsonAsync<ApiResponse<MaterialResponse>>();
+        var material = materialApiResponse!.Result;
+        material.Id.Should().Be(materialId);
+        material.Code.Should().Be(materialRequest.Code);
+        material.Name.Should().Be(materialRequest.Name);
+        material.Unit.Should().Be(materialRequest.Unit.ToUpper());
+        material.Varian.Should().Be(materialRequest.Varian);
+        material.Weight.Should().Be(materialRequest.Weight);
+        material.Width.Should().Be(materialRequest.Width);
+        material.ColorCode.Should().Be(materialRequest.ColorCode);
+        material.MaterialType.Id.Should().Be(materialRequest.MaterialTypeId);
+        material.RegionalMarket.Id.Should().Be(materialRequest.RegionalMarketId);
+        material.MaterialCostManagements.Should().BeEmpty();
+        
+        var materialsResponse = await _httpClient.GetAsync(MaterialEndpointFactory.Endpoint);
+        var materialApiResponses = await materialsResponse.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
+        var materials = materialApiResponses!.Result;
+        materials[0].Id.Should().Be(materialId);
+        
+        await _httpClient.DeleteAsync($"{MaterialEndpointFactory.Endpoint}/{materialId}");
     }
     
     [Fact]
     public async Task Create_ReturnsError_WhenCodeWasExisted()
     {
         //Arrange
-        var materialRequest = _createMaterialFaker
+        var materialRequest = MaterialEndpointFactory.CreateMaterialFaker
             .Clone()
             .RuleFor(x => x.Code, "code1")
             .Generate();
         
         // Act
-        await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
-        var response = await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
-        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid?>>();
+        var response1 = await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
+        var response2 = await _httpClient.PostAsJsonAsync(MaterialEndpointFactory.Endpoint, materialRequest);
+        var materialCreatedResponse2 = await response2.Content.ReadFromJsonAsync<ApiResponse<Guid?>>();
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        materialCreatedResponse.Should().NotBeNull();
-        materialCreatedResponse.IsSuccess.Should().BeFalse();
-        materialCreatedResponse.Errors[0].Code.Should().Be(MaterialEndpointFactory.ExistedMaterialCode.Code);
+        response2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        materialCreatedResponse2.Should().NotBeNull();
+        materialCreatedResponse2.IsSuccess.Should().BeFalse();
+        materialCreatedResponse2.Errors[0].Code.Should().Be(MaterialEndpointFactory.ExistedMaterialCode.Code);
+
+        var materialsResponse = await _httpClient.GetAsync(MaterialEndpointFactory.Endpoint);
+        var materialApiResponses = await materialsResponse.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
+        var materials = materialApiResponses!.Result;
+        materials.Should().HaveCount(1);
+        var materialCreatedResponse1 = await response1.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
+        var materialId1 = materialCreatedResponse1!.Result;
+        materials[0].Id.Should().Be(materialId1);
+        
+        await _httpClient.DeleteAsync($"{MaterialEndpointFactory.Endpoint}/{materialId1}");
     }
 }

@@ -1,4 +1,7 @@
 using System.Data;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
+using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
+using Bogus;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Writes;
@@ -36,8 +39,31 @@ public class MaterialEndpointFactory : WebApplicationFactory<ProgramMinimalApi>,
     public const string Host = "http://localhost";
     public const string Url = $"{Host}/{Endpoint}";
     public const string Endpoint = "supply-chain-management/materials";
+    
+    public static readonly Faker<CreateMaterialCommand> CreateMaterialFaker = new Faker<CreateMaterialCommand>()
+        .RuleFor(x => x.Name, f => f.Name.FirstName())
+        .RuleFor(x => x.Code, f => "code")
+        .RuleFor(x => x.Unit, f => f.Random.Words(5))
+        .RuleFor(x => x.Varian, f => f.Random.Words(5))
+        .RuleFor(x => x.Weight, f => f.Random.Words(5))
+        .RuleFor(x => x.Width, f => f.Random.Words(5))
+        .RuleFor(x => x.ColorCode, f => f.Random.Words(5))
+        .RuleFor(x => x.MaterialTypeId, MaterialType.Material.Id)
+        .RuleFor(x => x.RegionalMarketId, RegionalMarket.None.Id);
+    
+    public static Faker<UpdateMaterialCommand> UpdateMaterialFaker(Guid id) => new Faker<UpdateMaterialCommand>()
+        .RuleFor(x=>x.Id, id)
+        .RuleFor(x => x.Name, f => f.Name.FirstName())
+        .RuleFor(x => x.Code, f => "code")
+        .RuleFor(x => x.Unit, f => f.Random.Words(5))
+        .RuleFor(x => x.Varian, f => f.Random.Words(5))
+        .RuleFor(x => x.Weight, f => f.Random.Words(5))
+        .RuleFor(x => x.Width, f => f.Random.Words(5))
+        .RuleFor(x => x.ColorCode, f => f.Random.Words(5))
+        .RuleFor(x => x.MaterialTypeId, MaterialType.Material.Id)
+        .RuleFor(x => x.RegionalMarketId, RegionalMarket.None.Id);
 
-    public static readonly ApiError ExistedMaterialCode = new(DomainErrors.Material.ExistedCode(MaterialCode.Create("code").Value, new MaterialId()).Code, "message");
+    public static readonly ApiError ExistedMaterialCode = new(DomainErrors.Material.ExistedCode(MaterialCode.Create("code").Value, new MaterialId(Guid.Empty)).Code, "message");
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

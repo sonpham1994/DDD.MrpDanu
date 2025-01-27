@@ -1,5 +1,6 @@
-﻿using Application.Behaviors.Interceptors.Base;
+﻿using Application.Extensions;
 using Application.Interfaces.Messaging;
+using Application.LoggingDefinitions;
 using SharedKernel;
 using FluentValidation;
 using MediatR;
@@ -10,12 +11,40 @@ namespace Application.Behaviors.Interceptors;
 internal sealed class ValidatorInterceptor<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators,
     ILogger<ValidatorInterceptor<TRequest, TResponse>> logger)
-    : ValidatorBaseInterceptor<TRequest, TResponse>(validators, logger), IPipelineBehavior<TRequest, TResponse>
-    where TRequest : ICommand
+    : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IValidationCommand
     where TResponse : IResult
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        return await HandleRequest(request, next, cancellationToken);
+        var requestTypeName = typeof(TRequest).Name;
+
+        logger.StartValidation(requestTypeName);
+        
+        IReadOnlyList<DomainError> domainErrors = validators
+            .Select(x => x.Validate(request))
+            .SelectMany(x => x.Errors)
+            .Where(x => x is not null)
+            .ToDomainErrors();
+        
+        if (domainErrors.Count > 0)
+        {
+            logger.ValidateFailure(requestTypeName, domainErrors);
+            
+            //boxing: cast from value type to reference type (struct to interface)
+            IResult result = Result.Failure(domainErrors[0]);
+            
+            return (TResponse)result;
+                
+            //Should not throw an exception. Please check Functional Programming provided by Vladimir Khorikov
+            //check this video to handle if we don't use throw Exception https://www.youtube.com/watch?v=85dxwd8HzEk&ab_channel=MilanJovanovi%C4%87
+            //throw new DomainException(domainErrors);
+        }
+        
+        logger.CompletedValidation(requestTypeName);
+
+        var response = await next();
+
+        return response;
     }
 }

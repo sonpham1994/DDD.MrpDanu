@@ -112,7 +112,7 @@ internal abstract class BaseGenericEfRepository<T, TId> where T : AggregateRoot<
 
 internal abstract class BaseEfGuidStronglyTypedIdRepository<T, TId>
     where T : class, IAggregateRoot
-    where TId : struct, IEquatable<TId>, IGuidStronglyTypedId
+    where TId : IEquatable<TId>, IGuidStronglyTypedId
 {
     protected readonly DbSet<T> dbSet;
     protected readonly AppDbContext context;
