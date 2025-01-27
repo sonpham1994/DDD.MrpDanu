@@ -50,6 +50,7 @@ public abstract class BaseTests : IAsyncLifetime
         .RuleFor(x => x.RegionalMarketId, RegionalMarket.None.Id);
 
     public static readonly ApiError ExistedMaterialCode = new(DomainErrors.Material.ExistedCode(MaterialCode.Create("code").Value, new MaterialId(Guid.Empty)).Code, "message");
+    public static readonly ApiError NotFoundMaterial = new(DomainErrors.Material.NotFoundId(Guid.NewGuid()).Code, "message");
 
     public async Task<Guid> SetupCreatingMaterialAsync()
     {

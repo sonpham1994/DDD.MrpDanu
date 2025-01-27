@@ -37,15 +37,12 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
 
         builder.ConfigureTestServices(services =>
         {
-            services.RemoveAll(typeof(IHostedService));
+            services.RemoveAll<IHostedService>();
             services.RemoveAll(typeof(IDbConnection));
             services.RemoveAll(typeof(IOptions<DatabaseSettings>));
             services.RemoveAll(typeof(IOptions<MongoDbSettings>));
 
-            services.AddScoped<IDbConnection>(sp =>
-            {
-                return new SqlConnection(_sqlDbContainer.GetConnectionString());
-            });
+            services.AddScoped<IDbConnection>(_ => new SqlConnection(_sqlDbContainer.GetConnectionString()));
             
             // Create a DatabaseSettings instance with init setters
             var databaseSettings = new DatabaseSettings
@@ -60,8 +57,6 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
             // Register the instance as IOptions<DatabaseSettings>
             services.AddSingleton<IOptions<DatabaseSettings>>(Options.Create(databaseSettings));
         
-            // Alternatively, register the instance directly if needed
-            services.AddSingleton(databaseSettings);
             var mongoDbSettings = new MongoDbSettings()
             {
                 ConnectionString = _mongoDbContainer.GetConnectionString(),
@@ -69,9 +64,6 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
             
             // Register the instance as IOptions<DatabaseSettings>
             services.AddSingleton<IOptions<MongoDbSettings>>(Options.Create(mongoDbSettings));
-        
-            // Alternatively, register the instance directly if needed
-            services.AddSingleton(mongoDbSettings);
         });
     }
     

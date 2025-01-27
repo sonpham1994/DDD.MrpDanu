@@ -1,7 +1,5 @@
 using System.Net;
 using System.Net.Http.Json;
-using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
-using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using FluentAssertions;
 using MinimalApi.ApiResponses;
 using Tests.Integration.SupplyChainManagement.MaterialEndpoint.Base;
