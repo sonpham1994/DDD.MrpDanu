@@ -21,7 +21,7 @@ public class GetTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialResponse = await response.Content.ReadFromJsonAsync<ApiResponse<MaterialResponse>>();
+        var materialResponse = await EndpointFactory.ReadFromJsonAsync<MaterialResponse>(response);
         materialResponse!.IsSuccess.Should().BeTrue();
         materialResponse.Errors.Should().BeEmpty();
         materialResponse.Result.Should().NotBeNull();
@@ -35,7 +35,7 @@ public class GetTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialResponse = await response.Content.ReadFromJsonAsync<ApiResponse<MaterialResponse>>();
+        var materialResponse = await EndpointFactory.ReadFromJsonAsync<MaterialResponse>(response);
         materialResponse!.IsSuccess.Should().BeFalse();
         materialResponse.Errors.Should().NotBeEmpty();
         materialResponse.Errors[0].Code.Should().Be(NotFoundMaterial.Code);

@@ -34,7 +34,7 @@ internal sealed class CreateMaterialCommandHandler(
         var materialResult = Material.Create(code, name, materialAttributes, materialType, regionalMarket,
             uniqueCodeResult);
         if (!materialResult.IsSuccess)
-            return materialResult.Error!;
+            return materialResult.Error;
 
         var material = materialResult.Value!;
         materialRepository.Save(material);
@@ -49,7 +49,7 @@ internal sealed class CreateMaterialCommandHandler(
 
             var materialSupplierCosts = MaterialSupplierCost.Create(materialResult.Value!.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
             if (!materialSupplierCosts.IsSuccess)
-                return materialSupplierCosts.Error!;
+                return materialSupplierCosts.Error;
 
             var result = materialResult.Value.UpdateCost(materialSupplierCosts.Value!);
             if (!result.IsSuccess)

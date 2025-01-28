@@ -24,7 +24,7 @@ public class UpdateTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialUpdatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        var materialUpdatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
         materialUpdatedResponse!.IsSuccess.Should().BeTrue();
         materialUpdatedResponse.Errors.Should().BeEmpty();
 
@@ -58,7 +58,7 @@ public class UpdateTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        var materialCreatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
         materialCreatedResponse!.IsSuccess.Should().BeFalse();
         materialCreatedResponse.Errors.Should().HaveCount(1);
     }
@@ -78,7 +78,7 @@ public class UpdateTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialUpdatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        var materialUpdatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
         materialUpdatedResponse!.IsSuccess.Should().BeTrue();
         materialUpdatedResponse.Errors.Should().BeEmpty();
 
@@ -118,7 +118,7 @@ public class UpdateTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialUpdatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        var materialUpdatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
         materialUpdatedResponse.Should().NotBeNull();
         materialUpdatedResponse.IsSuccess.Should().BeFalse();
         materialUpdatedResponse.Errors[0].Code.Should().Be(ExistedMaterialCode.Code);

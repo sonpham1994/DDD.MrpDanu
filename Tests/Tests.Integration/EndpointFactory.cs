@@ -1,4 +1,5 @@
 using System.Data;
+using System.Net.Http.Json;
 using Infrastructure.Persistence;
 using Infrastructure.PersistenceMongoDb;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MinimalApi.ApiResponses;
 using Testcontainers.MongoDb;
 using Testcontainers.MsSql;
 
@@ -27,6 +29,18 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
             .WithImage("mongo:latest")
             .Build();
 
+    public const string Host = "http://localhost";
+
+    public static async Task<ApiResponse?> ReadFromJsonAsync(HttpResponseMessage response)
+    {
+        return await response.Content.ReadFromJsonAsync<ApiResponse>();
+    }
+    
+    public static async Task<ApiResponse<TResponse>?> ReadFromJsonAsync<TResponse>(HttpResponseMessage response)
+    {
+        return await response.Content.ReadFromJsonAsync<ApiResponse<TResponse>>();
+    }
+    
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         // Don't log when run test.

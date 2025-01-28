@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http.Json;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
@@ -6,25 +5,19 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAg
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using Bogus;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Microsoft.AspNetCore.Http;
 using MinimalApi.ApiResponses;
 using SharedKernel.ValueObjects;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint.Base;
 
-public abstract class BaseTests : IAsyncLifetime
+public abstract class BaseTests(HttpClient httpClient) : IAsyncLifetime
 {
-    protected readonly HttpClient HttpClient;
-    
-    protected BaseTests(HttpClient httpClient)
-    {
-        HttpClient = httpClient;
-    }
-    
-    public const string Host = "http://localhost";
+    protected readonly HttpClient HttpClient = httpClient;
+
     public const string Endpoint = "supply-chain-management/materials";
-    public const string Url = $"{Host}/{Endpoint}";
+    public const string Url = $"{EndpointFactory.Host}/{Endpoint}";
+    
     protected List<Guid> CreatedIds { get; } = new();
     
     public static readonly Faker<CreateMaterialCommand> CreateMaterialFaker = new Faker<CreateMaterialCommand>()

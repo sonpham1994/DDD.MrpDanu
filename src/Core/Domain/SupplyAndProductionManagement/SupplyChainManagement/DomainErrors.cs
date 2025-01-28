@@ -30,6 +30,9 @@ public static class DomainErrors
         public static DomainError ExistedCode(MaterialCode code, in MaterialId anotherMaterialId) => new($"{nameof(Material)}.{nameof(ExistedCode)}",
             $"The code '{code.Value}' exists in another material with id '{anotherMaterialId.Value}'");
         public static DomainError NotFoundId(in Guid id) => new($"{nameof(Material)}.{nameof(NotFoundId)}", $"Material id '{id}' is not found");
+
+        public static DomainError NotFoundId(in MaterialId id) => NotFoundId(id.Value);
+        
         public static DomainError IdsAreNotTheSame(in MaterialId id, in MaterialId anotherId) => new($"{nameof(Material)}.{nameof(IdsAreNotTheSame)}", $"Material id '{id.Value}' and '{anotherId.Value}' are not the same between Material and MaterialSupplierCost.");
     }
     

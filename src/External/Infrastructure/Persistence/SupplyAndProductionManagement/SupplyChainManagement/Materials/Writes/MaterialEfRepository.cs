@@ -5,15 +5,14 @@ using Application.Interfaces.Writes.MaterialWrite;
 using SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.Writes;
+using SharedKernel;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Writes;
 
-internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository<Material, MaterialId>, IMaterialRepository
+internal sealed class MaterialEfRepository(AppDbContext context)
+    : BaseEfGuidStronglyTypedIdRepository<Material, MaterialId>(context), IMaterialRepository
 {
-    public MaterialEfRepository(AppDbContext context) : base(context)
-    {
-    }
-
     public override async ValueTask<Material?> GetByIdAsync(MaterialId id, CancellationToken cancellationToken = default)
     {
         Material? material = null;
@@ -69,15 +68,17 @@ internal sealed class MaterialEfRepository : BaseEfGuidStronglyTypedIdRepository
         return material;
     }
 
-    public async Task DeleteAsync(MaterialId id, CancellationToken cancellationToken)
+    public async Task<Result> DeleteAsync(MaterialId id, CancellationToken cancellationToken)
     {
         if (id.IsEmpty())
-            return;
+            return DomainErrors.Material.EmptyId;
         var material = await GetByIdAsync(id, cancellationToken);
         if (material is null)
-            return;
+            return DomainErrors.Material.NotFoundId(id);
             
         context.Materials.Remove(material);
+        
+        return Result.Success();
 
         //we use remove method instead of "context.Database.ExecuteSqlAsync" because it will go through db context,
         // and it has change tracker which is for sake of executing audit data. While "context.Database.ExecuteSqlAsync"

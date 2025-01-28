@@ -20,7 +20,7 @@ public class CreateTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
+        var materialCreatedResponse = await EndpointFactory.ReadFromJsonAsync<Guid>(response);
         var materialId = materialCreatedResponse!.Result;
         response.Headers.Location!.ToString().Should().Be($"{Url}/{materialId}");
         materialCreatedResponse.IsSuccess.Should().BeTrue();
@@ -59,7 +59,7 @@ public class CreateTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid?>>();
+        var materialCreatedResponse = await EndpointFactory.ReadFromJsonAsync<Guid?>(response);
         materialCreatedResponse!.IsSuccess.Should().BeFalse();
         materialCreatedResponse.Errors.Should().HaveCount(1);
         materialCreatedResponse.Result.Should().BeNull();
@@ -77,7 +77,7 @@ public class CreateTests(EndpointFactory apiFactory)
         // Act
         var response1 = await HttpClient.PostAsJsonAsync(Endpoint, materialRequest);
         var response2 = await HttpClient.PostAsJsonAsync(Endpoint, materialRequest);
-        var materialCreatedResponse2 = await response2.Content.ReadFromJsonAsync<ApiResponse<Guid?>>();
+        var materialCreatedResponse2 = await EndpointFactory.ReadFromJsonAsync<Guid?>(response2);
         
         // Assert
         response2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -88,7 +88,7 @@ public class CreateTests(EndpointFactory apiFactory)
 
         var materials = await GetAllMaterialsAsync();
         materials.Should().HaveCount(1);
-        var materialCreatedResponse1 = await response1.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
+        var materialCreatedResponse1 = await EndpointFactory.ReadFromJsonAsync<Guid>(response1);
         var materialId1 = materialCreatedResponse1!.Result;
         materials[0].Id.Should().Be(materialId1);
         

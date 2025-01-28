@@ -7,14 +7,17 @@ using Application.Interfaces.Writes.MaterialWrite;
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;
 
 internal sealed class DeleteMaterialCommandHandler(
-    IMaterialRepository _materialRepository,
-    IUnitOfWork _unitOfWork) : ICommandHandler<DeleteMaterialCommand>
+    IMaterialRepository materialRepository,
+    IUnitOfWork unitOfWork) : ICommandHandler<DeleteMaterialCommand>
 {
     public async Task<Result> Handle(DeleteMaterialCommand request, CancellationToken cancellationToken)
     {
-        await _materialRepository.DeleteAsync((MaterialId)request.Id, cancellationToken);
+        var result = await materialRepository.DeleteAsync((MaterialId)request.Id, cancellationToken);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        if (!result.IsSuccess)
+            return result;
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

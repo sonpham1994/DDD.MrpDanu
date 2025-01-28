@@ -14,14 +14,14 @@ public class GetAllTests(EndpointFactory apiFactory)
     public async Task GetAll_ReturnsResult_WhenMaterialsExist()
     {
         //Arrange
-        var materialId = await SetupCreatingMaterialAsync();
+        await SetupCreatingMaterialAsync();
         
         // Act
         var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialsResponse = await response.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
+        var materialsResponse = await EndpointFactory.ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
         materialsResponse!.IsSuccess.Should().BeTrue();
         materialsResponse.Errors.Should().BeEmpty();
         materialsResponse.Result.Should().HaveCount(1);
@@ -35,7 +35,7 @@ public class GetAllTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialsResponse = await response.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
+        var materialsResponse = await EndpointFactory.ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
         materialsResponse!.IsSuccess.Should().BeTrue();
         materialsResponse.Errors.Should().BeEmpty();
         materialsResponse.Result.Should().BeEmpty();
