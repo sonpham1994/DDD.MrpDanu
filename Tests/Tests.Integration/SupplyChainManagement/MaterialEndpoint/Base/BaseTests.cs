@@ -25,6 +25,7 @@ public abstract class BaseTests : IAsyncLifetime
     public const string Host = "http://localhost";
     public const string Endpoint = "supply-chain-management/materials";
     public const string Url = $"{Host}/{Endpoint}";
+    protected List<Guid> CreatedIds { get; } = new();
     
     public static readonly Faker<CreateMaterialCommand> CreateMaterialFaker = new Faker<CreateMaterialCommand>()
         .RuleFor(x => x.Name, f => f.Name.FirstName())
@@ -55,9 +56,7 @@ public abstract class BaseTests : IAsyncLifetime
     public async Task<Guid> SetupCreatingMaterialAsync()
     {
         var materialRequest = CreateMaterialFaker.Generate();
-        var response = await HttpClient.PostAsJsonAsync(Endpoint, materialRequest);
-        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
-        var materialId = materialCreatedResponse!.Result;
+        var materialId = await SetupCreatingMaterialAsync(materialRequest);
         
         return materialId;
     }
@@ -67,6 +66,8 @@ public abstract class BaseTests : IAsyncLifetime
         var response = await HttpClient.PostAsJsonAsync(Endpoint, materialRequest);
         var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
         var materialId = materialCreatedResponse!.Result;
+        
+        CreatedIds.Add(materialId);
         
         return materialId;
     }
@@ -87,8 +88,6 @@ public abstract class BaseTests : IAsyncLifetime
 
         return materials;
     }
-    
-    protected List<Guid> CreatedIds { get; } = new();
     
     public Task InitializeAsync()
     {

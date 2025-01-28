@@ -53,7 +53,7 @@ internal sealed class CreateMaterialCommandHandler(
 
             var result = materialResult.Value.UpdateCost(materialSupplierCosts.Value!);
             if (!result.IsSuccess)
-                return result!;
+                return result;
         }
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

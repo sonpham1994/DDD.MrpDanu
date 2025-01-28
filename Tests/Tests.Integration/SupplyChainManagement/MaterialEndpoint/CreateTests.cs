@@ -19,9 +19,9 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, materialRequest);
         
         // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
         var materialId = materialCreatedResponse!.Result;
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         response.Headers.Location!.ToString().Should().Be($"{Url}/{materialId}");
         materialCreatedResponse.IsSuccess.Should().BeTrue();
         materialCreatedResponse.Errors.Should().BeEmpty();
@@ -46,6 +46,26 @@ public class CreateTests(EndpointFactory apiFactory)
     }
     
     [Fact]
+    public async Task Create_ReturnsValidationError_WhenInputIsInvalid()
+    {
+        //Arrange
+        var materialRequest = CreateMaterialFaker
+            .Clone()
+            .RuleFor(x => x.RegionalMarketId, (byte)200)
+            .Generate();
+        
+        // Act
+        var response = await HttpClient.PostAsJsonAsync(Endpoint, materialRequest);
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<Guid?>>();
+        materialCreatedResponse!.IsSuccess.Should().BeFalse();
+        materialCreatedResponse.Errors.Should().HaveCount(1);
+        materialCreatedResponse.Result.Should().BeNull();
+    }
+    
+    [Fact]
     public async Task Create_ReturnsError_WhenCodeWasExisted()
     {
         //Arrange
@@ -64,6 +84,7 @@ public class CreateTests(EndpointFactory apiFactory)
         materialCreatedResponse2.Should().NotBeNull();
         materialCreatedResponse2.IsSuccess.Should().BeFalse();
         materialCreatedResponse2.Errors[0].Code.Should().Be(ExistedMaterialCode.Code);
+        materialCreatedResponse2.Result.Should().BeNull();
 
         var materials = await GetAllMaterialsAsync();
         materials.Should().HaveCount(1);

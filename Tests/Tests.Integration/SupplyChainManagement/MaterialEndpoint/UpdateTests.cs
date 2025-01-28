@@ -40,8 +40,27 @@ public class UpdateTests(EndpointFactory apiFactory)
         material.MaterialType.Id.Should().Be(updateMaterialRequest.MaterialTypeId);
         material.RegionalMarket.Id.Should().Be(updateMaterialRequest.RegionalMarketId);
         material.MaterialCostManagements.Should().BeEmpty();
+    }
+    
+    [Fact]
+    public async Task Update_ReturnsValidationError_WhenInputIsInvalid()
+    {
+        //Arrange
+        var materialId = await SetupCreatingMaterialAsync();
+        var updateMaterialRequest = UpdateMaterialFaker(materialId)
+            .Clone()
+            .RuleFor(x => x.Code, "code")
+            .RuleFor(x => x.RegionalMarketId, (byte)200)
+            .Generate();
         
-        CreatedIds.Add(materialId);
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", updateMaterialRequest);
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var materialCreatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+        materialCreatedResponse!.IsSuccess.Should().BeFalse();
+        materialCreatedResponse.Errors.Should().HaveCount(1);
     }
     
     [Fact]
@@ -75,8 +94,6 @@ public class UpdateTests(EndpointFactory apiFactory)
         material.MaterialType.Id.Should().Be(updateMaterialRequest.MaterialTypeId);
         material.RegionalMarket.Id.Should().Be(updateMaterialRequest.RegionalMarketId);
         material.MaterialCostManagements.Should().BeEmpty();
-        
-        CreatedIds.Add(materialId);
     }
     
     [Fact]
@@ -100,8 +117,8 @@ public class UpdateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId2}", updateMaterialRequest);
         
         // Assert
-        var materialUpdatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var materialUpdatedResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
         materialUpdatedResponse.Should().NotBeNull();
         materialUpdatedResponse.IsSuccess.Should().BeFalse();
         materialUpdatedResponse.Errors[0].Code.Should().Be(ExistedMaterialCode.Code);
@@ -118,8 +135,5 @@ public class UpdateTests(EndpointFactory apiFactory)
         material.MaterialType.Id.Should().Be(materialRequest2.MaterialTypeId);
         material.RegionalMarket.Id.Should().Be(materialRequest2.RegionalMarketId);
         material.MaterialCostManagements.Should().BeEmpty();
-        
-        CreatedIds.Add(materialId1);
-        CreatedIds.Add(materialId2);
     }
 }

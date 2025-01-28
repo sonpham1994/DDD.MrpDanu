@@ -17,16 +17,14 @@ public class GetAllTests(EndpointFactory apiFactory)
         var materialId = await SetupCreatingMaterialAsync();
         
         // Act
-        var materialsResponse = await HttpClient.GetAsync(Endpoint);
+        var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
-        materialsResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        var customersResponse = await materialsResponse.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
-        customersResponse!.IsSuccess.Should().BeTrue();
-        customersResponse.Errors.Should().BeEmpty();
-        customersResponse.Result.Should().HaveCount(1);
-        
-        CreatedIds.Add(materialId);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var materialsResponse = await response.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
+        materialsResponse!.IsSuccess.Should().BeTrue();
+        materialsResponse.Errors.Should().BeEmpty();
+        materialsResponse.Result.Should().HaveCount(1);
     }
     
     [Fact]
@@ -37,9 +35,9 @@ public class GetAllTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var customersResponse = await response.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
-        customersResponse!.IsSuccess.Should().BeTrue();
-        customersResponse.Errors.Should().BeEmpty();
-        customersResponse.Result.Should().BeEmpty();
+        var materialsResponse = await response.Content.ReadFromJsonAsync<ApiResponse<IReadOnlyList<MaterialsResponse>>>();
+        materialsResponse!.IsSuccess.Should().BeTrue();
+        materialsResponse.Errors.Should().BeEmpty();
+        materialsResponse.Result.Should().BeEmpty();
     }
 }
