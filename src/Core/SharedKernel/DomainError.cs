@@ -19,26 +19,13 @@ namespace SharedKernel;
  * HashSet use Entry as Node, and that Node is struct and it uses ref for assigning. Please take a look more detail on this.
  * "readonly ref struct": https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct
  */
-public readonly struct DomainError(string code, string message) : IEquatable<DomainError>
+public readonly record struct DomainError(string Code, string Message)
 {
     public static DomainError Empty => new(string.Empty, string.Empty);
-
-    public string Code { get; } = code;
-    public string Message { get; } = message;
 
     public bool IsEmpty()
     {
         return this == Empty || Code is null;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is DomainError error)
-        {
-            return Equals(error);
-        }
-
-        return false;
     }
 
     public bool Equals(DomainError other)
@@ -46,11 +33,45 @@ public readonly struct DomainError(string code, string message) : IEquatable<Dom
         return Code == other.Code;
     }
 
-    public static bool operator ==(in DomainError a, in DomainError b) => a.Equals(b);
-    public static bool operator !=(in DomainError a, in DomainError b) => !a.Equals(b);
-
     public override int GetHashCode()
     {
         return (nameof(DomainError).GetHashCode() + Code.GetHashCode()).GetHashCode();
     }
 }
+
+//Old
+// public readonly struct DomainError(string code, string message) : IEquatable<DomainError>
+// {
+//     public static DomainError Empty => new(string.Empty, string.Empty);
+//
+//     public string Code { get; } = code;
+//     public string Message { get; } = message;
+//
+//     public bool IsEmpty()
+//     {
+//         return this == Empty || Code is null;
+//     }
+//
+//     public override bool Equals(object? obj)
+//     {
+//         if (obj is DomainError error)
+//         {
+//             return Equals(error);
+//         }
+//
+//         return false;
+//     }
+//
+//     public bool Equals(DomainError other)
+//     {
+//         return Code == other.Code;
+//     }
+//
+//     public static bool operator ==(in DomainError a, in DomainError b) => a.Equals(b);
+//     public static bool operator !=(in DomainError a, in DomainError b) => !a.Equals(b);
+//
+//     public override int GetHashCode()
+//     {
+//         return (nameof(DomainError).GetHashCode() + Code.GetHashCode()).GetHashCode();
+//     }
+// }

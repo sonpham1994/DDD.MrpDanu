@@ -27,8 +27,11 @@ public static class DomainErrors
         public static DomainError EmptyUnit => new($"{nameof(Material)}.{nameof(EmptyUnit)}", "Material unit should not be empty.");
         public static DomainError ExceedsMaxNumberOfMaterialCosts => new($"{nameof(Material)}.{nameof(ExceedsMaxNumberOfMaterialCosts)}", "Cannot exceed the max number of MaterialSupplierCost.");
 
-        public static DomainError ExistedCode(MaterialCode code, in MaterialId anotherMaterialId) => new($"{nameof(Material)}.{nameof(ExistedCode)}",
-            $"The code '{code.Value}' exists in another material with id '{anotherMaterialId.Value}'");
+        public static DomainError ExistedCode(MaterialCode code, in MaterialId anotherMaterialId) =>
+            ExistedCode(code.Value, anotherMaterialId.Value);
+        public static DomainError ExistedCode(string code, in Guid anotherMaterialId) => new($"{nameof(Material)}.{nameof(ExistedCode)}",
+            $"The code '{code}' exists in another material with id '{anotherMaterialId}'");
+        
         public static DomainError NotFoundId(in Guid id) => new($"{nameof(Material)}.{nameof(NotFoundId)}", $"Material id '{id}' is not found");
 
         public static DomainError NotFoundId(in MaterialId id) => NotFoundId(id.Value);

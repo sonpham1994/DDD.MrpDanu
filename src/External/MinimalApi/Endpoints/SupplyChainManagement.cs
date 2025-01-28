@@ -21,6 +21,8 @@ namespace MinimalApi.Endpoints;
 
 public static class SupplyChainManagement
 {
+    private const string GetMaterialByIdRouteName = "GetMaterialById";
+    private const string GetTransactionalPartnerByIdRouteName = "GetTransactionalPartnerById";
     public static IEndpointRouteBuilder MapSupplyChainManagementEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/supply-chain-management");
@@ -31,42 +33,41 @@ public static class SupplyChainManagement
 
         return group;
     }
-    
+
     private static IEndpointRouteBuilder MapMaterialEndpoints(this IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("materials");
-        
+
         materialGroup.MapPost("", async (CreateMaterialCommand request, ISender sender) =>
         {
             var result = await sender.Send(request);
-            
-            return result.IsSuccess
-                ? Results.AcceptedAtRoute($"GetMaterialById", new { id = result.Value.Value }, result.Value.Value.ToApiSuccess())
-                : Results.BadRequest(result.Error.ToApiFailure());
+
+            return result.ToResultApiAcceptedOrBadRequest(GetMaterialByIdRouteName);
         });
-        
+
         materialGroup.MapGet("", async (CancellationToken cancellationToken, ISender sender) =>
         {
             var materials = await sender.Send(new GetMaterialsQuery(), cancellationToken);
 
             return materials.ToResultApiSuccess();
         });
-        
+
         materialGroup.MapGet("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
-        {
-            var materialResult = await sender.Send(new GetMaterialByIdQuery(id), cancellationToken);
+            {
+                var materialResult = await sender.Send(new GetMaterialByIdQuery(id), cancellationToken);
 
-            return materialResult.ToResultApiSuccessOrBadRequest();
-        })
-        .WithName("GetMaterialById");
-        
-        materialGroup.MapPut("{id:guid}", async (UpdateMaterialCommand request, CancellationToken cancellationToken, ISender sender) =>
-        {
-            var result = await sender.Send(request, cancellationToken);
+                return materialResult.ToResultApiSuccessOrBadRequest();
+            })
+            .WithName(GetMaterialByIdRouteName);
 
-            return result.ToResultApiSuccessOrBadRequest();
-        });
-        
+        materialGroup.MapPut("{id:guid}",
+            async (UpdateMaterialCommand request, CancellationToken cancellationToken, ISender sender) =>
+            {
+                var result = await sender.Send(request, cancellationToken);
+
+                return result.ToResultApiSuccessOrBadRequest();
+            });
+
         materialGroup.MapDelete("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
         {
             var result = await sender.Send(new DeleteMaterialCommand(id), cancellationToken);
@@ -76,46 +77,48 @@ public static class SupplyChainManagement
 
         return group;
     }
-    
+
     private static IEndpointRouteBuilder MapTransactionalPartnerEndpoints(this IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("transactional-partners");
-        
+
         materialGroup.MapGet("", async (CancellationToken cancellationToken, ISender sender) =>
         {
             var transactionalPartnersResult = await sender.Send(new GetTransactionalPartnersQuery(), cancellationToken);
 
             return transactionalPartnersResult.ToResultApiSuccess();
         });
-        
+
         materialGroup.MapGet("suppliers", async (CancellationToken cancellationToken, ISender sender) =>
         {
             var suppliersResult = await sender.Send(new GetSuppliersQuery(), cancellationToken);
 
             return suppliersResult.ToResultApiSuccess();
         });
-        
+
         materialGroup.MapGet("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
         {
             var materialResult = await sender.Send(new GetTransactionalPartnerByIdQuery(id), cancellationToken);
 
             return materialResult.ToResultApiSuccessOrBadRequest();
-        });
-        
+        })
+        .WithName(GetTransactionalPartnerByIdRouteName);
+
         materialGroup.MapPost("", async (CreateTransactionalPartnerCommand request, ISender sender) =>
         {
             var result = await sender.Send(request);
 
-            return result.ToResultApiSuccessOrBadRequest();
+            return result.ToResultApiAcceptedOrBadRequest(GetTransactionalPartnerByIdRouteName);
         });
-        
-        materialGroup.MapPut("{id:guid}", async (UpdateTransactionalPartnerCommand request, CancellationToken cancellationToken, ISender sender) =>
-        {
-            var result = await sender.Send(request, cancellationToken);
 
-            return result.ToResultApiSuccessOrBadRequest();
-        });
-        
+        materialGroup.MapPut("{id:guid}",
+            async (UpdateTransactionalPartnerCommand request, CancellationToken cancellationToken, ISender sender) =>
+            {
+                var result = await sender.Send(request, cancellationToken);
+
+                return result.ToResultApiSuccessOrBadRequest();
+            });
+
         materialGroup.MapDelete("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
         {
             var result = await sender.Send(new DeleteTransactionalPartnerCommand(id), cancellationToken);
@@ -133,7 +136,7 @@ public static class SupplyChainManagement
             IReadOnlyList<MaterialTypeResponse> result = MaterialType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            
+
             return Results.Ok(result.ToApiSuccess());
         });
 
@@ -142,7 +145,7 @@ public static class SupplyChainManagement
             IReadOnlyList<RegionalMarketResponse> result = RegionalMarket.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            
+
             return Results.Ok(result.ToApiSuccess());
         });
 
@@ -151,7 +154,7 @@ public static class SupplyChainManagement
             IReadOnlyList<CountryResponse> result = Country.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            
+
             return Results.Ok(result.ToApiSuccess());
         });
 
@@ -160,7 +163,7 @@ public static class SupplyChainManagement
             IReadOnlyList<LocationTypeResponse> result = LocationType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            
+
             return Results.Ok(result.ToApiSuccess());
         });
 
@@ -169,7 +172,7 @@ public static class SupplyChainManagement
             IReadOnlyList<TransactionalPartnerTypeResponse> result = TransactionalPartnerType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            
+
             return Results.Ok(result.ToApiSuccess());
         });
 
@@ -178,7 +181,7 @@ public static class SupplyChainManagement
             IReadOnlyList<CurrencyTypeResponse> result = CurrencyType.List
                 .Select(x => x.ToResponse())
                 .ToList();
-            
+
             return Results.Ok(result.ToApiSuccess());
         });
 

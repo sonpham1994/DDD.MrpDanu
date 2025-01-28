@@ -11,14 +11,14 @@ using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggrega
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 
 internal sealed class UpdateMaterialCommandHandler(
-    IUnitOfWork _unitOfWork,
-    ITransactionalPartnerReadonlyRepository _transactionalPartnerQueryForWrite,
-    IMaterialRepository _materialRepository,
-    IMaterialReadonlyRepository _materialQueryForWrite) : ICommandHandler<UpdateMaterialCommand>
+    IUnitOfWork unitOfWork,
+    ITransactionalPartnerReadonlyRepository transactionalPartnerQueryForWrite,
+    IMaterialRepository materialRepository,
+    IMaterialReadonlyRepository materialReadonlyRepository) : ICommandHandler<UpdateMaterialCommand>
 {
     public async Task<Result> Handle(UpdateMaterialCommand request, CancellationToken cancellationToken)
     {
-        var material = await _materialRepository.GetByIdAsync((MaterialId)request.Id, cancellationToken);
+        var material = await materialRepository.GetByIdAsync((MaterialId)request.Id, cancellationToken);
         if (material is null)
             return DomainErrors.Material.NotFoundId(request.Id);
 
@@ -34,7 +34,7 @@ internal sealed class UpdateMaterialCommandHandler(
             (
                 material.Id,
                 code,
-                _materialQueryForWrite.GetByCodeAsync,
+                materialReadonlyRepository.GetByCodeAsync,
                 cancellationToken
             );
         var materialResult = material.UpdateMaterial(code, name, materialAttributes, materialType, regionalMarket, uniqueCodeResult);
@@ -44,7 +44,7 @@ internal sealed class UpdateMaterialCommandHandler(
         var materialCostInputs = request.MaterialCosts
             .ToTuple();
         var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
-        var supplierIdWithCurrencyTypeIds = (await _transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
+        var supplierIdWithCurrencyTypeIds = (await transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
             .ToTuple();
 
         var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
@@ -55,7 +55,7 @@ internal sealed class UpdateMaterialCommandHandler(
         if (!result.IsSuccess)
             return result;
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

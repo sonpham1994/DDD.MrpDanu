@@ -1,28 +1,27 @@
 using System.Net;
 using FluentAssertions;
-using Tests.Integration.SupplyChainManagement.MaterialEndpoint.Base;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
 public class DeleteTests(EndpointFactory apiFactory) 
-    : BaseTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Delete_Material_WhenIdIsValid()
     {
         // Arrange
-        var materialId = await SetupCreatingMaterialAsync();
+        var id = await SetupCreatingMaterialAsync();
         
         // Act
-        var response = await HttpClient.DeleteAsync($"{Endpoint}/{materialId}");
+        var response = await HttpClient.DeleteAsync($"{Endpoint}/{id}");
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialDeletedResponse = await EndpointFactory.ReadFromJsonAsync(response);
-        materialDeletedResponse!.IsSuccess.Should().BeTrue();
-        materialDeletedResponse.Errors.Should().BeEmpty();
+        var deletedResponse = await ReadFromJsonAsync(response);
+        deletedResponse!.IsSuccess.Should().BeTrue();
+        deletedResponse.Errors.Should().BeEmpty();
 
-        var material = await GetMaterialByIdAsync(materialId);
+        var material = await GetMaterialByIdAsync(id);
         material.Should().BeNull();
 
         var materials = await GetAllMaterialsAsync();
@@ -39,9 +38,9 @@ public class DeleteTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialDeletedResponse = await EndpointFactory.ReadFromJsonAsync(response);
-        materialDeletedResponse!.IsSuccess.Should().BeFalse();
-        materialDeletedResponse.Errors.Should().NotBeEmpty();
-        materialDeletedResponse.Errors[0].Code.Should().Be(NotFoundMaterial.Code);
+        var deletedResponse = await ReadFromJsonAsync(response);
+        deletedResponse!.IsSuccess.Should().BeFalse();
+        deletedResponse.Errors.Should().NotBeEmpty();
+        deletedResponse.Errors[0].Should().Be(NotFoundMaterial);
     }
 }

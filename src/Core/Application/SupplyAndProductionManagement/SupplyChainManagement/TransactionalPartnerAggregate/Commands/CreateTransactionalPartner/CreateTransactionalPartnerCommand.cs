@@ -1,4 +1,5 @@
 using Application.Interfaces.Messaging;
+using SharedKernel.ValueObjects;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
@@ -12,4 +13,4 @@ public sealed record CreateTransactionalPartnerCommand(
     AddressCommand? Address,
     byte TransactionalPartnerTypeId,
     byte CurrencyTypeId,
-    byte LocationTypeId) : ICommand;
+    byte LocationTypeId) : ICommand<TransactionalPartnerId>;

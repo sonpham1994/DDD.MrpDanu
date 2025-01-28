@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
 
-internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _context) : ITransactionalPartnerReadonlyRepository
+internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext context) : ITransactionalPartnerReadonlyRepository
 {
     //We cant put Contact Info Value Object as parameter, but it is not necessarily. On query side, we don't need 
     //to have any restrictions on write side (DDD). So we don't need to follow all the concepts of DDD on query side
@@ -68,7 +68,7 @@ internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _con
          *  from index seeks might now result in index scans due to the way OPENJSON processes the data, particularly
          *  with non-default collations or large datasets.
          */
-        var suppliers = await _context
+        var suppliers = await context
             .Database
             .SqlQuery<SupplierIdWithCurrencyTypeId>(@$"
                 SELECT Id, CurrencyTypeId
@@ -107,7 +107,7 @@ internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _con
     public async Task<bool> ExistByContactInfoAsync(string email, string telNo, CancellationToken cancellationToken)
     {
         // dont change sql query structure for the sake of cached execution plan
-        bool existContact = await _context
+        bool existContact = await context
                 .Database
                 .SqlQuery<bool>(@$"
                     SELECT 1 AS ExistsValue
@@ -137,7 +137,7 @@ internal sealed class TransactionalPartnerEfReadonlyRepository(AppDbContext _con
     ELSE CAST(0 AS bit)
 END)
         */
-        bool existContact = await _context
+        bool existContact = await context
                 .Database
                 .SqlQuery<bool>(@$"
                     SELECT 1 AS ExistsValue
@@ -147,5 +147,19 @@ END)
                 .AnyAsync(cancellationToken);
 
         return existContact;
+    }
+
+    public async Task<bool> ExistTransactionalPartnerByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        bool exists = await context
+            .Database
+            .SqlQuery<bool>(@$"
+                    SELECT 1 AS ExistsValue
+                    FROM TransactionalPartner
+                    WHERE Id = {id}
+                    ")
+            .AnyAsync(cancellationToken);
+
+        return exists;
     }
 }

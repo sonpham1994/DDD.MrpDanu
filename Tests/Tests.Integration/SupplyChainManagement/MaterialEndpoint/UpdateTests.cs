@@ -1,139 +1,107 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
-using MinimalApi.ApiResponses;
-using Tests.Integration.SupplyChainManagement.MaterialEndpoint.Base;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
 public class UpdateTests(EndpointFactory apiFactory) 
-    : BaseTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Update_Material_WhenDataIsValid()
     {
         //Arrange
         var materialId = await SetupCreatingMaterialAsync();
-        var updateMaterialRequest = UpdateMaterialFaker(materialId)
+        var request = UpdateMaterialFaker(materialId)
             .Clone()
             .RuleFor(x => x.Code, "code1")
             .Generate();
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", updateMaterialRequest);
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", request);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialUpdatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
-        materialUpdatedResponse!.IsSuccess.Should().BeTrue();
-        materialUpdatedResponse.Errors.Should().BeEmpty();
+        var updatedResponse = await ReadFromJsonAsync(response);
+        updatedResponse!.IsSuccess.Should().BeTrue();
+        updatedResponse.Errors.Should().BeEmpty();
 
-        var material = await GetMaterialByIdAsync(materialId);
-        material.Id.Should().Be(materialId);
-        material.Code.Should().Be(updateMaterialRequest.Code);
-        material.Name.Should().Be(updateMaterialRequest.Name);
-        material.Unit.Should().Be(updateMaterialRequest.Unit.ToUpper());
-        material.Varian.Should().Be(updateMaterialRequest.Varian);
-        material.Weight.Should().Be(updateMaterialRequest.Weight);
-        material.Width.Should().Be(updateMaterialRequest.Width);
-        material.ColorCode.Should().Be(updateMaterialRequest.ColorCode);
-        material.MaterialType.Id.Should().Be(updateMaterialRequest.MaterialTypeId);
-        material.RegionalMarket.Id.Should().Be(updateMaterialRequest.RegionalMarketId);
-        material.MaterialCostManagements.Should().BeEmpty();
+        await EnsureEqualAsync(materialId, request);
     }
     
     [Fact]
     public async Task Update_ReturnsValidationError_WhenInputIsInvalid()
     {
         //Arrange
-        var materialId = await SetupCreatingMaterialAsync();
-        var updateMaterialRequest = UpdateMaterialFaker(materialId)
+        var createRequest = CreateMaterialFaker.Generate();
+        var materialId = await SetupCreatingMaterialAsync(createRequest);
+        var request = UpdateMaterialFaker(materialId)
             .Clone()
             .RuleFor(x => x.Code, "code")
             .RuleFor(x => x.RegionalMarketId, (byte)200)
             .Generate();
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", updateMaterialRequest);
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", request);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialCreatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
-        materialCreatedResponse!.IsSuccess.Should().BeFalse();
-        materialCreatedResponse.Errors.Should().HaveCount(1);
+        var createdResponse = await ReadFromJsonAsync(response);
+        createdResponse!.IsSuccess.Should().BeFalse();
+        createdResponse.Errors.Should().HaveCount(1);
+        
+        await EnsureEqualAsync(materialId, createRequest);
     }
     
     [Fact]
-    public async Task Update_Material_WhenCodeIsExistedByItself()
+    public async Task Update_Material_WhenCodeWasExistedByItself()
     {
         //Arrange
         var materialId = await SetupCreatingMaterialAsync();
-        var updateMaterialRequest = UpdateMaterialFaker(materialId)
+        var request = UpdateMaterialFaker(materialId)
             .Clone()
             .RuleFor(x => x.Code, "code")
             .Generate();
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", updateMaterialRequest);
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", request);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialUpdatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
-        materialUpdatedResponse!.IsSuccess.Should().BeTrue();
-        materialUpdatedResponse.Errors.Should().BeEmpty();
+        var updatedResponse = await ReadFromJsonAsync(response);
+        updatedResponse!.IsSuccess.Should().BeTrue();
+        updatedResponse.Errors.Should().BeEmpty();
 
-        var material = await GetMaterialByIdAsync(materialId);
-        material.Id.Should().Be(materialId);
-        material.Code.Should().Be(updateMaterialRequest.Code);
-        material.Name.Should().Be(updateMaterialRequest.Name);
-        material.Unit.Should().Be(updateMaterialRequest.Unit.ToUpper());
-        material.Varian.Should().Be(updateMaterialRequest.Varian);
-        material.Weight.Should().Be(updateMaterialRequest.Weight);
-        material.Width.Should().Be(updateMaterialRequest.Width);
-        material.ColorCode.Should().Be(updateMaterialRequest.ColorCode);
-        material.MaterialType.Id.Should().Be(updateMaterialRequest.MaterialTypeId);
-        material.RegionalMarket.Id.Should().Be(updateMaterialRequest.RegionalMarketId);
-        material.MaterialCostManagements.Should().BeEmpty();
+        await EnsureEqualAsync(materialId, request);
     }
     
     [Fact]
     public async Task Update_ReturnsError_WhenCodeWasExisted()
     {
         //Arrange
-        var materialId1 = await SetupCreatingMaterialAsync();
+        await SetupCreatingMaterialAsync();
         
-        var materialRequest2 = CreateMaterialFaker
+        var createRequest = CreateMaterialFaker
             .Clone()
             .RuleFor(x => x.Code, "code1")
             .Generate();
-        var materialId2 = await SetupCreatingMaterialAsync(materialRequest2);
+        var materialId2 = await SetupCreatingMaterialAsync(createRequest);
         
-        var updateMaterialRequest = UpdateMaterialFaker(materialId2)
+        var updateRequest = UpdateMaterialFaker(materialId2)
             .Clone()
             .RuleFor(x => x.Code, "code")
             .Generate();
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId2}", updateMaterialRequest);
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId2}", updateRequest);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialUpdatedResponse = await EndpointFactory.ReadFromJsonAsync(response);
-        materialUpdatedResponse.Should().NotBeNull();
-        materialUpdatedResponse.IsSuccess.Should().BeFalse();
-        materialUpdatedResponse.Errors[0].Code.Should().Be(ExistedMaterialCode.Code);
+        var updatedResponse = await ReadFromJsonAsync(response);
+        updatedResponse.Should().NotBeNull();
+        updatedResponse.IsSuccess.Should().BeFalse();
+        updatedResponse.Errors[0].Should().Be(ExistedMaterialCode);
         
-        var material = await GetMaterialByIdAsync(materialId2);
-        material.Id.Should().Be(materialId2);
-        material.Code.Should().Be(materialRequest2.Code);
-        material.Name.Should().Be(materialRequest2.Name);
-        material.Unit.Should().Be(materialRequest2.Unit.ToUpper());
-        material.Varian.Should().Be(materialRequest2.Varian);
-        material.Weight.Should().Be(materialRequest2.Weight);
-        material.Width.Should().Be(materialRequest2.Width);
-        material.ColorCode.Should().Be(materialRequest2.ColorCode);
-        material.MaterialType.Id.Should().Be(materialRequest2.MaterialTypeId);
-        material.RegionalMarket.Id.Should().Be(materialRequest2.RegionalMarketId);
-        material.MaterialCostManagements.Should().BeEmpty();
+        await EnsureEqualAsync(materialId2, createRequest);
     }
 }

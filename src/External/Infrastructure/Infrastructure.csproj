@@ -16,7 +16,6 @@
     <InternalsVisibleTo Include="Tests.Integration" />
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Dapper" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />

@@ -8,7 +8,7 @@ public abstract class Enumeration<T> : IComparable<T>, IEquatable<T>
 {
     private int? _cachedHashCode;
     protected static readonly T[] list = CreateEnumerations();
-    public static IReadOnlyCollection<T> List => list;
+    public static IReadOnlyList<T> List => list;
 
     public byte Id { get; }
     public string Name { get; } = default!;

@@ -1,6 +1,20 @@
 namespace MinimalApi.ApiResponses;
 
-public sealed record ApiError(string Code, string Message);
+public sealed record ApiError(string Code, string Message)
+{
+    public bool Equals(ApiError? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        
+        return Code == other.Code;
+    }
+
+    public override int GetHashCode()
+    {
+        return (nameof(ApiError).GetHashCode() + Code.GetHashCode()).GetHashCode();
+    }
+}
 
 public static class ApiErrors
 {

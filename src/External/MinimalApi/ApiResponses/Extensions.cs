@@ -5,7 +5,7 @@ namespace MinimalApi.ApiResponses;
 
 public static class ApiResponseExtensions
 {
-    private static ApiError ToApiError(this in DomainError error) => new(error.Code, error.Message);
+    public static ApiError ToApiError(this in DomainError error) => new(error.Code, error.Message);
     public static ApiResponse ToApiSuccess() => new(true, Array.Empty<ApiError>());
 
     public static IResult ToResultApiSuccess<TResponse>(this Result<TResponse> result)
@@ -14,6 +14,11 @@ public static class ApiResponseExtensions
     public static IResult ToResultApiSuccessOrBadRequest(this Result result) 
         => result.IsSuccess 
             ? Results.Ok(ToApiSuccess()) 
+            : Results.BadRequest(result.Error.ToApiFailure());
+    
+    public static IResult ToResultApiAcceptedOrBadRequest<T>(this Result<T> result, string routeName) where T : IGuidStronglyTypedId
+        => result.IsSuccess 
+            ? Results.AcceptedAtRoute(routeName, new { id = result.Value.Value }, result.Value.Value.ToApiSuccess())
             : Results.BadRequest(result.Error.ToApiFailure());
     
     public static IResult ToResultApiSuccessOrBadRequest<TResponse>(this Result<TResponse> result) 

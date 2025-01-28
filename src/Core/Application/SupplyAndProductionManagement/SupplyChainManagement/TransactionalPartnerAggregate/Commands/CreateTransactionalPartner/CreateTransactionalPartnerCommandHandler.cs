@@ -5,16 +5,16 @@ using SharedKernel;
 using SharedKernel.Enumerations;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
-using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
+using SharedKernel.ValueObjects;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 
 internal sealed class CreateTransactionalPartnerCommandHandler(
     ITransactionalPartnerRepository transactionalPartnerRepository,
     ITransactionalPartnerReadonlyRepository transactionalReadonlyRepository,
-    IUnitOfWork unitOfWork) : ICommandHandler<CreateTransactionalPartnerCommand>
+    IUnitOfWork unitOfWork) : ICommandHandler<CreateTransactionalPartnerCommand, TransactionalPartnerId>
 {
-    public async Task<Result> Handle(CreateTransactionalPartnerCommand request, CancellationToken cancellationToken)
+    public async Task<Result<TransactionalPartnerId>> Handle(CreateTransactionalPartnerCommand request, CancellationToken cancellationToken)
     {
         var contactInfo = ContactInformation.Create(request.TelNo, request.Email).Value!;
 
@@ -56,6 +56,6 @@ internal sealed class CreateTransactionalPartnerCommandHandler(
         transactionalPartnerRepository.Save(transactionalPartner);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return transactionalPartner.Id;
     }
 }

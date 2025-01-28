@@ -1,14 +1,11 @@
 using System.Net;
-using System.Net.Http.Json;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using FluentAssertions;
-using MinimalApi.ApiResponses;
-using Tests.Integration.SupplyChainManagement.MaterialEndpoint.Base;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
 public class GetAllTests(EndpointFactory apiFactory) 
-    : BaseTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task GetAll_ReturnsResult_WhenMaterialsExist()
@@ -21,21 +18,21 @@ public class GetAllTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialsResponse = await EndpointFactory.ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
+        var materialsResponse = await ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
         materialsResponse!.IsSuccess.Should().BeTrue();
         materialsResponse.Errors.Should().BeEmpty();
         materialsResponse.Result.Should().HaveCount(1);
     }
     
     [Fact]
-    public async Task GetAll_ReturnsEmptyResult_WhenNoMaterialsExist()
+    public async Task GetAll_ReturnsEmptyResult_WhenNoMaterialExists()
     {
         // Act
         var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialsResponse = await EndpointFactory.ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
+        var materialsResponse = await ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
         materialsResponse!.IsSuccess.Should().BeTrue();
         materialsResponse.Errors.Should().BeEmpty();
         materialsResponse.Result.Should().BeEmpty();

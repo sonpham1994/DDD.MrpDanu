@@ -1,27 +1,24 @@
 using System.Net;
-using System.Net.Http.Json;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 using FluentAssertions;
-using MinimalApi.ApiResponses;
-using Tests.Integration.SupplyChainManagement.MaterialEndpoint.Base;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
 public class GetTests(EndpointFactory apiFactory)
-    : BaseTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
 {
     [Fact]
-    public async Task Get_ReturnsMaterial_WhenMaterialExists()
+    public async Task Get_ReturnsResult_WhenMaterialExists()
     {
         // Arrange
-        var materialId = await SetupCreatingMaterialAsync();
+        var id = await SetupCreatingMaterialAsync();
         
         // Act
-        var response = await HttpClient.GetAsync($"{Endpoint}/{materialId}");
+        var response = await HttpClient.GetAsync($"{Endpoint}/{id}");
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var materialResponse = await EndpointFactory.ReadFromJsonAsync<MaterialResponse>(response);
+        var materialResponse = await ReadFromJsonAsync<MaterialResponse>(response);
         materialResponse!.IsSuccess.Should().BeTrue();
         materialResponse.Errors.Should().BeEmpty();
         materialResponse.Result.Should().NotBeNull();
@@ -35,10 +32,10 @@ public class GetTests(EndpointFactory apiFactory)
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var materialResponse = await EndpointFactory.ReadFromJsonAsync<MaterialResponse>(response);
+        var materialResponse = await ReadFromJsonAsync<MaterialResponse>(response);
         materialResponse!.IsSuccess.Should().BeFalse();
         materialResponse.Errors.Should().NotBeEmpty();
-        materialResponse.Errors[0].Code.Should().Be(NotFoundMaterial.Code);
+        materialResponse.Errors[0].Should().Be(NotFoundMaterial);
         materialResponse.Result.Should().BeNull();
     }
 }
