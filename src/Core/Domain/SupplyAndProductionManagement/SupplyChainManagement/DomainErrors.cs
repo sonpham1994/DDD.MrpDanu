@@ -58,8 +58,7 @@ public static class DomainErrors
         public static DomainError NullMaterialCost => new($"{nameof(MaterialSupplierCost)}.{nameof(NullMaterialCost)}", "Material cost object should not be null.");
         
         public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new($"{nameof(MaterialSupplierCost)}.{nameof(DifferentCurrencyBetweenSupplierAndPriceWithSurcharge)}", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
-        public static DomainError DuplicationSupplierIdFromRequest(in SupplierId id) => new($"{nameof(MaterialSupplierCost)}.{nameof(DuplicationSupplierIdFromRequest)}", $"Duplicate Supplier id {id.Value} from request.");
-        public static DomainError DuplicationSupplierIdFromDataStorage(in SupplierId id) => new($"{nameof(MaterialSupplierCost)}.{nameof(DuplicationSupplierIdFromDataStorage)}", $"Duplicate Supplier id {id.Value} from data storage.");
+        public static DomainError DuplicationSupplierId(in SupplierId id) => new($"{nameof(MaterialSupplierCost)}.{nameof(DuplicationSupplierId)}", $"The supplier id '{id.Value}' is duplicated.");
         public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new($"{nameof(MaterialSupplierCost)}.{nameof(NotFoundSupplierId)}", $"Supplier id '{supplierId.Value}' is not found.");
     }
 

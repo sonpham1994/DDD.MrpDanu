@@ -3,8 +3,9 @@ using FluentAssertions;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
+//[Collection("MaterialEndpoint")]
 public class DeleteTests(EndpointFactory apiFactory) 
-    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Delete_Material_WhenIdIsValid()

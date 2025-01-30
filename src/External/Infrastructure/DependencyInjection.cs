@@ -14,6 +14,7 @@ using Application.Interfaces.Write;
 using Application.Interfaces.Reads;
 using Application.Interfaces.Writes.AuditTrailWrite;
 using Application.Interfaces.Writes.MaterialWrite;
+using Application.Interfaces.Writes.Shared;
 using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.AuditTrail.SharedKernel;
@@ -24,6 +25,7 @@ using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManage
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Writes;
 using Infrastructure.Persistence.SupplyAndProductionManagement.ProductPlanning.Writes;
 using Infrastructure.Persistence.AuditTrail;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 using Infrastructure.PersistenceMongoDb;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson;
@@ -93,6 +95,7 @@ public static class DependencyInjection
 
         services.AddScoped<ITransactionalPartnerRepository, TransactionalPartnerEfRepository>();
         services.AddScoped<ITransactionalPartnerReadonlyRepository, TransactionalPartnerEfReadonlyRepository>();
+        services.AddScoped<ISharedTransactionalPartnerReadonlyRepository, SharedTransactionalPartnerEfReadonlyRepository>();
 
         services.AddScoped<IProductRepository, ProductEfRepository>();
 

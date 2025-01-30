@@ -3,7 +3,7 @@ using MinimalApi.ApiResponses;
 
 namespace Tests.Integration;
 
-public abstract class SharedTests(HttpClient httpClient) : IAsyncLifetime
+public partial class SharedTests(HttpClient httpClient) : IAsyncLifetime
 {
     protected readonly HttpClient HttpClient = httpClient;
     public const string Host = "http://localhost";
@@ -23,6 +23,7 @@ public abstract class SharedTests(HttpClient httpClient) : IAsyncLifetime
     
     public Task InitializeAsync()
     {
+        CreatedIds.Clear();
         return Task.CompletedTask;
     }
 

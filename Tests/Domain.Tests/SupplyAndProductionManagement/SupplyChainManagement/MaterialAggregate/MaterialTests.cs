@@ -1,7 +1,7 @@
+using Domain.Services.UniqueMaterialCodeServices;
 using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.Tests.Helpers;
 using FluentAssertions;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
@@ -42,7 +42,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
 
         var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService
-            .CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningCodeValueForMaterialId1, default);
+            .HandleAsync(code1, GetMaterialByCodeWithReturningCodeValueForMaterialId1, default);
         var material = Material
             .Create(
                 code1,
@@ -64,7 +64,7 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
 
-        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(code1, GetMaterialByCodeWithReturningNullValue, default);
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService.HandleAsync(code1, GetMaterialByCodeWithReturningNullValue, default);
         var material = Material
             .Create(
                 code1,
@@ -147,7 +147,7 @@ public class MaterialTests
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
 
         var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService
-            .CheckUniqueMaterialCodeAsync(
+            .HandleAsync(
                 material.Value!.Id, code2, 
                 GetMaterialByCodeWithReturningCodeValueForMaterialId2, 
                 default);
@@ -167,7 +167,7 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService
-            .CheckUniqueMaterialCodeAsync(
+            .HandleAsync(
                 material.Value!.Id, code1, 
                 GetMaterialByCodeWithReturningCodeValueForMaterialId1, 
                 default);
@@ -186,7 +186,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService.CheckUniqueMaterialCodeAsync(material.Value!.Id, code2, GetMaterialByCodeWithReturningNullValue, default);
+        var uniqueMaterialCodeResult = await CheckUniqueMaterialCodeService.HandleAsync(material.Value!.Id, code2, GetMaterialByCodeWithReturningNullValue, default);
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, uniqueMaterialCodeResult);
 
@@ -234,17 +234,13 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
-            (SupplyChainManagementPreparingData.SupplierId2, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var input = new List<(decimal, uint, decimal, SupplierId)>
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
             (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value!;
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         var result = material.Value!.UpdateCost(materialCosts);
 
@@ -269,24 +265,20 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
-            (SupplyChainManagementPreparingData.SupplierId2, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var inputAdded = new List<(decimal, uint, decimal, SupplierId)>
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
             (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, suppliers).Value!;
+        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         var inputUpdated = new List<(decimal, uint, decimal, SupplierId)>
         {
             (10m, 20, 30m, SupplyChainManagementPreparingData.SupplierId1),
             (40m, 50, 60m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCostsUpdated = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputUpdated, suppliers).Value!;
+        var materialCostsUpdated = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputUpdated, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         material.Value!.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsUpdated);
@@ -311,23 +303,19 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
-            (SupplyChainManagementPreparingData.SupplierId2, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var inputAdded = new List<(decimal, uint, decimal, SupplierId)>
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
             (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
-        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, suppliers).Value!;
+        var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         var inputDeleted = new List<(decimal, uint, decimal, SupplierId)>
         {
              (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
-        var materialCostsDeleted = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputDeleted, suppliers).Value!;
+        var materialCostsDeleted = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputDeleted, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         material.Value!.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsDeleted);

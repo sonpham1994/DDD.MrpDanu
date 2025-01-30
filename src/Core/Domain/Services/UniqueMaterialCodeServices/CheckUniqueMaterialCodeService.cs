@@ -1,6 +1,7 @@
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using SharedKernel.ValueObjects;
 
-namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+namespace Domain.Services.UniqueMaterialCodeServices;
 
 //Because domain service is stateless, what this means is we should always be able to simply create a new instance
 // of a service to perform an operation, rather than having to rely on any previous history that might have occurred
@@ -13,7 +14,7 @@ public static class CheckUniqueMaterialCodeService
      * out-of-process dependencies like database
      * please check here: https://github.com/ardalis/DDD-NoDuplicates?tab=readme-ov-file
      */
-    public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
+    public static async Task<UniqueMaterialCodeResult> HandleAsync(
         MaterialCode code,
         Func<MaterialCode, CancellationToken, Task<MaterialIdWithCode?>> getMaterialByCode,
         CancellationToken cancellationToken)
@@ -28,7 +29,7 @@ public static class CheckUniqueMaterialCodeService
         return UniqueMaterialCodeResult.Success();
     }
 
-    public static async Task<UniqueMaterialCodeResult> CheckUniqueMaterialCodeAsync(
+    public static async Task<UniqueMaterialCodeResult> HandleAsync(
         MaterialId materialId,
         MaterialCode code,
         Func<MaterialCode, CancellationToken, Task<MaterialIdWithCode?>> getMaterialByCode,

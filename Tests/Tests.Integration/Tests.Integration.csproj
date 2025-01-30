@@ -29,4 +29,10 @@
       <ProjectReference Include="..\..\src\External\MinimalApi\MinimalApi.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="SharedTransactionalPartnerTests.cs">
+        <DependentUpon>_SharedTests.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

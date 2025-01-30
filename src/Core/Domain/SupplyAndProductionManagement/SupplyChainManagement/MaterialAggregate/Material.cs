@@ -1,7 +1,7 @@
-﻿using SharedKernel.Extensions.LinqExtensions;
+﻿using Domain.Services.UniqueMaterialCodeServices;
+using SharedKernel.Extensions.LinqExtensions;
 using SharedKernel;
 using SharedKernel.ValueObjects;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 

@@ -1,8 +1,9 @@
-﻿using SharedKernel.Extensions;
+﻿using Domain.Services.GetListSupplierIdAndCurrencyTypeIdServices;
+using SharedKernel.Extensions;
 using SharedKernel.Extensions.LinqExtensions;
 using SharedKernel;
-using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
+using SharedDomainErrors = SharedKernel.ValueObjects.DomainErrors;
 
 namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
@@ -43,16 +44,16 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
 
     public static Result<IReadOnlyList<MaterialSupplierCost>?> Create(MaterialId materialId,
         IReadOnlyList<(decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId)> request,
-        IReadOnlyList<(SupplierId SupplierId, byte CurrencyTypeId)> supplierIdWithCurrencyTypeIds)
+        GetListSupplierIdAndCurrencyTypeIdResult getListSupplierIdAndCurrencyTypeIdResult)
     {
-        var dupSupplierId = supplierIdWithCurrencyTypeIds.GetItemDuplication(x => x.SupplierId);
-        if (!dupSupplierId.IsEmpty())
-            return DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromDataStorage(dupSupplierId);
+        if (!getListSupplierIdAndCurrencyTypeIdResult.IsSuccess)
+            return getListSupplierIdAndCurrencyTypeIdResult.Error;
         
-        dupSupplierId = request.GetItemDuplication(x => x.supplierId);
+        var dupSupplierId = request.GetItemDuplication(x => x.supplierId);
         if (!dupSupplierId.IsEmpty())
-            return DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromRequest(dupSupplierId);
-        
+            return DomainErrors.MaterialSupplierCost.DuplicationSupplierId(dupSupplierId);
+
+        var lstSupplierIdWithCurrencyTypeId = getListSupplierIdAndCurrencyTypeIdResult.Value;
         var result = new List<MaterialSupplierCost>(request.Count);
 
         foreach ((decimal price, uint minQuantity, decimal surcharge, SupplierId supplierId) in request)
@@ -69,21 +70,25 @@ public class MaterialSupplierCost : EntityGuidStronglyTypedId<MaterialSupplierCo
             if (price <= 0)
                 return DomainErrors.MaterialSupplierCost.InvalidPrice;
 
-            var (existSupplierId, currencyTypeId) = supplierIdWithCurrencyTypeIds.FindOrFirstDefault(x => x.SupplierId == supplierId);
-            if (existSupplierId.IsEmpty())
+            var supplierIdWithCurrencyTypeId = lstSupplierIdWithCurrencyTypeId.FindOrFirstDefault(x => x.SupplierId == supplierId);
+            if (supplierIdWithCurrencyTypeId.SupplierId.IsEmpty())
                 return DomainErrors.MaterialSupplierCost.NotFoundSupplierId(supplierId);
 
-            var currencyType = CurrencyType.FromId(currencyTypeId);
-            if (!currencyType.IsSuccess)
-                return currencyType.Error;
-
-            var priceResult = Money.Create(price, currencyType.Value!);
+            var currencyType = supplierIdWithCurrencyTypeId.CurrencyType;
+            var priceResult = Money.Create(price, currencyType);
             if (!priceResult.IsSuccess)
                 return priceResult.Error;
 
-            var surchargeResult = Money.Create(surcharge, currencyType.Value!);
+            var surchargeResult = Money.Create(surcharge, currencyType);
             if (!surchargeResult.IsSuccess)
-                return DomainErrors.MaterialSupplierCost.InvalidSurcharge;
+            {
+                if (surchargeResult.Error == SharedDomainErrors.Money.InvalidMoney)
+                {
+                    return DomainErrors.MaterialSupplierCost.InvalidSurcharge;
+                }
+
+                return surchargeResult.Error;
+            }
 
             var isValidPriceAndSurcharge = IsValidPriceAndSurcharge(priceResult.Value!, surchargeResult.Value!);
             if (!isValidPriceAndSurcharge.IsSuccess)

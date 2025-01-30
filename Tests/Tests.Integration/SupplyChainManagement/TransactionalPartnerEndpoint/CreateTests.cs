@@ -5,7 +5,7 @@ using FluentAssertions;
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
 public class CreateTests(EndpointFactory apiFactory)
-    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory.CreateClient()) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Create_TransactionalPartner_WhenDataIsValid()
@@ -30,6 +30,8 @@ public class CreateTests(EndpointFactory apiFactory)
         transactionalPartners.Should().NotBeEmpty();
         transactionalPartners.Should().HaveCount(1);
         transactionalPartners[0].Id.Should().Be(transactionalPartnerId);
+        
+        CreatedIds.Add(transactionalPartnerId);
     }
     
     [Fact]

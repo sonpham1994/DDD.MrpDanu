@@ -1,5 +1,4 @@
-
-using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.Models;
+using Domain.Services.GetListSupplierIdAndCurrencyTypeIdServices;
 using SharedKernel.ValueObjects;
 
 namespace Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands;
@@ -7,7 +6,7 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Materi
 internal static class Extensions
 {
     public static (SupplierId supplierId, byte currencyTypeId) ToTuple(this SupplierIdWithCurrencyTypeId input)
-        => ((SupplierId)input.Id, input.CurrencyTypeId);
+        => ((SupplierId)input.SupplierId, input.CurrencyTypeId);
     public static IReadOnlyList<(SupplierId supplierId, byte currencyTypeId)> ToTuple(this IReadOnlyList<SupplierIdWithCurrencyTypeId> inputs)
     {
         if (inputs is null)

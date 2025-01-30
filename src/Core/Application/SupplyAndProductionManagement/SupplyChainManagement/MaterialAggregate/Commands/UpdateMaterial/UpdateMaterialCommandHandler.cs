@@ -1,9 +1,10 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Messaging;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using SharedKernel;
 using Application.Interfaces.Writes.MaterialWrite;
-using Application.Interfaces.Writes.TransactionalPartnerWrite;
+using Application.Interfaces.Writes.Shared;
+using Domain.Services.GetListSupplierIdAndCurrencyTypeIdServices;
+using Domain.Services.UniqueMaterialCodeServices;
 using SharedKernel.ValueObjects;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -12,7 +13,7 @@ namespace Application.SupplyAndProductionManagement.SupplyChainManagement.Materi
 
 internal sealed class UpdateMaterialCommandHandler(
     IUnitOfWork unitOfWork,
-    ITransactionalPartnerReadonlyRepository transactionalPartnerQueryForWrite,
+    ISharedTransactionalPartnerReadonlyRepository transactionalPartnerReadonlyRepository,
     IMaterialRepository materialRepository,
     IMaterialReadonlyRepository materialReadonlyRepository) : ICommandHandler<UpdateMaterialCommand>
 {
@@ -30,7 +31,7 @@ internal sealed class UpdateMaterialCommandHandler(
         var name = MaterialName.Create(request.Name).Value!;
 
         var uniqueCodeResult = await CheckUniqueMaterialCodeService
-            .CheckUniqueMaterialCodeAsync
+            .HandleAsync
             (
                 material.Id,
                 code,
@@ -43,11 +44,11 @@ internal sealed class UpdateMaterialCommandHandler(
 
         var materialCostInputs = request.MaterialCosts
             .ToTuple();
-        var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToList();
-        var supplierIdWithCurrencyTypeIds = (await transactionalPartnerQueryForWrite.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync(supplierIds, cancellationToken))
-            .ToTuple();
+        var supplierIds = request.MaterialCosts.Select(x => x.SupplierId).ToArray();
+        var getListSupplierIdAndCurrencyTypeIdResult = await GetListSupplierIdAndCurrencyTypeIdService
+            .HandleAsync(supplierIds, transactionalPartnerReadonlyRepository.GetSupplierIdsWithCurrencyTypeIdBySupplierIdsAsync, cancellationToken);
 
-        var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, supplierIdWithCurrencyTypeIds);
+        var materialSupplierCosts = MaterialSupplierCost.Create(material.Id, materialCostInputs, getListSupplierIdAndCurrencyTypeIdResult);
         if (!materialSupplierCosts.IsSuccess)
             return materialSupplierCosts.Error;
 

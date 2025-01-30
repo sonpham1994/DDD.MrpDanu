@@ -1,8 +1,10 @@
+using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using SharedKernel;
 using SharedKernel.Extensions;
 using SharedKernel.ValueObjects;
+using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
-namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+namespace Domain.Services.UniqueMaterialCodeServices;
 
 public readonly struct UniqueMaterialCodeResult : IResult
 {
@@ -14,8 +16,6 @@ public readonly struct UniqueMaterialCodeResult : IResult
         _error = error;
         this.CheckSafeFailResult(_isSuccess, _error);
     }
-
-    public bool IsFailure => !IsSuccess;
 
     public bool IsSuccess
     {

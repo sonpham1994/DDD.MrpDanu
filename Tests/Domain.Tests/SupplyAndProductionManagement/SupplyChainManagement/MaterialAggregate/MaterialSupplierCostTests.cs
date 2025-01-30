@@ -1,4 +1,5 @@
-﻿using SharedKernel.Enumerations;
+﻿using Domain.Services.GetListSupplierIdAndCurrencyTypeIdServices;
+using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
@@ -18,12 +19,8 @@ public class MaterialSupplierCostTests
             (6m, 5, 8m, supplierId)
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
-
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
         materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.NotFoundSupplierId(supplierId));
@@ -37,12 +34,9 @@ public class MaterialSupplierCostTests
             (6m, 0, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
         materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidMinQuantity);
@@ -56,12 +50,9 @@ public class MaterialSupplierCostTests
             (0m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
         materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidPrice);
@@ -75,12 +66,9 @@ public class MaterialSupplierCostTests
             (-5m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
         materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidPrice);
@@ -94,12 +82,9 @@ public class MaterialSupplierCostTests
             (5m, 5, 0m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
         materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidSurcharge);
@@ -113,35 +98,12 @@ public class MaterialSupplierCostTests
             (5m, 5, -4m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
         materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidSurcharge);
-    }
-
-    [Theory]
-    [MemberData(nameof(PrepareData.GetInvalidCurrencyTypeId), MemberType = typeof(PrepareData))]
-    public void Cannot_create_material_cost_with_invalid_currency_type(byte invalidCurrencyType)
-    {
-        var input = new List<(decimal, uint, decimal, SupplierId)>
-        {
-            (5m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
-        };
-
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, invalidCurrencyType)
-        };
-
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
-
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(SharedKernelDomainErrors.CurrencyType.NotFoundId(invalidCurrencyType));
     }
 
     [Fact]
@@ -153,37 +115,14 @@ public class MaterialSupplierCostTests
             (6m, 1, 3m, SupplyChainManagementPreparingData.SupplierId1),
         };
 
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromRequest(SupplyChainManagementPreparingData.SupplierId1));
+        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierId(SupplyChainManagementPreparingData.SupplierId1));
     }
     
-    [Fact]
-    public void Cannot_create_material_cost_with_duplication_supplier_from_data_storage()
-    {
-        var input = new List<(decimal, uint, decimal, SupplierId)>
-        {
-            (5m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
-        };
-
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id),
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.SGD.Id)
-        };
-
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
-
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierIdFromDataStorage(SupplyChainManagementPreparingData.SupplierId1));
-    }
-
     [Fact]
     public void Create_material_cost_successfully()
     {
@@ -191,12 +130,9 @@ public class MaterialSupplierCostTests
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1)
         };
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
 
-        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers);
+        var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
         materialCosts.IsSuccess.Should().BeTrue();
         materialCosts.Value.Should().HaveCount(1);
@@ -213,14 +149,11 @@ public class MaterialSupplierCostTests
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1)
         };
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var price = Money.Create(500m, CurrencyType.VND).Value;
         var surcharge = Money.Create(400m, CurrencyType.USD).Value;
 
-        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value!.First();
+        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 12, surcharge!);
 
         result.IsSuccess.Should().BeFalse();
@@ -234,14 +167,11 @@ public class MaterialSupplierCostTests
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var price = Money.Create(500m, CurrencyType.USD).Value;
         var surcharge = Money.Create(400m, CurrencyType.VND).Value;
 
-        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value!.First();
+        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 12, surcharge!);
 
         result.IsSuccess.Should().BeFalse();
@@ -255,14 +185,11 @@ public class MaterialSupplierCostTests
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1)
         };
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var price = Money.Create(500m, CurrencyType.VND).Value;
         var surcharge = Money.Create(400m, CurrencyType.VND).Value;
 
-        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value!.First();
+        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 0, surcharge!);
 
         result.IsSuccess.Should().BeFalse();
@@ -276,14 +203,11 @@ public class MaterialSupplierCostTests
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1)
         };
-        var suppliers = new List<(SupplierId SupplierId, byte CurrencyTypeId)>
-        {
-            (SupplyChainManagementPreparingData.SupplierId1, CurrencyType.VND.Id)
-        };
+        var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var price = Money.Create(400m, CurrencyType.VND).Value;
         var surcharge = Money.Create(500m, CurrencyType.VND).Value;
 
-        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, suppliers).Value!.First();
+        var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 15, surcharge!);
 
         result.IsSuccess.Should().Be(true);
@@ -292,14 +216,5 @@ public class MaterialSupplierCostTests
         materialCost.Surcharge.Value.Should().Be(500m);
         materialCost.Price.CurrencyType.Should().Be(CurrencyType.VND);
         materialCost.MinQuantity.Should().Be(15);
-    }
-
-    private static class PrepareData
-    {
-        public static IEnumerable<object[]> GetInvalidCurrencyTypeId()
-        {
-            yield return [(byte)(CurrencyType.List.First().Id - 1)];
-            yield return [(byte)(CurrencyType.List.Last().Id + 1)];
-        }
     }
 }

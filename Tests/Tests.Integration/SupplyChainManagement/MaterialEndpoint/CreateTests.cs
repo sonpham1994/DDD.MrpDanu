@@ -5,7 +5,7 @@ using FluentAssertions;
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
 public class CreateTests(EndpointFactory apiFactory)
-    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Create_Material_WhenDataIsValid()
@@ -30,6 +30,8 @@ public class CreateTests(EndpointFactory apiFactory)
         materials.Should().NotBeEmpty();
         materials.Should().HaveCount(1);
         materials[0].Id.Should().Be(materialId);
+        
+        CreatedIds.Add(materialId);
     }
     
     [Fact]
@@ -82,5 +84,28 @@ public class CreateTests(EndpointFactory apiFactory)
         materials.Should().NotBeEmpty();
         materials.Should().HaveCount(1);
         materials[0].Id.Should().Be(id1);
+    }
+    
+    [Fact]
+    public async Task Create_MaterialWithMaterialCost_WhenDataIsValid()
+    {
+        //Arrange
+        var supplierId = await SetupCreatingSupplierTypeAsync();
+        var request = CreateMaterialWithMaterialCostFaker(supplierId).Generate();
+        
+        // Act
+        var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        var createdResponse = await ReadFromJsonAsync<Guid>(response);
+        var materialId = createdResponse!.Result;
+        response.Headers.Location!.ToString().Should().Be($"{Url}/{materialId}");
+        createdResponse.IsSuccess.Should().BeTrue();
+        createdResponse.Errors.Should().BeEmpty();
+
+        await EnsureMaterialCostEqualAsync(materialId, request);
+        
+        CreatedIds.Add(materialId);
     }
 }

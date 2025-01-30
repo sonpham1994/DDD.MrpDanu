@@ -5,7 +5,7 @@ using FluentAssertions;
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
 public class GetTests(EndpointFactory apiFactory)
-    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory.CreateClient()) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Get_ReturnsResult_WhenTransactionalPartnerExists()

@@ -1,7 +1,7 @@
 ﻿
 using Application.Interfaces.Writes.MaterialWrite;
+using Domain.Services.UniqueMaterialCodeServices;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
 

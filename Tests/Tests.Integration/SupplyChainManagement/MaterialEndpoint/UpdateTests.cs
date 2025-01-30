@@ -4,8 +4,9 @@ using FluentAssertions;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
+//[Collection("MaterialEndpoint")]
 public class UpdateTests(EndpointFactory apiFactory) 
-    : SharedTests(apiFactory.CreateClient()), IClassFixture<EndpointFactory>
+    : SharedTests(apiFactory) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Update_Material_WhenDataIsValid()

@@ -1,8 +1,8 @@
+using Domain.Services.UniqueMaterialCodeServices;
 using SharedKernel.Extensions.LinqExtensions;
 using SharedKernel;
 using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
 using Domain.Tests.Helpers;
 using Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement;
 using FluentAssertions;

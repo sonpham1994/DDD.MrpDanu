@@ -1,6 +1,6 @@
 using SharedKernel.ValueObjects;
 
-namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Services.UniqueMaterialCodeServices;
+namespace Domain.Services.UniqueMaterialCodeServices;
 
 public class MaterialIdWithCode
 {
