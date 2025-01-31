@@ -4,8 +4,8 @@ using FluentAssertions;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
-public class GetSupplierTests(EndpointFactory apiFactory)
-    : SharedTests(apiFactory.CreateClient()) //, IClassFixture<EndpointFactory>
+public class GetSupplierTests(EndpointFactory endpointFactory)
+    : SharedTests(endpointFactory) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Get_ReturnsResult_WhenSupplierTypesExist()

@@ -58,8 +58,10 @@ public static class DomainErrors
         public static DomainError NullMaterialCost => new($"{nameof(MaterialSupplierCost)}.{nameof(NullMaterialCost)}", "Material cost object should not be null.");
         
         public static DomainError DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType currencyPrice, CurrencyType currencySurcharge) => new($"{nameof(MaterialSupplierCost)}.{nameof(DifferentCurrencyBetweenSupplierAndPriceWithSurcharge)}", $"Price and Surcharge currency ('{currencyPrice.Name}' and '{currencySurcharge.Name}') are different.");
-        public static DomainError DuplicationSupplierId(in SupplierId id) => new($"{nameof(MaterialSupplierCost)}.{nameof(DuplicationSupplierId)}", $"The supplier id '{id.Value}' is duplicated.");
-        public static DomainError NotFoundSupplierId(in SupplierId supplierId) => new($"{nameof(MaterialSupplierCost)}.{nameof(NotFoundSupplierId)}", $"Supplier id '{supplierId.Value}' is not found.");
+        public static DomainError DuplicationSupplierId(in SupplierId id) => DuplicationSupplierId(id.Value);
+        public static DomainError DuplicationSupplierId(in Guid id) => new($"{nameof(MaterialSupplierCost)}.{nameof(DuplicationSupplierId)}", $"The supplier id '{id}' is duplicated.");
+        public static DomainError NotFoundSupplierId(in SupplierId supplierId) => NotFoundSupplierId(supplierId.Value);
+        public static DomainError NotFoundSupplierId(in Guid supplierId) => new($"{nameof(MaterialSupplierCost)}.{nameof(NotFoundSupplierId)}", $"Supplier id '{supplierId}' is not found.");
     }
 
     public static class TransactionalPartner

@@ -36,7 +36,7 @@ public class GetTests(EndpointFactory apiFactory)
         var materialResponse = await ReadFromJsonAsync<MaterialResponse>(response);
         materialResponse!.IsSuccess.Should().BeFalse();
         materialResponse.Errors.Should().NotBeEmpty();
-        materialResponse.Errors[0].Should().Be(NotFoundMaterial);
+        materialResponse.Errors[0].Should().Be(NotFoundMaterialId);
         materialResponse.Result.Should().BeNull();
     }
 }

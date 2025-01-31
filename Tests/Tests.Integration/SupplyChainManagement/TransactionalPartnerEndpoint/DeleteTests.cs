@@ -3,8 +3,8 @@ using FluentAssertions;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
-public class DeleteTests(EndpointFactory apiFactory) 
-    : SharedTests(apiFactory.CreateClient()) //, IClassFixture<EndpointFactory>
+public class DeleteTests(EndpointFactory endpointFactory) 
+    : SharedTests(endpointFactory) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Delete_TransactionalPartner_WhenIdIsValid()

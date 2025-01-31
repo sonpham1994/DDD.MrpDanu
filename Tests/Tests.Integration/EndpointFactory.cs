@@ -26,6 +26,8 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
         new MongoDbBuilder()
             .WithImage("mongo:latest")
             .Build();
+    
+    public IServiceProvider ServiceProvider { get; private set; }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

@@ -4,8 +4,8 @@ using FluentAssertions;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
-public class CreateTests(EndpointFactory apiFactory)
-    : SharedTests(apiFactory.CreateClient()) //, IClassFixture<EndpointFactory>
+public class CreateTests(EndpointFactory endpointFactory)
+    : SharedTests(endpointFactory) //, IClassFixture<EndpointFactory>
 {
     [Fact]
     public async Task Create_TransactionalPartner_WhenDataIsValid()

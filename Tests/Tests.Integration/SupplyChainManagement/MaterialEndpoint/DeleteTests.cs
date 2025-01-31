@@ -1,5 +1,8 @@
 using System.Net;
 using FluentAssertions;
+using Infrastructure.Persistence.Writes;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
@@ -27,6 +30,9 @@ public class DeleteTests(EndpointFactory apiFactory)
 
         var materials = await GetAllMaterialsAsync();
         materials.Should().BeEmpty();
+
+        // var dbContext = ServiceProvider.GetRequiredService<AppDbContext>();
+        // var existsMaterialCost = dbContext.Database.SqlQuery<bool>($"SELECT TOP 1 Id FROM MaterialCost WHERE MaterialId = {id}");
         
         CreatedIds.Clear();
     }
@@ -42,6 +48,6 @@ public class DeleteTests(EndpointFactory apiFactory)
         var deletedResponse = await ReadFromJsonAsync(response);
         deletedResponse!.IsSuccess.Should().BeFalse();
         deletedResponse.Errors.Should().NotBeEmpty();
-        deletedResponse.Errors[0].Should().Be(NotFoundMaterial);
+        deletedResponse.Errors[0].Should().Be(NotFoundMaterialId);
     }
 }

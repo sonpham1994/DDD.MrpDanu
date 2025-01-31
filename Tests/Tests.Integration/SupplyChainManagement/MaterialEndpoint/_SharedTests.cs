@@ -8,20 +8,19 @@ using Bogus;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using FluentAssertions;
 using MinimalApi.ApiResponses;
-using SharedKernel.ValueObjects;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
 [Collection(CollectionEndpointName.MaterialEndpoint)]
 public abstract class SharedTests(EndpointFactory endpointFactory) 
-    : Tests.Integration.SharedTests(endpointFactory.CreateClient())
+    : Tests.Integration.SharedTests(endpointFactory)
 {
-    public const string Endpoint = "supply-chain-management/materials";
+    protected const string Endpoint = "supply-chain-management/materials";
     protected override string BaseEndpoint => Endpoint;
     protected override string Url => $"{Host}/{Endpoint}";
 
-    public static readonly Faker<CreateMaterialCommand> CreateMaterialFaker = new Faker<CreateMaterialCommand>()
+    protected static readonly Faker<CreateMaterialCommand> CreateMaterialFaker = new Faker<CreateMaterialCommand>()
         .RuleFor(x => x.Name, f => f.Name.FirstName())
         .RuleFor(x => x.Code, f => "code")
         .RuleFor(x => x.Unit, f => f.Random.Words(1))
@@ -33,14 +32,14 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         .RuleFor(x => x.RegionalMarketId, RegionalMarket.None.Id)
         .RuleFor(x => x.MaterialCosts, Array.Empty<MaterialSupplierCostCommand>());
 
-    public static Faker<MaterialSupplierCostCommand> CreateMaterialCostFaker(Guid id) =>
+    private static Faker<MaterialSupplierCostCommand> CreateMaterialCostFaker(Guid id) =>
         new Faker<MaterialSupplierCostCommand>()
             .RuleFor(x => x.Price, f => decimal.Round(f.Random.Decimal(0.1m, 1_000_000_000), 4)) // can be exceeded length in db, TODO: Write test for it
             .RuleFor(x => x.Surcharge, f => decimal.Round(f.Random.Decimal(0.1m, 1_000_000_000), 4)) // can be exceeded length in db, TODO: Write test for it
             .RuleFor(x => x.MinQuantity, f => f.Random.UInt(1, 1_000_000_000)) // can be exceeded length in db, TODO: Write test for it
             .RuleFor(x => x.SupplierId, id);
 
-    public static MaterialSupplierCostCommand[] CreateMaterialCosts(Guid[] ids)
+    private static MaterialSupplierCostCommand[] CreateMaterialCosts(Guid[] ids)
     {
         var result = new MaterialSupplierCostCommand[ids.Length];
 
@@ -52,16 +51,16 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         return result;
     }
 
-    public static Faker<CreateMaterialCommand> CreateMaterialWithMaterialCostsFaker(Guid[] supplierIds) =>
+    protected static Faker<CreateMaterialCommand> CreateMaterialWithMaterialCostsFaker(Guid[] supplierIds) =>
         CreateMaterialFaker
             .Clone()
             .RuleFor(x => x.MaterialCosts, CreateMaterialCosts(supplierIds));
 
-    public static Faker<CreateMaterialCommand> CreateMaterialWithMaterialCostFaker(Guid supplierId) =>
+    protected static Faker<CreateMaterialCommand> CreateMaterialWithMaterialCostFaker(Guid supplierId) =>
         CreateMaterialWithMaterialCostsFaker([supplierId]);
-    
-    public static Faker<UpdateMaterialCommand> UpdateMaterialFaker(Guid id) => new Faker<UpdateMaterialCommand>()
-        .RuleFor(x=>x.Id, id)
+
+    protected static Faker<UpdateMaterialCommand> UpdateMaterialFaker(Guid id) => new Faker<UpdateMaterialCommand>()
+        .RuleFor(x => x.Id, id)
         .RuleFor(x => x.Name, f => f.Name.FirstName())
         .RuleFor(x => x.Code, f => "code")
         .RuleFor(x => x.Unit, f => f.Random.Words(1))
@@ -71,19 +70,29 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         .RuleFor(x => x.ColorCode, f => f.Random.Words(1))
         .RuleFor(x => x.MaterialTypeId, MaterialType.Material.Id)
         .RuleFor(x => x.RegionalMarketId, RegionalMarket.None.Id);
+    
+    protected static Faker<UpdateMaterialCommand> UpdateMaterialWithMaterialCostsFaker(Guid materialId, Guid[] supplierIds) =>
+        UpdateMaterialFaker(materialId)
+            .Clone()
+            .RuleFor(x => x.MaterialCosts, CreateMaterialCosts(supplierIds));
 
-    public static readonly ApiError ExistedMaterialCode = DomainErrors.Material.ExistedCode("code", Guid.NewGuid()).ToApiError();
-    public static readonly ApiError NotFoundMaterial = DomainErrors.Material.NotFoundId(Guid.NewGuid()).ToApiError();
+    protected static Faker<UpdateMaterialCommand> UpdateMaterialWithMaterialCostFaker(Guid materialId, Guid supplierId) =>
+        UpdateMaterialWithMaterialCostsFaker(materialId, [supplierId]);
 
-    public async Task<Guid> SetupCreatingMaterialAsync()
+    protected static readonly ApiError ExistedMaterialCode = DomainErrors.Material.ExistedCode("code", Guid.NewGuid()).ToApiError();
+    protected static readonly ApiError NotFoundMaterialId = DomainErrors.Material.NotFoundId(Guid.NewGuid()).ToApiError();
+    protected static readonly ApiError NotFoundSupplierId = DomainErrors.MaterialSupplierCost.NotFoundSupplierId(Guid.NewGuid()).ToApiError();
+    protected static readonly ApiError DuplicatedSupplierId = DomainErrors.MaterialSupplierCost.DuplicationSupplierId(Guid.NewGuid()).ToApiError();
+    
+    protected async Task<Guid> SetupCreatingMaterialAsync()
     {
         var request = CreateMaterialFaker.Generate();
         var id = await SetupCreatingMaterialAsync(request);
         
         return id;
     }
-    
-    public async Task<Guid> SetupCreatingMaterialAsync(CreateMaterialCommand request)
+
+    protected async Task<Guid> SetupCreatingMaterialAsync(CreateMaterialCommand request)
     {
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         var result = await ReadFromJsonAsync<Guid>(response);
@@ -94,15 +103,31 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         return id;
     }
     
-    public async Task<MaterialResponse> GetMaterialByIdAsync(Guid id)
+    protected async Task<Guid> SetupCreatingMaterialWithCostAsync(Guid[] supplierIds)
+    {
+        var request = CreateMaterialWithMaterialCostsFaker(supplierIds).Generate();
+        var id = await SetupCreatingMaterialAsync(request);
+        
+        return id;
+    }
+    
+    protected async Task<Guid> SetupCreatingMaterialWithCostAsync(Guid supplierId)
+    {
+        var request = CreateMaterialWithMaterialCostFaker(supplierId).Generate();
+        var id = await SetupCreatingMaterialAsync(request);
+        
+        return id;
+    }
+
+    protected async Task<MaterialResponse> GetMaterialByIdAsync(Guid id)
     {
         var response = await HttpClient.GetAsync($"{Endpoint}/{id}");
         var result = await ReadFromJsonAsync<MaterialResponse>(response);
 
         return result!.Result;
     }
-    
-    public async Task<IReadOnlyList<MaterialsResponse>> GetAllMaterialsAsync()
+
+    protected async Task<IReadOnlyList<MaterialsResponse>> GetAllMaterialsAsync()
     {
         var response = await HttpClient.GetAsync(Endpoint);
         var result = await ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
@@ -123,25 +148,7 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         material.ColorCode.Should().Be(request.ColorCode);
         material.MaterialType.Id.Should().Be(request.MaterialTypeId);
         material.RegionalMarket.Id.Should().Be(request.RegionalMarketId);
-    }
-    
-    protected async Task EnsureMaterialCostEqualAsync(Guid id, CreateMaterialCommand request)
-    {
-        var material = await GetMaterialByIdAsync(id);
-        request.MaterialCosts.Should().HaveCount(material.MaterialCostManagements.Count);
-        
-        for (int i = 0; i < request.MaterialCosts.Count; i++)
-        {
-            var materialCostRequest = request.MaterialCosts[i];
-            var materialCost = material.MaterialCostManagements
-                .FirstOrDefault(x => x.Supplier.Id == materialCostRequest.SupplierId);
-
-            materialCost.Should().NotBeNull();
-            materialCost.Supplier.Id.Should().Be(materialCostRequest.SupplierId);
-            materialCost.Price.Should().Be(materialCostRequest.Price);
-            materialCost.Surcharge.Should().Be(materialCostRequest.Surcharge);
-            materialCost.MinQuantity.Should().Be(materialCostRequest.MinQuantity);
-        }
+        material.MaterialCostManagements.Should().BeEmpty();
     }
     
     protected async Task EnsureEqualAsync(Guid id, UpdateMaterialCommand request)
@@ -158,5 +165,24 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         material.MaterialType.Id.Should().Be(request.MaterialTypeId);
         material.RegionalMarket.Id.Should().Be(request.RegionalMarketId);
         material.MaterialCostManagements.Should().BeEmpty();
+    }
+    
+    protected async Task EnsureMaterialCostEqualAsync(Guid id, IReadOnlyList<MaterialSupplierCostCommand> request)
+    {
+        var material = await GetMaterialByIdAsync(id);
+        request.Should().HaveCount(material.MaterialCostManagements.Count);
+        
+        foreach (var materialCostRequest in request)
+        {
+            var costRequest = materialCostRequest;
+            var materialCost = material.MaterialCostManagements
+                .FirstOrDefault(x => x.Supplier.Id == costRequest.SupplierId);
+
+            materialCost.Should().NotBeNull();
+            materialCost.Supplier.Id.Should().Be(materialCostRequest.SupplierId);
+            materialCost.Price.Should().Be(materialCostRequest.Price);
+            materialCost.Surcharge.Should().Be(materialCostRequest.Surcharge);
+            materialCost.MinQuantity.Should().Be(materialCostRequest.MinQuantity);
+        }
     }
 }

@@ -12,13 +12,13 @@ using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
 [Collection(CollectionEndpointName.TransactionalPartnerEndpoint)]
-public abstract class SharedTests(HttpClient httpClient) : Tests.Integration.SharedTests(httpClient)
+public abstract class SharedTests(EndpointFactory endpointFactory) : Tests.Integration.SharedTests(endpointFactory)
 {
     public const string Endpoint = "supply-chain-management/transactional-partners";
     protected override string BaseEndpoint => Endpoint;
     protected override string Url => $"{Host}/{Endpoint}";
 
-    public static Faker<UpdateTransactionalPartnerCommand> UpdateTransactionalPartnerFaker(Guid id) => new Faker<UpdateTransactionalPartnerCommand>()
+    protected static Faker<UpdateTransactionalPartnerCommand> UpdateTransactionalPartnerFaker(Guid id) => new Faker<UpdateTransactionalPartnerCommand>()
         .CustomInstantiator(f=> new UpdateTransactionalPartnerCommand(
             id,
             f.Name.FirstName(),
@@ -33,10 +33,10 @@ public abstract class SharedTests(HttpClient httpClient) : Tests.Integration.Sha
             LocationType.Domestic.Id
         ));
 
-    public static readonly ApiError TelNoOrEmailIsTaken = DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken.ToApiError();
-    public static readonly ApiError NotFoundId = DomainErrors.TransactionalPartner.NotFoundId(Guid.NewGuid()).ToApiError();
-    
-    public async Task<TransactionalPartnerResponse> GetTransactionalPartnerByIdAsync(Guid id)
+    protected static readonly ApiError TelNoOrEmailIsTaken = DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken.ToApiError();
+    protected static readonly ApiError NotFoundId = DomainErrors.TransactionalPartner.NotFoundId(Guid.NewGuid()).ToApiError();
+
+    protected async Task<TransactionalPartnerResponse> GetTransactionalPartnerByIdAsync(Guid id)
     {
         var response = await HttpClient.GetAsync($"{Endpoint}/{id}");
         var result  = await ReadFromJsonAsync<TransactionalPartnerResponse>(response);
@@ -45,8 +45,8 @@ public abstract class SharedTests(HttpClient httpClient) : Tests.Integration.Sha
         
         return result!.Result;
     }
-    
-    public async Task<IReadOnlyList<TransactionalPartnersResponse>> GetAllTransactionalPartnersAsync()
+
+    protected async Task<IReadOnlyList<TransactionalPartnersResponse>> GetAllTransactionalPartnersAsync()
     {
         var response = await HttpClient.GetAsync($"{Endpoint}");
         var result = await ReadFromJsonAsync<IReadOnlyList<TransactionalPartnersResponse>>(response);

@@ -105,4 +105,73 @@ public class UpdateTests(EndpointFactory apiFactory)
         
         await EnsureEqualAsync(materialId2, createRequest);
     }
+    
+    [Fact]
+    public async Task AddUpdateDeleteMaterialCost_MaterialWithMaterialCost_WhenDataIsValid()
+    {
+        //Arrange
+        var supplierIdAdded = await SetupCreatingSupplierTypeAsync();
+        var supplierIdUpdated = await SetupCreatingSupplierTypeAsync();
+        var supplierIdDeleted = await SetupCreatingSupplierTypeAsync();
+        var materialId = await SetupCreatingMaterialWithCostAsync([supplierIdUpdated, supplierIdDeleted]);
+        var request = UpdateMaterialWithMaterialCostsFaker(materialId, [supplierIdAdded, supplierIdUpdated]).Generate();
+        
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", request);
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var updatedResponse = await ReadFromJsonAsync(response);
+        updatedResponse!.IsSuccess.Should().BeTrue();
+        updatedResponse.Errors.Should().BeEmpty();
+
+        await EnsureMaterialCostEqualAsync(materialId, request.MaterialCosts);
+    }
+    
+    [Fact]
+    public async Task AddUpdateDeleteMaterialCost_ReturnsError_WhenSupplierIdDoesNotExist()
+    {
+        //Arrange
+        var supplierIdAdded = await SetupCreatingSupplierTypeAsync();
+        var supplierIdUpdated = await SetupCreatingSupplierTypeAsync();
+        var supplierIdFake = Guid.NewGuid();
+        var createdRequest = CreateMaterialWithMaterialCostsFaker([supplierIdUpdated, supplierIdAdded]).Generate();
+        var materialId = await SetupCreatingMaterialAsync(createdRequest);
+        var request = UpdateMaterialWithMaterialCostsFaker(materialId, [supplierIdAdded, supplierIdUpdated, supplierIdFake]).Generate();
+        
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", request);
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var updatedResponse = await ReadFromJsonAsync(response);
+        updatedResponse!.IsSuccess.Should().BeFalse();
+        updatedResponse.Errors.Should().HaveCount(1);
+        updatedResponse.Errors[0].Should().Be(NotFoundSupplierId);
+
+        await EnsureMaterialCostEqualAsync(materialId, createdRequest.MaterialCosts);
+    }
+    
+    [Fact]
+    public async Task AddUpdateDeleteMaterialCost_ReturnsError_WhenSupplierIdIsDuplicated()
+    {
+        //Arrange
+        var supplierIdAdded = await SetupCreatingSupplierTypeAsync();
+        var supplierIdUpdated = await SetupCreatingSupplierTypeAsync();
+        var createdRequest = CreateMaterialWithMaterialCostsFaker([supplierIdUpdated, supplierIdAdded]).Generate();
+        var materialId = await SetupCreatingMaterialAsync(createdRequest);
+        var request = UpdateMaterialWithMaterialCostsFaker(materialId, [supplierIdAdded, supplierIdUpdated, supplierIdUpdated]).Generate();
+        
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{materialId}", request);
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var updatedResponse = await ReadFromJsonAsync(response);
+        updatedResponse!.IsSuccess.Should().BeFalse();
+        updatedResponse.Errors.Should().HaveCount(1);
+        updatedResponse.Errors[0].Should().Be(DuplicatedSupplierId);
+
+        await EnsureMaterialCostEqualAsync(materialId, createdRequest.MaterialCosts);
+    }
 }
