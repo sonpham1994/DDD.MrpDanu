@@ -18,7 +18,7 @@ namespace Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -32,27 +32,12 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.HasSequence("productseq")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("SharedKernel.Enumerations.CurrencyType", b =>
-                {
-                    b.Property<byte>("Id")
-                        .HasColumnType("tinyint")
-                        .HasDefaultValue((byte)1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CurrencyType", (string)null);
-                });
-
             modelBuilder.Entity("Domain.SupplyAndProductionManagement.ProductionPlanning.BoM", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .HasColumnType("bigint");
 
-                    b.Property<uint?>("ProductId")
+                    b.Property<long?>("ProductId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -66,13 +51,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.SupplyAndProductionManagement.ProductionPlanning.BoMRevision", b =>
                 {
-                    b.Property<ushort>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<ushort>("Id"), "bomrevisionseq");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<short>("Id"), "bomrevisionseq");
 
-                    b.Property<uint>("BoMId")
+                    b.Property<long>("BoMId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Confirmation")
@@ -91,7 +76,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<ushort>("BoMRevisionId")
+                    b.Property<short>("BoMRevisionId")
                         .HasColumnType("smallint");
 
                     b.Property<decimal>("Unit")
@@ -107,13 +92,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.SupplyAndProductionManagement.ProductionPlanning.Product", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<uint>("Id"), "productseq");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<long>("Id"), "productseq");
 
-                    b.Property<uint?>("BoMId")
+                    b.Property<long?>("BoMId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Code")
@@ -348,6 +333,21 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("TransactionalPartnerType", (string)null);
                 });
 
+            modelBuilder.Entity("SharedKernel.Enumerations.CurrencyType", b =>
+                {
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CurrencyType", (string)null);
+                });
+
             modelBuilder.Entity("Domain.SupplyAndProductionManagement.ProductionPlanning.BoM", b =>
                 {
                     b.HasOne("Domain.SupplyAndProductionManagement.ProductionPlanning.Product", null)
@@ -356,7 +356,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Domain.SupplyAndProductionManagement.ProductionPlanning.BoMCode", "Revision", b1 =>
                         {
-                            b1.Property<uint>("BoMId")
+                            b1.Property<long>("BoMId")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("Value")
@@ -389,7 +389,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Domain.SupplyAndProductionManagement.ProductionPlanning.BoMRevisionCode", "Revision", b1 =>
                         {
-                            b1.Property<ushort>("BoMRevisionId")
+                            b1.Property<short>("BoMRevisionId")
                                 .HasColumnType("smallint");
 
                             b1.Property<string>("Value")
@@ -467,7 +467,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .HasColumnName("CurrencyTypeId");
 
                             b1.Property<decimal>("Value")
-                                .HasColumnType("decimal(18,2)")
+                                .HasColumnType("money")
                                 .HasColumnName("Price");
 
                             b1.HasKey("BoMRevisionMaterialId");
@@ -570,7 +570,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .HasColumnName("CurrencyTypeId");
 
                             b1.Property<decimal>("Value")
-                                .HasColumnType("decimal(18,2)")
+                                .HasColumnType("money")
                                 .HasColumnName("Price");
 
                             b1.HasKey("MaterialSupplierCostId");
@@ -602,7 +602,7 @@ namespace Infrastructure.Persistence.Migrations
                                 .HasColumnName("CurrencyTypeId");
 
                             b1.Property<decimal>("Value")
-                                .HasColumnType("decimal(18,2)")
+                                .HasColumnType("money")
                                 .HasColumnName("Surcharge");
 
                             b1.HasKey("MaterialSupplierCostId");

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Writes.EntityConfigurations.StronglyTypeIdConfigurations;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel.EntityTypeConfigurations;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Writes.EntityConfigurations;
 
@@ -23,20 +24,22 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
                .HasColumnName(nameof(MaterialSupplierCost.MinQuantity))
                .IsRequired();
 
-        builder.OwnsOne(x => x.Surcharge, j =>
-        {
-            j.Property(k => k.Value)
-                .HasColumnType("decimal(18,2)")
-                .HasColumnName(nameof(MaterialSupplierCost.Surcharge))
-                .IsRequired();
-
-            j.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
-            j.HasOne(k => k.CurrencyType)
-                .WithMany()
-                .HasForeignKey("CurrencyTypeId")
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
-        });
+        // builder.OwnsOne(x => x.Surcharge, j =>
+        // {
+        //     j.Property(k => k.Value)
+        //         .HasColumnType("decimal(18,2)")
+        //         .HasColumnName(nameof(MaterialSupplierCost.Surcharge))
+        //         .IsRequired();
+        //
+        //     j.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
+        //     j.HasOne(k => k.CurrencyType)
+        //         .WithMany()
+        //         .HasForeignKey("CurrencyTypeId")
+        //         .IsRequired()
+        //         .OnDelete(DeleteBehavior.NoAction);
+        // });
+        
+        builder.OwnsOne(x => x.Surcharge, j=> j.ConfigureMoney(nameof(MaterialSupplierCost.Surcharge)));
 
         // for MaterialId, due to Material will automatically define the relationships between Material and MaterialSupplierCost
         // it will auto generate MaterialId even though we don't specify configuration in Material. But Material will map
@@ -67,20 +70,22 @@ internal sealed class MaterialSupplierCostEntityTypeConfiguration : IEntityTypeC
                 .HasConversion<MaterialIdConverter>();
         });
 
-        builder.OwnsOne(k => k.Price, j =>
-        {
-            j.Property(k => k.Value)
-                .HasColumnType("decimal(18,2)")
-                .HasColumnName(nameof(MaterialSupplierCost.Price))
-                .IsRequired();
-
-            j.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
-            j.HasOne(k => k.CurrencyType)
-                .WithMany()
-                .HasForeignKey("CurrencyTypeId")
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
-        });
+        // builder.OwnsOne(k => k.Price, j =>
+        // {
+        //     j.Property(k => k.Value)
+        //         .HasColumnType("decimal(18,2)")
+        //         .HasColumnName(nameof(MaterialSupplierCost.Price))
+        //         .IsRequired();
+        //
+        //     j.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
+        //     j.HasOne(k => k.CurrencyType)
+        //         .WithMany()
+        //         .HasForeignKey("CurrencyTypeId")
+        //         .IsRequired()
+        //         .OnDelete(DeleteBehavior.NoAction);
+        // });
+        
+        builder.OwnsOne(k => k.Price, j=> j.ConfigureMoney(nameof(MaterialSupplierCost.Price)));
 
         // builder
         //     .HasOne<Material>()

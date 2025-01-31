@@ -35,8 +35,8 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
 
     public static Faker<MaterialSupplierCostCommand> CreateMaterialCostFaker(Guid id) =>
         new Faker<MaterialSupplierCostCommand>()
-            .RuleFor(x => x.Price, f => f.Random.UInt(1, 1_000_000_000)) // can be exceeded length in db, TODO: Write test for it
-            .RuleFor(x => x.Surcharge, f => f.Random.UInt(1, 1_000_000_000)) // can be exceeded length in db, TODO: Write test for it
+            .RuleFor(x => x.Price, f => decimal.Round(f.Random.Decimal(0.1m, 1_000_000_000), 4)) // can be exceeded length in db, TODO: Write test for it
+            .RuleFor(x => x.Surcharge, f => decimal.Round(f.Random.Decimal(0.1m, 1_000_000_000), 4)) // can be exceeded length in db, TODO: Write test for it
             .RuleFor(x => x.MinQuantity, f => f.Random.UInt(1, 1_000_000_000)) // can be exceeded length in db, TODO: Write test for it
             .RuleFor(x => x.SupplierId, id);
 

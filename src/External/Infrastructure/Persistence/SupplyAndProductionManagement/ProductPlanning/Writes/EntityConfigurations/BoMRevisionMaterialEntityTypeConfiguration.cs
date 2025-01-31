@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.SupplyAndProductionManagement.ProductionPlanning;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
+using Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel.EntityTypeConfigurations;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.ProductPlanning.Writes.EntityConfigurations;
 
@@ -46,19 +47,7 @@ internal sealed class BoMRevisionMaterialEntityTypeConfiguration : IEntityTypeCo
                 .HasForeignKey(x => x.MaterialId);
         });
 
-        builder.OwnsOne(x => x.Price, k =>
-        {
-            k.Property(l => l.Value)
-                .HasColumnName(nameof(BoMRevisionMaterial.Price))
-                .HasColumnType("decimal(18,2)").IsRequired();
-
-            k.Property<byte>("CurrencyTypeId").HasColumnName("CurrencyTypeId");
-            k.HasOne(x => x.CurrencyType)
-                .WithMany()
-                .HasForeignKey("CurrencyTypeId")
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
-        });
+        builder.OwnsOne(x => x.Price, k => k.ConfigureMoney(nameof(BoMRevisionMaterial.Price)));
 
         builder
             .Property(x => x.Unit)

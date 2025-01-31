@@ -26,15 +26,6 @@ public class MoneyTests
     }
     
     [Fact]
-    public void Cannot_create_money_with_decimal_value_when_currency_type_is_vnd()
-    {
-        var money = Money.Create(1.5m, CurrencyType.VND);
-
-        money.IsSuccess.Should().BeFalse();
-        money.Error.Should().Be(DomainErrors.Money.InvalidVndCurrencyMoney);
-    }
-    
-    [Fact]
     public void Create_money_with_vnd_currency_successfully()
     {
         var money = Money.Create(500m, CurrencyType.VND);

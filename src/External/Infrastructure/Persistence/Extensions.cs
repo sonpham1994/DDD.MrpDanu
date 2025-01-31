@@ -64,8 +64,7 @@ internal static class Extensions
             // TODO: maybe need cache this delegation func for improving performance: pls check Benchmark.Infrastructure/CacheDelegateFunction
             // for Infor: https://kevingosse.medium.com/performance-best-practices-in-c-b85a47bdd93a
             .Where(x => x.Entity.IsEntityAudit()
-                        && (x.State.IsModifiedEntityState()
-                            || (x.State == EntityState.Unchanged && x.IsInternalEntityModified()))
+                        && (x.State.IsModifiedEntityState() || x.IsInternalEntityModified())
                     )
             /*
              *  we need to create a list of audit tables this, not in GetAuditTables method. Because after saving
@@ -125,8 +124,8 @@ internal static class Extensions
         // for internal entities are object
         // for ValueObject with Owned Entity Type. The problem here is that whenever we reassign
         // the owned entity type, it always is a modified state, although the value of this remains unchanged
-        // Let's wait the ComplexType from .NET 8 to check whether is it addressed or not.
-        return entity.References.Any(j => j.IsModified)
+        // Let's wait the ComplexType from .NET 8 to check whether is it addressed or not. Complex can solove this
+        return entity.State == EntityState.Unchanged && entity.References.Any(j => j.IsModified)
                // for internal entities which are collections
                || entity.Collections.Any(j => j.IsModified);
     }

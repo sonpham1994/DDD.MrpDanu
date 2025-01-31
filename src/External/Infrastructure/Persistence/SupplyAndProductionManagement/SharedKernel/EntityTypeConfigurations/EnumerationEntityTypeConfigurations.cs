@@ -1,0 +1,5 @@
+﻿using SharedKernel.Enumerations;
+
+namespace Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel.EntityTypeConfigurations;
+
+internal sealed class CurrencyTypeEntityTypeConfiguration : BaseEnumerationConfiguration<CurrencyType>;
