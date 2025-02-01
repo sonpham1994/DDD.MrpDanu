@@ -28,6 +28,8 @@ public class DbContextTests
         var result = Types.InAssembly(InfrastructureAssembly.Instance)
         .That()
         .ImplementInterface(typeof(IEntityTypeConfiguration<>))
+        .And()
+        .AreNotAbstract()
         .Should()
         .BeSealed()
         .GetResult();

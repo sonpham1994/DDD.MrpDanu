@@ -24,7 +24,7 @@ internal sealed class ContactPersonInformationEntityTypeConfiguration : IEntityT
                 x => x.Value,
                 x => PersonName.Create(x).Value!);
 
-        builder.OwnsOne(x => x.ContactInformation, j =>
+        builder.ComplexProperty(x => x.ContactInformation, j =>
         {
             j.Property(k => k.Email)
                 .HasColumnName(nameof(ContactInformation.Email))

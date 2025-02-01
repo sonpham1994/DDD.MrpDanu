@@ -1,5 +1,6 @@
 using System.Net;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
@@ -26,6 +27,11 @@ public class DeleteTests(EndpointFactory endpointFactory)
 
         var transactionalPartners = await GetAllTransactionalPartnersAsync();
         transactionalPartners.Should().BeEmpty();
+        
+        var existsMaterialCost = await GetDatabaseFacade()
+            .SqlQuery<bool>($"SELECT TOP 1 Id FROM ContactPersonInformation WHERE Id = {id}")
+            .AnyAsync();
+        existsMaterialCost.Should().BeFalse();
         
         CreatedIds.Clear();
     }

@@ -14,7 +14,8 @@ public class DeleteTests(EndpointFactory apiFactory)
     public async Task Delete_Material_WhenIdIsValid()
     {
         // Arrange
-        var id = await SetupCreatingMaterialAsync();
+        var supplierId = await SetupCreatingSupplierTypeAsync();
+        var id = await SetupCreatingMaterialWithCostAsync(supplierId);
         
         // Act
         var response = await HttpClient.DeleteAsync($"{Endpoint}/{id}");
@@ -31,8 +32,10 @@ public class DeleteTests(EndpointFactory apiFactory)
         var materials = await GetAllMaterialsAsync();
         materials.Should().BeEmpty();
 
-        // var dbContext = ServiceProvider.GetRequiredService<AppDbContext>();
-        // var existsMaterialCost = dbContext.Database.SqlQuery<bool>($"SELECT TOP 1 Id FROM MaterialCost WHERE MaterialId = {id}");
+        var existsMaterialCost = await GetDatabaseFacade()
+            .SqlQuery<bool>($"SELECT TOP 1 Id FROM MaterialSupplierCost WHERE MaterialId = {id}")
+            .AnyAsync();
+        existsMaterialCost.Should().BeFalse();
         
         CreatedIds.Clear();
     }

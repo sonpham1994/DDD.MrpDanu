@@ -1,4 +1,6 @@
 using System.Net.Http.Json;
+using Infrastructure.Persistence.Writes;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MinimalApi.ApiResponses;
 
@@ -6,10 +8,10 @@ namespace Tests.Integration;
 
 public partial class SharedTests(EndpointFactory endpointFactory) : IAsyncLifetime
 {
-    //protected readonly IServiceProvider ServiceProvider = endpointFactory.ServiceProvider.CreateScope().ServiceProvider;
-    
     protected readonly HttpClient HttpClient = endpointFactory.CreateClient();
-    
+    protected IServiceScope ServiceScope { get; private set; }
+    private AppDbContext _appDbContext { get; set; }
+
     protected const string Host = "http://localhost";
     protected virtual string BaseEndpoint => string.Empty;
     protected virtual string Url => string.Empty;
@@ -24,10 +26,18 @@ public partial class SharedTests(EndpointFactory endpointFactory) : IAsyncLifeti
     {
         return await response.Content.ReadFromJsonAsync<ApiResponse<TResponse>>();
     }
+
+    protected DatabaseFacade GetDatabaseFacade()
+    {
+        return _appDbContext.Database;
+    }
     
     public Task InitializeAsync()
     {
         CreatedIds.Clear();
+        ServiceScope = endpointFactory.Services.CreateScope();
+        _appDbContext = ServiceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        
         return Task.CompletedTask;
     }
 
@@ -37,5 +47,8 @@ public partial class SharedTests(EndpointFactory endpointFactory) : IAsyncLifeti
         {
             await HttpClient.DeleteAsync($"{BaseEndpoint}/{createdId}");
         }
+        
+        ServiceScope.Dispose();
+        await _appDbContext.DisposeAsync();
     }
 }

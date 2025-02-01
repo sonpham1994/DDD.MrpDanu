@@ -27,8 +27,6 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
             .WithImage("mongo:latest")
             .Build();
     
-    public IServiceProvider ServiceProvider { get; private set; }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         // Don't log when run test.

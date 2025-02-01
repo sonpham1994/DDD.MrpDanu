@@ -7,7 +7,7 @@ public readonly struct GetListSupplierIdAndCurrencyTypeIdResult : IResult<IReadO
 {
     private readonly bool _isSuccess;
     private readonly DomainError _error;
-    
+
     private GetListSupplierIdAndCurrencyTypeIdResult(in bool isSuccess, in DomainError error, IReadOnlyList<SupplierIdWithCurrencyType> value)
     {
         _isSuccess = isSuccess;

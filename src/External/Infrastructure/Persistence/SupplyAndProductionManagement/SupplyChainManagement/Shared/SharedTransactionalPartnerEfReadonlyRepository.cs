@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Shared;
 
-internal class SharedTransactionalPartnerEfReadonlyRepository(AppDbContext context) : ISharedTransactionalPartnerReadonlyRepository
+internal sealed class SharedTransactionalPartnerEfReadonlyRepository(AppDbContext context) 
+    : ISharedTransactionalPartnerReadonlyRepository
 {
     //We cant put Contact Info Value Object as parameter, but it is not necessarily. On query side, we don't need 
     //to have any restrictions on write side (DDD). So we don't need to follow all the concepts of DDD on query side

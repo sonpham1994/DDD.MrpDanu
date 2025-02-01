@@ -174,9 +174,8 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
         
         foreach (var materialCostRequest in request)
         {
-            var costRequest = materialCostRequest;
             var materialCost = material.MaterialCostManagements
-                .FirstOrDefault(x => x.Supplier.Id == costRequest.SupplierId);
+                .FirstOrDefault(x => x.Supplier.Id == materialCostRequest.SupplierId);
 
             materialCost.Should().NotBeNull();
             materialCost.Supplier.Id.Should().Be(materialCostRequest.SupplierId);
