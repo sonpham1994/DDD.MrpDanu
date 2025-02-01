@@ -10,7 +10,7 @@ public partial class SharedTests(EndpointFactory endpointFactory) : IAsyncLifeti
 {
     protected readonly HttpClient HttpClient = endpointFactory.CreateClient();
     protected IServiceScope ServiceScope { get; private set; }
-    private AppDbContext _appDbContext { get; set; }
+    private AppDbContext _appDbContext;
 
     protected const string Host = "http://localhost";
     protected virtual string BaseEndpoint => string.Empty;
