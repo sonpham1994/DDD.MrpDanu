@@ -1,3 +1,4 @@
+using System.Reflection;
 using SharedKernel;
 using SharedKernel.Exceptions;
 using FluentAssertions;
@@ -19,7 +20,7 @@ public class ResultTests
         foreach (var resultType in resultTypes)
         {
             IResult instance = (IResult)Activator.CreateInstance(resultType)!;
-            instance.Invoking(x => x.IsSuccess).Should().Throw<DomainException>();
+            instance.Invoking(x => x.IsSuccess).Should().Throw<SafeFailResultDomainException>();
         }
     }
 
@@ -36,26 +37,33 @@ public class ResultTests
         foreach (var resultType in resultTypes)
         {
             IResult instance = (IResult)Activator.CreateInstance(resultType)!;
-            instance.Invoking(x => x.Error).Should().Throw<DomainException>();
+            instance.Invoking(x => x.Error).Should().Throw<SafeFailResultDomainException>();
         }
     }
 
     [Fact]
     public void Create_result_generic_instance_with_parameterless_and_accesses_value_should_throw_exception()
     {
-        var interfaceResultType = typeof(IResult);
-        Type targetType = typeof(int);
+        var interfaceResultType = typeof(IResult<>);
         var resultTypes = DomainAssembly.Instance
-          .GetTypes()
-          .Where(x => interfaceResultType.IsAssignableFrom(x)
-              && !x.IsInterface
-              && x.IsGenericTypeDefinition).ToList();
+            .GetTypes()
+            .Where(t => t.GetInterfaces()
+                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceResultType))
+            .ToArray();
 
         foreach (var resultType in resultTypes)
         {
-            Type constructedType = resultType.MakeGenericType(targetType);
-            var instance = (IResult<int>)Activator.CreateInstance(constructedType)!;
-            instance.Invoking(x => x.Value).Should().Throw<DomainException>();
+            var instance = Activator.CreateInstance(resultType);
+            var valueProperty = instance!.GetType().GetProperty(nameof(IResult<int>.Value));
+            
+            // because it throws SafeFailWithCodeResultDomainException inside TargetInvocationException
+            valueProperty.Invoking(x => x.GetValue(instance))
+                .Should()
+                .Throw<TargetInvocationException>()
+                .Which
+                .InnerException
+                .Should()
+                .BeOfType<SafeFailWithCodeResultDomainException>();
         }
     }
 
