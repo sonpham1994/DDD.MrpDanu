@@ -45,6 +45,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		README.md = README.md
 		Directory.Build.props = Directory.Build.props
 		docker-compose.mongodb-replica-set.yml = docker-compose.mongodb-replica-set.yml
+		.github\workflows\build-and-deploy-to-azure-app-service.txt = .github\workflows\build-and-deploy-to-azure-app-service.txt
+		.github\workflows\oidc-build-and-deploy-to-azure-app-service.txt = .github\workflows\oidc-build-and-deploy-to-azure-app-service.txt
+		.github\workflows\deploy-to-azure.txt = .github\workflows\deploy-to-azure.txt
+		.github\workflows\master_sammrp_generatedFromAzure.txt = .github\workflows\master_sammrp_generatedFromAzure.txt
+		.github\workflows\sonar-cloud.txt = .github\workflows\sonar-cloud.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\Core\SharedKernel\SharedKernel.csproj", "{CD4216DA-AD49-42B7-B245-6EEADEB0EDC3}"
