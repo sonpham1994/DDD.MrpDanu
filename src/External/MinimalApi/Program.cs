@@ -99,6 +99,13 @@ using (var serviceScope = app.Services.CreateScope())
     await factory.ApplyMigrationsAsync();
 }
 
+/*
+ * TODO: Apply Migration bundle when deploy to server using CI/CD, put the migration in separately project in order to
+ * ignore this project when deploying the api project which reduces the size. The Api project don't need lines of code
+ * from Migrations
+ * https://www.youtube.com/shorts/h_OUpxeyvT0
+ */
+
 app.Run();
 
 public class ProgramMinimalApi { } // Integration test
