@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Application.LoggingDefinitions;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.LoggingDefinitions;
@@ -41,16 +42,14 @@ internal static class PerformanceDetectionCommandInterceptorLoggingDefinition
     //     var traceId = Helper.GetTraceId();
     //     StartLogLongDbCommandLoggingDefinition(logger, traceId, methodName, durationInMilliSeconds, parameters, DateTime.UtcNow, commandText, null);
     // }
-    
+
+    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage;
     private static readonly Action<ILogger, string, EventId, string, double,  DateTime, string, Exception?> StartLogLongDbCommandLoggingDefinition =
         LoggerMessage.Define<string, EventId, string, double, DateTime, string>
         (
             LogLevel.Warning,
             0,
-            """
-            LoggingType: {LoggingType} - EventId: {@EventId} - {MethodName} - Executed DbCommand ({ExecutedDbCommandTime}) milliseconds in a long time, Time={@DateTimeUtcNow}
-            CommandText: {CommandText}
-            """
+            MessageLoggingDefinition + " - EventId: {@EventId} - {MethodName} - Executed DbCommand ({ExecutedDbCommandTime}) milliseconds in a long time, Time={@DateTimeUtcNow} CommandText: {CommandText}"
         );
 
     public static void StartLogLongDbCommand(this ILogger logger,

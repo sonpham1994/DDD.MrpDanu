@@ -5,22 +5,23 @@ namespace Application.LoggingDefinitions;
 
 internal static class HandlerLoggingInterceptorLoggingDefinition
 {
+    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
+    
     private static readonly Action<ILogger, string, string, string, DateTime, Exception?> StartHandlerLoggingDefinition =
         LoggerMessage.Define<string, string, string, DateTime>(LogLevel.Information, 0,
-            "LoggingType: {LoggingType} - HandlerName: {HandlerName} start: RequestName: {RequestName} - Time: {@DateTimeUtc}");
+            MessageLoggingDefinition + " - Time: {@DateTimeUtc}");
 
     private static readonly Action<ILogger, string, string, string, DateTime, double, Exception?> CompletedHandlerLoggingDefinition =
             LoggerMessage.Define<string, string, string, DateTime, double>(LogLevel.Information, 0,
-                "LoggingType: {LoggingType} - HandlerName: {HandlerName} completed: RequestName: {RequestName} - Time: {@DateTimeUtc} in {ElapsedMs}ms");
+                MessageLoggingDefinition + " - Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     private static readonly Action<ILogger, string, string, string, DateTime, double, Exception?> CompletedLongHandlerLoggingDefinition =
             LoggerMessage.Define<string, string, string, DateTime, double>(LogLevel.Warning, 0,
-                "LoggingType: {LoggingType} - HandlerName: {HandlerName} completed in a long time: RequestName: {RequestName} - Time: {@DateTimeUtc} in {ElapsedMs}ms");
+                MessageLoggingDefinition + " - completed in a long time - Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     private static readonly Action<ILogger, string, string, string, DomainError, DateTime, double, Exception?> HandleFailureLoggingDefinition =
             LoggerMessage.Define<string, string, string, DomainError, DateTime, double>(LogLevel.Warning, 0,
-                "LoggingType: {LoggingType} - HandlerName: {HandlerName} handled with error: RequestName: {RequestName} - Error: {@DomainError} - Time: {@DateTimeUtc} in {ElapsedMs}ms");
-
+                MessageLoggingDefinition + " - failed with error: {@DomainError} - Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     public static void StartHandler(this ILogger logger, string handlerName, string requestTypeName)
     {

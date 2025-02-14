@@ -16,13 +16,15 @@ namespace Application.LoggingDefinitions;
 */
 internal static class RequestLoggingInterceptorLoggingDefinition
 {
+    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - RequestName: {RequestName}";
+    
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartRequestLoggingDefinition =
         LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-            "LoggingType: {LoggingType} - RequestName: {RequestName} start - Time: {@DateTimeUtc}");
+            MessageLoggingDefinition + " start - Time: {@DateTimeUtc}");
     
     private static readonly Action<ILogger, string, string, bool, DomainError, DateTime, Exception?> CompletedRequestLoggingDefinition =
         LoggerMessage.Define<string, string, bool, DomainError, DateTime>(LogLevel.Information, 0,
-            "LoggingType: {LoggingType} - RequestName: {RequestName} completed - ResponseIsSuccess: {ResponseIsSuccess} - Error: {@ResponseError} - Time: {@DateTimeUtc}");
+            MessageLoggingDefinition + " completed - ResponseIsSuccess: {ResponseIsSuccess} - Error: {@ResponseError} - Time: {@DateTimeUtc}");
     
     public static void StartRequest<TRequest>(this ILogger logger, TRequest _)
     {

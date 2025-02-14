@@ -1,7 +1,11 @@
-﻿namespace MinimalApi.LoggingDefinitions;
+﻿using Application.LoggingDefinitions;
+
+namespace MinimalApi.LoggingDefinitions;
 
 public static class ValidationOptionLoggingDefinition
 {
+    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - ValidationOptionType: {ValidationOptionType}";
+    
     //These format cannot be cleaned up event if using char[]. Hence we dont' need to create char array for this case.
     // But we can use Console.Error.WriteLine, it can be cleaned up with GC.Collect(2)
     // and but because it will run at once, and if this log runs, the system will fail and shutdown, so we don't need
@@ -9,15 +13,15 @@ public static class ValidationOptionLoggingDefinition
     //Please check TestGcForString project
     private static readonly Action<ILogger, string, string, DateTime, Exception?> _startValidationOption =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           "LoggingType: {LoggingType} - ValidationOptionType: {ValidationOptionType} start, Time: {@DateTimeUtc}");
+           MessageLoggingDefinition + " start, Time: {@DateTimeUtc}");
 
     private static readonly Action<ILogger, string, string, DateTime, Exception?> _completedValidationOption =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           "LoggingType: {LoggingType} - ValidationOptionType: {ValidationOptionType} completed, Time: {@DateTimeUtc}");
+           MessageLoggingDefinition+ " completed, Time: {@DateTimeUtc}");
 
     private static readonly Action<ILogger, string, string, string, DateTime, Exception?> _validateOptionWithError =
         LoggerMessage.Define<string, string, string, DateTime>(LogLevel.Error, 0,
-            "LoggingType: {LoggingType} - ValidationOptionType: {ValidationOptionType} failed with error: {ErrorValidationOptionTypeMessage}, Time: {@DateTimeUtc}");
+            MessageLoggingDefinition + " failed with error: {ErrorValidationOptionTypeMessage}, Time: {@DateTimeUtc}");
 
     public static void StartValidationOption(this ILogger logger, string validationOptionType)
     {

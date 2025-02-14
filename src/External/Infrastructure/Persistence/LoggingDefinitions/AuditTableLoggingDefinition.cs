@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Application.LoggingDefinitions;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.LoggingDefinitions;
 
@@ -11,17 +12,19 @@ namespace Infrastructure.Persistence.LoggingDefinitions;
  */
 internal static class AuditTableLoggingDefinition
 {
+    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + "  - Insertion AuditTable";
+    
     private static readonly Action<ILogger, string, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, DateTime>(LogLevel.Information, 0,
-           "LoggingType: {LoggingType} - Insertion AuditTable start: Time: {@DateTimeUtc}");
+           MessageLoggingDefinition + " start: Time: {@DateTimeUtc}");
 
     private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, DateTime, double>(LogLevel.Information, 0,
-           "LoggingType: {LoggingType} - Insertion AuditTable completed: Time: {@DateTimeUtc} in {ElapsedMs}ms");
+           MessageLoggingDefinition + " completed: Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLongLogAuditTableLoggingDefinition =
         LoggerMessage.Define<string, DateTime, double>(LogLevel.Warning, 0,
-            "LoggingType: {LoggingType} - Insertion AuditTable completed in a long time: Time: {@DateTimeUtc} in {ElapsedMs}ms");
+            MessageLoggingDefinition + " completed in a long time: Time: {@DateTimeUtc} in {ElapsedMs}ms");
 
     public static void StartLogAuditTable(this ILogger logger)
     {

@@ -1,14 +1,18 @@
+using Application.LoggingDefinitions;
+
 namespace MinimalApi.LoggingDefinitions;
 
 public static class GcEventListenerLoggingDefinition
 {
+    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - GC Event: {GCEventName}";
+    
     private static readonly Action<ILogger, string, string, IDictionary<string, object>, DateTime, Exception?> GcEventOccurrence =
         LoggerMessage.Define<string, string, IDictionary<string, object>, DateTime>(LogLevel.Warning, 0,
-            "LoggingType: {LoggingType} - GC Event: {GCEventName}, GcData: {@GcData}, Time generated: {@TimeGenerated}");
+            MessageLoggingDefinition + ", GcData: {@GcData}, Time generated: {@TimeGenerated}");
 
     private static readonly Action<ILogger, string, string?, int, int, DateTime, Exception?> GcEventOccurrenceAtGeneration =
         LoggerMessage.Define<string, string?, int, int, DateTime>(LogLevel.Warning, 0,
-    "LoggingType: {LoggingType} - GC Event: {GCEventName} at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}");
+            MessageLoggingDefinition + " at Generation {GenerationNumber} has occured with {GCCollectionTimes} times, Time generated: {@TimeGenerated}");
         
     public static void LogGcEvent(this ILogger logger, string eventName, IDictionary<string, object> eventPayload)
     {
