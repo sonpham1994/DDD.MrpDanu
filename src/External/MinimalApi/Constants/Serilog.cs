@@ -8,9 +8,10 @@ public static class Serilog
     // in High-Frequency heap and then they are eligible for collection of GC. Please check TestGcForString project
     //Please check Benchmark/StringInternOrHighFrequencyHeap
     //string: SerilogSettings
-    private static char[] ConfigurationNameChars => ['S', 'e', 'r', 'i', 'l', 'o', 'g'];
+    // Please check ReadOnlySpanBenchmark for ReadOnlySpan<char>
+    private static ReadOnlySpan<char> ConfigurationNameChars => ['S', 'e', 'r', 'i', 'l', 'o', 'g'];
 
-    private static char[] ApplicationInsightsChars =>
+    private static ReadOnlySpan<char> ApplicationInsightsChars =>
     [
         'A', 'p', 'p', 'l', 'i', 'c', 'a', 't', 'i', 'o', 'n', 'I', 'n', 's', 'i', 'g', 'h', 't', 's'
     ];

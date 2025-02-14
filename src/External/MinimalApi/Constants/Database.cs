@@ -7,8 +7,8 @@ public static class Database
     // These value on high-frequency heap are never collected. By creating string as char[], these value will not live
     // in High-Frequency heap and then they are eligible for collection of GC. Please check TestGcForString project
     //Please check Benchmark/StringInternOrHighFrequencyHeap
-    private static char[] DatabaseChars => ['D', 'a', 't', 'a', 'b', 'a', 's', 'e'];
-    private static char[] ConfigurationNameChars => [..DatabaseChars, ..CommonConstants.SettingsChars];
-    public static string ConfigurationName => new(ConfigurationNameChars);
+    // Please check ReadOnlySpanBenchmark for ReadOnlySpan<char>
+    private static ReadOnlySpan<char> DatabaseChars => ['D', 'a', 't', 'a', 'b', 'a', 's', 'e'];
+    public static string ConfigurationName => new([..DatabaseChars, ..CommonConstants.SettingsChars]);
     public static string DatabaseString => new(DatabaseChars);
 }

@@ -23,11 +23,12 @@ using Benchmark.ValueObjectEqualsBoxing;
 using Benchmark.FirstOrDefaultVsFind;
 using Benchmark.RecordStructs;
 using Benchmark.ExistsOrAny;
+using Benchmark.ReadOnlySpan;
 
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<RecordStructWithInterfaceMethodBenchmark>();
+BenchmarkRunner.Run<ReadOnlySpanBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();

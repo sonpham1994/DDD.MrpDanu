@@ -38,35 +38,36 @@ public static class MigrationExtensions
             // These value on high-frequency heap are never collected. By creating string as char[], these value will not live
             // in High-Frequency heap and then they are eligible for collection of GC. Please check TestGcForString project
             // Please check Benchmark/StringInternOrHighFrequencyHeap
-            char[] materialTypeChars = ['M', 'a', 't', 'e', 'r', 'i', 'a', 'l', 'T', 'y', 'p', 'e'];
+            // Please check ReadOnlySpanBenchmark for ReadOnlySpan<char>
+            ReadOnlySpan<char> materialTypeChars = ['M', 'a', 't', 'e', 'r', 'i', 'a', 'l', 'T', 'y', 'p', 'e'];
             await InsertEnumerationAsync(list, new string(materialTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<RegionalMarket>().AnyAsync())
         {
             var list = RegionalMarket.List.Where(x => x.Id > 0).ToList();
-            char[] regionalMarketChars = ['R', 'e', 'g', 'i', 'o', 'n', 'a', 'l', 'M', 'a', 'r', 'k', 'e', 't'];
+            ReadOnlySpan<char> regionalMarketChars = ['R', 'e', 'g', 'i', 'o', 'n', 'a', 'l', 'M', 'a', 'r', 'k', 'e', 't'];
             await InsertEnumerationAsyncWithCode(list, new string(regionalMarketChars), dbContext);
         }
 
         if (!await dbContext.Set<CurrencyType>().AnyAsync())
         {
             var list = CurrencyType.List.Where(x => x.Id > 0).ToList();
-            char[] currencyTypeChars = ['C', 'u', 'r', 'r', 'e', 'n', 'c', 'y', 'T', 'y', 'p', 'e'];
+            ReadOnlySpan<char> currencyTypeChars = ['C', 'u', 'r', 'r', 'e', 'n', 'c', 'y', 'T', 'y', 'p', 'e'];
             await InsertEnumerationAsync(list, new string(currencyTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<LocationType>().AnyAsync())
         {
             var list = LocationType.List.Where(x => x.Id > 0).ToList();
-            char[] locationTypeChars = ['L', 'o', 'c', 'a', 't', 'i', 'o', 'n', 'T', 'y', 'p', 'e'];
+            ReadOnlySpan<char> locationTypeChars = ['L', 'o', 'c', 'a', 't', 'i', 'o', 'n', 'T', 'y', 'p', 'e'];
             await InsertEnumerationAsync(list, new string(locationTypeChars), dbContext);
         }
 
         if (!await dbContext.Set<TransactionalPartnerType>().AnyAsync())
         {
             var list = TransactionalPartnerType.List.Where(x => x.Id > 0).ToList();
-            char[] transactionalPartnerTypeChars =
+            ReadOnlySpan<char> transactionalPartnerTypeChars =
             [
                 'T', 'r', 'a', 'n', 's', 'a', 'c', 't', 'i', 'o', 'n', 'a', 'l', 'P', 'a', 'r', 't', 'n', 'e', 'r', 'T', 'y', 'p', 'e'
             ];
@@ -76,14 +77,14 @@ public static class MigrationExtensions
         if (!await dbContext.Set<Country>().AnyAsync())
         {
             var list = Country.List.Where(x => x.Id > 0).ToList();
-            char[] countryChars = ['C', 'o', 'u', 'n', 't', 'r', 'y'];
+            ReadOnlySpan<char> countryChars = ['C', 'o', 'u', 'n', 't', 'r', 'y'];
             await InsertEnumerationAsyncWithCode(list, new string(countryChars), dbContext);
         }
 
         if (!await externalDbContext.Set<StateAuditTable>().AnyAsync())
         {
             var list = StateAuditTable.List.Where(x => x.Id > 0).ToList();
-            char[] stateAuditTableChars = ['S', 't', 'a', 't', 'e', 'A', 'u', 'd', 'i', 't', 'T', 'a', 'b', 'l', 'e'];
+            ReadOnlySpan<char> stateAuditTableChars = ['S', 't', 'a', 't', 'e', 'A', 'u', 'd', 'i', 't', 'T', 'a', 'b', 'l', 'e'];
             await InsertEnumerationAsync(list, new string(stateAuditTableChars), externalDbContext);
         }
     }

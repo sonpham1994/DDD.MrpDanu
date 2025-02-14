@@ -7,7 +7,8 @@ public static class FeatureFlags
     // These value on high-frequency heap are never collected. By creating string as char[], these value will not live
     // in High-Frequency heap and then they are eligible for collection of GC. Please check TestGcForString project
     //Please check Benchmark/StringInternOrHighFrequencyHeap
-    private static char[] ConfigurationNameChars => ['F', 'e', 'a', 't', 'u', 'r', 'e', 'F', 'l', 'a', 'g', 's'];
+    // Please check ReadOnlySpanBenchmark for ReadOnlySpan<char>
+    private static ReadOnlySpan<char> ConfigurationNameChars => ['F', 'e', 'a', 't', 'u', 'r', 'e', 'F', 'l', 'a', 'g', 's'];
     public static string ConfigurationName => new(ConfigurationNameChars);
     
     public const string GcEventListener = "GcEventListener";

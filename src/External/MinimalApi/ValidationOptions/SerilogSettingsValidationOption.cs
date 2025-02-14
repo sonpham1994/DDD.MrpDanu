@@ -16,6 +16,9 @@ public sealed class SerilogSettingsValidationOption(IWebHostEnvironment environm
             
             if (options.WriteTo.Count == 0)
             {
+                //we don't need to create char[] as representation of string because when code hit this, it means your app
+                // will fail to start app, and it will shut down your app. After you reconfigure correctly, it will restart
+                // if you change configuration, this will re-run
                 logger.ValidateOptionWithError(validationOptionType, "WriteTo is empty");
                 return ValidateOptionsResult.Fail("WriteTo is empty");
             }
