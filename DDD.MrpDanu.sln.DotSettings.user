@@ -67,15 +67,16 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AType_002ECoreCLR_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F7e333a9f3297ba553cccfd3b7c3f1f96125b23d09f883e4d6e66d531559a4c_003FType_002ECoreCLR_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidateOptionsResult_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F728062cbf4f62ed8eda2cc948368227a2c54cae9679f89fb68c439f71b7576_003FValidateOptionsResult_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AWebApplicationFactory_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F255f916e5a2d424ef01b291afc761e049b367614440bf4b216824ec479064b_003FWebApplicationFactory_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b38f838d_002D85dd_002D4ad2_002D96d7_002D9bc15aba90bc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAll_ReturnsEmptyResult_WhenNoMaterialsExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Tests.Integration" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Tests.Integration&amp;gt;" /&gt;
-    &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;
-    &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;
-    &lt;ProjectFile&gt;F53BD83D-1319-4567-9E0B-D5021BFC7DEC/d:MaterialManagement/d:TransactionalPartnerAggregate/d:Commands/f:CreateTransactionalPartnerTests.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b38f838d_002D85dd_002D4ad2_002D96d7_002D9bc15aba90bc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAll_ReturnsEmptyResult_WhenNoMaterialsExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="\Users\sampham\Projects\SonPhamProjects\MRP.Danu\DDD.MrpDanu\Tests\Tests.Integration" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Tests.Integration&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="\Users\sampham\Projects\SonPhamProjects\MRP.Danu\DDD.MrpDanu\Tests\Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="\Users\sampham\Projects\SonPhamProjects\MRP.Danu\DDD.MrpDanu\Tests\Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;&#xD;
+    &lt;ProjectFile&gt;F53BD83D-1319-4567-9E0B-D5021BFC7DEC/d:MaterialManagement/d:TransactionalPartnerAggregate/d:Commands/f:CreateTransactionalPartnerTests.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=817074bb_002Dba6b_002D4f8a_002Db286_002Df6e93b8ffcdd_0023Api/@EntryIndexedValue">True</s:Boolean>
+	
 	
 	
 	

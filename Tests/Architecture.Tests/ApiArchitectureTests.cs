@@ -1,5 +1,5 @@
-﻿using Api;
-using FluentAssertions;
+﻿using FluentAssertions;
+using MinimalApi;
 using NetArchTest.Rules;
 
 //https://www.youtube.com/watch?v=_D6Kai4RdGY&t=536s
@@ -21,7 +21,7 @@ public class ApiArchitectureTests
     [Fact]
     public void Controllers_should_have_dependency_on_MediatR()
     {
-        var webAssembly = ApiAssembly.Instance;
+        var webAssembly = MinimalApiAssembly.Instance;
 
         var result = Types.InAssembly(webAssembly)
             .That()
@@ -36,7 +36,7 @@ public class ApiArchitectureTests
     [Fact]
     public void Controllers_should_have_not_dependency_on_Application_interfaces()
     {
-        var webAssembly = ApiAssembly.Instance;
+        var webAssembly = MinimalApiAssembly.Instance;
 
         var result = Types.InAssembly(webAssembly)
             .That()

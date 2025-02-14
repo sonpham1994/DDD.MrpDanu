@@ -28,7 +28,7 @@ Framework and Libraries:
   - Serilog
   - MediatR
   - FluentValidation
-  - FluentAssertions
+  - Shoudly
   - Dapper
   - NetArchTest.Rules
   - xUnit
