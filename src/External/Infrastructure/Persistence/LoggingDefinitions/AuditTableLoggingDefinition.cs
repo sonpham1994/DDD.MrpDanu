@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence.LoggingDefinitions;
  */
 internal static class AuditTableLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + "  - Insertion AuditTable";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + "  - Insertion AuditTable";
     
     private static readonly Action<ILogger, string, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, DateTime>(LogLevel.Information, 0,

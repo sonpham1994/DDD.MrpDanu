@@ -4,7 +4,7 @@ namespace Application.LoggingDefinitions;
 
 internal static class GcLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGcLoggingDefinition =
         LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Debug, 0,

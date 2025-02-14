@@ -43,7 +43,7 @@ internal static class PerformanceDetectionCommandInterceptorLoggingDefinition
     //     StartLogLongDbCommandLoggingDefinition(logger, traceId, methodName, durationInMilliSeconds, parameters, DateTime.UtcNow, commandText, null);
     // }
 
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage;
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage;
     private static readonly Action<ILogger, string, EventId, string, double,  DateTime, string, Exception?> StartLogLongDbCommandLoggingDefinition =
         LoggerMessage.Define<string, EventId, string, double, DateTime, string>
         (

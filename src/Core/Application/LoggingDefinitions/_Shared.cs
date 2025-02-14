@@ -1,6 +1,6 @@
 ﻿namespace Application.LoggingDefinitions;
 
-public static class SharedLoggingDefinitions
+public static class SharedLoggingDefinition
 {
     public const string LoggingMessage = "LoggingType: {LoggingType}";
 }

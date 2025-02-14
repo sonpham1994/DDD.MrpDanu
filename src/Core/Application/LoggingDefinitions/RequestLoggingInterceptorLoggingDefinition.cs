@@ -16,7 +16,7 @@ namespace Application.LoggingDefinitions;
 */
 internal static class RequestLoggingInterceptorLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - RequestName: {RequestName}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartRequestLoggingDefinition =
         LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,

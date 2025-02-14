@@ -5,7 +5,7 @@ namespace Application.LoggingDefinitions;
 
 internal static class HandlerLoggingInterceptorLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, string, DateTime, Exception?> StartHandlerLoggingDefinition =
         LoggerMessage.Define<string, string, string, DateTime>(LogLevel.Information, 0,

@@ -5,7 +5,7 @@ namespace Application.LoggingDefinitions;
 
 internal static class ValidatorInterceptorLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - Command Validation's {CommandType}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Command Validation's {CommandType}";
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartValidationLoggingDefinition =
         LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,

@@ -4,7 +4,7 @@ namespace MinimalApi.LoggingDefinitions;
 
 public static class GcEventListenerLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - GC Event: {GCEventName}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - GC Event: {GCEventName}";
     
     private static readonly Action<ILogger, string, string, IDictionary<string, object>, DateTime, Exception?> GcEventOccurrence =
         LoggerMessage.Define<string, string, IDictionary<string, object>, DateTime>(LogLevel.Warning, 0,

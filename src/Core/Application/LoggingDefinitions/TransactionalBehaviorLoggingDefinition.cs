@@ -4,7 +4,7 @@ namespace Application.LoggingDefinitions;
 
 internal static class TransactionalBehaviorLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - Transactional operation's {RequestName}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Transactional operation's {RequestName}";
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartTransactionalBehaviorLoggingDefinition =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,

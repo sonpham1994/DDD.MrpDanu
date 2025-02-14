@@ -4,7 +4,7 @@ namespace MinimalApi.LoggingDefinitions;
 
 public static class ValidationOptionLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinitions.LoggingMessage + " - ValidationOptionType: {ValidationOptionType}";
+    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - ValidationOptionType: {ValidationOptionType}";
     
     //These format cannot be cleaned up event if using char[]. Hence we dont' need to create char array for this case.
     // But we can use Console.Error.WriteLine, it can be cleaned up with GC.Collect(2)
