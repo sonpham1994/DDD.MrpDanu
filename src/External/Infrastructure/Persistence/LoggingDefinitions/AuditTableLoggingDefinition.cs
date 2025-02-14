@@ -12,19 +12,20 @@ namespace Infrastructure.Persistence.LoggingDefinitions;
  */
 internal static class AuditTableLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + "  - Insertion AuditTable";
+    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Insertion AuditTable";
+    private const string SuffixMessage = SharedLoggingDefinition.Suffix + " in {ElapsedMs}ms";
     
     private static readonly Action<ILogger, string, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, DateTime>(LogLevel.Information, 0,
-           MessageLoggingDefinition + " start: Time: {@DateTimeUtc}");
+           MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, DateTime, double>(LogLevel.Information, 0,
-           MessageLoggingDefinition + " completed: Time: {@DateTimeUtc} in {ElapsedMs}ms");
+           MessageLogging + SharedLoggingDefinition.Completed + SuffixMessage);
 
     private static readonly Action<ILogger, string, DateTime, double, Exception?> CompletedLongLogAuditTableLoggingDefinition =
         LoggerMessage.Define<string, DateTime, double>(LogLevel.Warning, 0,
-            MessageLoggingDefinition + " completed in a long time: Time: {@DateTimeUtc} in {ElapsedMs}ms");
+            MessageLogging + SharedLoggingDefinition.Completed + " in a long time" + SuffixMessage);
 
     public static void StartLogAuditTable(this ILogger logger)
     {

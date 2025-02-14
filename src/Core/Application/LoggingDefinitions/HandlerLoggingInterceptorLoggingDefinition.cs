@@ -5,23 +5,24 @@ namespace Application.LoggingDefinitions;
 
 internal static class HandlerLoggingInterceptorLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
+    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Handler: {Handler} - RequestName: {RequestName}";
+    private const string SuffixMessage = SharedLoggingDefinition.Suffix + " in {ElapsedMs}ms";
     
     private static readonly Action<ILogger, string, string, string, DateTime, Exception?> StartHandlerLoggingDefinition =
         LoggerMessage.Define<string, string, string, DateTime>(LogLevel.Information, 0,
-            MessageLoggingDefinition + " - Time: {@DateTimeUtc}");
+            MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, string, string, DateTime, double, Exception?> CompletedHandlerLoggingDefinition =
             LoggerMessage.Define<string, string, string, DateTime, double>(LogLevel.Information, 0,
-                MessageLoggingDefinition + " - Time: {@DateTimeUtc} in {ElapsedMs}ms");
+                MessageLogging + SharedLoggingDefinition.Completed + SuffixMessage);
 
     private static readonly Action<ILogger, string, string, string, DateTime, double, Exception?> CompletedLongHandlerLoggingDefinition =
             LoggerMessage.Define<string, string, string, DateTime, double>(LogLevel.Warning, 0,
-                MessageLoggingDefinition + " - completed in a long time - Time: {@DateTimeUtc} in {ElapsedMs}ms");
+                MessageLogging + SharedLoggingDefinition.Completed + " in a long time" + SuffixMessage);
 
     private static readonly Action<ILogger, string, string, string, DomainError, DateTime, double, Exception?> HandleFailureLoggingDefinition =
             LoggerMessage.Define<string, string, string, DomainError, DateTime, double>(LogLevel.Warning, 0,
-                MessageLoggingDefinition + " - failed with error: {@DomainError} - Time: {@DateTimeUtc} in {ElapsedMs}ms");
+                MessageLogging + SharedLoggingDefinition.FailedWithDomainError + SuffixMessage);
 
     public static void StartHandler(this ILogger logger, string handlerName, string requestTypeName)
     {

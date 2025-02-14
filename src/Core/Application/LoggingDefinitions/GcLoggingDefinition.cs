@@ -4,14 +4,14 @@ namespace Application.LoggingDefinitions;
 
 internal static class GcLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Handler: {Handler} start: RequestName: {RequestName}";
+    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Handler: {Handler} start: RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGcLoggingDefinition =
         LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Debug, 0,
-            MessageLoggingDefinition + " - at Generation {Generation} has occured with {GCCollectionTimes} times - Time: {@DateTimeUtc}");
+            MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" + SharedLoggingDefinition.Suffix);
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGc2LoggingDefinition =
         LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Critical, 0,
-            MessageLoggingDefinition + " - at Generation {Generation} has occured with {GCCollectionTimes} times - Time: {@DateTimeUtc}");
+            MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" +SharedLoggingDefinition.Suffix);
     
     public static void GcGenerationLogging(this ILogger logger, 
         string handlerName, 

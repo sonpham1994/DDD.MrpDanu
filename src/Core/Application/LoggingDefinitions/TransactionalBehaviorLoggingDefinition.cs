@@ -4,15 +4,15 @@ namespace Application.LoggingDefinitions;
 
 internal static class TransactionalBehaviorLoggingDefinition
 {
-    private const string MessageLoggingDefinition = SharedLoggingDefinition.LoggingMessage + " - Transactional operation's {RequestName}";
+    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Transactional operation's {RequestName}";
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartTransactionalBehaviorLoggingDefinition =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           MessageLoggingDefinition + " start - Time: {@DateTimeUtc}");
+           MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, string, DateTime, Exception?> CompletedTransactionalBehaviorLoggingDefinition =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           MessageLoggingDefinition + " completed - Time: {@DateTimeUtc}");
+           MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.Suffix);
 
     public static void StartTransactionalBehavior(this ILogger logger, string requestName)
     {
