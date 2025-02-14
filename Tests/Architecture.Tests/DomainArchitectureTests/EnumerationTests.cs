@@ -1,7 +1,7 @@
 using Architecture.Tests.Helpers;
 using Domain;
 using SharedKernel;
-using FluentAssertions;
+using Shouldly;
 
 namespace Architecture.Tests.DomainArchitectureTests;
 
@@ -19,7 +19,7 @@ public class EnumerationTests
 
         var result = properties.Any(x => !x.IsNoSetter());
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
     
     [Fact]
@@ -34,7 +34,7 @@ public class EnumerationTests
 
         var result = fields.Any(x => !x.IsInitOnly);
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
     
     [Fact]
@@ -49,6 +49,6 @@ public class EnumerationTests
 
         var result = fields.Any(x => !x.IsStatic);
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

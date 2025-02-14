@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using FluentAssertions;
+using Shouldly;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
@@ -17,19 +17,19 @@ public class CreateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
         var createdResponse = await ReadFromJsonAsync<Guid>(response);
         var transactionalPartnerId = createdResponse!.Result;
-        response.Headers.Location!.ToString().Should().Be($"{Url}/{transactionalPartnerId}");
-        createdResponse.IsSuccess.Should().BeTrue();
-        createdResponse.Errors.Should().BeEmpty();
+        response.Headers.Location!.ToString().ShouldBe($"{Url}/{transactionalPartnerId}");
+        createdResponse.IsSuccess.ShouldBeTrue();
+        createdResponse.Errors.ShouldBeEmpty();
 
         await EnsureEqualAsync(transactionalPartnerId, request);
 
         var transactionalPartners = await GetAllTransactionalPartnersAsync();
-        transactionalPartners.Should().NotBeEmpty();
-        transactionalPartners.Should().HaveCount(1);
-        transactionalPartners[0].Id.Should().Be(transactionalPartnerId);
+        transactionalPartners.ShouldNotBeEmpty();
+        transactionalPartners.ShouldHaveSingleItem();
+        transactionalPartners[0].Id.ShouldBe(transactionalPartnerId);
         
         CreatedIds.Add(transactionalPartnerId);
     }
@@ -47,14 +47,14 @@ public class CreateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Result.Should().BeNull();
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Result.ShouldBeNull();
         
         var transactionalPartners = await GetAllTransactionalPartnersAsync();
-        transactionalPartners.Should().BeEmpty();
+        transactionalPartners.ShouldBeEmpty();
     }
     
     [Fact]
@@ -73,16 +73,16 @@ public class CreateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request2);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Result.Should().BeNull();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Errors[0].Should().Be(TelNoOrEmailIsTaken);
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Result.ShouldBeNull();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Errors[0].ShouldBe(TelNoOrEmailIsTaken);
         
         var transactionalPartners = await GetAllTransactionalPartnersAsync();
-        transactionalPartners.Should().NotBeEmpty();
-        transactionalPartners.Should().HaveCount(1);
+        transactionalPartners.ShouldNotBeEmpty();
+        transactionalPartners.ShouldHaveSingleItem();
     }
     
     [Fact]
@@ -101,15 +101,15 @@ public class CreateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request2);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Result.Should().BeNull();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Errors[0].Should().Be(TelNoOrEmailIsTaken);
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Result.ShouldBeNull();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Errors[0].ShouldBe(TelNoOrEmailIsTaken);
         
         var transactionalPartners = await GetAllTransactionalPartnersAsync();
-        transactionalPartners.Should().NotBeEmpty();
-        transactionalPartners.Should().HaveCount(1);
+        transactionalPartners.ShouldNotBeEmpty();
+        transactionalPartners.ShouldHaveSingleItem();
     }
 }

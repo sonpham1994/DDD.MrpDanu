@@ -1,6 +1,6 @@
 using System.Reflection;
 using Application;
-using FluentAssertions;
+using Shouldly;
 using Infrastructure;
 using NetArchTest.Rules;
 
@@ -21,7 +21,7 @@ public class LoggingDefinitionTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -34,6 +34,6 @@ public class LoggingDefinitionTests
             .BeStatic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

@@ -1,6 +1,6 @@
 using System.Net;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using FluentAssertions;
+using Shouldly;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
@@ -17,11 +17,11 @@ public class GetAllTests(EndpointFactory endpointFactory)
         var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var transactionalPartnersResponse = await ReadFromJsonAsync<IReadOnlyList<TransactionalPartnersResponse>>(response);
-        transactionalPartnersResponse!.IsSuccess.Should().BeTrue();
-        transactionalPartnersResponse.Errors.Should().BeEmpty();
-        transactionalPartnersResponse.Result.Should().HaveCount(1);
+        transactionalPartnersResponse!.IsSuccess.ShouldBeTrue();
+        transactionalPartnersResponse.Errors.ShouldBeEmpty();
+        transactionalPartnersResponse.Result.ShouldHaveSingleItem();
     }
     
     [Fact]
@@ -31,10 +31,10 @@ public class GetAllTests(EndpointFactory endpointFactory)
         var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var transactionalPartnersResponse = await ReadFromJsonAsync<IReadOnlyList<TransactionalPartnersResponse>>(response);
-        transactionalPartnersResponse!.IsSuccess.Should().BeTrue();
-        transactionalPartnersResponse.Errors.Should().BeEmpty();
-        transactionalPartnersResponse.Result.Should().BeEmpty();
+        transactionalPartnersResponse!.IsSuccess.ShouldBeTrue();
+        transactionalPartnersResponse.Errors.ShouldBeEmpty();
+        transactionalPartnersResponse.Result.ShouldBeEmpty();
     }
 }

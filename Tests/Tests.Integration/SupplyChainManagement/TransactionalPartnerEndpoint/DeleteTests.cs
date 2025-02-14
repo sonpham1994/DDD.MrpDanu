@@ -1,5 +1,5 @@
 using System.Net;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
@@ -17,21 +17,21 @@ public class DeleteTests(EndpointFactory endpointFactory)
         var response = await HttpClient.DeleteAsync($"{Endpoint}/{id}");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var deletedResponse = await ReadFromJsonAsync(response);
-        deletedResponse!.IsSuccess.Should().BeTrue();
-        deletedResponse.Errors.Should().BeEmpty();
+        deletedResponse!.IsSuccess.ShouldBeTrue();
+        deletedResponse.Errors.ShouldBeEmpty();
 
         var transactionalPartner = await GetTransactionalPartnerByIdAsync(id);
-        transactionalPartner.Should().BeNull();
+        transactionalPartner.ShouldBeNull();
 
         var transactionalPartners = await GetAllTransactionalPartnersAsync();
-        transactionalPartners.Should().BeEmpty();
+        transactionalPartners.ShouldBeEmpty();
         
         var existsMaterialCost = await GetDatabaseFacade()
             .SqlQuery<bool>($"SELECT TOP 1 Id FROM ContactPersonInformation WHERE Id = {id}")
             .AnyAsync();
-        existsMaterialCost.Should().BeFalse();
+        existsMaterialCost.ShouldBeFalse();
         
         CreatedIds.Clear();
     }
@@ -43,10 +43,10 @@ public class DeleteTests(EndpointFactory endpointFactory)
         var response = await HttpClient.DeleteAsync($"{Endpoint}/{Guid.NewGuid()}");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var deletedResponse = await ReadFromJsonAsync(response);
-        deletedResponse!.IsSuccess.Should().BeFalse();
-        deletedResponse.Errors.Should().NotBeEmpty();
-        deletedResponse.Errors[0].Should().Be(NotFoundId);
+        deletedResponse!.IsSuccess.ShouldBeFalse();
+        deletedResponse.Errors.ShouldNotBeEmpty();
+        deletedResponse.Errors[0].ShouldBe(NotFoundId);
     }
 }

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 using Infrastructure;
 using Infrastructure.Persistence.Reads;
 using NetArchTest.Rules;
@@ -19,7 +19,7 @@ public class ReadModelTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class ReadModelTests
             .BeSealed()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class ReadModelTests
             .HaveNameEndingWith(ReadModelClass)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -60,6 +60,6 @@ public class ReadModelTests
             .ImplementInterface(typeof(IReadModel))
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

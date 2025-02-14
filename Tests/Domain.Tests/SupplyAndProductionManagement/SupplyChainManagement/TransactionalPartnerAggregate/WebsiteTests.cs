@@ -1,6 +1,6 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -20,8 +20,8 @@ public class WebsiteTests
     {
         var result = Website.Create(website);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidWebsite(website));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidWebsite(website));
     }
 
     [Theory]
@@ -32,8 +32,8 @@ public class WebsiteTests
     {
         var result = Website.Create(website);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.EmptyWebsiteValue);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.EmptyWebsiteValue);
     }
 
     [Fact]
@@ -45,8 +45,8 @@ public class WebsiteTests
             .Select(s => s[random.Next(s.Length)]).ToArray());
         var result = Website.Create(value);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(100));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.ExceedsMaxLengthWebsite(100));
     }
 
 
@@ -56,7 +56,7 @@ public class WebsiteTests
         const string value = "http://abcxyz.com";
         var result = Website.Create(value);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(value);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(value);
     }
 }

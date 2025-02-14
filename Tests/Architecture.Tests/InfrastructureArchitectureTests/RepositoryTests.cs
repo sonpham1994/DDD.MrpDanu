@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Application.Interfaces.Writes;
-using FluentAssertions;
+using Shouldly;
 using Infrastructure;
 using NetArchTest.Rules;
 
@@ -23,7 +23,7 @@ public class RepositoryTests
         .BePublic()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class RepositoryTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class RepositoryTests
         .HaveNameEndingWith(RepositoryClass)
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class RepositoryTests
         .ImplementInterface(typeof(IReadonlyRepository))
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class RepositoryTests
         .BePublic()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class RepositoryTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class RepositoryTests
         .HaveNameEndingWith(RepositoryClass)
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -128,6 +128,6 @@ public class RepositoryTests
         .ImplementInterface(typeof(IRepository))
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

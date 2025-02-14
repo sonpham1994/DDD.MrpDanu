@@ -1,5 +1,5 @@
 using Application;
-using FluentAssertions;
+using Shouldly;
 using NetArchTest.Rules;
 
 namespace Architecture.Tests.ApplicationArchitectureTests;
@@ -19,7 +19,7 @@ public class BehaviorClassTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class BehaviorClassTests
             .BeSealed()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class BehaviorClassTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -64,6 +64,6 @@ public class BehaviorClassTests
             .BeSealed()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

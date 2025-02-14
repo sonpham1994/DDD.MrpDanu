@@ -1,6 +1,6 @@
 using SharedKernel;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
@@ -17,24 +17,24 @@ public class AddressTests
         DomainError error)
     {
         var address = Address.Create(street, city, district, ward, zipCode, Country.VietNam);
-        address.IsSuccess.Should().BeFalse();
-        address.Error.Should().Be(error);
+        address.IsSuccess.ShouldBeFalse();
+        address.Error.ShouldBe(error);
     }
 
     [Fact]
     public void Cannot_create_address_if_zipcode_length_is_not_five_characters()
     {
         var address = Address.Create("street", "city", "district", "ward", "123456", Country.VietNam);
-        address.IsSuccess.Should().BeFalse();
-        address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
+        address.IsSuccess.ShouldBeFalse();
+        address.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
 
     [Fact]
     public void Cannot_create_address_if_zipcode_is_not_numbers()
     {
         var address = Address.Create("street", "city", "district", "ward", "abcde", Country.VietNam);
-        address.IsSuccess.Should().BeFalse();
-        address.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
+        address.IsSuccess.ShouldBeFalse();
+        address.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidAddressZipCode);
     }
 
     [Fact]
@@ -52,13 +52,13 @@ public class AddressTests
             ward,
             zipCode,
             Country.VietNam);
-        address.IsSuccess.Should().BeTrue();
-        address.Value!.Street.Should().Be(street);
-        address.Value.City.Should().Be(city);
-        address.Value.District.Should().Be(district);
-        address.Value.Ward.Should().Be(ward);
-        address.Value.ZipCode.Should().Be(zipCode);
-        address.Value.Country.Should().Be(Country.VietNam);
+        address.IsSuccess.ShouldBeTrue();
+        address.Value!.Street.ShouldBe(street);
+        address.Value.City.ShouldBe(city);
+        address.Value.District.ShouldBe(district);
+        address.Value.Ward.ShouldBe(ward);
+        address.Value.ZipCode.ShouldBe(zipCode);
+        address.Value.Country.ShouldBe(Country.VietNam);
     }
 
     [Fact]
@@ -77,12 +77,12 @@ public class AddressTests
             zipCode,
             Country.VietNam);
 
-        address.IsSuccess.Should().BeTrue();
-        address.Value!.Street.Should().Be(street);
-        address.Value.City.Should().Be(city);
-        address.Value.District.Should().Be(district);
-        address.Value.Ward.Should().Be(ward);
-        address.Value.ZipCode.Should().Be(zipCode);
+        address.IsSuccess.ShouldBeTrue();
+        address.Value!.Street.ShouldBe(street);
+        address.Value.City.ShouldBe(city);
+        address.Value.District.ShouldBe(district);
+        address.Value.Ward.ShouldBe(ward);
+        address.Value.ZipCode.ShouldBe(zipCode);
     }
 
     public static IEnumerable<object?[]> GetNullOrEmptyOfMandatoryProperties()

@@ -3,7 +3,7 @@ using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using SharedKernel.Enumerations;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
@@ -31,8 +31,8 @@ public class CreateTransactionalPartnerTests
 
         var result = await _handler.Handle(command, default);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.TelNoOrEmailIsTaken);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class CreateTransactionalPartnerTests
 
         var result = await _handler.Handle(command, default);
 
-        result.IsSuccess.Should().BeTrue();
+        result.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]

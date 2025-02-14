@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using FluentAssertions;
+using Shouldly;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
@@ -17,19 +17,19 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
         var createdResponse = await ReadFromJsonAsync<Guid>(response);
         var materialId = createdResponse!.Result;
-        response.Headers.Location!.ToString().Should().Be($"{Url}/{materialId}");
-        createdResponse.IsSuccess.Should().BeTrue();
-        createdResponse.Errors.Should().BeEmpty();
+        response.Headers.Location!.ToString().ShouldBe($"{Url}/{materialId}");
+        createdResponse.IsSuccess.ShouldBeTrue();
+        createdResponse.Errors.ShouldBeEmpty();
 
         await EnsureEqualAsync(materialId, request);
         
         var materials = await GetAllMaterialsAsync();
-        materials.Should().NotBeEmpty();
-        materials.Should().HaveCount(1);
-        materials[0].Id.Should().Be(materialId);
+        materials.ShouldNotBeEmpty();
+        materials.ShouldHaveSingleItem();
+        materials[0].Id.ShouldBe(materialId);
         
         CreatedIds.Add(materialId);
     }
@@ -47,14 +47,14 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Result.Should().BeNull();
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Result.ShouldBeNull();
         
         var materials = await GetAllMaterialsAsync();
-        materials.Should().BeEmpty();
+        materials.ShouldBeEmpty();
     }
     
     [Fact]
@@ -74,16 +74,16 @@ public class CreateTests(EndpointFactory apiFactory)
         var createdResponse2 = await ReadFromJsonAsync<Guid?>(response2);
         
         // Assert
-        response2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        createdResponse2.Should().NotBeNull();
-        createdResponse2.IsSuccess.Should().BeFalse();
-        createdResponse2.Errors[0].Should().Be(ExistedMaterialCode);
-        createdResponse2.Result.Should().BeNull();
+        response2.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        createdResponse2.ShouldNotBeNull();
+        createdResponse2.IsSuccess.ShouldBeFalse();
+        createdResponse2.Errors[0].ShouldBe(ExistedMaterialCode);
+        createdResponse2.Result.ShouldBeNull();
 
         var materials = await GetAllMaterialsAsync();
-        materials.Should().NotBeEmpty();
-        materials.Should().HaveCount(1);
-        materials[0].Id.Should().Be(id1);
+        materials.ShouldNotBeEmpty();
+        materials.ShouldHaveSingleItem();
+        materials[0].Id.ShouldBe(id1);
     }
     
     [Fact]
@@ -97,12 +97,12 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
         var createdResponse = await ReadFromJsonAsync<Guid>(response);
         var materialId = createdResponse!.Result;
-        response.Headers.Location!.ToString().Should().Be($"{Url}/{materialId}");
-        createdResponse.IsSuccess.Should().BeTrue();
-        createdResponse.Errors.Should().BeEmpty();
+        response.Headers.Location!.ToString().ShouldBe($"{Url}/{materialId}");
+        createdResponse.IsSuccess.ShouldBeTrue();
+        createdResponse.Errors.ShouldBeEmpty();
 
         await EnsureMaterialCostEqualAsync(materialId, request.MaterialCosts);
         
@@ -120,15 +120,15 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Result.Should().BeNull();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Errors[0].Should().Be(NotFoundSupplierId);
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Result.ShouldBeNull();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Errors[0].ShouldBe(NotFoundSupplierId);
         
         var materials = await GetAllMaterialsAsync();
-        materials.Should().BeEmpty();
+        materials.ShouldBeEmpty();
     }
     
     [Fact]
@@ -143,15 +143,15 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Result.Should().BeNull();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Errors[0].Should().Be(NotFoundSupplierId);
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Result.ShouldBeNull();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Errors[0].ShouldBe(NotFoundSupplierId);
         
         var materials = await GetAllMaterialsAsync();
-        materials.Should().BeEmpty();
+        materials.ShouldBeEmpty();
     }
     
     [Fact]
@@ -165,14 +165,14 @@ public class CreateTests(EndpointFactory apiFactory)
         var response = await HttpClient.PostAsJsonAsync(Endpoint, request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync<Guid?>(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Result.Should().BeNull();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Errors[0].Should().Be(DuplicatedSupplierId);
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Result.ShouldBeNull();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Errors[0].ShouldBe(DuplicatedSupplierId);
         
         var materials = await GetAllMaterialsAsync();
-        materials.Should().BeEmpty();
+        materials.ShouldBeEmpty();
     }
 }

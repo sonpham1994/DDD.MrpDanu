@@ -73,6 +73,8 @@
     &lt;Project Location="\Users\sampham\Projects\SonPhamProjects\MRP.Danu\DDD.MrpDanu\Tests\Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;&#xD;
     &lt;Project Location="\Users\sampham\Projects\SonPhamProjects\MRP.Danu\DDD.MrpDanu\Tests\Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;&#xD;
     &lt;ProjectFile&gt;F53BD83D-1319-4567-9E0B-D5021BFC7DEC/d:MaterialManagement/d:TransactionalPartnerAggregate/d:Commands/f:CreateTransactionalPartnerTests.cs&lt;/ProjectFile&gt;&#xD;
+    &lt;Project Location="C:\Work\projects\SamPhamProjects\DDD.MrpDanu\Tests\Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="C:\Work\projects\SamPhamProjects\DDD.MrpDanu\Tests\Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=817074bb_002Dba6b_002D4f8a_002Db286_002Df6e93b8ffcdd_0023Api/@EntryIndexedValue">True</s:Boolean>

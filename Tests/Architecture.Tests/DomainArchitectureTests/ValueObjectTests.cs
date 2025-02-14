@@ -2,7 +2,7 @@ using System.Reflection;
 using Architecture.Tests.Helpers;
 using Domain;
 using SharedKernel;
-using FluentAssertions;
+using Shouldly;
 using NetArchTest.Rules;
 
 namespace Architecture.Tests.DomainArchitectureTests;
@@ -21,7 +21,7 @@ public class ValueObjectTests
 
         var result = properties.Any(x => !x.IsNoSetter());
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
     
     [Fact]
@@ -39,6 +39,6 @@ public class ValueObjectTests
             .ToList();
         var result = publicConstructorValueObjects.Any();
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

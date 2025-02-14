@@ -1,10 +1,8 @@
-﻿using Domain.Services.GetListSupplierIdAndCurrencyTypeIdServices;
-using SharedKernel.Enumerations;
+﻿using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using FluentAssertions;
+using Shouldly;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
-using SharedKernelDomainErrors = SharedKernel.Enumerations.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
@@ -22,8 +20,8 @@ public class MaterialSupplierCostTests
         var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.NotFoundSupplierId(supplierId));
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.NotFoundSupplierId(supplierId));
     }
 
     [Fact]
@@ -38,8 +36,8 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidMinQuantity);
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.InvalidMinQuantity);
     }
 
     [Fact]
@@ -54,8 +52,8 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidPrice);
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.InvalidPrice);
     }
 
     [Fact]
@@ -70,8 +68,8 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidPrice);
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.InvalidPrice);
     }
 
     [Fact]
@@ -86,8 +84,8 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidSurcharge);
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.InvalidSurcharge);
     }
 
     [Fact]
@@ -102,8 +100,8 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidSurcharge);
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.InvalidSurcharge);
     }
 
     [Fact]
@@ -119,8 +117,8 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeFalse();
-        materialCosts.Error.Should().Be(DomainErrors.MaterialSupplierCost.DuplicationSupplierId(SupplyChainManagementPreparingData.SupplierId1));
+        materialCosts.IsSuccess.ShouldBeFalse();
+        materialCosts.Error.ShouldBe(DomainErrors.MaterialSupplierCost.DuplicationSupplierId(SupplyChainManagementPreparingData.SupplierId1));
     }
     
     [Fact]
@@ -134,12 +132,12 @@ public class MaterialSupplierCostTests
 
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult);
 
-        materialCosts.IsSuccess.Should().BeTrue();
-        materialCosts.Value.Should().HaveCount(1);
-        materialCosts.Value!.First().Price.CurrencyType.Should().Be(CurrencyType.VND);
-        materialCosts.Value!.First().Price.Value.Should().Be(6m);
-        materialCosts.Value!.First().Surcharge.Value.Should().Be(8m);
-        materialCosts.Value!.First().Surcharge.CurrencyType.Should().Be(CurrencyType.VND);
+        materialCosts.IsSuccess.ShouldBeTrue();
+        materialCosts.Value.ShouldHaveSingleItem();
+        materialCosts.Value!.First().Price.CurrencyType.ShouldBe(CurrencyType.VND);
+        materialCosts.Value!.First().Price.Value.ShouldBe(6m);
+        materialCosts.Value!.First().Surcharge.Value.ShouldBe(8m);
+        materialCosts.Value!.First().Surcharge.CurrencyType.ShouldBe(CurrencyType.VND);
     }
 
     [Fact]
@@ -156,8 +154,8 @@ public class MaterialSupplierCostTests
         var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 12, surcharge!);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType.VND, CurrencyType.USD));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.MaterialSupplierCost.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType.VND, CurrencyType.USD));
     }
 
     [Fact]
@@ -174,8 +172,8 @@ public class MaterialSupplierCostTests
         var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 12, surcharge!);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType.USD, CurrencyType.VND));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.MaterialSupplierCost.DifferentCurrencyBetweenSupplierAndPriceWithSurcharge(CurrencyType.USD, CurrencyType.VND));
     }
 
     [Fact]
@@ -192,8 +190,8 @@ public class MaterialSupplierCostTests
         var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, 0, surcharge!);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierCost.InvalidMinQuantity);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.MaterialSupplierCost.InvalidMinQuantity);
     }
 
     [Fact]
@@ -203,18 +201,19 @@ public class MaterialSupplierCostTests
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1)
         };
+        uint minQuantity = 15;
         var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
         var price = Money.Create(400m, CurrencyType.VND).Value;
         var surcharge = Money.Create(500m, CurrencyType.VND).Value;
 
         var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
-        var result = materialCost.SetMaterialCost(price!, 15, surcharge!);
+        var result = materialCost.SetMaterialCost(price!, minQuantity, surcharge!);
 
-        result.IsSuccess.Should().Be(true);
-        materialCost.Price.Value.Should().Be(400m);
-        materialCost.Price.CurrencyType.Should().Be(CurrencyType.VND);
-        materialCost.Surcharge.Value.Should().Be(500m);
-        materialCost.Price.CurrencyType.Should().Be(CurrencyType.VND);
-        materialCost.MinQuantity.Should().Be(15);
+        result.IsSuccess.ShouldBe(true);
+        materialCost.Price.Value.ShouldBe(400m);
+        materialCost.Price.CurrencyType.ShouldBe(CurrencyType.VND);
+        materialCost.Surcharge.Value.ShouldBe(500m);
+        materialCost.Price.CurrencyType.ShouldBe(CurrencyType.VND);
+        materialCost.MinQuantity.ShouldBe(minQuantity);
     }
 }

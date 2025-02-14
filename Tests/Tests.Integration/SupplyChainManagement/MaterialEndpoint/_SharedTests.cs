@@ -6,7 +6,7 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAg
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
 using Bogus;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using FluentAssertions;
+using Shouldly;
 using MinimalApi.ApiResponses;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
@@ -138,50 +138,50 @@ public abstract class SharedTests(EndpointFactory endpointFactory)
     protected async Task EnsureEqualAsync(Guid id, CreateMaterialCommand request)
     {
         var material = await GetMaterialByIdAsync(id);
-        material.Id.Should().Be(id);
-        material.Code.Should().Be(request.Code);
-        material.Name.Should().Be(request.Name);
-        material.Unit.Should().Be(request.Unit.ToUpper());
-        material.Varian.Should().Be(request.Varian);
-        material.Weight.Should().Be(request.Weight);
-        material.Width.Should().Be(request.Width);
-        material.ColorCode.Should().Be(request.ColorCode);
-        material.MaterialType.Id.Should().Be(request.MaterialTypeId);
-        material.RegionalMarket.Id.Should().Be(request.RegionalMarketId);
-        material.MaterialCostManagements.Should().BeEmpty();
+        material.Id.ShouldBe(id);
+        material.Code.ShouldBe(request.Code);
+        material.Name.ShouldBe(request.Name);
+        material.Unit.ShouldBe(request.Unit.ToUpper());
+        material.Varian.ShouldBe(request.Varian);
+        material.Weight.ShouldBe(request.Weight);
+        material.Width.ShouldBe(request.Width);
+        material.ColorCode.ShouldBe(request.ColorCode);
+        material.MaterialType.Id.ShouldBe(request.MaterialTypeId);
+        material.RegionalMarket.Id.ShouldBe(request.RegionalMarketId);
+        material.MaterialCostManagements.ShouldBeEmpty();
     }
     
     protected async Task EnsureEqualAsync(Guid id, UpdateMaterialCommand request)
     {
         var material = await GetMaterialByIdAsync(id);
-        material.Id.Should().Be(id);
-        material.Code.Should().Be(request.Code);
-        material.Name.Should().Be(request.Name);
-        material.Unit.Should().Be(request.Unit.ToUpper());
-        material.Varian.Should().Be(request.Varian);
-        material.Weight.Should().Be(request.Weight);
-        material.Width.Should().Be(request.Width);
-        material.ColorCode.Should().Be(request.ColorCode);
-        material.MaterialType.Id.Should().Be(request.MaterialTypeId);
-        material.RegionalMarket.Id.Should().Be(request.RegionalMarketId);
-        material.MaterialCostManagements.Should().BeEmpty();
+        material.Id.ShouldBe(id);
+        material.Code.ShouldBe(request.Code);
+        material.Name.ShouldBe(request.Name);
+        material.Unit.ShouldBe(request.Unit.ToUpper());
+        material.Varian.ShouldBe(request.Varian);
+        material.Weight.ShouldBe(request.Weight);
+        material.Width.ShouldBe(request.Width);
+        material.ColorCode.ShouldBe(request.ColorCode);
+        material.MaterialType.Id.ShouldBe(request.MaterialTypeId);
+        material.RegionalMarket.Id.ShouldBe(request.RegionalMarketId);
+        material.MaterialCostManagements.ShouldBeEmpty();
     }
     
     protected async Task EnsureMaterialCostEqualAsync(Guid id, IReadOnlyList<MaterialSupplierCostCommand> request)
     {
         var material = await GetMaterialByIdAsync(id);
-        request.Should().HaveCount(material.MaterialCostManagements.Count);
+        request.Count.ShouldBe(material.MaterialCostManagements.Count);
         
         foreach (var materialCostRequest in request)
         {
             var materialCost = material.MaterialCostManagements
                 .FirstOrDefault(x => x.Supplier.Id == materialCostRequest.SupplierId);
 
-            materialCost.Should().NotBeNull();
-            materialCost.Supplier.Id.Should().Be(materialCostRequest.SupplierId);
-            materialCost.Price.Should().Be(materialCostRequest.Price);
-            materialCost.Surcharge.Should().Be(materialCostRequest.Surcharge);
-            materialCost.MinQuantity.Should().Be(materialCostRequest.MinQuantity);
+            materialCost.ShouldNotBeNull();
+            materialCost.Supplier.Id.ShouldBe(materialCostRequest.SupplierId);
+            materialCost.Price.ShouldBe(materialCostRequest.Price);
+            materialCost.Surcharge.ShouldBe(materialCostRequest.Surcharge);
+            materialCost.MinQuantity.ShouldBe(materialCostRequest.MinQuantity);
         }
     }
 }

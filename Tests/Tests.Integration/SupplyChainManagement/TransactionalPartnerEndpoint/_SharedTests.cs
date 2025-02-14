@@ -4,7 +4,7 @@ using Application.SupplyAndProductionManagement.SupplyChainManagement.Transactio
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
 using Bogus;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 using MinimalApi.ApiResponses;
 using SharedKernel.Enumerations;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
@@ -57,44 +57,44 @@ public abstract class SharedTests(EndpointFactory endpointFactory) : Tests.Integ
     protected async Task EnsureEqualAsync(Guid id, CreateTransactionalPartnerCommand request)
     {
         var transactionalPartner = await GetTransactionalPartnerByIdAsync(id);
-        transactionalPartner.Should().NotBeNull();
-        transactionalPartner.Id.Should().Be(id);
-        transactionalPartner.Name.Should().Be(request.Name);
-        transactionalPartner.Website.Should().Be(request.Website);
-        transactionalPartner.Address.City.Should().Be(request.Address!.City);
-        transactionalPartner.Address.Country.Id.Should().Be(request.Address.CountryId);
-        transactionalPartner.Address.District.Should().Be(request.Address.District);
-        transactionalPartner.Address.Street.Should().Be(request.Address.Street);
-        transactionalPartner.Address.Ward.Should().Be(request.Address.Ward);
-        transactionalPartner.Address.ZipCode.Should().Be(request.Address.ZipCode);
-        transactionalPartner.CurrencyType.Id.Should().Be(request.CurrencyTypeId);
-        transactionalPartner.TransactionalPartnerType.Id.Should().Be(request.TransactionalPartnerTypeId);
-        transactionalPartner.LocationType.Id.Should().Be(request.LocationTypeId);
-        transactionalPartner.TaxNo.Should().Be(request.TaxNo);
-        transactionalPartner.ContactPersonInformation.Name.Should().Be(request.ContactPersonName);
-        transactionalPartner.ContactPersonInformation.Email.Should().Be(request.Email);
-        transactionalPartner.ContactPersonInformation.TelNo.Should().Be(request.TelNo);
+        transactionalPartner.ShouldNotBeNull();
+        transactionalPartner.Id.ShouldBe(id);
+        transactionalPartner.Name.ShouldBe(request.Name);
+        transactionalPartner.Website.ShouldBe(request.Website);
+        transactionalPartner.Address.City.ShouldBe(request.Address!.City);
+        transactionalPartner.Address.Country.Id.ShouldBe(request.Address.CountryId);
+        transactionalPartner.Address.District.ShouldBe(request.Address.District);
+        transactionalPartner.Address.Street.ShouldBe(request.Address.Street);
+        transactionalPartner.Address.Ward.ShouldBe(request.Address.Ward);
+        transactionalPartner.Address.ZipCode.ShouldBe(request.Address.ZipCode);
+        transactionalPartner.CurrencyType.Id.ShouldBe(request.CurrencyTypeId);
+        transactionalPartner.TransactionalPartnerType.Id.ShouldBe(request.TransactionalPartnerTypeId);
+        transactionalPartner.LocationType.Id.ShouldBe(request.LocationTypeId);
+        transactionalPartner.TaxNo.ShouldBe(request.TaxNo);
+        transactionalPartner.ContactPersonInformation.Name.ShouldBe(request.ContactPersonName);
+        transactionalPartner.ContactPersonInformation.Email.ShouldBe(request.Email);
+        transactionalPartner.ContactPersonInformation.TelNo.ShouldBe(request.TelNo);
     }
     
     protected async Task EnsureEqualAsync(Guid id, UpdateTransactionalPartnerCommand request)
     {
         var transactionalPartner = await GetTransactionalPartnerByIdAsync(id);
-        transactionalPartner.Should().NotBeNull();
-        transactionalPartner.Id.Should().Be(request.Id);
-        transactionalPartner.Name.Should().Be(request.Name);
-        transactionalPartner.Website.Should().Be(request.Website);
-        transactionalPartner.Address.City.Should().Be(request.Address!.City);
-        transactionalPartner.Address.Country.Id.Should().Be(request.Address.CountryId);
-        transactionalPartner.Address.District.Should().Be(request.Address.District);
-        transactionalPartner.Address.Street.Should().Be(request.Address.Street);
-        transactionalPartner.Address.Ward.Should().Be(request.Address.Ward);
-        transactionalPartner.Address.ZipCode.Should().Be(request.Address.ZipCode);
-        transactionalPartner.CurrencyType.Id.Should().Be(request.CurrencyTypeId);
-        transactionalPartner.TransactionalPartnerType.Id.Should().Be(request.TransactionalPartnerTypeId);
-        transactionalPartner.LocationType.Id.Should().Be(request.LocationTypeId);
-        transactionalPartner.TaxNo.Should().Be(request.TaxNo);
-        transactionalPartner.ContactPersonInformation.Name.Should().Be(request.ContactPersonName);
-        transactionalPartner.ContactPersonInformation.Email.Should().Be(request.Email);
-        transactionalPartner.ContactPersonInformation.TelNo.Should().Be(request.TelNo);
+        transactionalPartner.ShouldNotBeNull();
+        transactionalPartner.Id.ShouldBe(request.Id);
+        transactionalPartner.Name.ShouldBe(request.Name);
+        transactionalPartner.Website.ShouldBe(request.Website);
+        transactionalPartner.Address.City.ShouldBe(request.Address!.City);
+        transactionalPartner.Address.Country.Id.ShouldBe(request.Address.CountryId);
+        transactionalPartner.Address.District.ShouldBe(request.Address.District);
+        transactionalPartner.Address.Street.ShouldBe(request.Address.Street);
+        transactionalPartner.Address.Ward.ShouldBe(request.Address.Ward);
+        transactionalPartner.Address.ZipCode.ShouldBe(request.Address.ZipCode);
+        transactionalPartner.CurrencyType.Id.ShouldBe(request.CurrencyTypeId);
+        transactionalPartner.TransactionalPartnerType.Id.ShouldBe(request.TransactionalPartnerTypeId);
+        transactionalPartner.LocationType.Id.ShouldBe(request.LocationTypeId);
+        transactionalPartner.TaxNo.ShouldBe(request.TaxNo);
+        transactionalPartner.ContactPersonInformation.Name.ShouldBe(request.ContactPersonName);
+        transactionalPartner.ContactPersonInformation.Email.ShouldBe(request.Email);
+        transactionalPartner.ContactPersonInformation.TelNo.ShouldBe(request.TelNo);
     }
 }

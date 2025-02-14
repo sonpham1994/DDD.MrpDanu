@@ -1,6 +1,6 @@
 using SharedKernel.Enumerations;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
@@ -24,8 +24,8 @@ public class TransactionalPartnerTests
             LocationType.Oversea
         );
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
     [Fact]
@@ -44,8 +44,8 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
 
     [Fact]
@@ -84,16 +84,16 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Name.Should().Be(CompanyName1);
-        result.Value.TaxNo.Should().Be(TaxNo1);
-        result.Value.Website.Should().Be(Website!);
-        result.Value.ContactPersonInformation.Name.Should().Be(PersonName1);
-        result.Value.ContactPersonInformation.ContactInformation.Should().Be(ContactInformation1);
-        result.Value.Address.Should().Be(Address1);
-        result.Value.TransactionalPartnerType.Should().Be(TransactionalPartnerType.Both);
-        result.Value.CurrencyType.Should().Be(CurrencyType.VND);
-        result.Value.LocationType.Should().Be(LocationType.Domestic);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Name.ShouldBe(CompanyName1);
+        result.Value.TaxNo.ShouldBe(TaxNo1);
+        result.Value.Website.ShouldBe(Website!);
+        result.Value.ContactPersonInformation.Name.ShouldBe(PersonName1);
+        result.Value.ContactPersonInformation.ContactInformation.ShouldBe(ContactInformation1);
+        result.Value.Address.ShouldBe(Address1);
+        result.Value.TransactionalPartnerType.ShouldBe(TransactionalPartnerType.Both);
+        result.Value.CurrencyType.ShouldBe(CurrencyType.VND);
+        result.Value.LocationType.ShouldBe(LocationType.Domestic);
     }
     
     [Theory]
@@ -115,8 +115,8 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Website.Should().BeNull();
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Website.ShouldBeNull();
     }
 
     [Fact]
@@ -146,8 +146,8 @@ public class TransactionalPartnerTests
             LocationType.Oversea
         );
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
     [Fact]
@@ -177,8 +177,8 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidCountryAndLocationType);
     }
 
     [Fact]
@@ -208,8 +208,8 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidCurrencyType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidCurrencyType);
     }
 
     [Fact]
@@ -242,16 +242,16 @@ public class TransactionalPartnerTests
         );
         transactionalPartner.Value.UpdateContactPersonInfo(personName!, contactInfo!);
 
-        result.IsSuccess.Should().BeTrue();
-        transactionalPartner.Value.Name.Should().Be(CompanyName2);
-        transactionalPartner.Value.TaxNo.Should().Be(TaxNo2);
-        transactionalPartner.Value.Website.Should().Be(Website!);
-        transactionalPartner.Value.ContactPersonInformation.Name.Should().Be(personName);
-        transactionalPartner.Value.ContactPersonInformation.ContactInformation.Should().Be(contactInfo);
-        transactionalPartner.Value.Address.Should().Be(OverseaAddress);
-        transactionalPartner.Value.TransactionalPartnerType.Should().Be(TransactionalPartnerType.Supplier);
-        transactionalPartner.Value.CurrencyType.Should().Be(CurrencyType.USD);
-        transactionalPartner.Value.LocationType.Should().Be(LocationType.Oversea);
+        result.IsSuccess.ShouldBeTrue();
+        transactionalPartner.Value.Name.ShouldBe(CompanyName2);
+        transactionalPartner.Value.TaxNo.ShouldBe(TaxNo2);
+        transactionalPartner.Value.Website.ShouldBe(Website!);
+        transactionalPartner.Value.ContactPersonInformation.Name.ShouldBe(personName);
+        transactionalPartner.Value.ContactPersonInformation.ContactInformation.ShouldBe(contactInfo);
+        transactionalPartner.Value.Address.ShouldBe(OverseaAddress);
+        transactionalPartner.Value.TransactionalPartnerType.ShouldBe(TransactionalPartnerType.Supplier);
+        transactionalPartner.Value.CurrencyType.ShouldBe(CurrencyType.USD);
+        transactionalPartner.Value.LocationType.ShouldBe(LocationType.Oversea);
     }
     
     [Theory]
@@ -284,7 +284,7 @@ public class TransactionalPartnerTests
             LocationType.Domestic
         );
 
-        result.IsSuccess.Should().BeTrue();
-        transactionalPartner.Value.Website.Should().BeNull();
+        result.IsSuccess.ShouldBeTrue();
+        transactionalPartner.Value.Website.ShouldBeNull();
     }
 }

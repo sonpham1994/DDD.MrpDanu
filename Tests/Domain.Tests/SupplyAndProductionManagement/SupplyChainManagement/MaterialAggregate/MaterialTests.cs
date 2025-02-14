@@ -3,7 +3,7 @@ using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -18,8 +18,8 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        material.IsSuccess.Should().BeFalse();
-        material.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
+        material.IsSuccess.ShouldBeFalse();
+        material.Error.ShouldBe(DomainErrors.Material.InvalidMaterialType);
     }
 
     [Fact]
@@ -30,8 +30,8 @@ public class MaterialTests
         var name1 = SupplyChainManagementPreparingData.MaterialName1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        material.IsSuccess.Should().BeFalse();
-        material.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
+        material.IsSuccess.ShouldBeFalse();
+        material.Error.ShouldBe(DomainErrors.Material.InvalidSubassembliesType);
     }
 
     [Fact]
@@ -53,8 +53,8 @@ public class MaterialTests
                 uniqueMaterialCodeResult
             );
 
-        material.IsSuccess.Should().BeFalse();
-        material.Error.Should().Be(DomainErrors.Material.ExistedCode(code1, SupplyChainManagementPreparingData.MaterialId1));
+        material.IsSuccess.ShouldBeFalse();
+        material.Error.ShouldBe(DomainErrors.Material.ExistedCode(code1, SupplyChainManagementPreparingData.MaterialId1));
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public class MaterialTests
                 uniqueMaterialCodeResult
             );
 
-        material.IsSuccess.Should().BeTrue();
+        material.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -86,11 +86,11 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        material.IsSuccess.Should().Be(true);
-        material.Value!.Attributes.Should().Be(materialAttributes);
-        material.Value.Code.Should().Be(code1);
-        material.Value.MaterialType.Should().Be(MaterialType.Subassemblies);
-        material.Value.RegionalMarket.Should().Be(RegionalMarket.Florida);
+        material.IsSuccess.ShouldBe(true);
+        material.Value!.Attributes.ShouldBe(materialAttributes);
+        material.Value.Code.ShouldBe(code1);
+        material.Value.MaterialType.ShouldBe(MaterialType.Subassemblies);
+        material.Value.RegionalMarket.ShouldBe(RegionalMarket.Florida);
     }
 
     [Fact]
@@ -101,11 +101,11 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        material.IsSuccess.Should().BeTrue();
-        material.Value!.Attributes.Should().Be(materialAttributes);
-        material.Value.Code.Should().Be(code1);
-        material.Value.MaterialType.Should().Be(MaterialType.Material);
-        material.Value.RegionalMarket.Should().Be(RegionalMarket.None);
+        material.IsSuccess.ShouldBeTrue();
+        material.Value!.Attributes.ShouldBe(materialAttributes);
+        material.Value.Code.ShouldBe(code1);
+        material.Value.MaterialType.ShouldBe(MaterialType.Material);
+        material.Value.RegionalMarket.ShouldBe(RegionalMarket.None);
     }
 
     [Fact]
@@ -118,8 +118,8 @@ public class MaterialTests
 
         var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.InvalidMaterialType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.InvalidMaterialType);
     }
 
     [Fact]
@@ -132,8 +132,8 @@ public class MaterialTests
 
         var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.InvalidSubassembliesType);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.InvalidSubassembliesType);
     }
 
     [Fact]
@@ -154,8 +154,8 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.None, uniqueMaterialCodeResult);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.ExistedCode(code2, SupplyChainManagementPreparingData.MaterialId2));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.ExistedCode(code2, SupplyChainManagementPreparingData.MaterialId2));
     }
 
     [Fact]
@@ -174,7 +174,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, uniqueMaterialCodeResult);
 
-        result.IsSuccess.Should().BeTrue();
+        result.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public class MaterialTests
 
         var result = material.Value.UpdateMaterial(code2, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, uniqueMaterialCodeResult);
 
-        result.IsSuccess.Should().BeTrue();
+        result.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -203,10 +203,10 @@ public class MaterialTests
 
         var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes1, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        result.IsSuccess.Should().Be(true);
-        material.Value.Attributes.Should().Be(materialAttributes1);
-        material.Value.MaterialType.Should().Be(MaterialType.Subassemblies);
-        material.Value.RegionalMarket.Should().Be(RegionalMarket.Florida);
+        result.IsSuccess.ShouldBe(true);
+        material.Value.Attributes.ShouldBe(materialAttributes1);
+        material.Value.MaterialType.ShouldBe(MaterialType.Subassemblies);
+        material.Value.RegionalMarket.ShouldBe(RegionalMarket.Florida);
     }
 
     [Fact]
@@ -220,10 +220,10 @@ public class MaterialTests
 
         var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        result.IsSuccess.Should().Be(true);
-        material.Value.Attributes.Should().Be(materialAttributes);
-        material.Value.MaterialType.Should().Be(MaterialType.Material);
-        material.Value.RegionalMarket.Should().Be(RegionalMarket.None);
+        result.IsSuccess.ShouldBe(true);
+        material.Value.Attributes.ShouldBe(materialAttributes);
+        material.Value.MaterialType.ShouldBe(MaterialType.Material);
+        material.Value.RegionalMarket.ShouldBe(RegionalMarket.None);
     }
 
     [Fact]
@@ -235,25 +235,27 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
+        uint minQuantity1 = 5;
+        uint minQuantity2 = 6;
         var input = new List<(decimal, uint, decimal, SupplierId)>
         {
-            (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
-            (7m, 6, 9m, SupplyChainManagementPreparingData.SupplierId2),
+            (6m, minQuantity1, 8m, SupplyChainManagementPreparingData.SupplierId1),
+            (7m, minQuantity2, 9m, SupplyChainManagementPreparingData.SupplierId2),
         };
         var materialCosts = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         var result = material.Value!.UpdateCost(materialCosts);
 
-        result.IsSuccess.Should().Be(true);
-        material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(5);
-        material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.Should().Be(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
+        result.IsSuccess.ShouldBe(true);
+        material.Value.MaterialSupplierCosts[0].Price.ShouldBe(Money.Create(6m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MinQuantity.ShouldBe(minQuantity1);
+        material.Value.MaterialSupplierCosts[0].Surcharge.ShouldBe(Money.Create(8m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.ShouldBe(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
 
-        material.Value.MaterialSupplierCosts[1].Price.Should().Be(Money.Create(7m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[1].MinQuantity.Should().Be(6);
-        material.Value.MaterialSupplierCosts[1].Surcharge.Should().Be(Money.Create(9m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[1].MaterialSupplierIdentity.Should().Be(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId2).Value);
+        material.Value.MaterialSupplierCosts[1].Price.ShouldBe(Money.Create(7m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].MinQuantity.ShouldBe(minQuantity2);
+        material.Value.MaterialSupplierCosts[1].Surcharge.ShouldBe(Money.Create(9m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].MaterialSupplierIdentity.ShouldBe(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId2).Value);
     }
 
     [Fact]
@@ -273,26 +275,28 @@ public class MaterialTests
         };
         var materialCostsAdded = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputAdded, getSuppliersIdAndCurrencyTypeResult).Value!;
 
+        uint minQuantity1 = 20;
+        uint minQuantity2 = 50;
         var inputUpdated = new List<(decimal, uint, decimal, SupplierId)>
         {
-            (10m, 20, 30m, SupplyChainManagementPreparingData.SupplierId1),
-            (40m, 50, 60m, SupplyChainManagementPreparingData.SupplierId2),
+            (10m, minQuantity1, 30m, SupplyChainManagementPreparingData.SupplierId1),
+            (40m, minQuantity2, 60m, SupplyChainManagementPreparingData.SupplierId2),
         };
         var materialCostsUpdated = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputUpdated, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         material.Value!.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsUpdated);
 
-        result.IsSuccess.Should().BeTrue();
-        material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(10m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(20);
-        material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(30m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.Should().Be(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
+        result.IsSuccess.ShouldBeTrue();
+        material.Value.MaterialSupplierCosts[0].Price.ShouldBe(Money.Create(10m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MinQuantity.ShouldBe(minQuantity1);
+        material.Value.MaterialSupplierCosts[0].Surcharge.ShouldBe(Money.Create(30m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.ShouldBe(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
 
-        material.Value.MaterialSupplierCosts[1].Price.Should().Be(Money.Create(40m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[1].MinQuantity.Should().Be(50);
-        material.Value.MaterialSupplierCosts[1].Surcharge.Should().Be(Money.Create(60m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[1].MaterialSupplierIdentity.Should().Be(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId2).Value);
+        material.Value.MaterialSupplierCosts[1].Price.ShouldBe(Money.Create(40m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].MinQuantity.ShouldBe(minQuantity2);
+        material.Value.MaterialSupplierCosts[1].Surcharge.ShouldBe(Money.Create(60m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[1].MaterialSupplierIdentity.ShouldBe(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId2).Value);
     }
 
     [Fact]
@@ -304,6 +308,7 @@ public class MaterialTests
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
         material.Value!.WithId(SupplyChainManagementPreparingData.MaterialId1);
         var getSuppliersIdAndCurrencyTypeResult = SupplyChainManagementPreparingData.GetListSupplierId1AndId2AndCurrencyTypeVndResult;
+        uint minQuantity1 = 5;
         var inputAdded = new List<(decimal, uint, decimal, SupplierId)>
         {
             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
@@ -313,19 +318,19 @@ public class MaterialTests
 
         var inputDeleted = new List<(decimal, uint, decimal, SupplierId)>
         {
-             (6m, 5, 8m, SupplyChainManagementPreparingData.SupplierId1),
+             (6m, minQuantity1, 8m, SupplyChainManagementPreparingData.SupplierId1),
         };
         var materialCostsDeleted = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, inputDeleted, getSuppliersIdAndCurrencyTypeResult).Value!;
 
         material.Value!.UpdateCost(materialCostsAdded);
         var result = material.Value.UpdateCost(materialCostsDeleted);
 
-        result.IsSuccess.Should().BeTrue();
-        material.Value.MaterialSupplierCosts.Should().HaveCount(1);
-        material.Value.MaterialSupplierCosts[0].Price.Should().Be(Money.Create(6m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[0].MinQuantity.Should().Be(5);
-        material.Value.MaterialSupplierCosts[0].Surcharge.Should().Be(Money.Create(8m, CurrencyType.VND).Value);
-        material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.Should().Be(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
+        result.IsSuccess.ShouldBeTrue();
+        material.Value.MaterialSupplierCosts.ShouldHaveSingleItem();
+        material.Value.MaterialSupplierCosts[0].Price.ShouldBe(Money.Create(6m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MinQuantity.ShouldBe(minQuantity1);
+        material.Value.MaterialSupplierCosts[0].Surcharge.ShouldBe(Money.Create(8m, CurrencyType.VND).Value);
+        material.Value.MaterialSupplierCosts[0].MaterialSupplierIdentity.ShouldBe(MaterialSupplierIdentity.Create(SupplyChainManagementPreparingData.MaterialId1, SupplyChainManagementPreparingData.SupplierId1).Value);
     }
     
     private Task<MaterialIdWithCode?> GetMaterialByCodeWithReturningNullValue(MaterialCode code, CancellationToken cancellationToken)

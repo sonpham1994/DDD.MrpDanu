@@ -1,5 +1,5 @@
 using SharedKernel.ValueObjects;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
@@ -11,8 +11,8 @@ public class MaterialSupplierIdentityTests
         var materialId = (MaterialId)Guid.Empty;
         var result = MaterialSupplierIdentity.Create(materialId, (SupplierId)Guid.NewGuid());
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierIdentity.InvalidMaterialId(materialId));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.MaterialSupplierIdentity.InvalidMaterialId(materialId));
     }
 
     [Fact]
@@ -21,8 +21,8 @@ public class MaterialSupplierIdentityTests
         var supplierId = (SupplierId)Guid.Empty;
         var result = MaterialSupplierIdentity.Create((MaterialId)Guid.NewGuid(), supplierId);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.MaterialSupplierIdentity.InvalidSupplierId(supplierId));
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.MaterialSupplierIdentity.InvalidSupplierId(supplierId));
     }
 
     [Fact]
@@ -30,6 +30,6 @@ public class MaterialSupplierIdentityTests
     {
         var result = MaterialSupplierIdentity.Create((MaterialId)Guid.NewGuid(), (SupplierId)Guid.NewGuid());
 
-        result.IsSuccess.Should().BeTrue();
+        result.IsSuccess.ShouldBeTrue();
     }
 }

@@ -1,7 +1,7 @@
 using Architecture.Tests.Helpers;
 using Domain;
 using SharedKernel;
-using FluentAssertions;
+using Shouldly;
 
 namespace Architecture.Tests.DomainArchitectureTests;
 
@@ -17,7 +17,7 @@ public class EntityTests
         
         var result = properties.Any(x => x.CanWrite && x.IsPublicSetter());
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
     
     private Func<Type, bool> GetEntitiesType()

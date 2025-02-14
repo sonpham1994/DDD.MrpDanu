@@ -1,6 +1,6 @@
 using System.Reflection;
 using Domain;
-using FluentAssertions;
+using Shouldly;
 using NetArchTest.Rules;
 using SharedKernel;
 using SharedKernel.Exceptions;
@@ -25,12 +25,12 @@ public class ResultTests
             {
                 Type constructedType = resultType.MakeGenericType(targetType);
                 var instance = (IResult<int>)Activator.CreateInstance(constructedType)!;
-                instance.Invoking(x => x.IsSuccess).Should().Throw<SafeFailResultDomainException>();
+                Should.Throw<SafeFailResultDomainException>(() => instance.IsSuccess);
             }
             else
             {
                 IResult instance = (IResult)Activator.CreateInstance(resultType)!;
-                instance.Invoking(x => x.IsSuccess).Should().Throw<SafeFailResultDomainException>();
+                Should.Throw<SafeFailResultDomainException>(() => instance.IsSuccess);
             }
         }
     }
@@ -51,12 +51,12 @@ public class ResultTests
             {
                 Type constructedType = resultType.MakeGenericType(targetType);
                 var instance = (IResult<int>)Activator.CreateInstance(constructedType)!;
-                instance.Invoking(x => x.Error).Should().Throw<SafeFailResultDomainException>();
+                Should.Throw<SafeFailResultDomainException>(() => instance.Error);
             }
             else
             {
                 IResult instance = (IResult)Activator.CreateInstance(resultType)!;
-                instance.Invoking(x => x.Error).Should().Throw<SafeFailResultDomainException>();
+                Should.Throw<SafeFailResultDomainException>(() => instance.Error);
             }
         }
     }
@@ -78,7 +78,7 @@ public class ResultTests
             {
                 Type constructedType = resultType.MakeGenericType(targetType);
                 var instance = (IResult<int>)Activator.CreateInstance(constructedType)!;
-                instance.Invoking(x => x.Value).Should().Throw<SafeFailWithCodeResultDomainException>();
+                Should.Throw<SafeFailWithCodeResultDomainException>(() => instance.Value);
             }
             else
             {
@@ -86,13 +86,8 @@ public class ResultTests
                 var valueProperty = instance!.GetType().GetProperty(nameof(IResult<int>.Value));
             
                 // because it throws SafeFailWithCodeResultDomainException inside TargetInvocationException
-                valueProperty.Invoking(x => x.GetValue(instance))
-                    .Should()
-                    .Throw<TargetInvocationException>()
-                    .Which
-                    .InnerException
-                    .Should()
-                    .BeOfType<SafeFailWithCodeResultDomainException>();
+                var exception = Should.Throw<TargetInvocationException>(() => valueProperty.GetValue(instance));
+                exception.InnerException.ShouldBeOfType<SafeFailWithCodeResultDomainException>();
             }
         }
     }
@@ -101,24 +96,24 @@ public class ResultTests
     public void Create_successful_result_should_be_empty_error()
     {
         var result = Result.Success();
-        result.IsSuccess.Should().BeTrue();
-        result.Error.Should().Be(DomainError.Empty);
+        result.IsSuccess.ShouldBeTrue();
+        result.Error.ShouldBe(DomainError.Empty);
     }
     
     [Fact]
     public void Create_failed_result_should_has_error()
     {
         var result = Result.Failure(new DomainError("error","message error"));
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().NotBe(DomainError.Empty);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBe(DomainError.Empty);
     }
     
     [Fact]
     public void Create_successful_generic_result_and_value_should_not_be_null()
     {
         var result = Result.Success<string>("value");
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().NotBeNull();
-        result.Error.Should().Be(DomainError.Empty);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Error.ShouldBe(DomainError.Empty);
     }
 }

@@ -5,7 +5,8 @@ using SharedKernel.ValueObjects;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.Tests.Helpers;
 using Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement;
-using FluentAssertions;
+using Shouldly;
+
 namespace Domain.Tests.Extensions;
 
 public class LinqExtensionTests
@@ -15,8 +16,8 @@ public class LinqExtensionTests
     {
         var array = new List<int> { 2, 4, 5 };
         var result = array.AnyFailure(ExistElement);
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Code.Should().Be("Fail");
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.Code.ShouldBe("Fail");
     }
 
     [Fact]
@@ -24,8 +25,8 @@ public class LinqExtensionTests
     {
         var array = new List<int> { 2, 4, 6 };
         var isSuccess = array.AnyFailure(ExistElement);
-        isSuccess.IsSuccess.Should().Be(true);
-        isSuccess.Error.IsEmpty().Should().BeTrue();
+        isSuccess.IsSuccess.ShouldBe(true);
+        isSuccess.Error.IsEmpty().ShouldBeTrue();
     }
 
     [Fact]
@@ -47,8 +48,8 @@ public class LinqExtensionTests
 
         var result = items.GetEntityDuplication();
 
-        result.Should().NotBeNull();
-        result.Should().Be(material1);
+        result.ShouldNotBeNull();
+        result.ShouldBe(material1);
     }
 
     [Fact]
@@ -69,7 +70,7 @@ public class LinqExtensionTests
 
         var result = items.GetEntityDuplication();
 
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -88,7 +89,7 @@ public class LinqExtensionTests
 
         var result = items.GetEntityDuplication();
 
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -109,8 +110,8 @@ public class LinqExtensionTests
 
         var result = items.GetEntityDuplication();
 
-        result.Should().NotBeNull();
-        result.Should().Be(material1);
+        result.ShouldNotBeNull();
+        result.ShouldBe(material1);
     }
 
     [Fact]
@@ -132,8 +133,8 @@ public class LinqExtensionTests
 
         var result = items.GetEntityDuplication();
 
-        result.Should().NotBeNull();
-        result.Should().Be(material1);
+        result.ShouldNotBeNull();
+        result.ShouldBe(material1);
     }
     
     [Fact]
@@ -148,8 +149,8 @@ public class LinqExtensionTests
 
         var result = items.GetItemDuplication(x => x!.Attributes);
 
-        result.Should().NotBeNull();
-        result.Should().Be(items[0]!.Attributes);
+        result.ShouldNotBeNull();
+        result.ShouldBe(items[0]!.Attributes);
     }
 
     [Fact]
@@ -165,7 +166,7 @@ public class LinqExtensionTests
 
         var result = items.GetItemDuplication(x => x!.Attributes);
     
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
     
     [Fact]
@@ -183,7 +184,7 @@ public class LinqExtensionTests
 
         var result = items.GetItemDuplication(x => x!.Attributes);
     
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
     
     [Fact]
@@ -201,8 +202,8 @@ public class LinqExtensionTests
 
         var result = items.GetItemDuplication(x => x!.Attributes);
     
-        result.Should().NotBeNull();
-        result.Should().Be(items[0]!.Attributes);
+        result.ShouldNotBeNull();
+        result.ShouldBe(items[0]!.Attributes);
     }
     
     [Fact]
@@ -224,8 +225,8 @@ public class LinqExtensionTests
 
         var result = items.GetItemDuplication(x => x!.Attributes);
     
-        result.Should().NotBeNull();
-        result.Should().Be(material1.Attributes);
+        result.ShouldNotBeNull();
+        result.ShouldBe(material1.Attributes);
     }
     
     private Result ExistElement(int id)

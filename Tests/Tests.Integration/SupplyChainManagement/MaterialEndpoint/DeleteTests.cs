@@ -1,5 +1,5 @@
 using System.Net;
-using FluentAssertions;
+using Shouldly;
 using Infrastructure.Persistence.Writes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,21 +21,21 @@ public class DeleteTests(EndpointFactory apiFactory)
         var response = await HttpClient.DeleteAsync($"{Endpoint}/{id}");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var deletedResponse = await ReadFromJsonAsync(response);
-        deletedResponse!.IsSuccess.Should().BeTrue();
-        deletedResponse.Errors.Should().BeEmpty();
+        deletedResponse!.IsSuccess.ShouldBeTrue();
+        deletedResponse.Errors.ShouldBeEmpty();
 
         var material = await GetMaterialByIdAsync(id);
-        material.Should().BeNull();
+        material.ShouldBeNull();
 
         var materials = await GetAllMaterialsAsync();
-        materials.Should().BeEmpty();
+        materials.ShouldBeEmpty();
 
         var existsMaterialCost = await GetDatabaseFacade()
             .SqlQuery<bool>($"SELECT TOP 1 Id FROM MaterialSupplierCost WHERE MaterialId = {id}")
             .AnyAsync();
-        existsMaterialCost.Should().BeFalse();
+        existsMaterialCost.ShouldBeFalse();
         
         CreatedIds.Clear();
     }
@@ -47,10 +47,10 @@ public class DeleteTests(EndpointFactory apiFactory)
         var response = await HttpClient.DeleteAsync($"{Endpoint}/{Guid.NewGuid()}");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var deletedResponse = await ReadFromJsonAsync(response);
-        deletedResponse!.IsSuccess.Should().BeFalse();
-        deletedResponse.Errors.Should().NotBeEmpty();
-        deletedResponse.Errors[0].Should().Be(NotFoundMaterialId);
+        deletedResponse!.IsSuccess.ShouldBeFalse();
+        deletedResponse.Errors.ShouldNotBeEmpty();
+        deletedResponse.Errors[0].ShouldBe(NotFoundMaterialId);
     }
 }

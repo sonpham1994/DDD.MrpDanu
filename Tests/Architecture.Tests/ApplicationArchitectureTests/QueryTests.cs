@@ -1,7 +1,7 @@
 using Application;
 using Application.Interfaces.Messaging;
 using Architecture.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 using NetArchTest.Rules;
 
 namespace Architecture.Tests.ApplicationArchitectureTests;
@@ -26,7 +26,7 @@ public class QueryTests
             .HaveDependencyOn(InterfaceQueriesNamespace)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class QueryTests
             .HaveDependencyOn(InterfaceWritesNamespace)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class QueryTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class QueryTests
             .BeSealed()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
     
     [Fact]
@@ -82,7 +82,7 @@ public class QueryTests
             .HaveDependencyOn(DomainNamespace)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -96,6 +96,6 @@ public class QueryTests
         var properties = responseClasses.SelectMany(x => x.GetProperties());
         var result = properties.Any(x => !x.IsInitOnlySetter());
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

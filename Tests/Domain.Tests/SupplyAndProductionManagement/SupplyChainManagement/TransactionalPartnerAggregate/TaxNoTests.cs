@@ -1,6 +1,6 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -14,8 +14,8 @@ public class TaxNoTests
     {
         var result = TaxNo.Create(taxNo, Country.Korean);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.EmptyTaxNo);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.EmptyTaxNo);
     }
 
     [Theory]
@@ -25,8 +25,8 @@ public class TaxNoTests
     {
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidLengthTaxNo);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidLengthTaxNo);
     }
 
     [Theory]
@@ -36,8 +36,8 @@ public class TaxNoTests
     {
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.TransactionalPartner.InvalidTaxNo);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.TransactionalPartner.InvalidTaxNo);
     }
 
     [Fact]
@@ -46,9 +46,9 @@ public class TaxNoTests
         string taxNo = "1234567890";
         var result = TaxNo.Create(taxNo, Country.VietNam);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(taxNo);
-        result.Value.Country.Should().Be(Country.VietNam);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(taxNo);
+        result.Value.Country.ShouldBe(Country.VietNam);
     }
 
     [Fact]
@@ -57,9 +57,9 @@ public class TaxNoTests
         string taxNo = "12345";
         var result = TaxNo.Create(taxNo, Country.Korean);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(taxNo);
-        result.Value.Country.Should().Be(Country.Korean);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(taxNo);
+        result.Value.Country.ShouldBe(Country.Korean);
     }
 
     [Fact]
@@ -68,8 +68,8 @@ public class TaxNoTests
         string taxNo = "12345";
         var result = TaxNo.Create($"  {taxNo}  ", Country.Korean);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(taxNo);
-        result.Value.Country.Should().Be(Country.Korean);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(taxNo);
+        result.Value.Country.ShouldBe(Country.Korean);
     }
 }

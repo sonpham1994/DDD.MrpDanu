@@ -1,6 +1,6 @@
 using SharedKernel;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using FluentAssertions;
+using Shouldly;
 using DomainErrors = Domain.SupplyAndProductionManagement.SupplyChainManagement.DomainErrors;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
@@ -19,8 +19,8 @@ public class MaterialAttributesTests
     {
         var materialAttributes = MaterialAttributes.Create(colorCode, width, weight, unit, varian);
 
-        materialAttributes.IsSuccess.Should().BeFalse();
-        materialAttributes.Error.Should().Be(error);
+        materialAttributes.IsSuccess.ShouldBeFalse();
+        materialAttributes.Error.ShouldBe(error);
     }
 
     [Theory]
@@ -68,12 +68,12 @@ public class MaterialAttributesTests
             unit,
             varian);
 
-        materialAttributes.IsSuccess.Should().BeTrue();
-        materialAttributes.Value!.ColorCode.Should().Be(colorCode.Trim());
-        materialAttributes.Value.Width.Should().Be(width.Trim());
-        materialAttributes.Value.Weight.Should().Be(weight.Trim());
-        materialAttributes.Value.Unit.Should().Be(unit.Trim().ToUpper());
-        materialAttributes.Value.Varian.Should().Be(varian.Trim());
+        materialAttributes.IsSuccess.ShouldBeTrue();
+        materialAttributes.Value!.ColorCode.ShouldBe(colorCode.Trim());
+        materialAttributes.Value.Width.ShouldBe(width.Trim());
+        materialAttributes.Value.Weight.ShouldBe(weight.Trim());
+        materialAttributes.Value.Unit.ShouldBe(unit.Trim().ToUpper());
+        materialAttributes.Value.Varian.ShouldBe(varian.Trim());
     }
     
     [Theory]
@@ -92,9 +92,9 @@ public class MaterialAttributesTests
             $" {unit} ",
             $" {varian} ");
 
-        materialAttributes.IsSuccess.Should().Be(true);
-        materialAttributes.Value!.ColorCode.Should().Be(string.Empty);
-        materialAttributes.Value.Weight.Should().Be(string.Empty);
+        materialAttributes.IsSuccess.ShouldBe(true);
+        materialAttributes.Value!.ColorCode.ShouldBe(string.Empty);
+        materialAttributes.Value.Weight.ShouldBe(string.Empty);
     }
 
     public static IEnumerable<object?[]> GetNullOrEmptyOfMandatoryProperties()

@@ -1,6 +1,6 @@
 using System.Net;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
-using FluentAssertions;
+using Shouldly;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
@@ -18,11 +18,11 @@ public class GetTests(EndpointFactory apiFactory)
         var response = await HttpClient.GetAsync($"{Endpoint}/{id}");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var materialResponse = await ReadFromJsonAsync<MaterialResponse>(response);
-        materialResponse!.IsSuccess.Should().BeTrue();
-        materialResponse.Errors.Should().BeEmpty();
-        materialResponse.Result.Should().NotBeNull();
+        materialResponse!.IsSuccess.ShouldBeTrue();
+        materialResponse.Errors.ShouldBeEmpty();
+        materialResponse.Result.ShouldNotBeNull();
     }
     
     [Fact]
@@ -32,11 +32,11 @@ public class GetTests(EndpointFactory apiFactory)
         var response = await HttpClient.GetAsync($"{Endpoint}/{Guid.NewGuid()}");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var materialResponse = await ReadFromJsonAsync<MaterialResponse>(response);
-        materialResponse!.IsSuccess.Should().BeFalse();
-        materialResponse.Errors.Should().NotBeEmpty();
-        materialResponse.Errors[0].Should().Be(NotFoundMaterialId);
-        materialResponse.Result.Should().BeNull();
+        materialResponse!.IsSuccess.ShouldBeFalse();
+        materialResponse.Errors.ShouldNotBeEmpty();
+        materialResponse.Errors[0].ShouldBe(NotFoundMaterialId);
+        materialResponse.Result.ShouldBeNull();
     }
 }

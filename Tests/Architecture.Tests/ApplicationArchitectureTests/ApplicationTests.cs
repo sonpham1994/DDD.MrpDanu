@@ -3,7 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.Messaging;
 using Architecture.Tests.Helpers;
 using SharedKernel;
-using FluentAssertions;
+using Shouldly;
 using FluentValidation;
 using Mono.Cecil;
 using NetArchTest.Rules;
@@ -22,6 +22,6 @@ public class ApplicationTests
 
         var result = Types.InAssembly(applicationAssembly).ShouldNot().HaveDependencyOnAll(otherProjects).GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

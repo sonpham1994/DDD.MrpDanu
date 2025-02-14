@@ -2,7 +2,7 @@ using System.Reflection;
 using Architecture.Tests.Helpers;
 using Domain;
 using SharedKernel;
-using FluentAssertions;
+using Shouldly;
 using NetArchTest.Rules;
 
 //https://www.youtube.com/watch?v=_D6Kai4RdGY&t=536s
@@ -19,6 +19,6 @@ public class DomainTests
 
         var result = Types.InAssembly(domainAssembly).ShouldNot().HaveDependencyOnAll(otherProjects).GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

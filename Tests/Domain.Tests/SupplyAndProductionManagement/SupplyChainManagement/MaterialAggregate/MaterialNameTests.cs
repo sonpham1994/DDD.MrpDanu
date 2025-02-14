@@ -1,7 +1,7 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
@@ -15,8 +15,8 @@ public class MaterialNameTests
     {
         var result = MaterialName.Create(code);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.EmptyName);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.EmptyName);
     }
     
     [Fact]
@@ -25,8 +25,8 @@ public class MaterialNameTests
         var name = Helper.CreateStringByLength(501, 't');
         var result = MaterialName.Create(name);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.ExceedsMaxLengthName);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.ExceedsMaxLengthName);
     }
     
     [Fact]
@@ -35,8 +35,8 @@ public class MaterialNameTests
         string name = "name";
         var result = MaterialName.Create(name);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(name);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(name);
     }
     
     [Theory]
@@ -50,7 +50,7 @@ public class MaterialNameTests
     {
         var result = MaterialName.Create(name);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be("name");
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe("name");
     }
 }

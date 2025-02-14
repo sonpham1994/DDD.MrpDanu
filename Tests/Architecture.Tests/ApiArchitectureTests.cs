@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using MinimalApi;
 using NetArchTest.Rules;
 
@@ -30,7 +30,7 @@ public class ApiArchitectureTests
             .HaveDependencyOn("MediatR")
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
     
     [Fact]
@@ -45,6 +45,6 @@ public class ApiArchitectureTests
             .HaveDependencyOnAny(ApplicationInterfaces)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

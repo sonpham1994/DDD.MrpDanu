@@ -1,7 +1,7 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Domain.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 
@@ -15,8 +15,8 @@ public class MaterialCodeTests
     {
         var result = MaterialCode.Create(code);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.EmptyCode);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.EmptyCode);
     }
     
     [Fact]
@@ -25,8 +25,8 @@ public class MaterialCodeTests
         var name = Helper.CreateStringByLength(201, 't');
         var result = MaterialCode.Create(name);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.ExceedsMaxLengthCode);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.ExceedsMaxLengthCode);
     }
 
     [Theory]
@@ -65,8 +65,8 @@ public class MaterialCodeTests
         string code = "code" + specialCharacter;
         var result = MaterialCode.Create(code);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.NotAllowedSpecialCharacters);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.NotAllowedSpecialCharacters);
     }
 
     [Theory]
@@ -77,8 +77,8 @@ public class MaterialCodeTests
     {
         var result = MaterialCode.Create(specialCharacter);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.Material.NotAllowedOnlyAllowedSpecialCharacters);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.Material.NotAllowedOnlyAllowedSpecialCharacters);
     }
 
     [Fact]
@@ -87,8 +87,8 @@ public class MaterialCodeTests
         string code = "code";
         var result = MaterialCode.Create(code);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(code);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(code);
     }
     
     [Theory]
@@ -102,8 +102,8 @@ public class MaterialCodeTests
     {
         var result = MaterialCode.Create(code);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(code.Trim());
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(code.Trim());
     }
 
     [Theory]
@@ -115,7 +115,7 @@ public class MaterialCodeTests
         string code = "code" + specialCharacter;
         var result = MaterialCode.Create(code);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(code);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(code);
     }
 }

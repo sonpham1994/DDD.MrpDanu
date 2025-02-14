@@ -1,6 +1,6 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -13,16 +13,16 @@ public class ContactInformationTests
     public void Cannot_create_contact_info_with_empty_contact_info(string? telNo, string? email)
     {
         var result = ContactInformation.Create(telNo, email);
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmptyContact);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.EmptyContact);
     }
 
     [Fact]
     public void Cannot_create_contact_info_if_tel_no_is_not_numbers()
     {
         var result = ContactInformation.Create("asdvv123aa", "abcxyz@gmail.com");
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TelNoIsNotNumbers);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.TelNoIsNotNumbers);
     }
 
     [Fact]
@@ -31,8 +31,8 @@ public class ContactInformationTests
         var email = new string('e', 201);
         var result = ContactInformation.Create("123456789", email);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmailExceedsMaxLength);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.EmailExceedsMaxLength);
     }
 
     [Theory]
@@ -49,8 +49,8 @@ public class ContactInformationTests
     {
         var result = ContactInformation.Create("123456789", email);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.InvalidEmail);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.InvalidEmail);
     }
 
     [Fact]
@@ -60,9 +60,9 @@ public class ContactInformationTests
         string telNo = string.Empty;
         var result = ContactInformation.Create(telNo, email);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Email.Should().Be(email);
-        result.Value.TelNo.Should().Be(telNo);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Email.ShouldBe(email);
+        result.Value.TelNo.ShouldBe(telNo);
     }
 
     [Fact]
@@ -72,9 +72,9 @@ public class ContactInformationTests
         string telNo = "123456789";
         var result = ContactInformation.Create(telNo, email);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Email.Should().Be(email);
-        result.Value.TelNo.Should().Be(telNo);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Email.ShouldBe(email);
+        result.Value.TelNo.ShouldBe(telNo);
     }
 
     [Theory]
@@ -84,8 +84,8 @@ public class ContactInformationTests
     {
         var result = ContactInformation.Create(telNo, "abcxyz@gmail.com");
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.TelNo.Should().Be(string.Empty);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.TelNo.ShouldBe(string.Empty);
     }
 
     [Theory]
@@ -95,8 +95,8 @@ public class ContactInformationTests
     {
         var result = ContactInformation.Create("123456789", email);
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Email.Should().Be(string.Empty);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Email.ShouldBe(string.Empty);
     }
 
     [Fact]
@@ -106,8 +106,8 @@ public class ContactInformationTests
         var email = "abcxyz@gmail.com";
         var result = ContactInformation.Create($"  {telNo}  ", $"  {email}  ");
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Email.Should().Be(email);
-        result.Value.TelNo.Should().Be(telNo);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Email.ShouldBe(email);
+        result.Value.TelNo.ShouldBe(telNo);
     }
 }

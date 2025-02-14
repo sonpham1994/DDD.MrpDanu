@@ -1,6 +1,6 @@
 using System.Net;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
-using FluentAssertions;
+using Shouldly;
 
 namespace Tests.Integration.SupplyChainManagement.MaterialEndpoint;
 
@@ -18,11 +18,11 @@ public class GetAllTests(EndpointFactory apiFactory)
         var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var materialsResponse = await ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
-        materialsResponse!.IsSuccess.Should().BeTrue();
-        materialsResponse.Errors.Should().BeEmpty();
-        materialsResponse.Result.Should().HaveCount(1);
+        materialsResponse!.IsSuccess.ShouldBeTrue();
+        materialsResponse.Errors.ShouldBeEmpty();
+        materialsResponse.Result.ShouldHaveSingleItem();
     }
     
     [Fact]
@@ -32,10 +32,10 @@ public class GetAllTests(EndpointFactory apiFactory)
         var response = await HttpClient.GetAsync(Endpoint);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var materialsResponse = await ReadFromJsonAsync<IReadOnlyList<MaterialsResponse>>(response);
-        materialsResponse!.IsSuccess.Should().BeTrue();
-        materialsResponse.Errors.Should().BeEmpty();
-        materialsResponse.Result.Should().BeEmpty();
+        materialsResponse!.IsSuccess.ShouldBeTrue();
+        materialsResponse.Errors.ShouldBeEmpty();
+        materialsResponse.Result.ShouldBeEmpty();
     }
 }

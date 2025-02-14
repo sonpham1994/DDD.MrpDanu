@@ -1,7 +1,7 @@
 using Domain.SupplyAndProductionManagement.SupplyChainManagement;
 using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Domain.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 
 namespace Domain.Tests.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 
@@ -14,8 +14,8 @@ public class PersonNameTests
     public void Cannot_create_person_name_if_parameter_name_is_null_or_empty(string? name)
     {
         var result = PersonName.Create(name);
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.EmptyName);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.EmptyName);
     }
 
     [Fact]
@@ -23,8 +23,8 @@ public class PersonNameTests
     {
         var name = Helper.CreateStringByLength(201, 't');
         var result = PersonName.Create(name);
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBe(DomainErrors.ContactPersonInformation.TheLengthOfNameExceedsMaxLength);
     }
 
 
@@ -33,8 +33,8 @@ public class PersonNameTests
     {
         var name = "this is my name";
         var result = PersonName.Create(name);
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(name);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(name);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class PersonNameTests
     {
         var name = "this is my name";
         var result = PersonName.Create($"  {name}  ");
-        result.IsSuccess.Should().BeTrue();
-        result.Value!.Value.Should().Be(name);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Value.ShouldBe(name);
     }
 }

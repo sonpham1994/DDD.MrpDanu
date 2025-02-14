@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 using Infrastructure;
 using NetArchTest.Rules;
 
@@ -18,7 +18,7 @@ public class QueryTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -31,6 +31,6 @@ public class QueryTests
             .BeSealed()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

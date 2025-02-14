@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using FluentAssertions;
+using Shouldly;
 
 namespace Tests.Integration.SupplyChainManagement.TransactionalPartnerEndpoint;
 
@@ -18,10 +18,10 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var transactionalPartnerUpdatedResponse = await ReadFromJsonAsync(response);
-        transactionalPartnerUpdatedResponse!.IsSuccess.Should().BeTrue();
-        transactionalPartnerUpdatedResponse.Errors.Should().BeEmpty();
+        transactionalPartnerUpdatedResponse!.IsSuccess.ShouldBeTrue();
+        transactionalPartnerUpdatedResponse.Errors.ShouldBeEmpty();
 
         await EnsureEqualAsync(id, request);
     }
@@ -41,10 +41,10 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", request2);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var updatedResponse = await ReadFromJsonAsync(response);
-        updatedResponse!.IsSuccess.Should().BeFalse();
-        updatedResponse.Errors.Should().HaveCount(1);
+        updatedResponse!.IsSuccess.ShouldBeFalse();
+        updatedResponse.Errors.ShouldHaveSingleItem();
         
         await EnsureEqualAsync(id, request);
     }
@@ -68,11 +68,11 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", updateRequest);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var updatedResponse = await ReadFromJsonAsync(response);
-        updatedResponse!.IsSuccess.Should().BeFalse();
-        updatedResponse.Errors.Should().HaveCount(1);
-        updatedResponse.Errors[0].Should().Be(TelNoOrEmailIsTaken);
+        updatedResponse!.IsSuccess.ShouldBeFalse();
+        updatedResponse.Errors.ShouldHaveSingleItem();
+        updatedResponse.Errors[0].ShouldBe(TelNoOrEmailIsTaken);
         
         await EnsureEqualAsync(id, requestCreate2);
     }
@@ -96,11 +96,11 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", updateRequest);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var createdResponse = await ReadFromJsonAsync(response);
-        createdResponse!.IsSuccess.Should().BeFalse();
-        createdResponse.Errors.Should().HaveCount(1);
-        createdResponse.Errors[0].Should().Be(TelNoOrEmailIsTaken);
+        createdResponse!.IsSuccess.ShouldBeFalse();
+        createdResponse.Errors.ShouldHaveSingleItem();
+        createdResponse.Errors[0].ShouldBe(TelNoOrEmailIsTaken);
         
         await EnsureEqualAsync(id, requestCreate2);
     }
@@ -120,10 +120,10 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var transactionalPartnerUpdatedResponse = await ReadFromJsonAsync(response);
-        transactionalPartnerUpdatedResponse!.IsSuccess.Should().BeTrue();
-        transactionalPartnerUpdatedResponse.Errors.Should().BeEmpty();
+        transactionalPartnerUpdatedResponse!.IsSuccess.ShouldBeTrue();
+        transactionalPartnerUpdatedResponse.Errors.ShouldBeEmpty();
 
         await EnsureEqualAsync(id, request);
     }
@@ -143,10 +143,10 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var transactionalPartnerUpdatedResponse = await ReadFromJsonAsync(response);
-        transactionalPartnerUpdatedResponse!.IsSuccess.Should().BeTrue();
-        transactionalPartnerUpdatedResponse.Errors.Should().BeEmpty();
+        transactionalPartnerUpdatedResponse!.IsSuccess.ShouldBeTrue();
+        transactionalPartnerUpdatedResponse.Errors.ShouldBeEmpty();
 
         await EnsureEqualAsync(id, request);
     }
@@ -167,10 +167,10 @@ public class UpdateTests(EndpointFactory endpointFactory)
         var response = await HttpClient.PutAsJsonAsync($"{Endpoint}/{id}", request);
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var transactionalPartnerUpdatedResponse = await ReadFromJsonAsync(response);
-        transactionalPartnerUpdatedResponse!.IsSuccess.Should().BeTrue();
-        transactionalPartnerUpdatedResponse.Errors.Should().BeEmpty();
+        transactionalPartnerUpdatedResponse!.IsSuccess.ShouldBeTrue();
+        transactionalPartnerUpdatedResponse.Errors.ShouldBeEmpty();
 
         await EnsureEqualAsync(id, request);
     }

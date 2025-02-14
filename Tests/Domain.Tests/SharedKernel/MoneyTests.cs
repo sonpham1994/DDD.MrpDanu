@@ -1,6 +1,6 @@
 using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
-using FluentAssertions;
+using Shouldly;
 using DomainErrors = SharedKernel.ValueObjects.DomainErrors;
 
 namespace Domain.Tests.SharedKernel;
@@ -12,8 +12,8 @@ public class MoneyTests
     {
         var money = Money.Create(0m, CurrencyType.SGD);
 
-        money.IsSuccess.Should().BeFalse();
-        money.Error.Should().Be(DomainErrors.Money.InvalidMoney);
+        money.IsSuccess.ShouldBeFalse();
+        money.Error.ShouldBe(DomainErrors.Money.InvalidMoney);
     }
     
     [Fact]
@@ -21,8 +21,8 @@ public class MoneyTests
     {
         var money = Money.Create(-1m, CurrencyType.SGD);
 
-        money.IsSuccess.Should().BeFalse();
-        money.Error.Should().Be(DomainErrors.Money.InvalidMoney);
+        money.IsSuccess.ShouldBeFalse();
+        money.Error.ShouldBe(DomainErrors.Money.InvalidMoney);
     }
     
     [Fact]
@@ -30,9 +30,9 @@ public class MoneyTests
     {
         var money = Money.Create(500m, CurrencyType.VND);
 
-        money.IsSuccess.Should().Be(true);
-        money.Value!.Value.Should().Be(500m);
-        money.Value.CurrencyType.Should().Be(CurrencyType.VND);
+        money.IsSuccess.ShouldBe(true);
+        money.Value!.Value.ShouldBe(500m);
+        money.Value.CurrencyType.ShouldBe(CurrencyType.VND);
     }
     
     [Fact]
@@ -40,9 +40,9 @@ public class MoneyTests
     {
         var money = Money.Create(1.5m, CurrencyType.USD);
 
-        money.IsSuccess.Should().Be(true);
-        money.Value!.Value.Should().Be(1.5m);
-        money.Value.CurrencyType.Should().Be(CurrencyType.USD);
+        money.IsSuccess.ShouldBe(true);
+        money.Value!.Value.ShouldBe(1.5m);
+        money.Value.CurrencyType.ShouldBe(CurrencyType.USD);
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class MoneyTests
         var money1 = Money.Create(200, CurrencyType.USD).Value;
         var money2 = Money.Create(200, CurrencyType.USD).Value;
 
-        money1.Should().Be(money2);
-        money1!.GetHashCode().Should().Be(money2!.GetHashCode());
+        money1.ShouldBe(money2);
+        money1!.GetHashCode().ShouldBe(money2!.GetHashCode());
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public class MoneyTests
         var money1 = Money.Create(300m, CurrencyType.USD).Value;
         var money2 = Money.Create(200m, CurrencyType.USD).Value;
 
-        money1.Should().NotBe(money2);
-        money1!.GetHashCode().Should().NotBe(money2!.GetHashCode());
+        money1.ShouldNotBe(money2);
+        money1!.GetHashCode().ShouldNotBe(money2!.GetHashCode());
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class MoneyTests
         var money1 = Money.Create(200m, CurrencyType.USD).Value;
         var money2 = Money.Create(200m, CurrencyType.VND).Value;
 
-        money1.Should().NotBe(money2);
-        money1!.GetHashCode().Should().NotBe(money2!.GetHashCode());
+        money1.ShouldNotBe(money2);
+        money1!.GetHashCode().ShouldNotBe(money2!.GetHashCode());
     }
 }

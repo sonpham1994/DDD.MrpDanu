@@ -1,7 +1,7 @@
 using Application;
 using Application.Interfaces.Messaging;
 using Architecture.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 using FluentValidation;
 using NetArchTest.Rules;
 
@@ -26,7 +26,7 @@ public class CommandTests
             .HaveDependencyOnAny(DomainNamespace, ApplicationNamespace)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class CommandTests
         .BePublic()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class CommandTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class CommandTests
         .HaveDependencyOn(InterfaceQueriesNamespace)
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class CommandTests
         var properties = commandClasses.SelectMany(x => x.GetProperties());
         var result = properties.Any(x => !x.IsInitOnlySetter());
 
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class CommandTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
     
     [Fact]
@@ -116,7 +116,7 @@ public class CommandTests
             .BePublic()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -129,6 +129,6 @@ public class CommandTests
             .BeSealed()
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }

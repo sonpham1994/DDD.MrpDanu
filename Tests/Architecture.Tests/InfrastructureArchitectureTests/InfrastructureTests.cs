@@ -1,6 +1,6 @@
 using Architecture.Tests.Helpers;
 using Infrastructure;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.EntityFrameworkCore;
 using NetArchTest.Rules;
 using Infrastructure.Persistence.Reads;
@@ -22,7 +22,7 @@ public class InfrastructureTests
 
         var result = Types.InAssembly(infrastructureAssembly).ShouldNot().HaveDependencyOn(ApiNamespace).GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class InfrastructureTests
             .HaveDependencyOn(DomainNamespace)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     //Should rewrite this test
@@ -51,6 +51,6 @@ public class InfrastructureTests
     //        .HaveDependencyOn(PersistenceWritesNamespace)
     //        .GetResult();
 
-    //   result.IsSuccessful.Should().BeTrue();
+    //   result.IsSuccessful.ShouldBeTrue();
     //}
 }

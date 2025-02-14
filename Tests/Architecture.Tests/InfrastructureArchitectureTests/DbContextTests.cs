@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using NetArchTest.Rules;
@@ -19,7 +19,7 @@ public class DbContextTests
         .BePublic()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class DbContextTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class DbContextTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class DbContextTests
         .BePublic()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class DbContextTests
         .BePublic()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 
     [Fact]
@@ -86,6 +86,6 @@ public class DbContextTests
         .BeSealed()
         .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        result.IsSuccessful.ShouldBeTrue();
     }
 }
