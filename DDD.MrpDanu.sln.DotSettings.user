@@ -72,10 +72,11 @@
     &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Tests.Integration" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Tests.Integration&amp;gt;" /&gt;
     &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Domain.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Domain.Tests&amp;gt;" /&gt;
     &lt;Project Location="/Users/sampham/Projects/SonPhamProjects/MRP.Danu/DDD.MrpDanu/Tests/Architecture.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Architecture.Tests&amp;gt;" /&gt;
+    &lt;ProjectFile&gt;F53BD83D-1319-4567-9E0B-D5021BFC7DEC/d:MaterialManagement/d:TransactionalPartnerAggregate/d:Commands/f:CreateTransactionalPartnerTests.cs&lt;/ProjectFile&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=817074bb_002Dba6b_002D4f8a_002Db286_002Df6e93b8ffcdd_0023Api/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=f53bd83d_002D1319_002D4567_002D9e0b_002Dd5021bfc7dec_0023Application_002ETests/@EntryIndexedValue">True</s:Boolean>
+	
 	
 	
 	
