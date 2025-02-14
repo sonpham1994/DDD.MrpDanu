@@ -86,7 +86,7 @@ public class MaterialTests
         var materialAttributes = SupplyChainManagementPreparingData.MaterialAttributes1;
         var material = Material.Create(code1, name1, materialAttributes, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        material.IsSuccess.ShouldBe(true);
+        material.IsSuccess.ShouldBeTrue();
         material.Value!.Attributes.ShouldBe(materialAttributes);
         material.Value.Code.ShouldBe(code1);
         material.Value.MaterialType.ShouldBe(MaterialType.Subassemblies);
@@ -203,7 +203,7 @@ public class MaterialTests
 
         var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes1, MaterialType.Subassemblies, RegionalMarket.Florida, UniqueMaterialCodeResult.Success());
 
-        result.IsSuccess.ShouldBe(true);
+        result.IsSuccess.ShouldBeTrue();
         material.Value.Attributes.ShouldBe(materialAttributes1);
         material.Value.MaterialType.ShouldBe(MaterialType.Subassemblies);
         material.Value.RegionalMarket.ShouldBe(RegionalMarket.Florida);
@@ -220,7 +220,7 @@ public class MaterialTests
 
         var result = material.Value!.UpdateMaterial(code1, name1, materialAttributes, MaterialType.Material, RegionalMarket.None, UniqueMaterialCodeResult.Success());
 
-        result.IsSuccess.ShouldBe(true);
+        result.IsSuccess.ShouldBeTrue();
         material.Value.Attributes.ShouldBe(materialAttributes);
         material.Value.MaterialType.ShouldBe(MaterialType.Material);
         material.Value.RegionalMarket.ShouldBe(RegionalMarket.None);
@@ -246,7 +246,7 @@ public class MaterialTests
 
         var result = material.Value!.UpdateCost(materialCosts);
 
-        result.IsSuccess.ShouldBe(true);
+        result.IsSuccess.ShouldBeTrue();
         material.Value.MaterialSupplierCosts[0].Price.ShouldBe(Money.Create(6m, CurrencyType.VND).Value);
         material.Value.MaterialSupplierCosts[0].MinQuantity.ShouldBe(minQuantity1);
         material.Value.MaterialSupplierCosts[0].Surcharge.ShouldBe(Money.Create(8m, CurrencyType.VND).Value);

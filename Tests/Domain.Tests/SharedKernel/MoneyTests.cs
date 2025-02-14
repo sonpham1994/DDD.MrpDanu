@@ -30,7 +30,7 @@ public class MoneyTests
     {
         var money = Money.Create(500m, CurrencyType.VND);
 
-        money.IsSuccess.ShouldBe(true);
+        money.IsSuccess.ShouldBeTrue();
         money.Value!.Value.ShouldBe(500m);
         money.Value.CurrencyType.ShouldBe(CurrencyType.VND);
     }
@@ -40,7 +40,7 @@ public class MoneyTests
     {
         var money = Money.Create(1.5m, CurrencyType.USD);
 
-        money.IsSuccess.ShouldBe(true);
+        money.IsSuccess.ShouldBeTrue();
         money.Value!.Value.ShouldBe(1.5m);
         money.Value.CurrencyType.ShouldBe(CurrencyType.USD);
     }

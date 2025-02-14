@@ -25,7 +25,7 @@ public class LinqExtensionTests
     {
         var array = new List<int> { 2, 4, 6 };
         var isSuccess = array.AnyFailure(ExistElement);
-        isSuccess.IsSuccess.ShouldBe(true);
+        isSuccess.IsSuccess.ShouldBeTrue();
         isSuccess.Error.IsEmpty().ShouldBeTrue();
     }
 

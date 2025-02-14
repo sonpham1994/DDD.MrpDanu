@@ -209,7 +209,7 @@ public class MaterialSupplierCostTests
         var materialCost = MaterialSupplierCost.Create(SupplyChainManagementPreparingData.MaterialId1, input, getSuppliersIdAndCurrencyTypeResult).Value!.First();
         var result = materialCost.SetMaterialCost(price!, minQuantity, surcharge!);
 
-        result.IsSuccess.ShouldBe(true);
+        result.IsSuccess.ShouldBeTrue();
         materialCost.Price.Value.ShouldBe(400m);
         materialCost.Price.CurrencyType.ShouldBe(CurrencyType.VND);
         materialCost.Surcharge.Value.ShouldBe(500m);

@@ -92,7 +92,7 @@ public class MaterialAttributesTests
             $" {unit} ",
             $" {varian} ");
 
-        materialAttributes.IsSuccess.ShouldBe(true);
+        materialAttributes.IsSuccess.ShouldBeTrue();
         materialAttributes.Value!.ColorCode.ShouldBe(string.Empty);
         materialAttributes.Value.Weight.ShouldBe(string.Empty);
     }
