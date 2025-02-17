@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Application.LoggingDefinitions;
 using SharedKernel;
 using MediatR;
@@ -14,13 +15,14 @@ internal sealed class RequestLoggingInterceptor<TRequest, TResponse>(
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var requestTypeName = typeof(TRequest).Name;
+        var requestName = typeof(TRequest).Name;
 
-        logger.StartRequest(request);
-    
+        logger.StartRequest(requestName);
+        var stopWatch = Stopwatch.StartNew();
         var response = await next();
+        stopWatch.Stop();
     
-        logger.CompletedRequest(response, requestTypeName);
+        logger.CompletedRequest(requestName, stopWatch.ElapsedMilliseconds);
 
         return response;
     }

@@ -20,9 +20,9 @@ internal sealed class HandlerLoggingInterceptor<TRequest, TResponse>(
     {
         // using var gcEventListener = new GcEventListener(_loggerGCEventListener);
         var handlerName = requestHandler.GetType().Name;
-        var requestTypeName = typeof(TRequest).Name;
+        var requestName = typeof(TRequest).Name;
 
-        logger.StartHandler(handlerName, requestTypeName);
+        logger.StartHandler(handlerName, requestName);
         var previousGen0Count = GC.CollectionCount(0);
         var previousGen1Count = GC.CollectionCount(1);
         var previousGen2Count = GC.CollectionCount(2);
@@ -31,9 +31,9 @@ internal sealed class HandlerLoggingInterceptor<TRequest, TResponse>(
         var response = await next();
         stopWatch.Stop();
         
-        logger.GcGenerationLogging(handlerName, requestTypeName, previousGen0Count, previousGen1Count,
+        logger.GcGenerationLogging(handlerName, requestName, previousGen0Count, previousGen1Count,
             previousGen2Count);
-        logger.CompletedHandler(handlerName, requestTypeName, response, stopWatch.ElapsedMilliseconds);
+        logger.CompletedHandler(handlerName, requestName, response, stopWatch.ElapsedMilliseconds);
 
         return response;
     }

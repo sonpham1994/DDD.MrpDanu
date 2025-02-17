@@ -20,7 +20,7 @@ internal sealed class TransactionalBehavior<TRequest, TResponse>(
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var requestName = request.GetGenericTypeName();
+        var requestName = typeof(TRequest).Name;
         logger.StartTransactionalBehavior(requestName);
         IResult result = Result.Success();
         

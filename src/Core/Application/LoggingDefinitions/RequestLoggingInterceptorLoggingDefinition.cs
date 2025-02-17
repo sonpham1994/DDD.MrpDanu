@@ -22,20 +22,17 @@ internal static class RequestLoggingInterceptorLoggingDefinition
         LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
             MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
     
-    private static readonly Action<ILogger, string, string, bool, DomainError, DateTime, Exception?> CompletedRequestLoggingDefinition =
-        LoggerMessage.Define<string, string, bool, DomainError, DateTime>(LogLevel.Information, 0,
-            MessageLogging + SharedLoggingDefinition.Completed + " - ResponseIsSuccess: {ResponseIsSuccess} - Error: {@ResponseError}" + SharedLoggingDefinition.Suffix);
+    private static readonly Action<ILogger, string, string, double, DateTime, Exception?> CompletedRequestLoggingDefinition =
+        LoggerMessage.Define<string, string, double, DateTime>(LogLevel.Information, 0,
+            MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.SuffixWithElapsedSecond);
     
-    public static void StartRequest<TRequest>(this ILogger logger, TRequest _)
+    public static void StartRequest(this ILogger logger, string requestName)
     {
-        var requestTypeName = typeof(TRequest).Name;
-        
-        StartRequestLoggingDefinition(logger, LoggingTypes.Request, requestTypeName, DateTime.UtcNow, null);
+        StartRequestLoggingDefinition(logger, LoggingTypes.Request, requestName, DateTime.UtcNow, null);
     }
     
-    public static void CompletedRequest<T>(this ILogger logger, T response, string requestTypeName)
-        where T : IResult
+    public static void CompletedRequest(this ILogger logger, string requestName, double totalMilliseconds)
     {
-        CompletedRequestLoggingDefinition(logger, LoggingTypes.Request, requestTypeName, response.IsSuccess, response.Error, DateTime.UtcNow, null);
+        CompletedRequestLoggingDefinition(logger, LoggingTypes.Request, requestName, totalMilliseconds, DateTime.UtcNow, null);
     }
 }

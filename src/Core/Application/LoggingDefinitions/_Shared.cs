@@ -4,6 +4,7 @@ public static class SharedLoggingDefinition
 {
     public const string Prefix = "LoggingType: {LoggingType}";
     public const string Suffix = " - Time: {@DateTimeUtc}";
+    public const string SuffixWithElapsedSecond = " in {ElapsedMs}ms" + Suffix;
     public const string Start = " start";
     public const string Completed = " completed";
     public const string FailedWithDomainError = " failed with error: {@Error}";

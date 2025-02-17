@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Application.Extensions;
+﻿using Application.Extensions;
 using Application.Interfaces.Messaging;
 using Application.LoggingDefinitions;
 using SharedKernel;
@@ -18,9 +17,9 @@ internal sealed class ValidatorInterceptor<TRequest, TResponse>(
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var requestTypeName = typeof(TRequest).Name;
+        var requestName = typeof(TRequest).Name;
 
-        logger.StartValidation(requestTypeName);
+        logger.StartValidation(requestName);
         
         IReadOnlyList<DomainError> domainErrors = validators
             .Select(x => x.Validate(request))
@@ -29,7 +28,7 @@ internal sealed class ValidatorInterceptor<TRequest, TResponse>(
             .ToDomainErrors();
         if (domainErrors.Count > 0)
         {
-            logger.ValidateFailure(requestTypeName, domainErrors);
+            logger.ValidateFailure(requestName, domainErrors);
             //case Result<T>
             if (typeof(TResponse).IsGenericType && typeof(TResponse).GetGenericTypeDefinition() == typeof(Result<>))
             {
@@ -47,7 +46,7 @@ internal sealed class ValidatorInterceptor<TRequest, TResponse>(
             //throw new DomainException(domainErrors);
         }
         
-        logger.CompletedValidation(requestTypeName);
+        logger.CompletedValidation(requestName);
 
         var response = await next();
 
