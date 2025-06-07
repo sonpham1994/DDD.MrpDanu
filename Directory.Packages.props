@@ -10,10 +10,10 @@
     <PackageVersion Include="Dapper" Version="2.1.66" />
     <PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="7.1.0" />
     <PackageVersion Include="Duende.IdentityServer.EntityFramework" Version="7.1.0" />
-    <PackageVersion Include="MediatR" Version="12.4.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.2" />
+    <PackageVersion Include="MediatR" Version="12.5.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.5" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.5" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.5" />
@@ -45,7 +45,7 @@
     <PackageVersion Include="Testcontainers.MongoDb" Version="4.4.0" />
     <PackageVersion Include="Testcontainers.MsSql" Version="4.4.0" />
     <PackageVersion Include="WireMock.Net" Version="1.8.9" />
-    <PackageVersion Include="xunit" Version="3.1.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.0" />
     <!-- Architecture.Tests -->
     <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
