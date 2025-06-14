@@ -295,7 +295,7 @@ public class JsonSerializerBenchmark
     public void LoggingSystemTextJsonStructWithNoSourceGeneratorSerializer()
     {
         var result = ResultWithNoJsonSourceGenerator.Success();
-        _logger.Information("--Result: {@Result}", result);
+        //_logger.Information("--Result: {@Result}", result);
         //_logger.StartResultWithNoSourcegenerator(result);
     }
 
@@ -303,7 +303,7 @@ public class JsonSerializerBenchmark
     public void LoggingSystemTextJsonStructSerializer()
     {
         Result result = Result.Success();
-        _logger.Information("--Result: {@Result}", result);
+        //_logger.Information("--Result: {@Result}", result);
     }
 
     [Benchmark]
@@ -312,21 +312,21 @@ public class JsonSerializerBenchmark
         Result result = Result.Success();
 
         var a = System.Text.Json.JsonSerializer.Serialize(result, ResultDefaultJsonContext.Default.Result);
-        _logger.Information("--Result: {Result}", a);
+        //_logger.Information("--Result: {Result}", a);
     }
 
     [Benchmark]
     public void LoggingSystemTextJsonStructGenericWithNoSourceGeneratorSerializer()
     {
         ResultWithNoJsonSourceGenerator<MyClass> result = mclass;
-        _logger.Information("--Result: {@Result}", result);
+        //_logger.Information("--Result: {@Result}", result);
     }
 
     [Benchmark]
     public void LoggingSystemTextJsonStructGenericSerializer()
     {
         Result<MyClass> result = mclass;
-        _logger.Information("--Result: {@Result}", result);
+        //_logger.Information("--Result: {@Result}", result);
     }
     
 
@@ -335,6 +335,6 @@ public class JsonSerializerBenchmark
     {
         Result<MyClass> result = mclass;
         var a = System.Text.Json.JsonSerializer.Serialize(result, ResultGenericDefaultJsonContext.Default.ResultMyClass);
-        _logger.Information("--Result: {Result}", a);
+        //_logger.Information("--Result: {Result}", a);
     }
 }
