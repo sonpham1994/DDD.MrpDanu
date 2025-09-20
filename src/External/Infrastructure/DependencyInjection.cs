@@ -117,7 +117,7 @@ public static class DependencyInjection
         //https://www.erikthecoder.net/2019/07/06/automatically-log-all-sql-commands/
         services.AddScoped<IDbConnection>(sp =>
         {
-            var applicationOptions = sp.GetRequiredService<IOptions<DatabaseSettings>>();
+            var applicationOptions = sp.GetRequiredService<IOptions<SqlDatabaseSettings>>();
             return new SqlConnection(applicationOptions.Value.ConnectionString);
         });
 

@@ -28,7 +28,7 @@ using Benchmark.ReadOnlySpan;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<ReadOnlySpanBenchmark>();
+BenchmarkRunner.Run<JsonSerializerBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();

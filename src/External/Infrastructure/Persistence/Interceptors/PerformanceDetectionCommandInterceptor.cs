@@ -8,7 +8,7 @@ namespace Infrastructure.Persistence.Interceptors;
 
 internal sealed class PerformanceDetectionCommandInterceptor(
     ILogger<PerformanceDetectionCommandInterceptor> logger,
-    IOptions<DatabaseSettings> databaseSettings)
+    IOptions<SqlDatabaseSettings> databaseSettings)
     : DbCommandInterceptor
 {
     private readonly double _standardExecutedDbCommandTime = databaseSettings.Value.StandardExecutedDbCommandTime;

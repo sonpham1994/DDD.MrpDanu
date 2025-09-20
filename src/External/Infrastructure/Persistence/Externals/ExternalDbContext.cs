@@ -10,12 +10,12 @@ namespace Infrastructure.Persistence.Externals;
 
 internal sealed class ExternalDbContext(
     DbContextOptions<ExternalDbContext> options,
-    IOptions<DatabaseSettings> databaseSettings,
+    IOptions<SqlDatabaseSettings> databaseSettings,
     EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor,
     PerformanceDetectionCommandInterceptor performanceDetectionCommandInterceptor)
     : DbContext(options)
 {
-    private readonly DatabaseSettings _databaseSettings = databaseSettings.Value;
+    private readonly SqlDatabaseSettings _sqlDatabaseSettings = databaseSettings.Value;
     private readonly IInterceptor[] _interceptors = [enumerationSaveChangesInterceptor, performanceDetectionCommandInterceptor];
     private List<AuditTable> _auditTables = [];
 
@@ -25,17 +25,17 @@ internal sealed class ExternalDbContext(
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseSqlServer(_databaseSettings.ConnectionString, msSqlOptions =>
+            .UseSqlServer(_sqlDatabaseSettings.ConnectionString, msSqlOptions =>
             {
-                msSqlOptions.EnableRetryOnFailure(maxRetryCount: _databaseSettings.MaxRetryCount,
-                    maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
+                msSqlOptions.EnableRetryOnFailure(maxRetryCount: _sqlDatabaseSettings.MaxRetryCount,
+                    maxRetryDelay: TimeSpan.FromSeconds(_sqlDatabaseSettings.MaxRetryDelay),
                     errorNumbersToAdd: null);
                 msSqlOptions.UseCompatibilityLevel(160);
                 msSqlOptions.MigrationsHistoryTable("ExternalDbContextMigrationsHistory");
             })
             .AddInterceptors(_interceptors);
 
-        if (_databaseSettings.EnableLog)
+        if (_sqlDatabaseSettings.EnableLog)
         {
             optionsBuilder
                 .EnableSensitiveDataLogging()

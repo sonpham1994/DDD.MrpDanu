@@ -1,7 +1,7 @@
 ﻿using MinimalApi.LoggingDefinitions;
 using Infrastructure.Persistence;
 using Microsoft.Extensions.Options;
-using CommonConstants = MinimalApi.Constants;
+using MinimalApi.Constants;
 
 namespace MinimalApi.ValidationOptions;
 
@@ -10,12 +10,12 @@ namespace MinimalApi.ValidationOptions;
 //ValidatateOptions and how IServiceProvider with DI lifetime work: https://andrewlock.net/the-dangers-and-gotchas-of-using-scoped-services-when-configuring-options-with-options-builder/
 //Add all ValidateOptions: https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/
 //ValidateOption with .Net 8 using source generator: https://www.roundthecode.com/dotnet-tutorials/validating-appsettings-faster-dotnet-8
-public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsValidationOption> logger) : IValidateOptions<DatabaseSettings>
+public sealed class SqlDatabaseSettingsValidationOption(ILogger<SqlDatabaseSettingsValidationOption> logger) : IValidateOptions<SqlDatabaseSettings>
 {
     private readonly ILogger _logger = logger;
-    public ValidateOptionsResult Validate(string? name, DatabaseSettings settings)
+    public ValidateOptionsResult Validate(string? name, SqlDatabaseSettings settings)
     {
-        var validationOptionType = CommonConstants.Database.ConfigurationName;
+        var validationOptionType = SqlDatabaseConstants.ConfigurationName;
         _logger.StartValidationOption(validationOptionType);
         
         if (settings.ConnectionString == string.Empty)
@@ -23,8 +23,9 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
             //we don't need to create char[] as representation of string because when code hit this, it means your app
             // will fail to start app, and it will shut down your app. After you reconfigure correctly, it will restart
             // if you change configuration, this will re-run
-            _logger.ValidateOptionWithError(validationOptionType, "ConnectionString is empty");
-            return ValidateOptionsResult.Fail("ConnectionString is empty");
+            var message = SqlDatabaseConstants.ConnectionStringEmpty;
+            _logger.ValidateOptionWithError(validationOptionType, message);
+            return ValidateOptionsResult.Fail(message);
         }
 
         if (settings.MaxRetryCount == 0)
@@ -48,7 +49,7 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
         var connections = settings.ConnectionString.Split(';');
         foreach (var connection in connections)
         {
-            if (connection.StartsWith(Constants.ServerDatabaseKey, StringComparison.OrdinalIgnoreCase))
+            if (connection.StartsWith(SqlDatabaseConstants.ServerDatabaseKey, StringComparison.OrdinalIgnoreCase))
             {
                 var serverConfig = connection.Split('=');
                 var server = serverConfig[1];
@@ -57,43 +58,47 @@ public sealed class DatabaseSettingsValidationOption(ILogger<DatabaseSettingsVal
                 var port = serverInfos[1];
                 if (string.IsNullOrEmpty(serverName) || string.IsNullOrWhiteSpace(serverName))
                 {
-                    _logger.ValidateOptionWithError(validationOptionType, "Server is empty");
-                    return ValidateOptionsResult.Fail("Server is empty");
+                    var message = SqlDatabaseConstants.ServerNameEmpty;
+                    _logger.ValidateOptionWithError(validationOptionType, message);
+                    return ValidateOptionsResult.Fail(message);
                 }
 
             }
-            else if (connection.StartsWith(CommonConstants.Database.DatabaseString, StringComparison.OrdinalIgnoreCase)
-                || connection.StartsWith(Constants.CatalogDatabaseKey, StringComparison.OrdinalIgnoreCase)
-                || connection.StartsWith(Constants.InitialCatalogDatabaseKey, StringComparison.OrdinalIgnoreCase))
+            else if (connection.StartsWith(SqlDatabaseConstants.DatabaseStringKey, StringComparison.OrdinalIgnoreCase)
+                || connection.StartsWith(SqlDatabaseConstants.CatalogDatabaseKey, StringComparison.OrdinalIgnoreCase)
+                || connection.StartsWith(SqlDatabaseConstants.InitialCatalogDatabaseKey, StringComparison.OrdinalIgnoreCase))
             {
                 var databaseInfo = connection.Split('=');
                 var databaseName = databaseInfo[1];
                 if (string.IsNullOrEmpty(databaseName) || string.IsNullOrWhiteSpace(databaseName))
                 {
-                    _logger.ValidateOptionWithError(validationOptionType, "Database name is empty");
-                    return ValidateOptionsResult.Fail("Database name is empty");
+                    var message = SqlDatabaseConstants.DatabaseNameEmpty;
+                    _logger.ValidateOptionWithError(validationOptionType, message);
+                    return ValidateOptionsResult.Fail(message);
                 }
 
             }
-            else if (connection.StartsWith(Constants.UserIdDatabaseKey, StringComparison.OrdinalIgnoreCase))
+            else if (connection.StartsWith(SqlDatabaseConstants.UserIdKey, StringComparison.OrdinalIgnoreCase))
             {
                 var userId = connection.Split('=');
                 var userIdName = userId[1];
                 if (string.IsNullOrEmpty(userIdName) || string.IsNullOrWhiteSpace(userIdName))
                 {
-                    _logger.ValidateOptionWithError(validationOptionType, "User Id is empty");
-                    return ValidateOptionsResult.Fail("User Id is empty");
+                    var message = SqlDatabaseConstants.UserIdEmpty;
+                    _logger.ValidateOptionWithError(validationOptionType, message);
+                    return ValidateOptionsResult.Fail(message);
                 }
 
             }
-            else if (connection.StartsWith(Constants.PasswordDatabaseKey, StringComparison.OrdinalIgnoreCase))
+            else if (connection.StartsWith(SqlDatabaseConstants.PasswordKey, StringComparison.OrdinalIgnoreCase))
             {
                 var password = connection.Split('=');
                 var passwordInfo = password[1];
                 if (string.IsNullOrEmpty(passwordInfo) || string.IsNullOrWhiteSpace(passwordInfo))
                 {
-                    _logger.ValidateOptionWithError(validationOptionType, "Password is empty");
-                    return ValidateOptionsResult.Fail("Password is empty");
+                    var message = SqlDatabaseConstants.PasswordEmpty;
+                    _logger.ValidateOptionWithError(validationOptionType, message);
+                    return ValidateOptionsResult.Fail(message);
                 }
             }
         }

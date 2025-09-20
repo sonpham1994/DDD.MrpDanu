@@ -1,6 +1,6 @@
 ﻿namespace MinimalApi.Constants;
 
-public static class Serilog
+public static class SerilogConstants
 {
     // create a string with char for not be interned. Because we just use this at once when we start program, hence we
     // don't need to allocate this value string in high-frequency heap. And when Gc 2 is perform collection process.

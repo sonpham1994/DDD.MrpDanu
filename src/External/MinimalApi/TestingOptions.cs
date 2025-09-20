@@ -5,7 +5,7 @@ namespace MinimalApi;
 
 public class TestingOptions
 {
-    public TestingOptions(IOptionsMonitor<DatabaseSettings> databaseSettings)
+    public TestingOptions(IOptionsMonitor<SqlDatabaseSettings> databaseSettings)
     {
         //useful for case updating configuration.
         databaseSettings.OnChange((newSetting, a) =>

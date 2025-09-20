@@ -39,13 +39,13 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
         {
             services.RemoveAll<IHostedService>();
             services.RemoveAll(typeof(IDbConnection));
-            services.RemoveAll(typeof(IOptions<DatabaseSettings>));
+            services.RemoveAll(typeof(IOptions<SqlDatabaseSettings>));
             services.RemoveAll(typeof(IOptions<MongoDbSettings>));
 
             services.AddScoped<IDbConnection>(_ => new SqlConnection(_sqlDbContainer.GetConnectionString()));
             
             // Create a DatabaseSettings instance with init setters
-            var databaseSettings = new DatabaseSettings
+            var databaseSettings = new SqlDatabaseSettings
             {
                 ConnectionString = _sqlDbContainer.GetConnectionString(),
                 MaxRetryCount = 10,
@@ -55,7 +55,7 @@ public class EndpointFactory : WebApplicationFactory<ProgramMinimalApi>, IAsyncL
             };
 
             // Register the instance as IOptions<DatabaseSettings>
-            services.AddSingleton<IOptions<DatabaseSettings>>(Options.Create(databaseSettings));
+            services.AddSingleton<IOptions<SqlDatabaseSettings>>(Options.Create(databaseSettings));
         
             var mongoDbSettings = new MongoDbSettings()
             {

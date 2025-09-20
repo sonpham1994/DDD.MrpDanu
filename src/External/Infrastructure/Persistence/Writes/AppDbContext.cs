@@ -14,13 +14,13 @@ namespace Infrastructure.Persistence.Writes;
 
 internal sealed class AppDbContext(
     DbContextOptions<AppDbContext> options,
-    IOptions<DatabaseSettings> databaseSettings,
+    IOptions<SqlDatabaseSettings> databaseSettings,
     EnumerationSaveChangesInterceptor enumerationSaveChangesInterceptor,
     InsertAuditableEntitiesSaveChangesInterceptor insertAuditableEntitiesSaveChangesInterceptor,
     PerformanceDetectionCommandInterceptor performanceDetectionCommandInterceptor)
     : DbContext(options), IUnitOfWork, IAppDbConnection
 {
-    private readonly DatabaseSettings _databaseSettings = databaseSettings.Value;
+    private readonly SqlDatabaseSettings _sqlDatabaseSettings = databaseSettings.Value;
     private readonly IInterceptor[] _interceptors = [
         enumerationSaveChangesInterceptor, 
         insertAuditableEntitiesSaveChangesInterceptor, 
@@ -41,9 +41,9 @@ internal sealed class AppDbContext(
     {
         //base.OnConfiguring(optionsBuilder);
         optionsBuilder
-            .UseSqlServer(_databaseSettings.ConnectionString, msSqlOptions =>
+            .UseSqlServer(_sqlDatabaseSettings.ConnectionString, msSqlOptions =>
             {
-                msSqlOptions.EnableRetryOnFailure(maxRetryCount: _databaseSettings.MaxRetryCount, maxRetryDelay: TimeSpan.FromSeconds(_databaseSettings.MaxRetryDelay),
+                msSqlOptions.EnableRetryOnFailure(maxRetryCount: _sqlDatabaseSettings.MaxRetryCount, maxRetryDelay: TimeSpan.FromSeconds(_sqlDatabaseSettings.MaxRetryDelay),
                     errorNumbersToAdd: null);
 
                 //https://devblogs.microsoft.com/dotnet/announcing-ef8-preview-4/ Older versions of SQL Server for OPENJSON function in SQL 2019 or later
@@ -56,7 +56,7 @@ internal sealed class AppDbContext(
             //https://devblogs.microsoft.com/dotnet/announcing-ef7-preview7-entity-framework/
             .AddInterceptors(_interceptors);
 
-        if (_databaseSettings.EnableLog)
+        if (_sqlDatabaseSettings.EnableLog)
         {
             optionsBuilder
                 .EnableSensitiveDataLogging(true)

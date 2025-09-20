@@ -14,7 +14,7 @@ namespace Infrastructure.Persistence;
  *
  * We can use IOptions for validating configuration
  */
-public sealed class DatabaseSettings
+public sealed class SqlDatabaseSettings
 {
     public string ConnectionString { get; init; } = string.Empty;
     public byte MaxRetryCount { get; init; } = 0;

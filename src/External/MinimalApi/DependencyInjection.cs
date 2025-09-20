@@ -10,6 +10,7 @@ using MinimalApi.ValidationOptions;
 using MinimalApi.Settings;
 using Infrastructure.PersistenceMongoDb;
 using Microsoft.FeatureManagement;
+using MinimalApi.Constants;
 
 namespace MinimalApi;
 
@@ -21,7 +22,7 @@ public static class DependencyInjection
             .AddValidators()
             .AddOptions(configuration)
             .AddHostedService<GcEventListenerBackgroundService>()
-            .AddFeatureManagement(configuration.GetSection(Constants.FeatureFlags.ConfigurationName));
+            .AddFeatureManagement(configuration.GetSection(FeatureFlags.ConfigurationName));
 
         //if (!isProduction)
         //{
@@ -116,7 +117,7 @@ public static class DependencyInjection
         // this will run whenever the settings is changed (for ex DatabaseSettings), the validator will run again,
         // for case if something change while running, the app will not shut down.
         // it will be suitable for connection changes frequently, but not ideal for connection never change.
-        services.TryAddSingleton<IValidateOptions<DatabaseSettings>, DatabaseSettingsValidationOption>();
+        services.TryAddSingleton<IValidateOptions<SqlDatabaseSettings>, SqlDatabaseSettingsValidationOption>();
         services.TryAddSingleton<IValidateOptions<SerilogSettings>, SerilogSettingsValidationOption>();
         services.TryAddSingleton<IValidateOptions<MongoDbSettings>, MongoDbSettingsValidationOption>();
         
@@ -126,9 +127,9 @@ public static class DependencyInjection
         //services.Configure<SerilogSettings>(configuration.GetSection("Serilog"));
 
         //Validate when running the project on
-        services.AddOptions<DatabaseSettings>().BindConfiguration(Constants.Database.ConfigurationName).ValidateOnStart();
-        services.AddOptions<SerilogSettings>().BindConfiguration(Constants.Serilog.ConfigurationName).ValidateOnStart();
-        services.AddOptions<MongoDbSettings>().BindConfiguration(Constants.MongoDb.ConfigurationName).ValidateOnStart();
+        services.AddOptions<SqlDatabaseSettings>().BindConfiguration(SqlDatabaseConstants.ConfigurationName).ValidateOnStart();
+        services.AddOptions<SerilogSettings>().BindConfiguration(SerilogConstants.ConfigurationName).ValidateOnStart();
+        services.AddOptions<MongoDbSettings>().BindConfiguration(MongoDbConstants.ConfigurationName).ValidateOnStart();
 
         return services;
     }

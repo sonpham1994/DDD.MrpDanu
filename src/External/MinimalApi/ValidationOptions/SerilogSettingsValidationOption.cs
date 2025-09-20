@@ -11,7 +11,7 @@ public sealed class SerilogSettingsValidationOption(IWebHostEnvironment environm
     {
         if (environment.IsDevelopment())
         {
-            string validationOptionType = CommonConstants.Serilog.ConfigurationNameSettings;
+            string validationOptionType = CommonConstants.SerilogConstants.ConfigurationNameSettings;
             logger.StartValidationOption(validationOptionType);
             
             if (options.WriteTo.Count == 0)
@@ -23,7 +23,7 @@ public sealed class SerilogSettingsValidationOption(IWebHostEnvironment environm
                 return ValidateOptionsResult.Fail("WriteTo is empty");
             }
 
-            if (options.WriteTo[0].Name.Equals(CommonConstants.Serilog.ApplicationInsightsName, StringComparison.OrdinalIgnoreCase))
+            if (options.WriteTo[0].Name.Equals(CommonConstants.SerilogConstants.ApplicationInsightsName, StringComparison.OrdinalIgnoreCase))
             {
                 if (options.WriteTo[0]?.Args is null)
                 {

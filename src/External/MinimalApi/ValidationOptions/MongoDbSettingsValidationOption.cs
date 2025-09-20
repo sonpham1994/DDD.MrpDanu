@@ -4,12 +4,12 @@ using Microsoft.Extensions.Options;
 
 namespace MinimalApi.ValidationOptions;
 
-public sealed class MongoDbSettingsValidationOption(ILogger<DatabaseSettingsValidationOption> logger)
+public sealed class MongoDbSettingsValidationOption(ILogger<SqlDatabaseSettingsValidationOption> logger)
     : IValidateOptions<MongoDbSettings>
 {
     public ValidateOptionsResult Validate(string? name, MongoDbSettings settings)
     {
-        var validationOptionType = MinimalApi.Constants.MongoDb.ConfigurationName;
+        var validationOptionType = MinimalApi.Constants.MongoDbConstants.ConfigurationName;
         logger.StartValidationOption(validationOptionType);
         
         if (settings.ConnectionString == string.Empty)
