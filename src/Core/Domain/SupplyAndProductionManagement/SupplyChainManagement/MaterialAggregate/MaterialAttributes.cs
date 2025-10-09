@@ -9,24 +9,15 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 // name and code of their material differently) but share the same attributes of materials such as color, width,
 // weight, unit, varian, we can treat two materials as the same. So we remove Name from this value object.
 //Other bounded contexts can use this value object to compare materials
-public class MaterialAttributes : ValueObject<MaterialAttributes>
+public record MaterialAttributes : IValueObject
 {
-    public string ColorCode { get; } = default!;
-    public string Width { get; } = default!;
-    public string Weight { get; } = default!;
-    public string Unit { get; } = default!;
-    public string Varian { get; } = default!;
+    public string ColorCode { get; private init; } = null!;
+    public string Width { get; private init;} = null!;
+    public string Weight { get; private init;} = null!;
+    public string Unit { get; private init;} = null!;
+    public string Varian { get; private init;} = null!;
 
-    protected MaterialAttributes() {}
-    
-    private MaterialAttributes(string colorCode, string width, string weight, string unit, string varian)
-    {
-        ColorCode = colorCode;
-        Width = width;
-        Weight = weight;
-        Unit = unit;
-        Varian = varian;
-    }
+    private MaterialAttributes() { }
 
     public static Result<MaterialAttributes?> Create(
         string? colorCode, 
@@ -35,11 +26,11 @@ public class MaterialAttributes : ValueObject<MaterialAttributes>
         string? unit, 
         string? varian)
     {
-        if (string.IsNullOrEmpty(width) || string.IsNullOrWhiteSpace(width))
+        if (string.IsNullOrWhiteSpace(width))
             return DomainErrors.Material.EmptyWidth;
-        if (string.IsNullOrEmpty(unit) || string.IsNullOrWhiteSpace(unit))
+        if (string.IsNullOrWhiteSpace(unit))
             return DomainErrors.Material.EmptyUnit;
-        if (string.IsNullOrEmpty(varian) || string.IsNullOrWhiteSpace(varian))
+        if (string.IsNullOrWhiteSpace(varian))
             return DomainErrors.Material.EmptyVarian;
 
         colorCode ??= string.Empty;
@@ -50,8 +41,15 @@ public class MaterialAttributes : ValueObject<MaterialAttributes>
         weight = weight.Trim();
         unit = unit.Trim().ToUpper();
         varian = varian.Trim();
-        
-        return new MaterialAttributes(colorCode, width, weight, unit, varian);
+
+        return new MaterialAttributes
+        {
+            ColorCode = colorCode,
+            Width = width,
+            Weight = weight,
+            Unit = unit,
+            Varian = varian,
+        };
     }
 
     //because we use value object to check whether two materials are the same, we may don't need to this UniCode function
@@ -79,20 +77,4 @@ public class MaterialAttributes : ValueObject<MaterialAttributes>
     //             : ReplaceSpecialCharacters(data);
     //     }
     // }
-    
-    protected override IEnumerable<int> GetHashCodeComponents()
-    {
-        yield return Varian.GetHashCode();
-        yield return Width.GetHashCode();
-        yield return Weight.GetHashCode();
-        yield return Unit.GetHashCode();
-        yield return ColorCode.GetHashCode();
-    }
-
-    protected override bool EqualComponents(MaterialAttributes other) 
-        => Varian == other.Varian 
-          && Width == other.Width 
-          && Weight == other.Weight 
-          && Unit == other.Unit 
-          && ColorCode == other.ColorCode;
 }

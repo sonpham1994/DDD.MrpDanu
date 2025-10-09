@@ -1,5 +1,6 @@
 using SharedKernel.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SharedKernel;
 
 namespace Infrastructure.Persistence.SupplyAndProductionManagement.SharedKernel;
 

@@ -24,7 +24,7 @@ public class MaterialCode : ValueObject<MaterialCode>
 
     public static Result<MaterialCode?> Create(string? code)
     {
-        if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
+        if (string.IsNullOrWhiteSpace(code))
             return DomainErrors.Material.EmptyCode;
         
         code = code.Trim();

@@ -99,7 +99,6 @@ public static class DomainErrors
         public static DomainError TheLengthOfNameExceedsMaxLength => new($"{nameof(ContactPersonInformation)}.{nameof(TheLengthOfNameExceedsMaxLength)}", "Contact person name should not exceed 200 characters");
         public static DomainError TelNoExceedsMaxLength => new($"{nameof(ContactPersonInformation)}.{nameof(TelNoExceedsMaxLength)}", "TelNo should not exceed 20 characters.");
         public static DomainError TelNoOrEmailIsTaken => new($"{nameof(ContactPersonInformation)}.{nameof(TelNoOrEmailIsTaken)}", "TelNo or Email is taken.");
-        
     }
 
     public static class TransactionalPartnerType
