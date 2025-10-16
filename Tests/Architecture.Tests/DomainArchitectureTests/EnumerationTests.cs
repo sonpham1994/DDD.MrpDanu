@@ -17,7 +17,7 @@ public class EnumerationTests
                         && x.BaseType.GetGenericTypeDefinition() == typeof(Enumeration<>)).ToList();
         var properties = enumerations.SelectMany(x => x.GetProperties()).ToList();
 
-        var result = properties.Any(x => !x.IsNoSetter());
+        var result = properties.Any(x => !x.IsNoSetterOrInitSetter());
 
         result.ShouldBeFalse();
     }

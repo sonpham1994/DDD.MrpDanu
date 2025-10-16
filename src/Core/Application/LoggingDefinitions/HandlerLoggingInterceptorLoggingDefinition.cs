@@ -5,23 +5,23 @@ namespace Application.LoggingDefinitions;
 
 internal static class HandlerLoggingInterceptorLoggingDefinition
 {
-    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Handler: {Handler} - RequestName: {RequestName}";
+    private const string MessageLogging = LoggingDefinition.Prefix + " - Handler: {Handler} - RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, string, DateTime, Exception?> StartHandlerLoggingDefinition =
         LoggerMessage.Define<string, string, string, DateTime>(LogLevel.Information, 0,
-            MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
+            MessageLogging + LoggingDefinition.Start + LoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, string, string, double, DateTime, Exception?> CompletedHandlerLoggingDefinition =
             LoggerMessage.Define<string, string, string, double, DateTime>(LogLevel.Information, 0,
-                MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.SuffixWithElapsedSecond);
+                MessageLogging + LoggingDefinition.Completed + LoggingDefinition.SuffixWithElapsedSecond);
 
     private static readonly Action<ILogger, string, string, string, double, DateTime, Exception?> CompletedLongHandlerLoggingDefinition =
             LoggerMessage.Define<string, string, string, double, DateTime>(LogLevel.Warning, 0,
-                MessageLogging + SharedLoggingDefinition.Completed + " in a long time" + SharedLoggingDefinition.SuffixWithElapsedSecond);
+                MessageLogging + LoggingDefinition.Completed + " in a long time" + LoggingDefinition.SuffixWithElapsedSecond);
 
     private static readonly Action<ILogger, string, string, string, DomainError, double, DateTime, Exception?> HandleFailureLoggingDefinition =
             LoggerMessage.Define<string, string, string, DomainError, double, DateTime>(LogLevel.Warning, 0,
-                MessageLogging + SharedLoggingDefinition.FailedWithDomainError + SharedLoggingDefinition.SuffixWithElapsedSecond);
+                MessageLogging + LoggingDefinition.FailedWithDomainError + LoggingDefinition.SuffixWithElapsedSecond);
 
     public static void StartHandler(this ILogger logger, string handlerName, string requestTypeName)
     {

@@ -1,18 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
+using SharedKernel;
 
 namespace Application.LoggingDefinitions;
 
 internal static class TransactionalBehaviorLoggingDefinition
 {
-    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Transactional operation's {RequestName}";
+    private const string MessageLogging = LoggingDefinition.Prefix + " - Transactional operation's {RequestName}";
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartTransactionalBehaviorLoggingDefinition =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
+           MessageLogging + LoggingDefinition.Start + LoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, string, DateTime, Exception?> CompletedTransactionalBehaviorLoggingDefinition =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.Suffix);
+           MessageLogging + LoggingDefinition.Completed + LoggingDefinition.Suffix);
 
     public static void StartTransactionalBehavior(this ILogger logger, string requestName)
     {

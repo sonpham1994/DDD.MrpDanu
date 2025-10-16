@@ -28,13 +28,13 @@ public static class Extensions
         return setter!.IsPublic;
     }
     
-    public static bool IsNoSetter(this PropertyInfo property)
+    public static bool IsNoSetterOrInitSetter(this PropertyInfo property)
     {
         if (!property.CanWrite)
         {
             return true;
         }
 
-        return false;
+        return IsInitOnlySetter(property);
     }
 }

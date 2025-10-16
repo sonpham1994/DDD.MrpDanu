@@ -1,17 +1,18 @@
 using Microsoft.Extensions.Logging;
+using SharedKernel;
 
 namespace Application.LoggingDefinitions;
 
 internal static class GcLoggingDefinition
 {
-    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Handler: {Handler} start: RequestName: {RequestName}";
+    private const string MessageLogging = LoggingDefinition.Prefix + " - Handler: {Handler} start: RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGcLoggingDefinition =
         LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Debug, 0,
-            MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" + SharedLoggingDefinition.Suffix);
+            MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" + LoggingDefinition.Suffix);
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGc2LoggingDefinition =
         LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Critical, 0,
-            MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" +SharedLoggingDefinition.Suffix);
+            MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" + LoggingDefinition.Suffix);
     
     public static void GcGenerationLogging(this ILogger logger, 
         string handlerName, 

@@ -1,10 +1,10 @@
-﻿using Application.LoggingDefinitions;
+﻿using SharedKernel;
 
 namespace MinimalApi.LoggingDefinitions;
 
 public static class ValidationOptionLoggingDefinition
 {
-    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - ValidationOptionType: {ValidationOptionType}";
+    private const string MessageLogging = LoggingDefinition.Prefix + " - ValidationOptionType: {ValidationOptionType}";
     
     //These format cannot be cleaned up event if using char[]. Hence we dont' need to create char array for this case.
     // But we can use Console.Error.WriteLine, it can be cleaned up with GC.Collect(2)
@@ -13,15 +13,15 @@ public static class ValidationOptionLoggingDefinition
     //Please check TestGcForString project
     private static readonly Action<ILogger, string, string, DateTime, Exception?> _startValidationOption =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
+           MessageLogging + LoggingDefinition.Start + LoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, string, DateTime, Exception?> _completedValidationOption =
        LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-           MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.Suffix);
+           MessageLogging + LoggingDefinition.Completed + LoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, string, string, DateTime, Exception?> _validateOptionWithError =
         LoggerMessage.Define<string, string, string, DateTime>(LogLevel.Error, 0,
-            MessageLogging + SharedLoggingDefinition.FailedWithError + SharedLoggingDefinition.Suffix);
+            MessageLogging + LoggingDefinition.FailedWithError + LoggingDefinition.Suffix);
 
     public static void StartValidationOption(this ILogger logger, string validationOptionType)
     {

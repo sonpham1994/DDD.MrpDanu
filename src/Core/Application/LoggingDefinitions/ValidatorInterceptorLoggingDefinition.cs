@@ -5,19 +5,19 @@ namespace Application.LoggingDefinitions;
 
 internal static class ValidatorInterceptorLoggingDefinition
 {
-    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Command Validation's {CommandType}";
+    private const string MessageLogging = LoggingDefinition.Prefix + " - Command Validation's {CommandType}";
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> StartValidationLoggingDefinition =
         LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-            MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
+            MessageLogging + LoggingDefinition.Start + LoggingDefinition.Suffix);
     
     private static readonly Action<ILogger, string, string, DateTime, Exception?> CompletedValidationLoggingDefinition =
         LoggerMessage.Define<string, string, DateTime>(LogLevel.Information, 0,
-            MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.Suffix);
+            MessageLogging + LoggingDefinition.Completed + LoggingDefinition.Suffix);
     
     private static readonly Action<ILogger, string, string, IReadOnlyList<DomainError>, DateTime, Exception?> ValidateFailureLoggingDefinition =
         LoggerMessage.Define<string, string, IReadOnlyList<DomainError>, DateTime>(LogLevel.Warning, 0,
-            MessageLogging + SharedLoggingDefinition.FailedWithDomainError + SharedLoggingDefinition.Suffix);
+            MessageLogging + LoggingDefinition.FailedWithDomainError + LoggingDefinition.Suffix);
     
     public static void StartValidation(this ILogger logger, string commandTypeName)
     {

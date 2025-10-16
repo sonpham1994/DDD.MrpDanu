@@ -1,4 +1,4 @@
-﻿using Application.LoggingDefinitions;
+﻿using SharedKernel;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
@@ -43,7 +43,7 @@ internal static class PerformanceDetectionCommandInterceptorLoggingDefinition
     //     StartLogLongDbCommandLoggingDefinition(logger, traceId, methodName, durationInMilliSeconds, parameters, DateTime.UtcNow, commandText, null);
     // }
 
-    private const string MessageLogging = SharedLoggingDefinition.Prefix;
+    private const string MessageLogging = LoggingDefinition.Prefix;
     private static readonly Action<ILogger, string, EventId, string, double,  DateTime, string, Exception?> StartLogLongDbCommandLoggingDefinition =
         LoggerMessage.Define<string, EventId, string, double, DateTime, string>
         (

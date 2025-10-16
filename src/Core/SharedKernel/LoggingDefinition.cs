@@ -1,6 +1,6 @@
-﻿namespace Application.LoggingDefinitions;
+namespace SharedKernel;
 
-public static class SharedLoggingDefinition
+public static class LoggingDefinition
 {
     public const string Prefix = "LoggingType: {LoggingType}";
     public const string Suffix = " - Time: {@DateTimeUtc}";

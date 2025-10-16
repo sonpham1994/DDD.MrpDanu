@@ -1,5 +1,5 @@
-﻿using Application.LoggingDefinitions;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using SharedKernel;
 
 namespace Infrastructure.Persistence.LoggingDefinitions;
 
@@ -12,20 +12,20 @@ namespace Infrastructure.Persistence.LoggingDefinitions;
  */
 internal static class AuditTableLoggingDefinition
 {
-    private const string MessageLogging = SharedLoggingDefinition.Prefix + " - Insertion AuditTable";
-    private const string SuffixMessage = SharedLoggingDefinition.Suffix + " in {ElapsedMs}ms";
+    private const string MessageLogging = LoggingDefinition.Prefix + " - Insertion AuditTable";
+    private const string SuffixMessage = LoggingDefinition.Suffix + " in {ElapsedMs}ms";
     
     private static readonly Action<ILogger, string, DateTime, Exception?> StartLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, DateTime>(LogLevel.Information, 0,
-           MessageLogging + SharedLoggingDefinition.Start + SharedLoggingDefinition.Suffix);
+           MessageLogging + LoggingDefinition.Start + LoggingDefinition.Suffix);
 
     private static readonly Action<ILogger, string, double, DateTime, Exception?> CompletedLogAuditTableLoggingDefinition =
        LoggerMessage.Define<string, double, DateTime>(LogLevel.Information, 0,
-           MessageLogging + SharedLoggingDefinition.Completed + SharedLoggingDefinition.SuffixWithElapsedSecond);
+           MessageLogging + LoggingDefinition.Completed + LoggingDefinition.SuffixWithElapsedSecond);
 
     private static readonly Action<ILogger, string, double, DateTime, Exception?> CompletedLongLogAuditTableLoggingDefinition =
         LoggerMessage.Define<string, double, DateTime>(LogLevel.Warning, 0,
-            MessageLogging + SharedLoggingDefinition.Completed + " in a long time" + SharedLoggingDefinition.SuffixWithElapsedSecond);
+            MessageLogging + LoggingDefinition.Completed + " in a long time" + LoggingDefinition.SuffixWithElapsedSecond);
 
     public static void StartLogAuditTable(this ILogger logger)
     {

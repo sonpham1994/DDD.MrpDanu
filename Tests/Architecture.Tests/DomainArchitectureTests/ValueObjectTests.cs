@@ -10,7 +10,7 @@ namespace Architecture.Tests.DomainArchitectureTests;
 public class ValueObjectTests
 {
     [Fact]
-    public void ValueObject_should_be_no_setter()
+    public void ValueObject_should_be_no_setter_or_init_setter()
     {
         // var valueObjects = DomainAssembly.Instance
         //     .GetTypes()
@@ -19,7 +19,7 @@ public class ValueObjectTests
         var valueObjects = Types.InAssembly(DomainAssembly.Instance).That().ImplementInterface(typeof(IValueObject)).GetTypes();
         var properties = valueObjects.SelectMany(x => x.GetProperties()).ToList();
 
-        var result = properties.Any(x => !x.IsNoSetter());
+        var result = properties.Any(x => !x.IsNoSetterOrInitSetter());
 
         result.ShouldBeFalse();
     }
