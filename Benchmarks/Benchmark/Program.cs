@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Benchmark;
+using Benchmark.ArrayStructVsClass;
 using Benchmark.BoxingCompareTo;
 using Benchmark.CastingObject;
 using Benchmark.ConvertGuidToStringAndViceVersa;
@@ -28,10 +29,8 @@ using Benchmark.ReadOnlySpan;
 // Logger = new LoggerConfiguration()
 //             .WriteTo.Console()
 
-BenchmarkRunner.Run<JsonSerializerBenchmark>();
+BenchmarkRunner.Run<ArrayStructVsClassBenchmark>();
 //var a = new SequentialGuidBenchmark();
 //a.Setup();
 //a.CompareSequentialGuidWithSqlGuidMethod();
 //a.ValueObjectEqualsBoxing();
-
-Console.WriteLine("Hello, World!");
