@@ -7,6 +7,7 @@ internal static class Extensions
 {
     public static (SupplierId supplierId, byte currencyTypeId) ToTuple(this SupplierIdWithCurrencyTypeId input)
         => ((SupplierId)input.SupplierId, input.CurrencyTypeId);
+    
     public static IReadOnlyList<(SupplierId supplierId, byte currencyTypeId)> ToTuple(this IReadOnlyList<SupplierIdWithCurrencyTypeId> inputs)
     {
         if (inputs is null)

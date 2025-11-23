@@ -26,7 +26,6 @@
   
   <ItemGroup>
     <Folder Include="SupplyAndProductionManagement" />
-    <Folder Include="SupplyAndProductionManagement\SupplyChainManagement\MaterialAggregate\Commands\Models\" />
   </ItemGroup>
 
 </Project>

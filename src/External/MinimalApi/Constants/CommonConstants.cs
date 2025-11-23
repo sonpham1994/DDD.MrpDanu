@@ -10,7 +10,7 @@ public static class CommonConstants
     // Please check ReadOnlySpanBenchmark for ReadOnlySpan<char>
     public static ReadOnlySpan<char> ConnectionString => ['C', 'o', 'n', 'n', 'e', 'c', 't', 'i', 'o', 'n', 'S', 't', 'r', 'i', 'n', 'g'];
     public static ReadOnlySpan<char> IsEmpty => ['I', 's', ' ', 'e', 'm',  'p', 't', 'y'];
-    public static ReadOnlySpan<char> ConnectionStringEmpty => new([..ConnectionString, ..IsEmpty]);
+    public static ReadOnlySpan<char> ConnectionStringEmpty => new([..ConnectionString, ' ', ..IsEmpty]);
     public static ReadOnlySpan<char> SettingsChars => ['S', 'e', 't', 't', 'i', 'n', 'g', 's'];
     public static ReadOnlySpan<char> Name => ['N', 'a', 'm', 'e'];
 }

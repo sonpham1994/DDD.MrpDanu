@@ -9,7 +9,7 @@ public static class SqlDatabaseConstants
     //Please check Benchmark/StringInternOrHighFrequencyHeap
     // Please check ReadOnlySpanBenchmark for ReadOnlySpan<char>
     private static ReadOnlySpan<char> _initialChars => ['I','n','i','t','i','a','l'];
-    private static ReadOnlySpan<char> _sqlDatabaseChars => ['S','q','l',' ','d','a','t','a','b','a','s','e'];
+    private static ReadOnlySpan<char> _sqlDatabaseChars => ['S','q','l','D','a','t','a','b','a','s','e'];
     private static ReadOnlySpan<char> _catalogChars => ['C', 'a', 't', 'a', 'l', 'o', 'g'];
     private static ReadOnlySpan<char> _userIdChars => ['U', 's', 'e', 'r', ' ', 'I', 'd'];
     private static ReadOnlySpan<char> _passwordChars => ['P','a','s','s','w','o','r','d'];
@@ -23,7 +23,7 @@ public static class SqlDatabaseConstants
     public static string PasswordKey => new(_passwordChars);
     
     public static string ConfigurationName => new([.._sqlDatabaseChars, ..CommonConstants.SettingsChars]);
-    public static string ConnectionStringEmpty => new([.._sqlDatabaseChars, ..CommonConstants.SettingsChars, ..CommonConstants.ConnectionStringEmpty]);
+    public static string ConnectionStringEmpty => new([.._sqlDatabaseChars, ' ', ..CommonConstants.SettingsChars, ' ', ..CommonConstants.ConnectionStringEmpty]);
     public static string ServerNameEmpty => new([.._sqlDatabaseChars, .._serverChars, ..CommonConstants.Name, ..CommonConstants.IsEmpty]);
     public static string DatabaseNameEmpty => new([.._sqlDatabaseChars,  ..CommonConstants.Name, ..CommonConstants.IsEmpty]);
     public static string UserIdEmpty => new([.._userIdChars, ..CommonConstants.IsEmpty]);
