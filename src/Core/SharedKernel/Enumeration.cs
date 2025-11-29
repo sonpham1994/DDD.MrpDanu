@@ -37,10 +37,7 @@ public abstract class Enumeration<T> : IComparable<T>, IEquatable<T>
         if (ReferenceEquals(this, otherValue))
             return true;
         
-        var typeMatches = this.GetUnproxiedType() == otherValue.GetUnproxiedType();
-        var valueMatches = Id.Equals(otherValue.Id);
-
-        return typeMatches && valueMatches;
+        return Id.Equals(otherValue.Id);
     }
     
     public static bool operator ==(Enumeration<T> a, Enumeration<T> b)
@@ -70,7 +67,7 @@ public abstract class Enumeration<T> : IComparable<T>, IEquatable<T>
         if (_cachedHashCode.HasValue) 
             return _cachedHashCode.Value;
 
-        _cachedHashCode = (this.GetUnproxiedType().Name.GetHashCode() + Id).GetHashCode();
+        _cachedHashCode = Id.GetHashCode();
 
         return _cachedHashCode.Value;
     }

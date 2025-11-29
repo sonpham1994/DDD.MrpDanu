@@ -1,11 +1,11 @@
 using SharedKernel.Enumerations;
 using SharedKernel.ValueObjects;
 using Shouldly;
-using DomainErrors = SharedKernel.ValueObjects.DomainErrors;
+using MoneyDomainErrors = SharedKernel.ValueObjects.DomainErrors;
 
-namespace Domain.Tests.SharedKernel;
+namespace SharedKernel.Tests;
 
-public class MoneyTests
+public sealed class MoneyTests
 {
     [Fact]
     public void Cannot_create_money_with_zero_value()
@@ -13,7 +13,7 @@ public class MoneyTests
         var money = Money.Create(0m, CurrencyType.SGD);
 
         money.IsSuccess.ShouldBeFalse();
-        money.Error.ShouldBe(DomainErrors.Money.InvalidMoney);
+        money.Error.ShouldBe(MoneyDomainErrors.Money.InvalidMoney);
     }
     
     [Fact]
@@ -22,7 +22,7 @@ public class MoneyTests
         var money = Money.Create(-1m, CurrencyType.SGD);
 
         money.IsSuccess.ShouldBeFalse();
-        money.Error.ShouldBe(DomainErrors.Money.InvalidMoney);
+        money.Error.ShouldBe(MoneyDomainErrors.Money.InvalidMoney);
     }
     
     [Fact]

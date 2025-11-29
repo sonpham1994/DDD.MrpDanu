@@ -1,6 +1,5 @@
 using System.Reflection;
 using SharedKernel;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain.Tests.Helpers;
 

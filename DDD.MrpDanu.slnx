@@ -21,6 +21,7 @@
     <Project Path="Tests/Application.Tests/Application.Tests.csproj" />
     <Project Path="Tests/Architecture.Tests/Architecture.Tests.csproj" />
     <Project Path="Tests/Domain.Tests/Domain.Tests.csproj" />
+    <Project Path="Tests/SharedKernel.Tests/SharedKernel.Tests.csproj" />
     <Project Path="Tests/Tests.Integration/Tests.Integration.csproj" />
   </Folder>
   <Folder Name="/_Solution Items/">
