@@ -25,7 +25,6 @@ public class ValueTypeWithInKeyword
         PassIntWithOutKeyword(out int i);
     }
 
-    [Benchmark]
     public void PassIntWithInKeyword(in int i)
     {
         var j = 5;
@@ -35,7 +34,6 @@ public class ValueTypeWithInKeyword
         }
     }
     
-    [Benchmark]
     public void PassIntWithRefKeyword(ref int i)
     {
         i = 6;
@@ -46,7 +44,6 @@ public class ValueTypeWithInKeyword
         }
     }
     
-    [Benchmark]
     public void PassIntWithOutKeyword(out int i)
     {
         i = 5;
