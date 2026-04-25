@@ -19,22 +19,20 @@ using SharedKernel.Enumerations;
 
 namespace MinimalApi.Endpoints;
 
-public static class SupplyChainManagement
+public class SupplyChainManagement : IEndpoint
 {
     private const string GetMaterialByIdRouteName = "GetMaterialById";
     private const string GetTransactionalPartnerByIdRouteName = "GetTransactionalPartnerById";
-    public static IEndpointRouteBuilder MapSupplyChainManagementEndpoints(this IEndpointRouteBuilder app)
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/supply-chain-management");
 
-        group.MapCommonSupplyChainManagementEndpoints()
-            .MapMaterialEndpoints()
-            .MapTransactionalPartnerEndpoints();
-
-        return group;
+        MapCommonSupplyChainManagementEndpoints(group);
+        MapMaterialEndpoints(group);
+        MapTransactionalPartnerEndpoints(group);
     }
 
-    private static IEndpointRouteBuilder MapMaterialEndpoints(this IEndpointRouteBuilder group)
+    private static IEndpointRouteBuilder MapMaterialEndpoints(IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("materials");
 
@@ -78,7 +76,7 @@ public static class SupplyChainManagement
         return group;
     }
 
-    private static IEndpointRouteBuilder MapTransactionalPartnerEndpoints(this IEndpointRouteBuilder group)
+    private static void MapTransactionalPartnerEndpoints(IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("transactional-partners");
 
@@ -125,11 +123,9 @@ public static class SupplyChainManagement
 
             return result.ToResultApiSuccessOrBadRequest();
         });
-
-        return group;
     }
 
-    private static IEndpointRouteBuilder MapCommonSupplyChainManagementEndpoints(this IEndpointRouteBuilder group)
+    private static void MapCommonSupplyChainManagementEndpoints(IEndpointRouteBuilder group)
     {
         group.MapGet("material-types", () =>
         {
@@ -184,7 +180,5 @@ public static class SupplyChainManagement
 
             return Results.Ok(result.ToApiSuccess());
         });
-
-        return group;
     }
 }

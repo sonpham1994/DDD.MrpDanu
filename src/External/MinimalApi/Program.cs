@@ -33,6 +33,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 
 builder.Services.AddCors();
+builder.Services.AddEndpoints();
 
 var isProduction = builder.Environment.IsProduction();
 
@@ -76,7 +77,7 @@ app.UseCors(cors =>
 app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
-app.MapSupplyChainManagementEndpoints();
+app.MapEndpoints();
 
 app.UseHttpsRedirection();
 
