@@ -1,21 +1,16 @@
-using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.CreateMaterial;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.DeleteMaterial;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Commands.UpdateMaterial;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterialById;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate.Queries.GetMaterials;
-using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.CreateTransactionalPartner;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.DeleteTransactionalPartner;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Commands.UpdateTransactionalPartner;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetSuppliers;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartnerById;
 using Application.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate.Queries.GetTransactionalPartners;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAggregate;
-using Domain.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartnerAggregate;
 using MediatR;
 using MinimalApi.ApiResponses;
-using SharedKernel.Enumerations;
 
 namespace MinimalApi.Endpoints;
 
@@ -27,12 +22,11 @@ public class SupplyChainManagement : IEndpoint
     {
         var group = app.MapGroup("/supply-chain-management");
 
-        MapCommonSupplyChainManagementEndpoints(group);
         MapMaterialEndpoints(group);
         MapTransactionalPartnerEndpoints(group);
     }
 
-    private static IEndpointRouteBuilder MapMaterialEndpoints(IEndpointRouteBuilder group)
+    private IEndpointRouteBuilder MapMaterialEndpoints(IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("materials");
 
@@ -76,7 +70,7 @@ public class SupplyChainManagement : IEndpoint
         return group;
     }
 
-    private static void MapTransactionalPartnerEndpoints(IEndpointRouteBuilder group)
+    private void MapTransactionalPartnerEndpoints(IEndpointRouteBuilder group)
     {
         var materialGroup = group.MapGroup("transactional-partners");
 
@@ -122,63 +116,6 @@ public class SupplyChainManagement : IEndpoint
             var result = await sender.Send(new DeleteTransactionalPartnerCommand(id), cancellationToken);
 
             return result.ToResultApiSuccessOrBadRequest();
-        });
-    }
-
-    private static void MapCommonSupplyChainManagementEndpoints(IEndpointRouteBuilder group)
-    {
-        group.MapGet("material-types", () =>
-        {
-            IReadOnlyList<MaterialTypeResponse> result = MaterialType.List
-                .Select(x => x.ToResponse())
-                .ToList();
-
-            return Results.Ok(result.ToApiSuccess());
-        });
-
-        group.MapGet("regional-markets", () =>
-        {
-            IReadOnlyList<RegionalMarketResponse> result = RegionalMarket.List
-                .Select(x => x.ToResponse())
-                .ToList();
-
-            return Results.Ok(result.ToApiSuccess());
-        });
-
-        group.MapGet("countries", () =>
-        {
-            IReadOnlyList<CountryResponse> result = Country.List
-                .Select(x => x.ToResponse())
-                .ToList();
-
-            return Results.Ok(result.ToApiSuccess());
-        });
-
-        group.MapGet("location-types", () =>
-        {
-            IReadOnlyList<LocationTypeResponse> result = LocationType.List
-                .Select(x => x.ToResponse())
-                .ToList();
-
-            return Results.Ok(result.ToApiSuccess());
-        });
-
-        group.MapGet("transactional-partner-types", () =>
-        {
-            IReadOnlyList<TransactionalPartnerTypeResponse> result = TransactionalPartnerType.List
-                .Select(x => x.ToResponse())
-                .ToList();
-
-            return Results.Ok(result.ToApiSuccess());
-        });
-
-        group.MapGet("currency-types", () =>
-        {
-            IReadOnlyList<CurrencyTypeResponse> result = CurrencyType.List
-                .Select(x => x.ToResponse())
-                .ToList();
-
-            return Results.Ok(result.ToApiSuccess());
         });
     }
 }
