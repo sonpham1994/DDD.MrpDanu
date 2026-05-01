@@ -1,8 +1,6 @@
 using System.Text.Json.Serialization.Metadata;
 using Application;
 using Infrastructure;
-using Infrastructure.Persistence;
-using Microsoft.Extensions.Options;
 using MinimalApi;
 using MinimalApi.Endpoints;
 using MinimalApi.Middlewares;
