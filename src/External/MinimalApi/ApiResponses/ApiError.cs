@@ -2,6 +2,7 @@ namespace MinimalApi.ApiResponses;
 
 public sealed record ApiError(string Code, string Message)
 {
+    private static readonly int BaseHashCode = nameof(ApiError).GetHashCode();
     public bool Equals(ApiError? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -12,7 +13,7 @@ public sealed record ApiError(string Code, string Message)
 
     public override int GetHashCode()
     {
-        return (nameof(ApiError).GetHashCode() + Code.GetHashCode()).GetHashCode();
+        return BaseHashCode + Code.GetHashCode();
     }
 }
 

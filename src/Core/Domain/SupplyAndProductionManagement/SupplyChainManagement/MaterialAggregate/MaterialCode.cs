@@ -6,7 +6,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.MaterialAgg
 
 public class MaterialCode : ValueObject<MaterialCode>
 {
-    private static byte CodeMaxLength => 200;
+    private const byte CodeMaxLength = 200;
     // validation for characters and special characters like '-', '.', '/'
     private static readonly Regex CharactersAndSpecialCharactersAllowed = new(@"^[a-zA-Z0-9\-/\.]*$",
         RegexOptions.Compiled,

@@ -4,7 +4,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.Transaction
 
 public class PersonName : ValueObject<PersonName>
 {
-    private static byte PersonNameMaxLength => 200;
+    private const byte PersonNameMaxLength = 200;
     public string Value { get; } = default!;
 
     private PersonName(string name) => Value = name;

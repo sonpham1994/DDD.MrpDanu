@@ -21,7 +21,7 @@ namespace SharedKernel;
  */
 public readonly record struct DomainError(string Code, string Message)
 {
-    private static readonly int _hashCode = nameof(DomainError).GetHashCode();
+    private static readonly int BaseHashCode = nameof(DomainError).GetHashCode();
     public static DomainError Empty => new(string.Empty, string.Empty);
 
     public bool IsEmpty()
@@ -36,7 +36,7 @@ public readonly record struct DomainError(string Code, string Message)
 
     public override int GetHashCode()
     {
-        return (_hashCode + Code.GetHashCode()).GetHashCode();
+        return BaseHashCode + Code.GetHashCode();
     }
 }
 

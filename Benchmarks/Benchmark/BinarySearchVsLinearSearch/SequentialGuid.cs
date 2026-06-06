@@ -5,7 +5,7 @@ namespace Benchmark.BinarySearchVsLinearSearch;
 
 public class SequentialGuid
 {
-    private static byte SizeGuid => 16;
+    private const byte SizeGuid = 16;
     public static Guid New()
     {
         //https://github.com/dotnet/efcore/blob/main/src/EFCore/ValueGeneration/SequentialGuidValueGenerator.cs

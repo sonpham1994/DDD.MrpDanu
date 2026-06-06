@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using SharedKernel.Extensions;
 
 namespace SharedKernel;
 
@@ -67,7 +66,7 @@ public abstract class Enumeration<T> : IComparable<T>, IEquatable<T>
         if (_cachedHashCode.HasValue) 
             return _cachedHashCode.Value;
 
-        _cachedHashCode = Id.GetHashCode();
+        _cachedHashCode = nameof(Enumeration<>).GetHashCode() + typeof(T).Name.GetHashCode() + Id;
 
         return _cachedHashCode.Value;
     }

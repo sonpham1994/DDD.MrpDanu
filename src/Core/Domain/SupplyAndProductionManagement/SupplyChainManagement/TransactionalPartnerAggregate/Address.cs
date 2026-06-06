@@ -4,7 +4,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.Transaction
 
 public class Address : ValueObject<Address>
 {
-    private static byte ZipCodeLength => 5;
+    private const byte ZipCodeLength = 5;
 
     public string Street { get; } = default!;
     public string City { get; } = default!;

@@ -14,7 +14,7 @@ public class Website : ValueObject<Website>
         // why we need timeout for Regex: https://www.youtube.com/watch?v=NOLn0QwGlEE&ab_channel=NickChapsas
         TimeSpan.FromMilliseconds(250));
 
-    private static byte WebsiteLength => 100;
+    private const byte WebsiteLength = 100;
 
     public string Value { get; } = default!;
 

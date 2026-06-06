@@ -4,7 +4,7 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.Transaction
 
 public class TaxNo : ValueObject<TaxNo>
 {
-    private static byte TaxNoVietnamLength => 10;
+    private const byte TaxNoVietnamLength = 10;
 
     public string Value { get; } = default!;
     public virtual Country Country { get; } = default!;

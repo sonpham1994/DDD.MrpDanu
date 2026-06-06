@@ -15,8 +15,7 @@ public class Material : EntityGuidStronglyTypedId<MaterialId>, IAuditTable, IAgg
     // this largest number of materials depends on domain, it doesn't make sense if we have the infinite number.
     // The number 20 is the number you should discuss with domain experts, if the domain experts say that 
     // the number 20 is the maximum, you put it here. (Write UT for this case)
-    // we use expression body to reduce memory allocation on heap, instead of using "private const byte MaxNumberOfMaterialCosts = 20"
-    private static byte MaxNumberOfMaterialCosts => 20;
+    private const byte MaxNumberOfMaterialCosts = 20;
     private readonly List<MaterialSupplierCost> _materialSupplierCosts = new(MaxNumberOfMaterialCosts);
 
     public MaterialCode Code { get; private set; } = default!;
@@ -25,8 +24,7 @@ public class Material : EntityGuidStronglyTypedId<MaterialId>, IAuditTable, IAgg
     public MaterialType MaterialType { get; private set; } = default!;
     public RegionalMarket RegionalMarket { get; private set; } = default!;
 
-    public virtual IReadOnlyList<MaterialSupplierCost> MaterialSupplierCosts =>
-        _materialSupplierCosts.ToList();
+    public virtual IReadOnlyList<MaterialSupplierCost> MaterialSupplierCosts => _materialSupplierCosts.AsReadOnly();
 
     //required EF Proxies
     protected Material() { }

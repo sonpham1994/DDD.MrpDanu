@@ -5,8 +5,8 @@ namespace Domain.SupplyAndProductionManagement.SupplyChainManagement.Transaction
 
 public class ContactInformation : ValueObject<ContactInformation>
 {
-    private static byte EmailMaxLength => 200;
-    private static byte TelNoMaxLength => 20;
+    private const byte EmailMaxLength = 200;
+    private const byte TelNoMaxLength = 20;
 
     //https://frugalcafe.beehiiv.com/p/reuse-regular-expressions
     //https://www.youtube.com/watch?v=RSFiiKUvzLI&ab_channel=NickChapsas
