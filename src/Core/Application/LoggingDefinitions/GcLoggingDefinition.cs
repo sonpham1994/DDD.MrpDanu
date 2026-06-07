@@ -27,19 +27,19 @@ internal static class GcLoggingDefinition
 
         if (currentGen0Count > previousGen0Count)
         {
-            StartGcLoggingDefinition(logger, LoggingTypes.GarbageCollector, handlerName, requestTypeName, 0, currentGen0Count,
+            StartGcLoggingDefinition(logger, LoggingTypes.GcHandler, handlerName, requestTypeName, 0, currentGen0Count,
                 DateTime.UtcNow, null);
         }
         
         if (currentGen1Count > previousGen1Count)
         {
-            StartGcLoggingDefinition(logger, LoggingTypes.GarbageCollector, handlerName, requestTypeName, 1, currentGen0Count,
+            StartGcLoggingDefinition(logger, LoggingTypes.GcHandler, handlerName, requestTypeName, 1, currentGen0Count,
                 DateTime.UtcNow, null);
         }
 
         if (currentGen2Count > previousGen2Count)
         {
-            StartGc2LoggingDefinition(logger, LoggingTypes.GarbageCollector, handlerName, requestTypeName, 2, currentGen0Count,
+            StartGc2LoggingDefinition(logger, LoggingTypes.GcHandler, handlerName, requestTypeName, 2, currentGen0Count,
                 DateTime.UtcNow, null);
         }
     }

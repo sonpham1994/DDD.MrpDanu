@@ -53,7 +53,7 @@ public sealed class GcEventListenerBackgroundService(ILogger<GcEventListener> lo
         while (await _timer.WaitForNextTickAsync(stoppingToken)
                && !stoppingToken.IsCancellationRequested)
         {
-            if (await featurFlagService.IsGcMeasureEnabledAsync())
+            if (await featurFlagService.IsGcMeasurementEnabledAsync())
             {
                 if (_gcEventListener is null)
                 {

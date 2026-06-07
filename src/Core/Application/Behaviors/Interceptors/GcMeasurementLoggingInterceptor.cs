@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Application.Interfaces;
 using Application.LoggingDefinitions;
 using MediatR;
@@ -19,7 +18,7 @@ internal sealed class GcMeasurementLoggingInterceptor<TRequest, TResponse>(
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (!await featureFlagService.IsGcMeasureEnabledAsync())
+        if (!await featureFlagService.IsGcMeasurementEnabledAsync())
             return await next();
         
         // using var gcEventListener = new GcEventListener(_loggerGCEventListener);

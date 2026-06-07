@@ -5,8 +5,8 @@ namespace Infrastructure.FeatureFlagEnable;
 
 internal sealed class FeatureFlagService(IFeatureManager featureManager) : IFeatureFlagService
 {
-    public Task<bool> IsGcMeasureEnabledAsync()
+    public Task<bool> IsGcMeasurementEnabledAsync()
     {
-        return featureManager.IsEnabledAsync("GcEventListener");
+        return featureManager.IsEnabledAsync("GcMeasurement");
     }
 }
