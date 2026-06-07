@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using MinimalApi.Constants;
 using MinimalApi.EventListeners;
 using Microsoft.FeatureManagement;
@@ -9,7 +10,7 @@ namespace MinimalApi.HostedServices;
 // that's why we need this class to monitor the frequent full GC event.
 //may be we don't need FullGCEventBackgroundService, we use GC.CollectionCount in RequestLoggingHandler to know when the 
 // garbage collection generation 2 perform
-public sealed class GcEventListenerBackgroundService(ILogger<GcEventListener> logger, IFeatureManager featureManager) 
+public sealed class GcEventListenerBackgroundService(ILogger<GcEventListener> logger, IFeatureFlagService featurFlagService) 
     : IHostedService, IDisposable
 {
     // for BackgroundService
@@ -52,7 +53,7 @@ public sealed class GcEventListenerBackgroundService(ILogger<GcEventListener> lo
         while (await _timer.WaitForNextTickAsync(stoppingToken)
                && !stoppingToken.IsCancellationRequested)
         {
-            if (await featureManager.IsEnabledAsync(FeatureFlags.GcEventListener))
+            if (await featurFlagService.IsGcMeasureEnabledAsync())
             {
                 if (_gcEventListener is null)
                 {

@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="MongoDB.Driver" />
+    <PackageReference Include="Microsoft.FeatureManagement" />
   </ItemGroup>
 
   <!--Ignoring some nuget when on production: https://chat.openai.com/share/73113f82-0505-4f16-9c35-6d423475164a-->

@@ -21,6 +21,7 @@ public static class DependencyInjection
                 .AddOpenBehavior(typeof(RequestLoggingInterceptor<,>))
                 .AddOpenBehavior(typeof(ValidatorInterceptor<,>))
                 .AddOpenBehavior(typeof(TransactionalBehavior<,>))
+                .AddOpenBehavior(typeof(GcMeasurementLoggingInterceptor<,>))
                 .AddOpenBehavior(typeof(HandlerLoggingInterceptor<,>));
         });
         

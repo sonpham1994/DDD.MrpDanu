@@ -19,6 +19,7 @@ using Infrastructure.Persistence.Writes;
 using Application.Interfaces.Writes.TransactionalPartnerWrite;
 using Domain.AuditTrail.SharedKernel;
 using Domain.AuditTrail.SupplyChainManagement;
+using Infrastructure.FeatureFlagEnable;
 using SharedKernel;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.TransactionalPartners.Reads;
 using Infrastructure.Persistence.SupplyAndProductionManagement.SupplyChainManagement.Materials.Reads;
@@ -49,6 +50,8 @@ public static class DependencyInjection
             .AddMongoDb()
             .AddTransactions()
             .AddAuditTrail();
+
+        services.TryAddSingleton<IFeatureFlagService, FeatureFlagService>();
 
         return services;
     }
