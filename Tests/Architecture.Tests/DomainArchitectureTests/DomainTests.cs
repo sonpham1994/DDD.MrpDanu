@@ -1,13 +1,10 @@
-using System.Reflection;
-using Architecture.Tests.Helpers;
 using Domain;
-using SharedKernel;
 using Shouldly;
 using NetArchTest.Rules;
 
 //https://www.youtube.com/watch?v=_D6Kai4RdGY&t=536s
 namespace Architecture.Tests.DomainArchitectureTests;
-using static ArchitecturePreparingData;
+using static Constants;
 
 public class DomainTests
 {

@@ -16,6 +16,17 @@ public sealed class EnumerationTests
     }
     
     [Fact]
+    public void two_different_enumeration_types_should_be_different_hashcode()
+    {
+        var enumerationTest1 = EnumerationTest1.Test1.GetHashCode();
+        var enumerationTest2 = EnumerationTest2.Test1.GetHashCode();
+        
+        var result = enumerationTest1 == enumerationTest2;
+        
+        result.ShouldBeFalse();
+    }
+    
+    [Fact]
     public void the_same_enumeration_type_should_be_equal()
     {
         var enumerationTest1_1 = EnumerationTest1.Test1;

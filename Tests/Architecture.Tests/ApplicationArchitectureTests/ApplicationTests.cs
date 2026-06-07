@@ -1,16 +1,10 @@
 using Application;
-using Application.Interfaces;
-using Application.Interfaces.Messaging;
-using Architecture.Tests.Helpers;
-using SharedKernel;
 using Shouldly;
-using FluentValidation;
-using Mono.Cecil;
 using NetArchTest.Rules;
 
 //https://www.youtube.com/watch?v=_D6Kai4RdGY&t=536s
 namespace Architecture.Tests.ApplicationArchitectureTests;
-using static ArchitecturePreparingData;
+using static Constants;
 
 public class ApplicationTests
 {

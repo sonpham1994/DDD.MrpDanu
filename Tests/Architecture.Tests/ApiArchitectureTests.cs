@@ -4,7 +4,7 @@ using NetArchTest.Rules;
 
 //https://www.youtube.com/watch?v=_D6Kai4RdGY&t=536s
 namespace Architecture.Tests;
-using static ArchitecturePreparingData;
+using static Constants;
 
 public class ApiArchitectureTests
 {

@@ -6,7 +6,7 @@ using NetArchTest.Rules;
 
 namespace Architecture.Tests.ApplicationArchitectureTests;
 
-using static ArchitecturePreparingData;
+using static Constants;
 
 public class QueryTests
 {

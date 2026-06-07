@@ -1,6 +1,6 @@
 namespace Architecture.Tests;
 
-public static class ArchitecturePreparingData
+public static class Constants
 {
     public const string DomainNamespace = "Domain";
     public const string ApplicationNamespace = "Application";

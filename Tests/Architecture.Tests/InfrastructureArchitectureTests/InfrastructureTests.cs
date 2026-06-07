@@ -1,14 +1,9 @@
-using Architecture.Tests.Helpers;
 using Infrastructure;
 using Shouldly;
-using Microsoft.EntityFrameworkCore;
 using NetArchTest.Rules;
-using Infrastructure.Persistence.Reads;
-using Application.Interfaces.Writes;
-using Application.Interfaces;
 
 namespace Architecture.Tests;
-using static ArchitecturePreparingData;
+using static Constants;
 
 public class InfrastructureTests
 {
