@@ -1,7 +1,5 @@
 using Application.Interfaces;
-using MinimalApi.Constants;
 using MinimalApi.EventListeners;
-using Microsoft.FeatureManagement;
 
 namespace MinimalApi.HostedServices;
 

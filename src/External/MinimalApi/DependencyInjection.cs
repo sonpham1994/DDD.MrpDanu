@@ -29,21 +29,21 @@ public static class DependencyInjection
             //services.AddHostedService<MigrationsHostedService>();
         //}
 
-        services.AddSingleton<GcEventListener>();
+        //services.AddSingleton<GcEventListener>();
         return services;
     }
 
     private static IServiceCollection AddCustomMiddlewares(this IServiceCollection services)
     {
-        services.AddScoped<LoggingMiddleware>();
-        services.AddScoped<GlobalExceptionHandlingMiddleware>();
+        services.TryAddSingleton<LoggingMiddleware>();
+        services.TryAddSingleton<GlobalExceptionHandlingMiddleware>();
 
         return services;
     }
     
     private static IServiceCollection AddValidators(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(ApplicationAssembly.Instance, ServiceLifetime.Scoped, null, true);
+        services.AddValidatorsFromAssembly(ApplicationAssembly.Instance, ServiceLifetime.Singleton, null, true);
 
         ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Stop;
 

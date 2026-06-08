@@ -85,7 +85,7 @@ public abstract class ValueObject<T> : IValueObject, IEquatable<T>
     {
         if (!_cachedHashCode.HasValue)
         {
-            _cachedHashCode = GetHashCodeComponents()
+            _cachedHashCode = nameof(ValueObject<>).GetHashCode() + typeof(T).Name.GetHashCode() + GetHashCodeComponents()
                 // Dbj2 hash
                 .Aggregate(1, (currentHashCode, hashCodeComponent) =>
                 {
