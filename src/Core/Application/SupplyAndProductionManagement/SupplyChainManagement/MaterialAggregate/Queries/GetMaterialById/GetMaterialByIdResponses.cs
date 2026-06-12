@@ -19,4 +19,4 @@ public sealed record MaterialResponse(
     string Varian,
     MaterialTypeResponse MaterialType,
     RegionalMarketResponse RegionalMarket,
-    IReadOnlyList<MaterialCostManagementResponse> MaterialCostManagements);
+    IReadOnlyList<MaterialCostManagementResponse> MaterialCostManagements) : IApiResponse;

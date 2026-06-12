@@ -47,4 +47,38 @@
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
+    <!--
+      Auto-generate the JSON source-generator contexts (ApiResponse/ApiRequest) by scanning
+      the Application assembly for marker interfaces (IApiResponse / IApiCollectionResponse /
+      IValidationCommand). Runs only when an Application source file is newer than the generated
+      file (Inputs/Outputs incrementality), so normal rebuilds skip it.
+      Set GenerateJsonContexts=false (e.g. in CI) to skip and use the committed .g.cs as-is.
+    -->
+    <PropertyGroup>
+        <GenerateJsonContexts Condition="'$(GenerateJsonContexts)' == ''">true</GenerateJsonContexts>
+        <JsonContextsGeneratorProject>$(MSBuildThisFileDirectory)..\..\..\tools\JsonSerializerContextGenerator\JsonSerializerContextGenerator.csproj</JsonContextsGeneratorProject>
+        <JsonContextsOutputFile>$(MSBuildThisFileDirectory)SourceGenerators\ApiJsonSerializerContexts.g.cs</JsonContextsOutputFile>
+        <ApplicationProjectDir>$(MSBuildThisFileDirectory)..\..\Core\Application\</ApplicationProjectDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Own the generated file: take it out of the default **/*.cs glob and include it once
+             explicitly. The literal Include keeps it in @(Compile) even if the file is missing at
+             evaluation time (the pre-build target regenerates it before CoreCompile). -->
+        <Compile Remove="$(JsonContextsOutputFile)" />
+        <Compile Include="$(JsonContextsOutputFile)" />
+
+        <!-- Real Application sources only (no bin/obj) drive the incremental check. -->
+        <JsonContextScanSource Include="$(ApplicationProjectDir)**\*.cs"
+                               Exclude="$(ApplicationProjectDir)obj\**\*.cs;$(ApplicationProjectDir)bin\**\*.cs" />
+    </ItemGroup>
+
+    <Target Name="GenerateJsonContexts"
+            BeforeTargets="CoreCompile"
+            Condition="'$(GenerateJsonContexts)' == 'true'"
+            Inputs="@(JsonContextScanSource)"
+            Outputs="$(JsonContextsOutputFile)">
+        <Exec Command="dotnet run --project &quot;$(JsonContextsGeneratorProject)&quot; --configuration $(Configuration) -- --output &quot;$(JsonContextsOutputFile)&quot; --namespace MinimalApi.SourceGenerators --api-response-namespace MinimalApi.ApiResponses" />
+    </Target>
+
 </Project>

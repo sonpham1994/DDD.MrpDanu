@@ -9,4 +9,4 @@ public sealed record MaterialsResponse(Guid Id,
     string Unit,
     string Varian,
     string RegionalMarketName,
-    string MaterialTypeName);
+    string MaterialTypeName) : IApiCollectionResponse;

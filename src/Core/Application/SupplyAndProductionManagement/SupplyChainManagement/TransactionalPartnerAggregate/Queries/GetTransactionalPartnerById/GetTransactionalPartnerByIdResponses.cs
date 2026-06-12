@@ -9,7 +9,7 @@ public sealed record TransactionalPartnerResponse(
     CurrencyTypeResponse CurrencyType,
     AddressResponse Address,
     ContactPersonInformationResponse ContactPersonInformation,
-    LocationTypeResponse LocationType);
+    LocationTypeResponse LocationType) : IApiResponse;
 
 public sealed record AddressResponse(
     string City,

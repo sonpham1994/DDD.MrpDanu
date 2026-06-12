@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <!-- TargetFramework / Nullable / ImplicitUsings inherited from Directory.Build.props -->
+        <!-- This is a build-time tool; it is intentionally NOT part of DDD.MrpDanu.slnx
+             and is never published with the app. It is invoked via `dotnet run` from the
+             host project's pre-build target (see MinimalApi.csproj). -->
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Only references Application (Clean Architecture core), so it loads no infrastructure. -->
+        <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
+    </ItemGroup>
+
+</Project>
