@@ -24,6 +24,9 @@
     <Project Path="Tests/SharedKernel.Tests/SharedKernel.Tests.csproj" />
     <Project Path="Tests/Tests.Integration/Tests.Integration.csproj" />
   </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/JsonSerializerContextGenerator/JsonSerializerContextGenerator.csproj" />
+  </Folder>
   <Folder Name="/_Solution Items/">
     <File Path=".github/workflows/build-and-deploy-to-azure-app-service.txt" />
     <File Path=".github/workflows/deploy-to-azure.txt" />

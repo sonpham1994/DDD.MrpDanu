@@ -19,7 +19,7 @@ public class Library : IEndpoint
                 .Select(x => x.ToResponse())
                 .ToList();
 
-            return Results.Ok(result.ToApiSuccess());
+            return result.ToResultApiSuccess();
         });
 
         group.MapGet("regional-markets", () =>
@@ -28,7 +28,7 @@ public class Library : IEndpoint
                 .Select(x => x.ToResponse())
                 .ToList();
 
-            return Results.Ok(result.ToApiSuccess());
+            return result.ToResultApiSuccess();
         });
 
         group.MapGet("countries", () =>
@@ -37,7 +37,7 @@ public class Library : IEndpoint
                 .Select(x => x.ToResponse())
                 .ToList();
 
-            return Results.Ok(result.ToApiSuccess());
+            return result.ToResultApiSuccess();
         });
 
         group.MapGet("location-types", () =>
@@ -46,7 +46,7 @@ public class Library : IEndpoint
                 .Select(x => x.ToResponse())
                 .ToList();
 
-            return Results.Ok(result.ToApiSuccess());
+            return result.ToResultApiSuccess();
         });
 
         group.MapGet("transactional-partner-types", () =>
@@ -55,7 +55,7 @@ public class Library : IEndpoint
                 .Select(x => x.ToResponse())
                 .ToList();
 
-            return Results.Ok(result.ToApiSuccess());
+            return result.ToResultApiSuccess();
         });
 
         group.MapGet("currency-types", () =>
@@ -64,7 +64,7 @@ public class Library : IEndpoint
                 .Select(x => x.ToResponse())
                 .ToList();
 
-            return Results.Ok(result.ToApiSuccess());
+            return result.ToResultApiSuccess();
         });
     }
 }

@@ -41,7 +41,7 @@ public class SupplyChainManagement : IEndpoint
         {
             var materials = await sender.Send(new GetMaterialsQuery(), cancellationToken);
 
-            return materials.ToResultApiSuccess();
+            return materials.ToResultApiCollectionSuccess();
         });
 
         materialGroup.MapGet("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
@@ -78,14 +78,14 @@ public class SupplyChainManagement : IEndpoint
         {
             var transactionalPartnersResult = await sender.Send(new GetTransactionalPartnersQuery(), cancellationToken);
 
-            return transactionalPartnersResult.ToResultApiSuccess();
+            return transactionalPartnersResult.ToResultApiCollectionSuccess();
         });
 
         materialGroup.MapGet("suppliers", async (CancellationToken cancellationToken, ISender sender) =>
         {
             var suppliersResult = await sender.Send(new GetSuppliersQuery(), cancellationToken);
 
-            return suppliersResult.ToResultApiSuccess();
+            return suppliersResult.ToResultApiCollectionSuccess();
         });
 
         materialGroup.MapGet("{id:guid}", async (Guid id, CancellationToken cancellationToken, ISender sender) =>
