@@ -8,29 +8,29 @@ public static class ApiResponseExtensions
     public static ApiError ToApiError(this in DomainError error) => new(error.Code, error.Message);
     public static ApiResponse ToApiSuccess() => new(true, Array.Empty<ApiError>());
 
-    public static IResult ToResultApiSuccess<TResponse>(this Result<TResponse> result)
+    public static IResult ToResultApiSuccess<TResponse>(this in Result<TResponse> result)
         => Results.Ok(result.Value.ToApiSuccess());
     
     public static IResult ToResultApiBadSuccess<TResponse>(this TResponse result) where TResponse : SharedKernel.IResult
         => Results.BadRequest(result.Error.ToApiFailure());
     
-    public static IResult ToResultApiCollectionSuccess<TResponse>(this Result<IReadOnlyList<TResponse>> result)
+    public static IResult ToResultApiCollectionSuccess<TResponse>(this in Result<IReadOnlyList<TResponse>> result)
         => Results.Ok(result.Value.ToApiCollectionSuccess());
     
     public static IResult ToResultApiSuccess<TResponse>(this IReadOnlyList<TResponse> result)
         => Results.Ok(result.ToApiCollectionSuccess());
     
-    public static IResult ToResultApiSuccessOrBadRequest(this Result result) 
+    public static IResult ToResultApiSuccessOrBadRequest(this in Result result) 
         => result.IsSuccess 
             ? Results.Ok(ToApiSuccess()) 
             : result.ToResultApiBadSuccess();
     
-    public static IResult ToResultApiAcceptedOrBadRequest<T>(this Result<T> result, string routeName) where T : IGuidStronglyTypedId
+    public static IResult ToResultApiAcceptedOrBadRequest<T>(this in Result<T> result, string routeName) where T : IGuidStronglyTypedId
         => result.IsSuccess 
             ? Results.AcceptedAtRoute(routeName, new { id = result.Value.Value }, result.Value.Value.ToApiSuccess())
             : result.ToResultApiBadSuccess();
     
-    public static IResult ToResultApiSuccessOrBadRequest<TResponse>(this Result<TResponse> result) 
+    public static IResult ToResultApiSuccessOrBadRequest<TResponse>(this in Result<TResponse> result) 
         => result.IsSuccess 
             ? result.ToResultApiSuccess()
             : result.ToResultApiBadSuccess();
