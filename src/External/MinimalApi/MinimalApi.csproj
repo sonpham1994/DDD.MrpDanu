@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
@@ -48,37 +48,52 @@
     </ItemGroup>
 
     <!--
-      Auto-generate the JSON source-generator contexts (ApiResponse/ApiRequest) by scanning
-      the Application assembly for marker interfaces (IApiResponse / IApiCollectionResponse /
-      IValidationCommand). Runs only when an Application source file is newer than the generated
-      file (Inputs/Outputs incrementality), so normal rebuilds skip it.
-      Set GenerateJsonContexts=false (e.g. in CI) to skip and use the committed .g.cs as-is.
+      Auto-generate the JSON source-generator contexts (ApiResponse/ApiRequest) by scanning the
+      Application assembly for marker interfaces (IApiResponse / IApiCollectionResponse /
+      IValidationCommand). The file is emitted into the intermediate (obj) folder, NOT the source
+      tree, so it is never committed and never appears in Solution Explorer to be deleted/excluded
+      by hand. It is still real source fed into @(Compile), so System.Text.Json's own source
+      generator picks up its [JsonSerializable] attributes normally.
+      Generation is incremental: it runs only when an Application source is newer than the output (or
+      the output is missing). Set GenerateJsonContexts=false to skip it (the build then requires the
+      obj file to already exist from a previous build).
     -->
     <PropertyGroup>
         <GenerateJsonContexts Condition="'$(GenerateJsonContexts)' == ''">true</GenerateJsonContexts>
         <JsonContextsGeneratorProject>$(MSBuildThisFileDirectory)..\..\..\tools\JsonSerializerContextGenerator\JsonSerializerContextGenerator.csproj</JsonContextsGeneratorProject>
-        <JsonContextsOutputFile>$(MSBuildThisFileDirectory)SourceGenerators\ApiJsonSerializerContexts.g.cs</JsonContextsOutputFile>
+        <!-- Use BaseIntermediateOutputPath ('obj\'), which the SDK props imported above already set.
+             IntermediateOutputPath (obj\Debug\netX) is computed later and would be empty here. -->
+        <JsonContextsOutputFile>$(BaseIntermediateOutputPath)ApiJsonSerializerContexts.g.cs</JsonContextsOutputFile>
         <ApplicationProjectDir>$(MSBuildThisFileDirectory)..\..\Core\Application\</ApplicationProjectDir>
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- Own the generated file: take it out of the default **/*.cs glob and include it once
-             explicitly. The literal Include keeps it in @(Compile) even if the file is missing at
-             evaluation time (the pre-build target regenerates it before CoreCompile). -->
-        <Compile Remove="$(JsonContextsOutputFile)" />
+        <!-- The file lives under obj\, which the SDK excludes from the default **/*.cs glob, so a
+             single explicit Include owns it (no Remove needed). The literal Include keeps it in
+             @(Compile) even when the file is missing at evaluation time (the pre-build target
+             regenerates it before CoreCompile). -->
         <Compile Include="$(JsonContextsOutputFile)" />
 
         <!-- Real Application sources only (no bin/obj) drive the incremental check. -->
-        <JsonContextScanSource Include="$(ApplicationProjectDir)**\*.cs"
-                               Exclude="$(ApplicationProjectDir)obj\**\*.cs;$(ApplicationProjectDir)bin\**\*.cs" />
+        <JsonContextScanSource Include="$(ApplicationProjectDir)**\*.cs" Exclude="$(ApplicationProjectDir)obj\**\*.cs;$(ApplicationProjectDir)bin\**\*.cs" />
+
+        <!-- Teach Visual Studio's fast up-to-date check about the generated file so a missing or
+             stale output forces a real build instead of VS reporting "up to date" and skipping. -->
+        <UpToDateCheckBuilt Include="$(JsonContextsOutputFile)" />
+        <UpToDateCheckInput Include="@(JsonContextScanSource)" />
     </ItemGroup>
 
-    <Target Name="GenerateJsonContexts"
-            BeforeTargets="CoreCompile"
-            Condition="'$(GenerateJsonContexts)' == 'true'"
-            Inputs="@(JsonContextScanSource)"
-            Outputs="$(JsonContextsOutputFile)">
+    <Target Name="GenerateJsonContexts" BeforeTargets="CoreCompile" Condition="'$(GenerateJsonContexts)' == 'true'" Inputs="@(JsonContextScanSource)" Outputs="$(JsonContextsOutputFile)">
         <Exec Command="dotnet run --project &quot;$(JsonContextsGeneratorProject)&quot; --configuration $(Configuration) -- --output &quot;$(JsonContextsOutputFile)&quot; --namespace MinimalApi.SourceGenerators --api-response-namespace MinimalApi.ApiResponses" />
+    </Target>
+
+    <!--
+      Force regeneration on Rebuild (= Clean + Build): delete the generated file during Clean so
+      the GenerateJsonContexts Inputs/Outputs check sees a missing output and always re-runs on the
+      following Build. A plain incremental Build is unaffected and still skips when nothing changed.
+    -->
+    <Target Name="DeleteGeneratedJsonContextsOnClean" AfterTargets="Clean" Condition="'$(GenerateJsonContexts)' == 'true'">
+        <Delete Files="$(JsonContextsOutputFile)" />
     </Target>
 
 </Project>
