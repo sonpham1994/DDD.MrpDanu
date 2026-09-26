@@ -8,10 +8,10 @@ internal static class GcLoggingDefinition
     private const string MessageLogging = LoggingDefinition.Prefix + " - Handler: {Handler} start: RequestName: {RequestName}";
     
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGcLoggingDefinition =
-        LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Debug, 0,
+        LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Information, 0,
             MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" + LoggingDefinition.Suffix);
     private static readonly Action<ILogger, string, string, string, int, int, DateTime, Exception?> StartGc2LoggingDefinition =
-        LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Critical, 0,
+        LoggerMessage.Define<string, string, string, int, int, DateTime>(LogLevel.Warning, 0,
             MessageLogging + " - at Generation {Generation} has occured with {GCCollectionTimes} times" + LoggingDefinition.Suffix);
     
     public static void GcGenerationLogging(this ILogger logger, 
